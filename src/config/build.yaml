@@ -1,5 +1,5 @@
 openapi: 3.0.0
-info:
+info: 
   title: ONDC Specification
   description: ONDC Specification
   version: 2.1.0
