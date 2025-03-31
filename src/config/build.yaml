@@ -1,5 +1,5 @@
 openapi: 3.0.0
-info: 
+info:
   title: ONDC Specification
   description: ONDC Specification
   version: 2.1.0
@@ -34393,6 +34393,7 @@ x-validations:
         enumList:
           - START
           - END
+          - INTERMEDIATE_STOP
       - _NAME_: REQUIRED_MESSAGE_GPS_13
         attr: "$.message.intent.fulfillment.stops[*].location.gps"
         _RETURN_: attr are present
@@ -34704,6 +34705,7 @@ x-validations:
         enumList:
           - START
           - END
+          - INTERMEDIATE_STOP
         enumPath: "$.message.order.fulfillments[*].type"
         _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
@@ -34765,25 +34767,7 @@ x-validations:
         stateCode:
           - RIDE_ENDED
         _CONTINUE_: "!(authStatus all in auth)"
-        _RETURN_: stateCode all in state
-      - _NAME_: COLLECTED_BY_BPP_BAP_TERMS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bapTerms: "$.message.order.tags[?(@.descriptor.code=='BAP_TERMS')].list[*].descriptor.code"
-        requiredCodes:
-          - SETTLEMENT_BANK_CODE
-          - SETTLEMENT_BANK_ACCOUNT_NUMBER
-          - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bapTerms are present && bapTerms all in requiredCodes
-      - _NAME_: COLLECTED_BY_BPP_BPP_TAGS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bppTerms: "$.message.order.tags[?(@.descriptor.code=='BPP_TERMS')].list[*].descriptor.code"
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bppTerms are present
+        _RETURN_: state all in stateCode
       - _NAME_: PAYMENT_STATUS_TRANSACTION_ID
         _SCOPE_: "$.message.order.payments[*]"
         statusCode:
@@ -34852,12 +34836,6 @@ x-validations:
       - _NAME_: REQUIRED_MESSAGE_PHONE_19
         attr: "$.message.order.fulfillments[*].customer.contact.phone"
         _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_TYPE_20
-        attr: "$.message.order.fulfillments[*].type"
-        _RETURN_: attr are present && attr all in enumList
-        enumList:
-          - DELIVERY
-          - SELF_PICKUP
       - _NAME_: REQUIRED_MESSAGE_GPS_21
         attr: "$.message.order.fulfillments[*].stops[*].location.gps"
         _RETURN_: attr are present
@@ -34968,24 +34946,6 @@ x-validations:
           - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
         _RETURN_: subTags all in validValues
     confirm:
-      - _NAME_: COLLECTED_BY_BPP_BAP_TERMS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bapTerms: "$.message.order.tags[?(@.descriptor.code=='BAP_TERMS')].list[*].descriptor.code"
-        requiredCodes:
-          - SETTLEMENT_BANK_CODE
-          - SETTLEMENT_BANK_ACCOUNT_NUMBER
-          - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bapTerms are present && bapTerms all in requiredCodes
-      - _NAME_: COLLECTED_BY_BPP_BPP_TAGS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bppTerms: "$.message.order.tags[?(@.descriptor.code=='BPP_TERMS')].list[*].descriptor.code"
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bppTerms are present
       - _NAME_: PAYMENT_STATUS_TRANSACTION_ID
         _SCOPE_: "$.message.order.payments[*]"
         statusCode:
@@ -35067,15 +35027,6 @@ x-validations:
           - PRE-ORDER
           - ON-ORDER
           - ON-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_BANK_CODE_21
-        attr: "$.message.order.payments[*].params.bank_code"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_22
-        attr: "$.message.order.payments[*].params.bank_account_number"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VIRTUAL_PAYMENT_ADDRESS_23
-        attr: "$.message.order.payments[*].params.virtual_payment_address"
-        _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_ID_24
         attr: "$.message.order.fulfillments[*].id"
         _RETURN_: attr are present
@@ -35224,6 +35175,7 @@ x-validations:
           - VIS_SCREEN_READER_USAGE
           - VIS_CANE_USAGE
           - VIS_SPECIAL_REQUIREMENT
+          - FEATURE_LIST
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_DISABILITY_HEA
         _SCOPE_: "$.message.order.items[*].tags[?(@.descriptor.code=='DISABILITY_HEA')]"
@@ -35312,6 +35264,8 @@ x-validations:
         validValues:
           - DISTANCE_TO_NEAREST_DRIVER_METER
           - ETA_TO_NEAREST_DRIVER_MIN
+          - TOTAL_HOURS
+          - TOTAL_DISTANCE
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_2
         validTags:
@@ -35438,6 +35392,8 @@ x-validations:
           - ACTIVE
           - COMPLETE
           - CANCELLED
+          - UPDATED
+          - CONFIRM_UPDATE
     update:
       - _NAME_: FULFILLMENT_STATE_ENDED
         _SCOPE_: "$.message.order.fulfillments[*]"
@@ -35447,26 +35403,9 @@ x-validations:
         state: "$.state.descriptor.code"
         stateCode:
           - RIDE_ENDED
+          - RIDE_STARTED
         _CONTINUE_: "!(authStatus all in auth)"
-        _RETURN_: stateCode all in state
-      - _NAME_: COLLECTED_BY_BPP_BAP_TERMS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bapTerms: "$.message.order.tags[?(@.descriptor.code=='BAP_TERMS')].list[*].descriptor.code"
-        requiredCodes:
-          - SETTLEMENT_BANK_CODE
-          - SETTLEMENT_BANK_ACCOUNT_NUMBER
-          - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bapTerms are present && bapTerms all in requiredCodes
-      - _NAME_: COLLECTED_BY_BPP_BPP_TAGS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bppTerms: "$.message.order.tags[?(@.descriptor.code=='BPP_TERMS')].list[*].descriptor.code"
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bppTerms are present
+        _RETURN_: state all in stateCode
       - _NAME_: PAYMENT_STATUS_TRANSACTION_ID
         _SCOPE_: "$.message.order.payments[*]"
         statusCode:
@@ -35568,6 +35507,7 @@ x-validations:
         enumList:
           - START
           - END
+          - INTERMEDIATE_STOP
         enumPath: "$.message.order.fulfillments[*].type"
         _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
@@ -35631,6 +35571,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - BUYER_ADDITIONAL_AMOUNT
         enumPath: "$.message.order.quote.breakup[*].title"
         _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
@@ -35709,14 +35650,12 @@ x-validations:
         attr: "$.message.catalog.providers[*].id"
         _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CODE_22
-        attr: "$.message.catalog.providers[*].descriptor.code"
+        attr: "$.message.catalog.providers[*].items[*].descriptor.code"
         _RETURN_: attr are present && attr all in enumList
         enumList:
           - RIDE
           - RENTAL
-      - _NAME_: REQUIRED_MESSAGE_NAME_23
-        attr: "$.message.catalog.providers[*].descriptor.name"
-        _RETURN_: attr are present
+          - INTERMEDIATE_STOP
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_24
         attr: "$.message.catalog.providers[*].items[*].price.currency"
         _RETURN_: attr are present
@@ -35841,6 +35780,7 @@ x-validations:
           - DISABILITY_MULTIPLE_DIS
           - FARE_POLICY
           - INFO
+          - FEATURE_LIST
         tagPath: "$.message.catalog.providers[*].items[*].tags[*].descriptor.code"
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -35940,6 +35880,8 @@ x-validations:
         validValues:
           - DISTANCE_TO_NEAREST_DRIVER_METER
           - ETA_TO_NEAREST_DRIVER_MIN
+          - TOTAL_HOUR
+          - TOTAL_DISTANCE
         _RETURN_: subTags all in validValues
     on_select:
       - _NAME_: REQUIRED_CONTEXT_CODE_1
@@ -36047,6 +35989,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - BUYER_ADDITIONAL_AMOUNT
       - _NAME_: REQUIRED_MESSAGE_VALUE_28
         attr: "$.message.order.quote.breakup[*].price.value"
         _RETURN_: attr are present
@@ -36138,6 +36081,7 @@ x-validations:
           - DISABILITY_MULTIPLE_DIS
           - FARE_POLICY
           - INFO
+          - FEATURE_LIST
         tagPath: "$.message.order.items[*].tags[*].descriptor.code"
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -36149,6 +36093,7 @@ x-validations:
           - VIS_SCREEN_READER_USAGE
           - VIS_CANE_USAGE
           - VIS_SPECIAL_REQUIREMENT
+          - FEATURE_LIST
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_0_DISABILITY_HEA
         _SCOPE_: "$.message.order.items[*].tags[?(@.descriptor.code=='DISABILITY_HEA')]"
@@ -36237,6 +36182,8 @@ x-validations:
         validValues:
           - DISTANCE_TO_NEAREST_DRIVER_METER
           - ETA_TO_NEAREST_DRIVER_MIN
+          - TOTAL_HOURS
+          - TOTAL_DISTANCE
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1
         validTags:
@@ -36260,26 +36207,9 @@ x-validations:
         state: "$.state.descriptor.code"
         stateCode:
           - RIDE_ENDED
+          - RIDE_STARTED
         _CONTINUE_: "!(authStatus all in auth)"
-        _RETURN_: stateCode all in state
-      - _NAME_: COLLECTED_BY_BPP_BAP_TERMS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bapTerms: "$.message.order.tags[?(@.descriptor.code=='BAP_TERMS')].list[*].descriptor.code"
-        requiredCodes:
-          - SETTLEMENT_BANK_CODE
-          - SETTLEMENT_BANK_ACCOUNT_NUMBER
-          - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bapTerms are present && bapTerms all in requiredCodes
-      - _NAME_: COLLECTED_BY_BPP_BPP_TAGS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bppTerms: "$.message.order.tags[?(@.descriptor.code=='BPP_TERMS')].list[*].descriptor.code"
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bppTerms are present
+        _RETURN_: state all in stateCode
       - _NAME_: PAYMENT_STATUS_TRANSACTION_ID
         _SCOPE_: "$.message.order.payments[*]"
         statusCode:
@@ -36433,15 +36363,6 @@ x-validations:
           - PRE-ORDER
           - ON-ORDER
           - ON-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_BANK_CODE_38
-        attr: "$.message.order.payments[*].params.bank_code"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_39
-        attr: "$.message.order.payments[*].params.bank_account_number"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VIRTUAL_PAYMENT_ADDRESS_40
-        attr: "$.message.order.payments[*].params.virtual_payment_address"
-        _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CODE_41
         attr: "$.message.order.cancellation_terms[*].fulfillment_state.descriptor.code"
         _RETURN_: attr are present && attr all in enumList
@@ -36541,6 +36462,7 @@ x-validations:
           - DISABILITY_MULTIPLE_DIS
           - FARE_POLICY
           - INFO
+          - FEATURE_LIST
         tagPath: "$.message.order.items[*].tags[*].descriptor.code"
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -36552,6 +36474,7 @@ x-validations:
           - VIS_SCREEN_READER_USAGE
           - VIS_CANE_USAGE
           - VIS_SPECIAL_REQUIREMENT
+          - FEATURE_LIST
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_DISABILITY_HEA
         _SCOPE_: "$.message.order.items[*].tags[?(@.descriptor.code=='DISABILITY_HEA')]"
@@ -36640,6 +36563,8 @@ x-validations:
         validValues:
           - DISTANCE_TO_NEAREST_DRIVER_METER
           - ETA_TO_NEAREST_DRIVER_MIN
+          - TOTAL_HOURS
+          - TOTAL_DISTANCE
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_2
         validTags:
@@ -36663,26 +36588,9 @@ x-validations:
         state: "$.state.descriptor.code"
         stateCode:
           - RIDE_ENDED
+          - RIDE_STARTED
         _CONTINUE_: "!(authStatus all in auth)"
-        _RETURN_: stateCode all in state
-      - _NAME_: COLLECTED_BY_BPP_BAP_TERMS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bapTerms: "$.message.order.tags[?(@.descriptor.code=='BAP_TERMS')].list[*].descriptor.code"
-        requiredCodes:
-          - SETTLEMENT_BANK_CODE
-          - SETTLEMENT_BANK_ACCOUNT_NUMBER
-          - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bapTerms are present && bapTerms all in requiredCodes
-      - _NAME_: COLLECTED_BY_BPP_BPP_TAGS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bppTerms: "$.message.order.tags[?(@.descriptor.code=='BPP_TERMS')].list[*].descriptor.code"
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bppTerms are present
+        _RETURN_: state all in stateCode
       - _NAME_: PAYMENT_STATUS_TRANSACTION_ID
         _SCOPE_: "$.message.order.payments[*]"
         statusCode:
@@ -36847,15 +36755,6 @@ x-validations:
           - PRE-ORDER
           - ON-ORDER
           - ON-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_BANK_CODE_39
-        attr: "$.message.order.payments[*].params.bank_code"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_40
-        attr: "$.message.order.payments[*].params.bank_account_number"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VIRTUAL_PAYMENT_ADDRESS_41
-        attr: "$.message.order.payments[*].params.virtual_payment_address"
-        _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CODE_42
         attr: "$.message.order.cancellation_terms[*].fulfillment_state.descriptor.code"
         _RETURN_: attr are present && attr all in enumList
@@ -36874,11 +36773,14 @@ x-validations:
         attr: "$.message.order.status"
         _RETURN_: attr are present && attr all in enumList
         enumList:
+          - UPDATED
           - SOFT_CANCEL
           - CONFIRM_CANCEL
           - ACTIVE
           - COMPLETE
           - CANCELLED
+          - CONFIRM_UPDATE
+          - SOFT_UPDATE
       - _NAME_: REQUIRED_MESSAGE_CREATED_AT_45
         attr: "$.message.order.created_at"
         _RETURN_: attr are present
@@ -36981,6 +36883,7 @@ x-validations:
           - DISABILITY_MULTIPLE_DIS
           - FARE_POLICY
           - INFO
+          - FEATURE_LIST
         tagPath: "$.message.order.items[*].tags[*].descriptor.code"
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -36992,6 +36895,7 @@ x-validations:
           - VIS_SCREEN_READER_USAGE
           - VIS_CANE_USAGE
           - VIS_SPECIAL_REQUIREMENT
+          - FEATURE_LIST
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_DISABILITY_HEA
         _SCOPE_: "$.message.order.items[*].tags[?(@.descriptor.code=='DISABILITY_HEA')]"
@@ -37080,6 +36984,8 @@ x-validations:
         validValues:
           - DISTANCE_TO_NEAREST_DRIVER_METER
           - ETA_TO_NEAREST_DRIVER_MIN
+          - TOTAL_HOURS
+          - TOTAL_DISTANCE
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_2
         validTags:
@@ -37103,26 +37009,9 @@ x-validations:
         state: "$.state.descriptor.code"
         stateCode:
           - RIDE_ENDED
+          - RIDE_STARTED
         _CONTINUE_: "!(authStatus all in auth)"
-        _RETURN_: stateCode all in state
-      - _NAME_: COLLECTED_BY_BPP_BAP_TERMS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bapTerms: "$.message.order.tags[?(@.descriptor.code=='BAP_TERMS')].list[*].descriptor.code"
-        requiredCodes:
-          - SETTLEMENT_BANK_CODE
-          - SETTLEMENT_BANK_ACCOUNT_NUMBER
-          - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bapTerms are present && bapTerms all in requiredCodes
-      - _NAME_: COLLECTED_BY_BPP_BPP_TAGS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bppTerms: "$.message.order.tags[?(@.descriptor.code=='BPP_TERMS')].list[*].descriptor.code"
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bppTerms are present
+        _RETURN_: state all in stateCode
       - _NAME_: PAYMENT_STATUS_TRANSACTION_ID
         _SCOPE_: "$.message.order.payments[*]"
         statusCode:
@@ -37274,6 +37163,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - BUYER_ADDITIONAL_AMOUNT
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_38
         attr: "$.message.order.quote.breakup[*].price.currency"
         _RETURN_: attr are present
@@ -37290,12 +37180,6 @@ x-validations:
           - PRE-ORDER
           - ON-ORDER
           - ON-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_BANK_CODE_42
-        attr: "$.message.order.payments[*].params.bank_code"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_43
-        attr: "$.message.order.payments[*].params.bank_account_number"
-        _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_COLLECTED_BY_44
         attr: "$.message.order.payments[*].collected_by"
         _RETURN_: attr are present && attr all in enumList
@@ -37321,11 +37205,14 @@ x-validations:
         attr: "$.message.order.status"
         _RETURN_: attr are present && attr all in enumList
         enumList:
+          - UPDATED
           - SOFT_CANCEL
           - CONFIRM_CANCEL
           - ACTIVE
           - COMPLETE
           - CANCELLED
+          - CONFIRM_UPDATE
+          - SOFT_UPDATE
       - _NAME_: VALID_ENUM_MESSAGE_VARIANT_1
         enumList:
           - SEDAN
@@ -37441,6 +37328,7 @@ x-validations:
           - DISABILITY_MULTIPLE_DIS
           - FARE_POLICY
           - INFO
+          - FEATURE_LIST
         tagPath: "$.message.order.items[*].tags[*].descriptor.code"
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -37452,6 +37340,7 @@ x-validations:
           - VIS_SCREEN_READER_USAGE
           - VIS_CANE_USAGE
           - VIS_SPECIAL_REQUIREMENT
+          - FEATURE_LIST
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_DISABILITY_HEA
         _SCOPE_: "$.message.order.items[*].tags[?(@.descriptor.code=='DISABILITY_HEA')]"
@@ -37540,6 +37429,8 @@ x-validations:
         validValues:
           - DISTANCE_TO_NEAREST_DRIVER_METER
           - ETA_TO_NEAREST_DRIVER_MIN
+          - TOTAL_HOURS
+          - TOTAL_DISTANCE
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_2
         validTags:
@@ -37563,26 +37454,9 @@ x-validations:
         state: "$.state.descriptor.code"
         stateCode:
           - RIDE_ENDED
+          - RIDE_STARTED
         _CONTINUE_: "!(authStatus all in auth)"
-        _RETURN_: stateCode all in state
-      - _NAME_: COLLECTED_BY_BPP_BAP_TERMS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bapTerms: "$.message.order.tags[?(@.descriptor.code=='BAP_TERMS')].list[*].descriptor.code"
-        requiredCodes:
-          - SETTLEMENT_BANK_CODE
-          - SETTLEMENT_BANK_ACCOUNT_NUMBER
-          - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bapTerms are present && bapTerms all in requiredCodes
-      - _NAME_: COLLECTED_BY_BPP_BPP_TAGS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bppTerms: "$.message.order.tags[?(@.descriptor.code=='BPP_TERMS')].list[*].descriptor.code"
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bppTerms are present
+        _RETURN_: state all in stateCode
       - _NAME_: PAYMENT_STATUS_TRANSACTION_ID
         _SCOPE_: "$.message.order.payments[*]"
         statusCode:
@@ -37620,7 +37494,7 @@ x-validations:
         attr: "$.context.action"
         _RETURN_: attr are present && attr all in enumList
         enumList:
-          - on_cancel
+          - on_update
       - _NAME_: REQUIRED_CONTEXT_BAP_URI_10
         attr: "$.context.bap_uri"
         _RETURN_: attr are present
@@ -37728,6 +37602,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - BUYER_ADDITIONAL_AMOUNT
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_36
         attr: "$.message.order.quote.breakup[*].price.currency"
         _RETURN_: attr are present
@@ -37756,15 +37631,6 @@ x-validations:
           - PRE-ORDER
           - ON-ORDER
           - ON-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_BANK_CODE_42
-        attr: "$.message.order.payments[*].params.bank_code"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_43
-        attr: "$.message.order.payments[*].params.bank_account_number"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VIRTUAL_PAYMENT_ADDRESS_44
-        attr: "$.message.order.payments[*].params.virtual_payment_address"
-        _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CODE_45
         attr: "$.message.order.cancellation_terms[*].fulfillment_state.descriptor.code"
         _RETURN_: attr are present
@@ -37775,11 +37641,14 @@ x-validations:
         attr: "$.message.order.status"
         _RETURN_: attr are present && attr all in enumList
         enumList:
+          - UPDATED
           - SOFT_CANCEL
           - CONFIRM_CANCEL
           - ACTIVE
           - COMPLETE
           - CANCELLED
+          - CONFIRM_UPDATE
+          - SOFT_UPDATE
       - _NAME_: REQUIRED_MESSAGE_CREATED_AT_48
         attr: "$.message.order.created_at"
         _RETURN_: attr are present
@@ -37882,6 +37751,7 @@ x-validations:
           - DISABILITY_MULTIPLE_DIS
           - FARE_POLICY
           - INFO
+          - FEATURE_LIST
         tagPath: "$.message.order.items[*].tags[*].descriptor.code"
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -37893,6 +37763,7 @@ x-validations:
           - VIS_SCREEN_READER_USAGE
           - VIS_CANE_USAGE
           - VIS_SPECIAL_REQUIREMENT
+          - FEATURE_LIST
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_DISABILITY_HEA
         _SCOPE_: "$.message.order.items[*].tags[?(@.descriptor.code=='DISABILITY_HEA')]"
@@ -37981,6 +37852,8 @@ x-validations:
         validValues:
           - DISTANCE_TO_NEAREST_DRIVER_METER
           - ETA_TO_NEAREST_DRIVER_MIN
+          - TOTAL_HOURS
+          - TOTAL_DISTANCE
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_2
         validTags:
@@ -38004,26 +37877,9 @@ x-validations:
         state: "$.state.descriptor.code"
         stateCode:
           - RIDE_ENDED
+          - RIDE_STARTED
         _CONTINUE_: "!(authStatus all in auth)"
-        _RETURN_: stateCode all in state
-      - _NAME_: COLLECTED_BY_BPP_BAP_TERMS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bapTerms: "$.message.order.tags[?(@.descriptor.code=='BAP_TERMS')].list[*].descriptor.code"
-        requiredCodes:
-          - SETTLEMENT_BANK_CODE
-          - SETTLEMENT_BANK_ACCOUNT_NUMBER
-          - SETTLEMENT_VIRTUAL_PAYMENT_ADDRESS
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bapTerms are present && bapTerms all in requiredCodes
-      - _NAME_: COLLECTED_BY_BPP_BPP_TAGS
-        collectedByPath: "$.message.order.payments[*].collected_by"
-        collectedByValue:
-          - BPP
-        bppTerms: "$.message.order.tags[?(@.descriptor.code=='BPP_TERMS')].list[*].descriptor.code"
-        _CONTINUE_: "!(collectedByValue all in collectedByPath)"
-        _RETURN_: bppTerms are present
+        _RETURN_: state all in stateCode
       - _NAME_: PAYMENT_STATUS_TRANSACTION_ID
         _SCOPE_: "$.message.order.payments[*]"
         statusCode:
@@ -38169,6 +38025,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - BUYER_ADDITIONAL_AMOUNT
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_36
         attr: "$.message.order.quote.breakup[*].price.currency"
         _RETURN_: attr are present
@@ -38197,15 +38054,6 @@ x-validations:
           - PRE-ORDER
           - ON-ORDER
           - ON-FULFILLMENT
-      - _NAME_: REQUIRED_MESSAGE_BANK_CODE_42
-        attr: "$.message.order.payments[*].params.bank_code"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_BANK_ACCOUNT_NUMBER_43
-        attr: "$.message.order.payments[*].params.bank_account_number"
-        _RETURN_: attr are present
-      - _NAME_: REQUIRED_MESSAGE_VIRTUAL_PAYMENT_ADDRESS_44
-        attr: "$.message.order.payments[*].params.virtual_payment_address"
-        _RETURN_: attr are present
       - _NAME_: REQUIRED_MESSAGE_CODE_45
         attr: "$.message.order.cancellation_terms[*].fulfillment_state.descriptor.code"
         _RETURN_: attr are present && attr all in enumList
@@ -38263,6 +38111,9 @@ x-validations:
           - ACTIVE
           - COMPLETE
           - CANCELLED
+          - CONFIRM_UPDATE
+          - UPDATED
+          - SOFT_UPDATE
         enumPath: "$.message.order.status"
         _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
@@ -38323,6 +38174,7 @@ x-validations:
           - DISABILITY_MULTIPLE_DIS
           - FARE_POLICY
           - INFO
+          - FEATURE_LIST
         tagPath: "$.message.order.items[*].tags[*].descriptor.code"
         _CONTINUE_: "!(tagPath are present)"
         _RETURN_: tagPath all in validTags
@@ -38334,6 +38186,7 @@ x-validations:
           - VIS_SCREEN_READER_USAGE
           - VIS_CANE_USAGE
           - VIS_SPECIAL_REQUIREMENT
+          - FEATURE_LIST
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_1_DISABILITY_HEA
         _SCOPE_: "$.message.order.items[*].tags[?(@.descriptor.code=='DISABILITY_HEA')]"
@@ -38422,6 +38275,8 @@ x-validations:
         validValues:
           - DISTANCE_TO_NEAREST_DRIVER_METER
           - ETA_TO_NEAREST_DRIVER_MIN
+          - TOTAL_HOURS
+          - TOTAL_DISTANCE
         _RETURN_: subTags all in validValues
       - _NAME_: validate_tag_2
         validTags:
@@ -38436,5 +38291,91 @@ x-validations:
           - ENCODED_POLYLINE
           - WAYPOINTS
         _RETURN_: subTags all in validValues
+    track:
+      - _NAME_: REQUIRED_CONTEXT_CODE_1
+        attr: "$.context.location.country.code"
+        _RETURN_: attr are present && attr all in enumList
+        enumList:
+          - IND
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN_3
+        attr: "$.context.domain"
+        _RETURN_: attr are present && attr all in enumList
+        enumList:
+          - ONDC:TRV10
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_4
+        attr: "$.context.timestamp"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID_5
+        attr: "$.context.bap_id"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_6
+        attr: "$.context.transaction_id"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_7
+        attr: "$.context.message_id"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_VERSION_8
+        attr: "$.context.version"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_ACTION_9
+        attr: "$.context.action"
+        _RETURN_: attr are present && attr all in enumList
+        enumList:
+          - track
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI_10
+        attr: "$.context.bap_uri"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_TTL_11
+        attr: "$.context.ttl"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID_12
+        attr: "$.context.bpp_id"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI_13
+        attr: "$.context.bpp_uri"
+        _RETURN_: attr are present
+    on_track:
+      - _NAME_: REQUIRED_CONTEXT_CODE_1
+        attr: "$.context.location.country.code"
+        _RETURN_: attr are present && attr all in enumList
+        enumList:
+          - IND
+      - _NAME_: REQUIRED_CONTEXT_DOMAIN_3
+        attr: "$.context.domain"
+        _RETURN_: attr are present && attr all in enumList
+        enumList:
+          - ONDC:TRV10
+      - _NAME_: REQUIRED_CONTEXT_TIMESTAMP_4
+        attr: "$.context.timestamp"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_BAP_ID_5
+        attr: "$.context.bap_id"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID_6
+        attr: "$.context.transaction_id"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_MESSAGE_ID_7
+        attr: "$.context.message_id"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_VERSION_8
+        attr: "$.context.version"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_ACTION_9
+        attr: "$.context.action"
+        _RETURN_: attr are present && attr all in enumList
+        enumList:
+          - on_track
+      - _NAME_: REQUIRED_CONTEXT_BAP_URI_10
+        attr: "$.context.bap_uri"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_TTL_11
+        attr: "$.context.ttl"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_BPP_ID_12
+        attr: "$.context.bpp_id"
+        _RETURN_: attr are present
+      - _NAME_: REQUIRED_CONTEXT_BPP_URI_13
+        attr: "$.context.bpp_uri"
+        _RETURN_: attr are present
   _SESSION_DATA_:
     trans: {}
