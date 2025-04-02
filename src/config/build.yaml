@@ -35572,6 +35572,7 @@ x-validations:
           - DRIVER_BATA
           - NIGHT_CHARGES
           - BUYER_ADDITIONAL_AMOUNT
+          - ADD_ONS
         enumPath: "$.message.order.quote.breakup[*].title"
         _CONTINUE_: "!(enumPath are present)"
         _RETURN_: enumPath all in enumList
@@ -35990,6 +35991,7 @@ x-validations:
           - DRIVER_BATA
           - NIGHT_CHARGES
           - BUYER_ADDITIONAL_AMOUNT
+          - ADD_ONS
       - _NAME_: REQUIRED_MESSAGE_VALUE_28
         attr: "$.message.order.quote.breakup[*].price.value"
         _RETURN_: attr are present
@@ -36335,6 +36337,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - ADD_ONS
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_32
         attr: "$.message.order.quote.breakup[*].price.currency"
         _RETURN_: attr are present
@@ -36727,6 +36730,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - ADD_ONS
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_33
         attr: "$.message.order.quote.breakup[*].price.currency"
         _RETURN_: attr are present
@@ -37164,6 +37168,7 @@ x-validations:
           - DRIVER_BATA
           - NIGHT_CHARGES
           - BUYER_ADDITIONAL_AMOUNT
+          - ADD_ONS
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_38
         attr: "$.message.order.quote.breakup[*].price.currency"
         _RETURN_: attr are present
@@ -37603,6 +37608,7 @@ x-validations:
           - DRIVER_BATA
           - NIGHT_CHARGES
           - BUYER_ADDITIONAL_AMOUNT
+          - ADD_ONS
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_36
         attr: "$.message.order.quote.breakup[*].price.currency"
         _RETURN_: attr are present
@@ -38026,6 +38032,7 @@ x-validations:
           - DRIVER_BATA
           - NIGHT_CHARGES
           - BUYER_ADDITIONAL_AMOUNT
+          - ADD_ONS
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_36
         attr: "$.message.order.quote.breakup[*].price.currency"
         _RETURN_: attr are present
