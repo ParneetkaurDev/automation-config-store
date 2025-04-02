@@ -36337,6 +36337,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - BUYER_ADDITIONAL_AMOUNT
           - ADD_ONS
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_32
         attr: "$.message.order.quote.breakup[*].price.currency"
@@ -36730,6 +36731,7 @@ x-validations:
           - WAITING_CHARGES
           - DRIVER_BATA
           - NIGHT_CHARGES
+          - BUYER_ADDITIONAL_AMOUNT
           - ADD_ONS
       - _NAME_: REQUIRED_MESSAGE_CURRENCY_33
         attr: "$.message.order.quote.breakup[*].price.currency"
