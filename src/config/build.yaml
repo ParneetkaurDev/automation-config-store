@@ -34350,1445 +34350,1445 @@ x-changeLog:
     - TRV10_2.1.0_030924.md
 x-validations:
   _TESTS_:
-  search:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - _NAME_: Context_Attributes_Tests
-          _RETURN_:
-            - &search_REQUIRED_context_timestamp
-              attr: $.context.timestamp
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_timestamp
-            - &search_REQUIRED_context_bap_id
-              attr: $.context.bap_id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_bap_id
-            - &search_REQUIRED_context_transaction_id
-              attr: $.context.transaction_id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_transaction_id
-            - &search_REQUIRED_context_message_id
-              attr: $.context.message_id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_message_id
-            - &search_REQUIRED_context_version
-              attr: $.context.version
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_version
-            - &search_REQUIRED_context_bap_uri
-              attr: $.context.bap_uri
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_bap_uri
-            - &search_REQUIRED_context_ttl
-              attr: $.context.ttl
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_ttl
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - &search_VALID_ENUM_context_location_country_code
-              attr: $.context.location.country.code
-              _RETURN_: attr all in enumList
-              enumList:
-                - IND
-              _NAME_: VALID_ENUM_context_location_country_code
-            - &search_VALID_ENUM_context_domain
-              attr: $.context.domain
-              _RETURN_: attr all in enumList
-              enumList:
-                - ONDC:TRV10
-              _NAME_: VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - search
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: fulfillment_Tests
-      _RETURN_:
-        - _NAME_: fulfillment_Attributes_Tests
-          _RETURN_:
-            - attr: $.message.intent.fulfillment.stops[*].location.gps
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_intent_fulfillment_stops_location_gps
-        - _NAME_: fulfillment_Enums_Tests
-          _RETURN_:
-            - attr: $.message.intent.fulfillment.stops[*].type
-              _RETURN_: attr all in enumList
-              enumList:
-                - START
-                - END
-                - INTERMEDIATE_STOP
-              _NAME_: VALID_ENUM_message_intent_fulfillment_stops_type
-            - enumList:
-                - AUTO_RICKSHAW
-                - CAB
-                - TWO_WHEELER
-              enumPath: $.message.intent.fulfillment.vehicle.category
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_fulfillment_vehicle_category
-            - enumList:
-                - SEDAN
-                - SUV
-                - HATCHBACK
-                - TWO_WHEELER
-                - AUTO_RICKSHAW
-              enumPath: $.message.intent.fulfillment.vehicle.variant
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_fulfillment_vehicle_variant
-            - enumList:
-                - ELECTRIC
-                - PETRO
-                - DIESEL
-                - HYDROGEN
-                - BIOFUELS
-                - CNG
-                - LPG
-              enumPath: $.message.intent.fulfillment.vehicle.energy_type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_fulfillment_vehicle_energy_type
-            - enumList:
-                - DELIVERY
-                - SELF_PICKUP
-              enumPath: $.message.intent.fulfillment.type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_fulfillment_type
-            - enumList:
-                - OTP
-                - QR
-              enumPath: $.message.intent.fulfillment.stops[*].authorization.type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_fulfillment_stops_authorization_type
-            - enumList:
-                - UNCLAIMED
-                - CLAIMED
-              enumPath: $.message.intent.fulfillment.stops[*].authorization.status
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_fulfillment_stops_authorization_status
-            - enumList:
-                - RIDE_CANCELLED
-                - RIDE_ENDED
-                - RIDE_STARTED
-                - RIDE_ASSIGNED
-                - RIDE_ENROUTE_PICKUP
-                - RIDE_ARRIVED_PICKUP
-                - RIDE_CONFIRMED
-              enumPath: $.message.intent.fulfillment.state.descriptor.code
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_fulfillment_state_descriptor_code
-    - _NAME_: payment_Tests
-      _RETURN_:
-        - _NAME_: payment_Enums_Tests
-          _RETURN_:
-            - attr: $.message.intent.payment.collected_by
-              _RETURN_: attr all in enumList
-              enumList:
-                - BPP
-                - BAP
-              _NAME_: VALID_ENUM_message_intent_payment_collected_by
-            - enumList:
-                - NOT-PAID
-                - PAID
-              enumPath: $.message.intent.payment.status
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_payment_status
-            - enumList:
-                - PRE-ORDER
-                - ON-ORDER
-                - ON-FULFILLMENT
-              enumPath: $.message.intent.payment.type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_payment_type
-    - _NAME_: category_Tests
-      _RETURN_:
-        - _NAME_: category_Enums_Tests
-          _RETURN_:
-            - enumList:
-                - ON_DEMAND_TRIP
-                - ON_DEMAND_RENTAL
-                - SCHEDULED_TRIP
-                - SCHEDULED_RENTAL
-              enumPath: $.message.intent.category.descriptor.code
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_intent_category_descriptor_code
-    - _NAME_: tags_Tests
-      _RETURN_:
-        - _NAME_: tags_Tags_Tests
-          _RETURN_:
-            - validTags:
-                - BAP_TERMS
-              tagPath: $.message.intent.tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_intent_tags_descriptor_code
-    - _NAME_: item_Tests
-      _RETURN_:
-        - _NAME_: item_Tags_Tests
-          _RETURN_:
-            - validTags:
-                - DISABILITY_VIS
-                - DISABILITY_HEA
-                - DISABILITY_MOB
-                - DISABILITY_LEP
-                - DISABILITY_SPE
-                - DISABILITY_INTEL
-                - MENTAL
-                - DISABILITY_BLOOD
-                - DISABILITY_DWARFISM
-                - DISABILITY_ACID_ATTACK_SURVIVOR
-                - DISABILITY_MULTIPLE_DIS
-              tagPath: $.message.intent.item.tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_intent_item_tags_descriptor_code
-  select:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - &select_Context_Attributes_Tests
-          _NAME_: Context_Attributes_Tests
-          _RETURN_:
-            - *search_REQUIRED_context_timestamp
-            - *search_REQUIRED_context_bap_id
-            - *search_REQUIRED_context_transaction_id
-            - *search_REQUIRED_context_message_id
-            - *search_REQUIRED_context_version
-            - *search_REQUIRED_context_bap_uri
-            - *search_REQUIRED_context_ttl
-            - &select_REQUIRED_context_bpp_id
-              attr: $.context.bpp_id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_bpp_id
-            - &select_REQUIRED_context_bpp_uri
-              attr: $.context.bpp_uri
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_context_bpp_uri
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - select
-              _NAME_: VALID_ENUM_context_action
-    - &select_items_Tests
-      _NAME_: items_Tests
-      _RETURN_:
-        - &select_items_Attributes_Tests
-          _NAME_: items_Attributes_Tests
-          _RETURN_:
-            - &select_REQUIRED_message_order_items_id
-              attr: $.message.order.items[*].id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_items_id
-        - &select_items_Enums_Tests
-          _NAME_: items_Enums_Tests
-          _RETURN_:
-            - &select_VALID_ENUM_message_order_items_descriptor_code
-              enumList:
-                - RIDE
-                - RENTAL
-              enumPath: $.message.order.items[*].descriptor.code
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_items_descriptor_code
-    - &select_provider_Tests
-      _NAME_: provider_Tests
-      _RETURN_:
-        - _NAME_: provider_Attributes_Tests
-          _RETURN_:
-            - &select_REQUIRED_message_order_provider_id
-              attr: $.message.order.provider.id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_provider_id
-    - _NAME_: fulfillments_Tests
-      _RETURN_:
-        - _NAME_: fulfillments_Enums_Tests
-          _RETURN_:
-            - &select_VALID_ENUM_message_order_fulfillments_vehicle_category
-              enumList:
-                - AUTO_RICKSHAW
-                - CAB
-                - TWO_WHEELER
-              enumPath: $.message.order.fulfillments[*].vehicle.category
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_vehicle_category
-            - &select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-              enumList:
-                - SEDAN
-                - SUV
-                - HATCHBACK
-                - TWO_WHEELER
-                - AUTO_RICKSHAW
-              enumPath: $.message.order.fulfillments[*].vehicle.variant
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_vehicle_variant
-            - &select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-              enumList:
-                - ELECTRIC
-                - PETRO
-                - DIESEL
-                - HYDROGEN
-                - BIOFUELS
-                - CNG
-                - LPG
-              enumPath: $.message.order.fulfillments[*].vehicle.energy_type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-            - &select_VALID_ENUM_message_order_fulfillments_type
-              enumList:
-                - DELIVERY
-                - SELF_PICKUP
-              enumPath: $.message.order.fulfillments[*].type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_type
-            - enumList:
-                - START
-                - END
-                - INTERMEDIATE_STOP
-              enumPath: $.message.order.fulfillments[*].type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_type_2
-            - &select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-              enumList:
-                - OTP
-                - QR
-              enumPath: $.message.order.fulfillments[*].stops[*].authorization.type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_stops_authorization_type
-            - &select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-              enumList:
-                - UNCLAIMED
-                - CLAIMED
-              enumPath: $.message.order.fulfillments[*].stops[*].authorization.status
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_stops_authorization_status
-            - &select_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-              enumList:
-                - RIDE_CANCELLED
-                - RIDE_ENDED
-                - RIDE_STARTED
-                - RIDE_ASSIGNED
-                - RIDE_ENROUTE_PICKUP
-                - RIDE_ARRIVED_PICKUP
-                - RIDE_CONFIRMED
-              enumPath: $.message.order.fulfillments[*].state.descriptor.code
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_state_descriptor_code
-    - &select_payments_Tests
-      _NAME_: payments_Tests
-      _RETURN_:
-        - _NAME_: payments_Enums_Tests
-          _RETURN_:
-            - &select_VALID_ENUM_message_order_payments_status
-              enumList:
-                - NOT-PAID
-                - PAID
-              enumPath: $.message.order.payments[*].status
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_payments_status
-            - &select_VALID_ENUM_message_order_payments_collected_by
-              enumList:
-                - BPP
-                - BAP
-              enumPath: $.message.order.payments[*].collected_by
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_payments_collected_by
-            - &select_VALID_ENUM_message_order_payments_type
-              enumList:
-                - PRE-ORDER
-                - ON-ORDER
-                - ON-FULFILLMENT
-              enumPath: $.message.order.payments[*].type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_payments_type
-  init:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - init
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: fulfillments_Tests
-      _RETURN_:
-        - &init_fulfillments_Attributes_Tests
-          _NAME_: fulfillments_Attributes_Tests
-          _RETURN_:
-            - &init_REQUIRED_message_order_fulfillments_id
-              attr: $.message.order.fulfillments[*].id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_id
-            - &init_REQUIRED_message_order_fulfillments_customer_person_name
-              attr: $.message.order.fulfillments[*].customer.person.name
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_customer_person_name
-            - &init_REQUIRED_message_order_fulfillments_customer_contact_phone
-              attr: $.message.order.fulfillments[*].customer.contact.phone
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_customer_contact_phone
-            - &init_REQUIRED_message_order_fulfillments_stops_location_gps
-              attr: $.message.order.fulfillments[*].stops[*].location.gps
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_stops_location_gps
-        - _NAME_: fulfillments_Enums_Tests
-          _RETURN_:
-            - &init_VALID_ENUM_message_order_fulfillments_vehicle_category
-              attr: $.message.order.fulfillments[*].vehicle.category
-              _RETURN_: attr all in enumList
-              enumList:
-                - AUTO_RICKSHAW
-                - CAB
-                - TWO_WHEELER
-              _NAME_: VALID_ENUM_message_order_fulfillments_vehicle_category
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-            - *select_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-    - _NAME_: payments_Tests
-      _RETURN_:
-        - &init_payments_Enums_Tests
-          _NAME_: payments_Enums_Tests
-          _RETURN_:
-            - &init_VALID_ENUM_message_order_payments_collected_by
-              attr: $.message.order.payments[*].collected_by
-              _RETURN_: attr all in enumList
-              enumList:
-                - BPP
-                - BAP
-              _NAME_: VALID_ENUM_message_order_payments_collected_by
-            - &init_VALID_ENUM_message_order_payments_status
-              attr: $.message.order.payments[*].status
-              _RETURN_: attr all in enumList
-              enumList:
-                - NOT-PAID
-                - PAID
-              _NAME_: VALID_ENUM_message_order_payments_status
-            - &init_VALID_ENUM_message_order_payments_type
-              attr: $.message.order.payments[*].type
-              _RETURN_: attr all in enumList
-              enumList:
-                - PRE-ORDER
-                - ON-ORDER
-                - ON-FULFILLMENT
-              _NAME_: VALID_ENUM_message_order_payments_type
-    - *select_items_Tests
-    - *select_provider_Tests
-    - &init_billing_Tests
-      _NAME_: billing_Tests
-      _RETURN_:
-        - _NAME_: billing_Attributes_Tests
-          _RETURN_:
-            - attr: $.message.order.billing.name
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_billing_name
-    - _NAME_: tags_Tests
-      _RETURN_:
-        - _NAME_: tags_Tags_Tests
-          _RETURN_:
-            - validTags:
-                - BAP_TERMS
-              tagPath: $.message.order.tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_order_tags_descriptor_code
-  confirm:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - confirm
-              _NAME_: VALID_ENUM_context_action
-    - &confirm_payments_Tests
-      _NAME_: payments_Tests
-      _RETURN_:
-        - &confirm_payments_Attributes_Tests
-          _NAME_: payments_Attributes_Tests
-          _RETURN_:
-            - &confirm_REQUIRED_message_order_payments_id
-              attr: $.message.order.payments[*].id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_payments_id
-        - *init_payments_Enums_Tests
-    - _NAME_: items_Tests
-      _RETURN_:
-        - *select_items_Attributes_Tests
-        - *select_items_Enums_Tests
-        - _NAME_: items_Tags_Tests
-          _RETURN_:
-            - validTags:
-                - DISABILITY_VIS
-                - DISABILITY_HEA
-                - DISABILITY_MOB
-                - DISABILITY_LEP
-                - DISABILITY_SPE
-                - DISABILITY_INTEL
-                - MENTAL
-                - DISABILITY_BLOOD
-                - DISABILITY_DWARFISM
-                - DISABILITY_ACID_ATTACK_SURVIVOR
-                - DISABILITY_MULTIPLE_DIS
-                - FARE_POLICY
-                - INFO
-              tagPath: $.message.order.items[*].tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_order_items_tags_descriptor_code
-    - *select_provider_Tests
-    - *init_billing_Tests
-    - _NAME_: fulfillments_Tests
-      _RETURN_:
-        - *init_fulfillments_Attributes_Tests
-        - &confirm_fulfillments_Enums_Tests
-          _NAME_: fulfillments_Enums_Tests
-          _RETURN_:
-            - &confirm_VALID_ENUM_message_order_fulfillments_type
-              attr: $.message.order.fulfillments[*].type
-              _RETURN_: attr all in enumList
-              enumList:
-                - DELIVERY
-                - SELF_PICKUP
-              _NAME_: VALID_ENUM_message_order_fulfillments_type
-            - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-            - *select_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-        - &confirm_fulfillments_Tags_Tests
-          _NAME_: fulfillments_Tags_Tests
-          _RETURN_:
-            - &confirm_VALIDATE_TAG_message_order_fulfillments_tags_descriptor_code
-              validTags:
-                - ROUTE_INFO
-              tagPath: $.message.order.fulfillments[*].tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_order_fulfillments_tags_descriptor_code
-    - &confirm_tags_Tests
-      _NAME_: tags_Tests
-      _RETURN_:
-        - _NAME_: tags_Tags_Tests
-          _RETURN_:
-            - &confirm_VALIDATE_TAG_message_order_tags_descriptor_code
-              validTags:
-                - BAP_TERMS
-                - BPP_TERMS
-              tagPath: $.message.order.tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_order_tags_descriptor_code
-  status:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - status
-              _NAME_: VALID_ENUM_context_action
-  cancel:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - _NAME_: Context_Attributes_Tests
-          _RETURN_:
-            - *search_REQUIRED_context_timestamp
-            - *search_REQUIRED_context_bap_id
-            - *search_REQUIRED_context_transaction_id
-            - *search_REQUIRED_context_message_id
-            - *search_REQUIRED_context_version
-            - *search_REQUIRED_context_bap_uri
-            - *search_REQUIRED_context_ttl
-            - *select_REQUIRED_context_bpp_id
-            - *select_REQUIRED_context_bpp_uri
-            - attr: $.message.order_id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_id
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - cancel
-              _NAME_: VALID_ENUM_context_action
-            - attr: $.message.cancellation_reason_id
-              _RETURN_: attr all in enumList
-              enumList:
-                - "000"
-                - "001"
-                - "002"
-                - "003"
-                - "004"
-                - "005"
-                - "011"
-                - "012"
-                - "013"
-                - "014"
-              _NAME_: VALID_ENUM_message_cancellation_reason_id
-            - attr: $.message.descriptor.code
-              _RETURN_: attr all in enumList
-              enumList:
-                - SOFT_CANCEL
-                - CONFIRM_CANCEL
-                - ACTIVE
-                - COMPLETE
-                - CANCELLED
-                - UPDATED
-                - CONFIRM_UPDATE
-              _NAME_: VALID_ENUM_message_descriptor_code
-  update:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - update
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: order_Tests
-      _RETURN_:
-        - _NAME_: order_Attributes_Tests
-          _RETURN_: &_TESTS__update_1__RETURN__0__RETURN_
-            - &update_REQUIRED_message_order_id
-              attr: $.message.order.id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_id
-        - _NAME_: order_Enums_Tests
-          _RETURN_:
-            - *select_VALID_ENUM_message_order_items_descriptor_code
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_category
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-            - *select_VALID_ENUM_message_order_fulfillments_type
-            - enumList:
-                - START
-                - END
-                - INTERMEDIATE_STOP
-              enumPath: $.message.order.fulfillments[*].type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_fulfillments_type_3
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-            - *select_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-            - *select_VALID_ENUM_message_order_payments_status
-            - *select_VALID_ENUM_message_order_payments_collected_by
-            - *select_VALID_ENUM_message_order_payments_type
-            - enumList:
-                - BASE_FARE
-                - DISTANCE_FARE
-                - CANCELLATION_CHARGES
-                - REFUND
-                - TOLL_CHARGES
-                - PARKING_CHARGES
-                - TAX
-                - WAITING_CHARGES
-                - DRIVER_BATA
-                - NIGHT_CHARGES
-                - BUYER_ADDITIONAL_AMOUNT
-                - ADD_ONS
-              enumPath: $.message.order.quote.breakup[*].title
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_quote_breakup_title
-  on_search:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - on_search
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: descriptor_Tests
-      _RETURN_:
-        - _NAME_: descriptor_Attributes_Tests
-          _RETURN_:
-            - attr: $.message.catalog.descriptor.name
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_descriptor_name
-    - _NAME_: providers_Tests
-      _RETURN_:
-        - _NAME_: providers_Attributes_Tests
-          _RETURN_:
-            - attr: $.message.catalog.providers[*].id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_providers_id
-            - attr: $.message.catalog.providers[*].fulfillments[*].id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_providers_fulfillments_id
-            - attr: $.message.catalog.providers[*].fulfillments[*].type
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_providers_fulfillments_type
-            - attr: $.message.catalog.providers[*].fulfillments[*].stops[*].location.gps
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_providers_fulfillments_stops_location_gps
-            - attr: $.message.catalog.providers[*].id
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_providers_id_2
-            - attr: $.message.catalog.providers[*].items[*].price.currency
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_providers_items_price_currency
-            - attr: $.message.catalog.providers[*].items[*].price.value
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_providers_items_price_value
-            - attr: $.message.catalog.providers[*].items[*].fulfillment_ids[*]
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_catalog_providers_items_fulfillment_ids
-        - _NAME_: providers_Enums_Tests
-          _RETURN_:
-            - attr: $.message.catalog.providers[*].fulfillments[*].type
-              _RETURN_: attr all in enumList
-              enumList:
-                - DELIVERY
-                - SELF_PICKUP
-              _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_type
-            - attr: $.message.catalog.providers[*].fulfillments[*].vehicle.category
-              _RETURN_: attr all in enumList
-              enumList:
-                - AUTO_RICKSHAW
-                - CAB
-                - TWO_WHEELER
-              _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_vehicle_category
-            - attr: $.message.catalog.providers[*].items[*].descriptor.code
-              _RETURN_: attr all in enumList
-              enumList:
-                - RIDE
-                - RENTAL
-                - INTERMEDIATE_STOP
-              _NAME_: VALID_ENUM_message_catalog_providers_items_descriptor_code
-            - attr: $.message.catalog.providers[*].payments[*].collected_by
-              _RETURN_: attr all in enumList
-              enumList:
-                - BPP
-                - BAP
-              _NAME_: VALID_ENUM_message_catalog_providers_payments_collected_by
-            - enumList:
-                - SEDAN
-                - SUV
-                - HATCHBACK
-                - TWO_WHEELER
-                - AUTO_RICKSHAW
-              enumPath: $.message.catalog.providers[*].fulfillments[*].vehicle.variant
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_vehicle_variant
-            - enumList:
-                - ELECTRIC
-                - PETRO
-                - DIESEL
-                - HYDROGEN
-                - BIOFUELS
-                - CNG
-                - LPG
-              enumPath: $.message.catalog.providers[*].fulfillments[*].vehicle.energy_type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_vehicle_energy_type
-            - enumList:
-                - OTP
-                - QR
-              enumPath: $.message.catalog.providers[*].fulfillments[*].stops[*].authorization.type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_stops_authorization_type
-            - enumList:
-                - UNCLAIMED
-                - CLAIMED
-              enumPath: $.message.catalog.providers[*].fulfillments[*].stops[*].authorization.status
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_stops_authorization_status
-            - enumList:
-                - RIDE_CANCELLED
-                - RIDE_ENDED
-                - RIDE_STARTED
-                - RIDE_ASSIGNED
-                - RIDE_ENROUTE_PICKUP
-                - RIDE_ARRIVED_PICKUP
-                - RIDE_CONFIRMED
-              enumPath: $.message.catalog.providers[*].fulfillments[*].state.descriptor.code
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_state_descriptor_code
-            - enumList:
-                - NOT-PAID
-                - PAID
-              enumPath: $.message.catalog.providers[*].payments[*].status
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_catalog_providers_payments_status
-            - enumList:
-                - PRE-ORDER
-                - ON-ORDER
-                - ON-FULFILLMENT
-              enumPath: $.message.catalog.providers[*].payments[*].type
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_catalog_providers_payments_type
-            - enumList:
-                - ON_DEMAND_TRIP
-                - ON_DEMAND_RENTAL
-                - SCHEDULED_TRIP
-                - SCHEDULED_RENTAL
-              enumPath: $.message.catalog.providers[*].categories[*].descriptor.code
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_catalog_providers_categories_descriptor_code
-        - _NAME_: providers_Tags_Tests
-          _RETURN_:
-            - validTags:
-                - DISABILITY_VIS
-                - DISABILITY_HEA
-                - DISABILITY_MOB
-                - DISABILITY_LEP
-                - DISABILITY_SPE
-                - DISABILITY_INTEL
-                - MENTAL
-                - DISABILITY_BLOOD
-                - DISABILITY_DWARFISM
-                - DISABILITY_ACID_ATTACK_SURVIVOR
-                - DISABILITY_MULTIPLE_DIS
-                - FARE_POLICY
-                - INFO
-                - FEATURE_LIST
-              tagPath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_catalog_providers_items_tags_descriptor_code
-    - _NAME_: tags_Tests
-      _RETURN_:
-        - _NAME_: tags_Tags_Tests
-          _RETURN_:
-            - validTags:
-                - BPP_TERMS
-              tagPath: $.message.catalog.tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_catalog_tags_descriptor_code
-  on_select:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - on_select
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: items_Tests
-      _RETURN_:
-        - _NAME_: items_Attributes_Tests
-          _RETURN_:
-            - *select_REQUIRED_message_order_items_id
-            - &on_select_REQUIRED_message_order_items_descriptor_name
-              attr: $.message.order.items[*].descriptor.name
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_items_descriptor_name
-            - &on_select_REQUIRED_message_order_items_price_currency
-              attr: $.message.order.items[*].price.currency
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_items_price_currency
-            - &on_select_REQUIRED_message_order_items_price_value
-              attr: $.message.order.items[*].price.value
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_items_price_value
-            - &on_select_REQUIRED_message_order_items_fulfillment_ids
-              attr: $.message.order.items[*].fulfillment_ids[*]
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_items_fulfillment_ids
-        - &on_select_items_Enums_Tests
-          _NAME_: items_Enums_Tests
-          _RETURN_:
-            - &on_select_VALID_ENUM_message_order_items_descriptor_code
-              attr: $.message.order.items[*].descriptor.code
-              _RETURN_: attr all in enumList
-              enumList:
-                - RIDE
-                - RENTAL
-              _NAME_: VALID_ENUM_message_order_items_descriptor_code
-        - &on_select_items_Tags_Tests
-          _NAME_: items_Tags_Tests
-          _RETURN_:
-            - &on_select_VALIDATE_TAG_message_order_items_tags_descriptor_code
-              validTags:
-                - DISABILITY_VIS
-                - DISABILITY_HEA
-                - DISABILITY_MOB
-                - DISABILITY_LEP
-                - DISABILITY_SPE
-                - DISABILITY_INTEL
-                - MENTAL
-                - DISABILITY_BLOOD
-                - DISABILITY_DWARFISM
-                - DISABILITY_ACID_ATTACK_SURVIVOR
-                - DISABILITY_MULTIPLE_DIS
-                - FARE_POLICY
-                - INFO
-                - FEATURE_LIST
-              tagPath: $.message.order.items[*].tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_order_items_tags_descriptor_code
-    - *select_provider_Tests
-    - _NAME_: fulfillments_Tests
-      _RETURN_:
-        - _NAME_: fulfillments_Attributes_Tests
-          _RETURN_:
-            - *init_REQUIRED_message_order_fulfillments_id
-            - *init_REQUIRED_message_order_fulfillments_stops_location_gps
-        - *confirm_fulfillments_Enums_Tests
-        - *confirm_fulfillments_Tags_Tests
-    - _NAME_: quote_Tests
-      _RETURN_:
-        - _NAME_: quote_Attributes_Tests
-          _RETURN_:
-            - &on_select_REQUIRED_message_order_quote_price_value
-              attr: $.message.order.quote.price.value
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_quote_price_value
-            - &on_select_REQUIRED_message_order_quote_price_currency
-              attr: $.message.order.quote.price.currency
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_quote_price_currency
-            - &on_select_REQUIRED_message_order_quote_breakup_price_value
-              attr: $.message.order.quote.breakup[*].price.value
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_quote_breakup_price_value
-            - &on_select_REQUIRED_message_order_quote_breakup_price_currency
-              attr: $.message.order.quote.breakup[*].price.currency
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_quote_breakup_price_currency
-        - &on_select_quote_Enums_Tests
-          _NAME_: quote_Enums_Tests
-          _RETURN_:
-            - &on_select_VALID_ENUM_message_order_quote_breakup_title
-              attr: $.message.order.quote.breakup[*].title
-              _RETURN_: attr all in enumList
-              enumList:
-                - BASE_FARE
-                - DISTANCE_FARE
-                - CANCELLATION_CHARGES
-                - REFUND
-                - TOLL_CHARGES
-                - PARKING_CHARGES
-                - TAX
-                - WAITING_CHARGES
-                - DRIVER_BATA
-                - NIGHT_CHARGES
-                - BUYER_ADDITIONAL_AMOUNT
-                - ADD_ONS
-              _NAME_: VALID_ENUM_message_order_quote_breakup_title
-    - *select_payments_Tests
-  on_init:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - on_init
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: fulfillments_Tests
-      _RETURN_:
-        - _NAME_: fulfillments_Attributes_Tests
-          _RETURN_:
-            - *init_REQUIRED_message_order_fulfillments_id
-            - &on_init_REQUIRED_message_order_fulfillments_type
-              attr: $.message.order.fulfillments[*].type
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_type
-            - *init_REQUIRED_message_order_fulfillments_stops_location_gps
-            - *init_REQUIRED_message_order_fulfillments_customer_person_name
-            - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
-        - *confirm_fulfillments_Enums_Tests
-        - *confirm_fulfillments_Tags_Tests
-    - *confirm_payments_Tests
-    - &on_init_items_Tests
-      _NAME_: items_Tests
-      _RETURN_:
-        - _NAME_: items_Attributes_Tests
-          _RETURN_:
-            - *select_REQUIRED_message_order_items_id
-            - *on_select_REQUIRED_message_order_items_descriptor_name
-            - *on_select_REQUIRED_message_order_items_price_currency
-            - *on_select_REQUIRED_message_order_items_price_value
-            - *on_select_REQUIRED_message_order_items_fulfillment_ids
-            - &on_init_REQUIRED_message_order_items_payment_ids
-              attr: $.message.order.items[*].payment_ids[*]
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_items_payment_ids
-        - *on_select_items_Enums_Tests
-        - *on_select_items_Tags_Tests
-    - *select_provider_Tests
-    - &on_init_quote_Tests
-      _NAME_: quote_Tests
-      _RETURN_:
-        - &on_init_quote_Attributes_Tests
-          _NAME_: quote_Attributes_Tests
-          _RETURN_:
-            - *on_select_REQUIRED_message_order_quote_price_value
-            - *on_select_REQUIRED_message_order_quote_price_currency
-            - *on_select_REQUIRED_message_order_quote_breakup_price_currency
-            - *on_select_REQUIRED_message_order_quote_breakup_price_value
-        - _NAME_: quote_Enums_Tests
-          _RETURN_:
-            - attr: $.message.order.quote.breakup[*].title
-              _RETURN_: attr all in enumList
-              enumList:
-                - BASE_FARE
-                - DISTANCE_FARE
-                - CANCELLATION_CHARGES
-                - REFUND
-                - TOLL_CHARGES
-                - PARKING_CHARGES
-                - TAX
-                - WAITING_CHARGES
-                - DRIVER_BATA
-                - NIGHT_CHARGES
-                - ADD_ONS
-              _NAME_: VALID_ENUM_message_order_quote_breakup_title
-    - &on_init_cancellation_terms_Tests
-      _NAME_: cancellation_terms_Tests
-      _RETURN_:
-        - _NAME_: cancellation_Attributes_Tests
-          _RETURN_:
-            - &on_init_REQUIRED_message_order_cancellation_terms_reason_required
-              attr: $.message.order.cancellation_terms[*].reason_required
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_cancellation_terms_reason_required
-        - _NAME_: cancellation_Enums_Tests
-          _RETURN_:
-            - &on_init_VALID_ENUM_message_order_cancellation_terms_fulfillment_state_descriptor_code
-              attr: $.message.order.cancellation_terms[*].fulfillment_state.descriptor.code
-              _RETURN_: attr all in enumList
-              enumList:
-                - RIDE_CANCELLED
-                - RIDE_ENDED
-                - RIDE_STARTED
-                - RIDE_ASSIGNED
-                - RIDE_ENROUTE_PICKUP
-                - RIDE_ARRIVED_PICKUP
-                - RIDE_CONFIRMED
-              _NAME_: VALID_ENUM_message_order_cancellation_terms_fulfillment_state_descriptor_code
-    - _NAME_: tags_Tests
-      _RETURN_:
-        - _NAME_: tags_Tags_Tests
-          _RETURN_:
-            - validTags:
-                - BPP_TERMS
-              tagPath: $.message.order.tags[*].descriptor.code
-              _CONTINUE_: "!(tagPath are present)"
-              _RETURN_: tagPath all in validTags
-              _NAME_: VALIDATE_TAG_message_order_tags_descriptor_code
-  on_confirm:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - on_confirm
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: fulfillments_Tests
-      _RETURN_:
-        - _NAME_: fulfillments_Attributes_Tests
-          _RETURN_:
-            - *init_REQUIRED_message_order_fulfillments_id
-            - *init_REQUIRED_message_order_fulfillments_customer_person_name
-            - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
-            - *on_init_REQUIRED_message_order_fulfillments_type
-            - *init_REQUIRED_message_order_fulfillments_stops_location_gps
-        - _NAME_: fulfillments_Enums_Tests
-          _RETURN_:
-            - *confirm_VALID_ENUM_message_order_fulfillments_type
-            - &on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-              attr: $.message.order.fulfillments[*].state.descriptor.code
-              _RETURN_: attr all in enumList
-              enumList:
-                - RIDE_CANCELLED
-                - RIDE_ENDED
-                - RIDE_STARTED
-                - RIDE_ASSIGNED
-                - RIDE_ENROUTE_PICKUP
-                - RIDE_ARRIVED_PICKUP
-                - RIDE_CONFIRMED
-              _NAME_: VALID_ENUM_message_order_fulfillments_state_descriptor_code
-            - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-        - *confirm_fulfillments_Tags_Tests
-    - *confirm_payments_Tests
-    - *on_init_items_Tests
-    - *select_provider_Tests
-    - *on_init_quote_Tests
-    - *on_init_cancellation_terms_Tests
-    - &on_confirm_status_Tests
-      _NAME_: status_Tests
-      _RETURN_:
-        - _NAME_: status_Enums_Tests
-          _RETURN_:
-            - &on_confirm_VALID_ENUM_message_order_status
-              attr: $.message.order.status
-              _RETURN_: attr all in enumList
-              enumList:
-                - UPDATED
-                - SOFT_CANCEL
-                - CONFIRM_CANCEL
-                - ACTIVE
-                - COMPLETE
-                - CANCELLED
-                - CONFIRM_UPDATE
-                - SOFT_UPDATE
-              _NAME_: VALID_ENUM_message_order_status
-    - _NAME_: created_at_Tests
-      _RETURN_:
-        - _NAME_: created_Attributes_Tests
-          _RETURN_:
-            - &on_confirm_REQUIRED_message_order_created_at
-              attr: $.message.order.created_at
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_created_at
-    - _NAME_: updated_at_Tests
-      _RETURN_:
-        - _NAME_: updated_Attributes_Tests
-          _RETURN_:
-            - &on_confirm_REQUIRED_message_order_updated_at
-              attr: $.message.order.updated_at
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_updated_at
-    - &on_confirm_id_Tests
-      _NAME_: id_Tests
-      _RETURN_:
-        - _NAME_: id_Attributes_Tests
-          _RETURN_: *_TESTS__update_1__RETURN__0__RETURN_
-    - *confirm_tags_Tests
-  on_cancel:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - on_cancel
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: fulfillments_Tests
-      _RETURN_:
-        - _NAME_: fulfillments_Attributes_Tests
-          _RETURN_:
-            - *init_REQUIRED_message_order_fulfillments_id
-            - *init_REQUIRED_message_order_fulfillments_stops_location_gps
-            - *init_REQUIRED_message_order_fulfillments_customer_person_name
-            - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
-            - &on_cancel_REQUIRED_message_order_fulfillments_agent_person_name
-              attr: $.message.order.fulfillments[*].agent.person.name
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_agent_person_name
-            - &on_cancel_REQUIRED_message_order_fulfillments_agent_contact_phone
-              attr: $.message.order.fulfillments[*].agent.contact.phone
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_agent_contact_phone
-            - &on_cancel_REQUIRED_message_order_fulfillments_vehicle_registration
-              attr: $.message.order.fulfillments[*].vehicle.registration
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_vehicle_registration
-            - attr: $.message.order.fulfillments[*].vehicle.make
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_vehicle_make
-            - attr: $.message.order.fulfillments[*].vehicle.model
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_fulfillments_vehicle_model
-            - *on_init_REQUIRED_message_order_fulfillments_type
-        - _NAME_: fulfillments_Enums_Tests
-          _RETURN_:
-            - *confirm_VALID_ENUM_message_order_fulfillments_type
-            - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
-            - *on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-        - *confirm_fulfillments_Tags_Tests
-    - _NAME_: payments_Tests
-      _RETURN_:
-        - *confirm_payments_Attributes_Tests
-        - _NAME_: payments_Enums_Tests
-          _RETURN_:
-            - *init_VALID_ENUM_message_order_payments_type
-            - *init_VALID_ENUM_message_order_payments_collected_by
-            - *init_VALID_ENUM_message_order_payments_status
-    - _NAME_: items_Tests
-      _RETURN_:
-        - _NAME_: items_Attributes_Tests
-          _RETURN_:
-            - *select_REQUIRED_message_order_items_id
-            - *on_select_REQUIRED_message_order_items_descriptor_name
-            - *on_select_REQUIRED_message_order_items_fulfillment_ids
-            - *on_init_REQUIRED_message_order_items_payment_ids
-            - *on_select_REQUIRED_message_order_items_price_currency
-            - *on_select_REQUIRED_message_order_items_price_value
-        - *on_select_items_Enums_Tests
-        - *on_select_items_Tags_Tests
-    - *select_provider_Tests
-    - _NAME_: quote_Tests
-      _RETURN_:
-        - *on_init_quote_Attributes_Tests
-        - *on_select_quote_Enums_Tests
-    - _NAME_: cancellation_terms_Tests
-      _RETURN_:
-        - _NAME_: cancellation_Attributes_Tests
-          _RETURN_:
-            - &on_cancel_REQUIRED_message_order_cancellation_terms_fulfillment_state_descriptor_code
-              attr: $.message.order.cancellation_terms[*].fulfillment_state.descriptor.code
-              _RETURN_: attr are present
-              _NAME_: REQUIRED_message_order_cancellation_terms_fulfillment_state_descriptor_code
-            - *on_init_REQUIRED_message_order_cancellation_terms_reason_required
-    - *on_confirm_id_Tests
-    - *on_confirm_status_Tests
-    - _NAME_: cancellation_Tests
-      _RETURN_:
-        - _NAME_: cancellation_Enums_Tests
-          _RETURN_:
-            - enumList:
-                - CONSUMER
-                - PROVIDER
-              enumPath: $.message.order.cancellation.cancelled_by
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_cancellation_cancelled_by
-            - enumList:
-                - "000"
-                - "001"
-                - "002"
-                - "003"
-                - "004"
-                - "005"
-                - "011"
-                - "012"
-                - "013"
-                - "014"
-              enumPath: $.message.order.cancellation.reason.descriptor.code
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_cancellation_reason_descriptor_code
-    - *confirm_tags_Tests
-  on_update:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - on_update
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: order_Tests
-      _RETURN_:
-        - _NAME_: order_Attributes_Tests
-          _RETURN_:
-            - *select_REQUIRED_message_order_items_id
-            - *on_select_REQUIRED_message_order_items_descriptor_name
-            - *on_select_REQUIRED_message_order_items_price_currency
-            - *on_select_REQUIRED_message_order_items_price_value
-            - *on_select_REQUIRED_message_order_items_fulfillment_ids
-            - *on_init_REQUIRED_message_order_items_payment_ids
-            - *select_REQUIRED_message_order_provider_id
-            - *init_REQUIRED_message_order_fulfillments_id
-            - *init_REQUIRED_message_order_fulfillments_stops_location_gps
-            - *on_cancel_REQUIRED_message_order_fulfillments_vehicle_registration
-            - *init_REQUIRED_message_order_fulfillments_customer_person_name
-            - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
-            - *on_cancel_REQUIRED_message_order_fulfillments_agent_person_name
-            - *on_cancel_REQUIRED_message_order_fulfillments_agent_contact_phone
-            - *on_init_REQUIRED_message_order_fulfillments_type
-            - *on_select_REQUIRED_message_order_quote_price_value
-            - *on_select_REQUIRED_message_order_quote_price_currency
-            - *on_select_REQUIRED_message_order_quote_breakup_price_currency
-            - *on_select_REQUIRED_message_order_quote_breakup_price_value
-            - *confirm_REQUIRED_message_order_payments_id
-            - *on_cancel_REQUIRED_message_order_cancellation_terms_fulfillment_state_descriptor_code
-            - *on_init_REQUIRED_message_order_cancellation_terms_reason_required
-            - *on_confirm_REQUIRED_message_order_created_at
-            - *on_confirm_REQUIRED_message_order_updated_at
-            - *update_REQUIRED_message_order_id
-        - _NAME_: order_Enums_Tests
-          _RETURN_:
-            - *on_select_VALID_ENUM_message_order_items_descriptor_code
-            - *confirm_VALID_ENUM_message_order_fulfillments_type
-            - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
-            - *on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-            - *on_select_VALID_ENUM_message_order_quote_breakup_title
-            - *init_VALID_ENUM_message_order_payments_collected_by
-            - *init_VALID_ENUM_message_order_payments_status
-            - *init_VALID_ENUM_message_order_payments_type
-            - *on_confirm_VALID_ENUM_message_order_status
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-        - &on_update_order_Tags_Tests
-          _NAME_: order_Tags_Tests
-          _RETURN_:
-            - *confirm_VALIDATE_TAG_message_order_tags_descriptor_code
-            - *on_select_VALIDATE_TAG_message_order_items_tags_descriptor_code
-            - *confirm_VALIDATE_TAG_message_order_fulfillments_tags_descriptor_code
-  on_status:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - on_status
-              _NAME_: VALID_ENUM_context_action
-    - _NAME_: order_Tests
-      _RETURN_:
-        - _NAME_: order_Attributes_Tests
-          _RETURN_:
-            - *select_REQUIRED_message_order_items_id
-            - *on_select_REQUIRED_message_order_items_descriptor_name
-            - *on_select_REQUIRED_message_order_items_price_currency
-            - *on_select_REQUIRED_message_order_items_price_value
-            - *on_select_REQUIRED_message_order_items_fulfillment_ids
-            - *on_init_REQUIRED_message_order_items_payment_ids
-            - *select_REQUIRED_message_order_provider_id
-            - *init_REQUIRED_message_order_fulfillments_id
-            - *init_REQUIRED_message_order_fulfillments_stops_location_gps
-            - *on_cancel_REQUIRED_message_order_fulfillments_vehicle_registration
-            - *init_REQUIRED_message_order_fulfillments_customer_person_name
-            - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
-            - *on_cancel_REQUIRED_message_order_fulfillments_agent_person_name
-            - *on_cancel_REQUIRED_message_order_fulfillments_agent_contact_phone
-            - *on_init_REQUIRED_message_order_fulfillments_type
-            - *on_select_REQUIRED_message_order_quote_price_value
-            - *on_select_REQUIRED_message_order_quote_price_currency
-            - *on_select_REQUIRED_message_order_quote_breakup_price_currency
-            - *on_select_REQUIRED_message_order_quote_breakup_price_value
-            - *confirm_REQUIRED_message_order_payments_id
-            - *on_init_REQUIRED_message_order_cancellation_terms_reason_required
-        - _NAME_: order_Enums_Tests
-          _RETURN_:
-            - *on_select_VALID_ENUM_message_order_items_descriptor_code
-            - *confirm_VALID_ENUM_message_order_fulfillments_type
-            - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
-            - *on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-            - *on_select_VALID_ENUM_message_order_quote_breakup_title
-            - *init_VALID_ENUM_message_order_payments_collected_by
-            - *init_VALID_ENUM_message_order_payments_status
-            - *init_VALID_ENUM_message_order_payments_type
-            - *on_init_VALID_ENUM_message_order_cancellation_terms_fulfillment_state_descriptor_code
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-            - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-            - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-            - enumList:
-                - SOFT_CANCEL
-                - CONFIRM_CANCEL
-                - ACTIVE
-                - COMPLETE
-                - CANCELLED
-                - CONFIRM_UPDATE
-                - UPDATED
-                - SOFT_UPDATE
-              enumPath: $.message.order.status
-              _CONTINUE_: "!(enumPath are present)"
-              _RETURN_: enumPath all in enumList
-              _NAME_: VALID_ENUM_message_order_status
-        - *on_update_order_Tags_Tests
-  track:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - track
-              _NAME_: VALID_ENUM_context_action
-  on_track:
-    - _NAME_: Context_tests
-      _RETURN_:
-        - *select_Context_Attributes_Tests
-        - _NAME_: Context_Enums_Tests
-          _RETURN_:
-            - *search_VALID_ENUM_context_location_country_code
-            - *search_VALID_ENUM_context_domain
-            - attr: $.context.action
-              _RETURN_: attr all in enumList
-              enumList:
-                - on_track
-              _NAME_: VALID_ENUM_context_action
+    search:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - _NAME_: Context_Attributes_Tests
+            _RETURN_:
+              - &search_REQUIRED_context_timestamp
+                attr: $.context.timestamp
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_timestamp
+              - &search_REQUIRED_context_bap_id
+                attr: $.context.bap_id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_bap_id
+              - &search_REQUIRED_context_transaction_id
+                attr: $.context.transaction_id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_transaction_id
+              - &search_REQUIRED_context_message_id
+                attr: $.context.message_id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_message_id
+              - &search_REQUIRED_context_version
+                attr: $.context.version
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_version
+              - &search_REQUIRED_context_bap_uri
+                attr: $.context.bap_uri
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_bap_uri
+              - &search_REQUIRED_context_ttl
+                attr: $.context.ttl
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_ttl
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - &search_VALID_ENUM_context_location_country_code
+                attr: $.context.location.country.code
+                _RETURN_: attr all in enumList
+                enumList:
+                  - IND
+                _NAME_: VALID_ENUM_context_location_country_code
+              - &search_VALID_ENUM_context_domain
+                attr: $.context.domain
+                _RETURN_: attr all in enumList
+                enumList:
+                  - ONDC:TRV10
+                _NAME_: VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - search
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: fulfillment_Tests
+        _RETURN_:
+          - _NAME_: fulfillment_Attributes_Tests
+            _RETURN_:
+              - attr: $.message.intent.fulfillment.stops[*].location.gps
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_intent_fulfillment_stops_location_gps
+          - _NAME_: fulfillment_Enums_Tests
+            _RETURN_:
+              - attr: $.message.intent.fulfillment.stops[*].type
+                _RETURN_: attr all in enumList
+                enumList:
+                  - START
+                  - END
+                  - INTERMEDIATE_STOP
+                _NAME_: VALID_ENUM_message_intent_fulfillment_stops_type
+              - enumList:
+                  - AUTO_RICKSHAW
+                  - CAB
+                  - TWO_WHEELER
+                enumPath: $.message.intent.fulfillment.vehicle.category
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_fulfillment_vehicle_category
+              - enumList:
+                  - SEDAN
+                  - SUV
+                  - HATCHBACK
+                  - TWO_WHEELER
+                  - AUTO_RICKSHAW
+                enumPath: $.message.intent.fulfillment.vehicle.variant
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_fulfillment_vehicle_variant
+              - enumList:
+                  - ELECTRIC
+                  - PETRO
+                  - DIESEL
+                  - HYDROGEN
+                  - BIOFUELS
+                  - CNG
+                  - LPG
+                enumPath: $.message.intent.fulfillment.vehicle.energy_type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_fulfillment_vehicle_energy_type
+              - enumList:
+                  - DELIVERY
+                  - SELF_PICKUP
+                enumPath: $.message.intent.fulfillment.type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_fulfillment_type
+              - enumList:
+                  - OTP
+                  - QR
+                enumPath: $.message.intent.fulfillment.stops[*].authorization.type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_fulfillment_stops_authorization_type
+              - enumList:
+                  - UNCLAIMED
+                  - CLAIMED
+                enumPath: $.message.intent.fulfillment.stops[*].authorization.status
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_fulfillment_stops_authorization_status
+              - enumList:
+                  - RIDE_CANCELLED
+                  - RIDE_ENDED
+                  - RIDE_STARTED
+                  - RIDE_ASSIGNED
+                  - RIDE_ENROUTE_PICKUP
+                  - RIDE_ARRIVED_PICKUP
+                  - RIDE_CONFIRMED
+                enumPath: $.message.intent.fulfillment.state.descriptor.code
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_fulfillment_state_descriptor_code
+      - _NAME_: payment_Tests
+        _RETURN_:
+          - _NAME_: payment_Enums_Tests
+            _RETURN_:
+              - attr: $.message.intent.payment.collected_by
+                _RETURN_: attr all in enumList
+                enumList:
+                  - BPP
+                  - BAP
+                _NAME_: VALID_ENUM_message_intent_payment_collected_by
+              - enumList:
+                  - NOT-PAID
+                  - PAID
+                enumPath: $.message.intent.payment.status
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_payment_status
+              - enumList:
+                  - PRE-ORDER
+                  - ON-ORDER
+                  - ON-FULFILLMENT
+                enumPath: $.message.intent.payment.type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_payment_type
+      - _NAME_: category_Tests
+        _RETURN_:
+          - _NAME_: category_Enums_Tests
+            _RETURN_:
+              - enumList:
+                  - ON_DEMAND_TRIP
+                  - ON_DEMAND_RENTAL
+                  - SCHEDULED_TRIP
+                  - SCHEDULED_RENTAL
+                enumPath: $.message.intent.category.descriptor.code
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_intent_category_descriptor_code
+      - _NAME_: tags_Tests
+        _RETURN_:
+          - _NAME_: tags_Tags_Tests
+            _RETURN_:
+              - validTags:
+                  - BAP_TERMS
+                tagPath: $.message.intent.tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_intent_tags_descriptor_code
+      - _NAME_: item_Tests
+        _RETURN_:
+          - _NAME_: item_Tags_Tests
+            _RETURN_:
+              - validTags:
+                  - DISABILITY_VIS
+                  - DISABILITY_HEA
+                  - DISABILITY_MOB
+                  - DISABILITY_LEP
+                  - DISABILITY_SPE
+                  - DISABILITY_INTEL
+                  - MENTAL
+                  - DISABILITY_BLOOD
+                  - DISABILITY_DWARFISM
+                  - DISABILITY_ACID_ATTACK_SURVIVOR
+                  - DISABILITY_MULTIPLE_DIS
+                tagPath: $.message.intent.item.tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_intent_item_tags_descriptor_code
+    select:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - &select_Context_Attributes_Tests
+            _NAME_: Context_Attributes_Tests
+            _RETURN_:
+              - *search_REQUIRED_context_timestamp
+              - *search_REQUIRED_context_bap_id
+              - *search_REQUIRED_context_transaction_id
+              - *search_REQUIRED_context_message_id
+              - *search_REQUIRED_context_version
+              - *search_REQUIRED_context_bap_uri
+              - *search_REQUIRED_context_ttl
+              - &select_REQUIRED_context_bpp_id
+                attr: $.context.bpp_id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_bpp_id
+              - &select_REQUIRED_context_bpp_uri
+                attr: $.context.bpp_uri
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_context_bpp_uri
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - select
+                _NAME_: VALID_ENUM_context_action
+      - &select_items_Tests
+        _NAME_: items_Tests
+        _RETURN_:
+          - &select_items_Attributes_Tests
+            _NAME_: items_Attributes_Tests
+            _RETURN_:
+              - &select_REQUIRED_message_order_items_id
+                attr: $.message.order.items[*].id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_items_id
+          - &select_items_Enums_Tests
+            _NAME_: items_Enums_Tests
+            _RETURN_:
+              - &select_VALID_ENUM_message_order_items_descriptor_code
+                enumList:
+                  - RIDE
+                  - RENTAL
+                enumPath: $.message.order.items[*].descriptor.code
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_items_descriptor_code
+      - &select_provider_Tests
+        _NAME_: provider_Tests
+        _RETURN_:
+          - _NAME_: provider_Attributes_Tests
+            _RETURN_:
+              - &select_REQUIRED_message_order_provider_id
+                attr: $.message.order.provider.id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_provider_id
+      - _NAME_: fulfillments_Tests
+        _RETURN_:
+          - _NAME_: fulfillments_Enums_Tests
+            _RETURN_:
+              - &select_VALID_ENUM_message_order_fulfillments_vehicle_category
+                enumList:
+                  - AUTO_RICKSHAW
+                  - CAB
+                  - TWO_WHEELER
+                enumPath: $.message.order.fulfillments[*].vehicle.category
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_vehicle_category
+              - &select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+                enumList:
+                  - SEDAN
+                  - SUV
+                  - HATCHBACK
+                  - TWO_WHEELER
+                  - AUTO_RICKSHAW
+                enumPath: $.message.order.fulfillments[*].vehicle.variant
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_vehicle_variant
+              - &select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+                enumList:
+                  - ELECTRIC
+                  - PETRO
+                  - DIESEL
+                  - HYDROGEN
+                  - BIOFUELS
+                  - CNG
+                  - LPG
+                enumPath: $.message.order.fulfillments[*].vehicle.energy_type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+              - &select_VALID_ENUM_message_order_fulfillments_type
+                enumList:
+                  - DELIVERY
+                  - SELF_PICKUP
+                enumPath: $.message.order.fulfillments[*].type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_type
+              - enumList:
+                  - START
+                  - END
+                  - INTERMEDIATE_STOP
+                enumPath: $.message.order.fulfillments[*].type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_type_2
+              - &select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+                enumList:
+                  - OTP
+                  - QR
+                enumPath: $.message.order.fulfillments[*].stops[*].authorization.type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_stops_authorization_type
+              - &select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+                enumList:
+                  - UNCLAIMED
+                  - CLAIMED
+                enumPath: $.message.order.fulfillments[*].stops[*].authorization.status
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_stops_authorization_status
+              - &select_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+                enumList:
+                  - RIDE_CANCELLED
+                  - RIDE_ENDED
+                  - RIDE_STARTED
+                  - RIDE_ASSIGNED
+                  - RIDE_ENROUTE_PICKUP
+                  - RIDE_ARRIVED_PICKUP
+                  - RIDE_CONFIRMED
+                enumPath: $.message.order.fulfillments[*].state.descriptor.code
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_state_descriptor_code
+      - &select_payments_Tests
+        _NAME_: payments_Tests
+        _RETURN_:
+          - _NAME_: payments_Enums_Tests
+            _RETURN_:
+              - &select_VALID_ENUM_message_order_payments_status
+                enumList:
+                  - NOT-PAID
+                  - PAID
+                enumPath: $.message.order.payments[*].status
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_payments_status
+              - &select_VALID_ENUM_message_order_payments_collected_by
+                enumList:
+                  - BPP
+                  - BAP
+                enumPath: $.message.order.payments[*].collected_by
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_payments_collected_by
+              - &select_VALID_ENUM_message_order_payments_type
+                enumList:
+                  - PRE-ORDER
+                  - ON-ORDER
+                  - ON-FULFILLMENT
+                enumPath: $.message.order.payments[*].type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_payments_type
+    init:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - init
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: fulfillments_Tests
+        _RETURN_:
+          - &init_fulfillments_Attributes_Tests
+            _NAME_: fulfillments_Attributes_Tests
+            _RETURN_:
+              - &init_REQUIRED_message_order_fulfillments_id
+                attr: $.message.order.fulfillments[*].id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_id
+              - &init_REQUIRED_message_order_fulfillments_customer_person_name
+                attr: $.message.order.fulfillments[*].customer.person.name
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_customer_person_name
+              - &init_REQUIRED_message_order_fulfillments_customer_contact_phone
+                attr: $.message.order.fulfillments[*].customer.contact.phone
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_customer_contact_phone
+              - &init_REQUIRED_message_order_fulfillments_stops_location_gps
+                attr: $.message.order.fulfillments[*].stops[*].location.gps
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_stops_location_gps
+          - _NAME_: fulfillments_Enums_Tests
+            _RETURN_:
+              - &init_VALID_ENUM_message_order_fulfillments_vehicle_category
+                attr: $.message.order.fulfillments[*].vehicle.category
+                _RETURN_: attr all in enumList
+                enumList:
+                  - AUTO_RICKSHAW
+                  - CAB
+                  - TWO_WHEELER
+                _NAME_: VALID_ENUM_message_order_fulfillments_vehicle_category
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+              - *select_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+      - _NAME_: payments_Tests
+        _RETURN_:
+          - &init_payments_Enums_Tests
+            _NAME_: payments_Enums_Tests
+            _RETURN_:
+              - &init_VALID_ENUM_message_order_payments_collected_by
+                attr: $.message.order.payments[*].collected_by
+                _RETURN_: attr all in enumList
+                enumList:
+                  - BPP
+                  - BAP
+                _NAME_: VALID_ENUM_message_order_payments_collected_by
+              - &init_VALID_ENUM_message_order_payments_status
+                attr: $.message.order.payments[*].status
+                _RETURN_: attr all in enumList
+                enumList:
+                  - NOT-PAID
+                  - PAID
+                _NAME_: VALID_ENUM_message_order_payments_status
+              - &init_VALID_ENUM_message_order_payments_type
+                attr: $.message.order.payments[*].type
+                _RETURN_: attr all in enumList
+                enumList:
+                  - PRE-ORDER
+                  - ON-ORDER
+                  - ON-FULFILLMENT
+                _NAME_: VALID_ENUM_message_order_payments_type
+      - *select_items_Tests
+      - *select_provider_Tests
+      - &init_billing_Tests
+        _NAME_: billing_Tests
+        _RETURN_:
+          - _NAME_: billing_Attributes_Tests
+            _RETURN_:
+              - attr: $.message.order.billing.name
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_billing_name
+      - _NAME_: tags_Tests
+        _RETURN_:
+          - _NAME_: tags_Tags_Tests
+            _RETURN_:
+              - validTags:
+                  - BAP_TERMS
+                tagPath: $.message.order.tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_order_tags_descriptor_code
+    confirm:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - confirm
+                _NAME_: VALID_ENUM_context_action
+      - &confirm_payments_Tests
+        _NAME_: payments_Tests
+        _RETURN_:
+          - &confirm_payments_Attributes_Tests
+            _NAME_: payments_Attributes_Tests
+            _RETURN_:
+              - &confirm_REQUIRED_message_order_payments_id
+                attr: $.message.order.payments[*].id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_payments_id
+          - *init_payments_Enums_Tests
+      - _NAME_: items_Tests
+        _RETURN_:
+          - *select_items_Attributes_Tests
+          - *select_items_Enums_Tests
+          - _NAME_: items_Tags_Tests
+            _RETURN_:
+              - validTags:
+                  - DISABILITY_VIS
+                  - DISABILITY_HEA
+                  - DISABILITY_MOB
+                  - DISABILITY_LEP
+                  - DISABILITY_SPE
+                  - DISABILITY_INTEL
+                  - MENTAL
+                  - DISABILITY_BLOOD
+                  - DISABILITY_DWARFISM
+                  - DISABILITY_ACID_ATTACK_SURVIVOR
+                  - DISABILITY_MULTIPLE_DIS
+                  - FARE_POLICY
+                  - INFO
+                tagPath: $.message.order.items[*].tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_order_items_tags_descriptor_code
+      - *select_provider_Tests
+      - *init_billing_Tests
+      - _NAME_: fulfillments_Tests
+        _RETURN_:
+          - *init_fulfillments_Attributes_Tests
+          - &confirm_fulfillments_Enums_Tests
+            _NAME_: fulfillments_Enums_Tests
+            _RETURN_:
+              - &confirm_VALID_ENUM_message_order_fulfillments_type
+                attr: $.message.order.fulfillments[*].type
+                _RETURN_: attr all in enumList
+                enumList:
+                  - DELIVERY
+                  - SELF_PICKUP
+                _NAME_: VALID_ENUM_message_order_fulfillments_type
+              - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+              - *select_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+          - &confirm_fulfillments_Tags_Tests
+            _NAME_: fulfillments_Tags_Tests
+            _RETURN_:
+              - &confirm_VALIDATE_TAG_message_order_fulfillments_tags_descriptor_code
+                validTags:
+                  - ROUTE_INFO
+                tagPath: $.message.order.fulfillments[*].tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_order_fulfillments_tags_descriptor_code
+      - &confirm_tags_Tests
+        _NAME_: tags_Tests
+        _RETURN_:
+          - _NAME_: tags_Tags_Tests
+            _RETURN_:
+              - &confirm_VALIDATE_TAG_message_order_tags_descriptor_code
+                validTags:
+                  - BAP_TERMS
+                  - BPP_TERMS
+                tagPath: $.message.order.tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_order_tags_descriptor_code
+    status:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - status
+                _NAME_: VALID_ENUM_context_action
+    cancel:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - _NAME_: Context_Attributes_Tests
+            _RETURN_:
+              - *search_REQUIRED_context_timestamp
+              - *search_REQUIRED_context_bap_id
+              - *search_REQUIRED_context_transaction_id
+              - *search_REQUIRED_context_message_id
+              - *search_REQUIRED_context_version
+              - *search_REQUIRED_context_bap_uri
+              - *search_REQUIRED_context_ttl
+              - *select_REQUIRED_context_bpp_id
+              - *select_REQUIRED_context_bpp_uri
+              - attr: $.message.order_id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_id
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - cancel
+                _NAME_: VALID_ENUM_context_action
+              - attr: $.message.cancellation_reason_id
+                _RETURN_: attr all in enumList
+                enumList:
+                  - "000"
+                  - "001"
+                  - "002"
+                  - "003"
+                  - "004"
+                  - "005"
+                  - "011"
+                  - "012"
+                  - "013"
+                  - "014"
+                _NAME_: VALID_ENUM_message_cancellation_reason_id
+              - attr: $.message.descriptor.code
+                _RETURN_: attr all in enumList
+                enumList:
+                  - SOFT_CANCEL
+                  - CONFIRM_CANCEL
+                  - ACTIVE
+                  - COMPLETE
+                  - CANCELLED
+                  - UPDATED
+                  - CONFIRM_UPDATE
+                _NAME_: VALID_ENUM_message_descriptor_code
+    update:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - update
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: order_Tests
+        _RETURN_:
+          - _NAME_: order_Attributes_Tests
+            _RETURN_: &_TESTS__update_1__RETURN__0__RETURN_
+              - &update_REQUIRED_message_order_id
+                attr: $.message.order.id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_id
+          - _NAME_: order_Enums_Tests
+            _RETURN_:
+              - *select_VALID_ENUM_message_order_items_descriptor_code
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_category
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+              - *select_VALID_ENUM_message_order_fulfillments_type
+              - enumList:
+                  - START
+                  - END
+                  - INTERMEDIATE_STOP
+                enumPath: $.message.order.fulfillments[*].type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_fulfillments_type_3
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+              - *select_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+              - *select_VALID_ENUM_message_order_payments_status
+              - *select_VALID_ENUM_message_order_payments_collected_by
+              - *select_VALID_ENUM_message_order_payments_type
+              - enumList:
+                  - BASE_FARE
+                  - DISTANCE_FARE
+                  - CANCELLATION_CHARGES
+                  - REFUND
+                  - TOLL_CHARGES
+                  - PARKING_CHARGES
+                  - TAX
+                  - WAITING_CHARGES
+                  - DRIVER_BATA
+                  - NIGHT_CHARGES
+                  - BUYER_ADDITIONAL_AMOUNT
+                  - ADD_ONS
+                enumPath: $.message.order.quote.breakup[*].title
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_quote_breakup_title
+    on_search:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - on_search
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: descriptor_Tests
+        _RETURN_:
+          - _NAME_: descriptor_Attributes_Tests
+            _RETURN_:
+              - attr: $.message.catalog.descriptor.name
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_descriptor_name
+      - _NAME_: providers_Tests
+        _RETURN_:
+          - _NAME_: providers_Attributes_Tests
+            _RETURN_:
+              - attr: $.message.catalog.providers[*].id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_providers_id
+              - attr: $.message.catalog.providers[*].fulfillments[*].id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_providers_fulfillments_id
+              - attr: $.message.catalog.providers[*].fulfillments[*].type
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_providers_fulfillments_type
+              - attr: $.message.catalog.providers[*].fulfillments[*].stops[*].location.gps
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_providers_fulfillments_stops_location_gps
+              - attr: $.message.catalog.providers[*].id
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_providers_id_2
+              - attr: $.message.catalog.providers[*].items[*].price.currency
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_providers_items_price_currency
+              - attr: $.message.catalog.providers[*].items[*].price.value
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_providers_items_price_value
+              - attr: $.message.catalog.providers[*].items[*].fulfillment_ids[*]
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_catalog_providers_items_fulfillment_ids
+          - _NAME_: providers_Enums_Tests
+            _RETURN_:
+              - attr: $.message.catalog.providers[*].fulfillments[*].type
+                _RETURN_: attr all in enumList
+                enumList:
+                  - DELIVERY
+                  - SELF_PICKUP
+                _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_type
+              - attr: $.message.catalog.providers[*].fulfillments[*].vehicle.category
+                _RETURN_: attr all in enumList
+                enumList:
+                  - AUTO_RICKSHAW
+                  - CAB
+                  - TWO_WHEELER
+                _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_vehicle_category
+              - attr: $.message.catalog.providers[*].items[*].descriptor.code
+                _RETURN_: attr all in enumList
+                enumList:
+                  - RIDE
+                  - RENTAL
+                  - INTERMEDIATE_STOP
+                _NAME_: VALID_ENUM_message_catalog_providers_items_descriptor_code
+              - attr: $.message.catalog.providers[*].payments[*].collected_by
+                _RETURN_: attr all in enumList
+                enumList:
+                  - BPP
+                  - BAP
+                _NAME_: VALID_ENUM_message_catalog_providers_payments_collected_by
+              - enumList:
+                  - SEDAN
+                  - SUV
+                  - HATCHBACK
+                  - TWO_WHEELER
+                  - AUTO_RICKSHAW
+                enumPath: $.message.catalog.providers[*].fulfillments[*].vehicle.variant
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_vehicle_variant
+              - enumList:
+                  - ELECTRIC
+                  - PETRO
+                  - DIESEL
+                  - HYDROGEN
+                  - BIOFUELS
+                  - CNG
+                  - LPG
+                enumPath: $.message.catalog.providers[*].fulfillments[*].vehicle.energy_type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_vehicle_energy_type
+              - enumList:
+                  - OTP
+                  - QR
+                enumPath: $.message.catalog.providers[*].fulfillments[*].stops[*].authorization.type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_stops_authorization_type
+              - enumList:
+                  - UNCLAIMED
+                  - CLAIMED
+                enumPath: $.message.catalog.providers[*].fulfillments[*].stops[*].authorization.status
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_stops_authorization_status
+              - enumList:
+                  - RIDE_CANCELLED
+                  - RIDE_ENDED
+                  - RIDE_STARTED
+                  - RIDE_ASSIGNED
+                  - RIDE_ENROUTE_PICKUP
+                  - RIDE_ARRIVED_PICKUP
+                  - RIDE_CONFIRMED
+                enumPath: $.message.catalog.providers[*].fulfillments[*].state.descriptor.code
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_catalog_providers_fulfillments_state_descriptor_code
+              - enumList:
+                  - NOT-PAID
+                  - PAID
+                enumPath: $.message.catalog.providers[*].payments[*].status
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_catalog_providers_payments_status
+              - enumList:
+                  - PRE-ORDER
+                  - ON-ORDER
+                  - ON-FULFILLMENT
+                enumPath: $.message.catalog.providers[*].payments[*].type
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_catalog_providers_payments_type
+              - enumList:
+                  - ON_DEMAND_TRIP
+                  - ON_DEMAND_RENTAL
+                  - SCHEDULED_TRIP
+                  - SCHEDULED_RENTAL
+                enumPath: $.message.catalog.providers[*].categories[*].descriptor.code
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_catalog_providers_categories_descriptor_code
+          - _NAME_: providers_Tags_Tests
+            _RETURN_:
+              - validTags:
+                  - DISABILITY_VIS
+                  - DISABILITY_HEA
+                  - DISABILITY_MOB
+                  - DISABILITY_LEP
+                  - DISABILITY_SPE
+                  - DISABILITY_INTEL
+                  - MENTAL
+                  - DISABILITY_BLOOD
+                  - DISABILITY_DWARFISM
+                  - DISABILITY_ACID_ATTACK_SURVIVOR
+                  - DISABILITY_MULTIPLE_DIS
+                  - FARE_POLICY
+                  - INFO
+                  - FEATURE_LIST
+                tagPath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_catalog_providers_items_tags_descriptor_code
+      - _NAME_: tags_Tests
+        _RETURN_:
+          - _NAME_: tags_Tags_Tests
+            _RETURN_:
+              - validTags:
+                  - BPP_TERMS
+                tagPath: $.message.catalog.tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_catalog_tags_descriptor_code
+    on_select:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - on_select
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: items_Tests
+        _RETURN_:
+          - _NAME_: items_Attributes_Tests
+            _RETURN_:
+              - *select_REQUIRED_message_order_items_id
+              - &on_select_REQUIRED_message_order_items_descriptor_name
+                attr: $.message.order.items[*].descriptor.name
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_items_descriptor_name
+              - &on_select_REQUIRED_message_order_items_price_currency
+                attr: $.message.order.items[*].price.currency
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_items_price_currency
+              - &on_select_REQUIRED_message_order_items_price_value
+                attr: $.message.order.items[*].price.value
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_items_price_value
+              - &on_select_REQUIRED_message_order_items_fulfillment_ids
+                attr: $.message.order.items[*].fulfillment_ids[*]
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_items_fulfillment_ids
+          - &on_select_items_Enums_Tests
+            _NAME_: items_Enums_Tests
+            _RETURN_:
+              - &on_select_VALID_ENUM_message_order_items_descriptor_code
+                attr: $.message.order.items[*].descriptor.code
+                _RETURN_: attr all in enumList
+                enumList:
+                  - RIDE
+                  - RENTAL
+                _NAME_: VALID_ENUM_message_order_items_descriptor_code
+          - &on_select_items_Tags_Tests
+            _NAME_: items_Tags_Tests
+            _RETURN_:
+              - &on_select_VALIDATE_TAG_message_order_items_tags_descriptor_code
+                validTags:
+                  - DISABILITY_VIS
+                  - DISABILITY_HEA
+                  - DISABILITY_MOB
+                  - DISABILITY_LEP
+                  - DISABILITY_SPE
+                  - DISABILITY_INTEL
+                  - MENTAL
+                  - DISABILITY_BLOOD
+                  - DISABILITY_DWARFISM
+                  - DISABILITY_ACID_ATTACK_SURVIVOR
+                  - DISABILITY_MULTIPLE_DIS
+                  - FARE_POLICY
+                  - INFO
+                  - FEATURE_LIST
+                tagPath: $.message.order.items[*].tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_order_items_tags_descriptor_code
+      - *select_provider_Tests
+      - _NAME_: fulfillments_Tests
+        _RETURN_:
+          - _NAME_: fulfillments_Attributes_Tests
+            _RETURN_:
+              - *init_REQUIRED_message_order_fulfillments_id
+              - *init_REQUIRED_message_order_fulfillments_stops_location_gps
+          - *confirm_fulfillments_Enums_Tests
+          - *confirm_fulfillments_Tags_Tests
+      - _NAME_: quote_Tests
+        _RETURN_:
+          - _NAME_: quote_Attributes_Tests
+            _RETURN_:
+              - &on_select_REQUIRED_message_order_quote_price_value
+                attr: $.message.order.quote.price.value
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_quote_price_value
+              - &on_select_REQUIRED_message_order_quote_price_currency
+                attr: $.message.order.quote.price.currency
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_quote_price_currency
+              - &on_select_REQUIRED_message_order_quote_breakup_price_value
+                attr: $.message.order.quote.breakup[*].price.value
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_quote_breakup_price_value
+              - &on_select_REQUIRED_message_order_quote_breakup_price_currency
+                attr: $.message.order.quote.breakup[*].price.currency
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_quote_breakup_price_currency
+          - &on_select_quote_Enums_Tests
+            _NAME_: quote_Enums_Tests
+            _RETURN_:
+              - &on_select_VALID_ENUM_message_order_quote_breakup_title
+                attr: $.message.order.quote.breakup[*].title
+                _RETURN_: attr all in enumList
+                enumList:
+                  - BASE_FARE
+                  - DISTANCE_FARE
+                  - CANCELLATION_CHARGES
+                  - REFUND
+                  - TOLL_CHARGES
+                  - PARKING_CHARGES
+                  - TAX
+                  - WAITING_CHARGES
+                  - DRIVER_BATA
+                  - NIGHT_CHARGES
+                  - BUYER_ADDITIONAL_AMOUNT
+                  - ADD_ONS
+                _NAME_: VALID_ENUM_message_order_quote_breakup_title
+      - *select_payments_Tests
+    on_init:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - on_init
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: fulfillments_Tests
+        _RETURN_:
+          - _NAME_: fulfillments_Attributes_Tests
+            _RETURN_:
+              - *init_REQUIRED_message_order_fulfillments_id
+              - &on_init_REQUIRED_message_order_fulfillments_type
+                attr: $.message.order.fulfillments[*].type
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_type
+              - *init_REQUIRED_message_order_fulfillments_stops_location_gps
+              - *init_REQUIRED_message_order_fulfillments_customer_person_name
+              - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
+          - *confirm_fulfillments_Enums_Tests
+          - *confirm_fulfillments_Tags_Tests
+      - *confirm_payments_Tests
+      - &on_init_items_Tests
+        _NAME_: items_Tests
+        _RETURN_:
+          - _NAME_: items_Attributes_Tests
+            _RETURN_:
+              - *select_REQUIRED_message_order_items_id
+              - *on_select_REQUIRED_message_order_items_descriptor_name
+              - *on_select_REQUIRED_message_order_items_price_currency
+              - *on_select_REQUIRED_message_order_items_price_value
+              - *on_select_REQUIRED_message_order_items_fulfillment_ids
+              - &on_init_REQUIRED_message_order_items_payment_ids
+                attr: $.message.order.items[*].payment_ids[*]
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_items_payment_ids
+          - *on_select_items_Enums_Tests
+          - *on_select_items_Tags_Tests
+      - *select_provider_Tests
+      - &on_init_quote_Tests
+        _NAME_: quote_Tests
+        _RETURN_:
+          - &on_init_quote_Attributes_Tests
+            _NAME_: quote_Attributes_Tests
+            _RETURN_:
+              - *on_select_REQUIRED_message_order_quote_price_value
+              - *on_select_REQUIRED_message_order_quote_price_currency
+              - *on_select_REQUIRED_message_order_quote_breakup_price_currency
+              - *on_select_REQUIRED_message_order_quote_breakup_price_value
+          - _NAME_: quote_Enums_Tests
+            _RETURN_:
+              - attr: $.message.order.quote.breakup[*].title
+                _RETURN_: attr all in enumList
+                enumList:
+                  - BASE_FARE
+                  - DISTANCE_FARE
+                  - CANCELLATION_CHARGES
+                  - REFUND
+                  - TOLL_CHARGES
+                  - PARKING_CHARGES
+                  - TAX
+                  - WAITING_CHARGES
+                  - DRIVER_BATA
+                  - NIGHT_CHARGES
+                  - ADD_ONS
+                _NAME_: VALID_ENUM_message_order_quote_breakup_title
+      - &on_init_cancellation_terms_Tests
+        _NAME_: cancellation_terms_Tests
+        _RETURN_:
+          - _NAME_: cancellation_Attributes_Tests
+            _RETURN_:
+              - &on_init_REQUIRED_message_order_cancellation_terms_reason_required
+                attr: $.message.order.cancellation_terms[*].reason_required
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_cancellation_terms_reason_required
+          - _NAME_: cancellation_Enums_Tests
+            _RETURN_:
+              - &on_init_VALID_ENUM_message_order_cancellation_terms_fulfillment_state_descriptor_code
+                attr: $.message.order.cancellation_terms[*].fulfillment_state.descriptor.code
+                _RETURN_: attr all in enumList
+                enumList:
+                  - RIDE_CANCELLED
+                  - RIDE_ENDED
+                  - RIDE_STARTED
+                  - RIDE_ASSIGNED
+                  - RIDE_ENROUTE_PICKUP
+                  - RIDE_ARRIVED_PICKUP
+                  - RIDE_CONFIRMED
+                _NAME_: VALID_ENUM_message_order_cancellation_terms_fulfillment_state_descriptor_code
+      - _NAME_: tags_Tests
+        _RETURN_:
+          - _NAME_: tags_Tags_Tests
+            _RETURN_:
+              - validTags:
+                  - BPP_TERMS
+                tagPath: $.message.order.tags[*].descriptor.code
+                _CONTINUE_: "!(tagPath are present)"
+                _RETURN_: tagPath all in validTags
+                _NAME_: VALIDATE_TAG_message_order_tags_descriptor_code
+    on_confirm:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - on_confirm
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: fulfillments_Tests
+        _RETURN_:
+          - _NAME_: fulfillments_Attributes_Tests
+            _RETURN_:
+              - *init_REQUIRED_message_order_fulfillments_id
+              - *init_REQUIRED_message_order_fulfillments_customer_person_name
+              - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
+              - *on_init_REQUIRED_message_order_fulfillments_type
+              - *init_REQUIRED_message_order_fulfillments_stops_location_gps
+          - _NAME_: fulfillments_Enums_Tests
+            _RETURN_:
+              - *confirm_VALID_ENUM_message_order_fulfillments_type
+              - &on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+                attr: $.message.order.fulfillments[*].state.descriptor.code
+                _RETURN_: attr all in enumList
+                enumList:
+                  - RIDE_CANCELLED
+                  - RIDE_ENDED
+                  - RIDE_STARTED
+                  - RIDE_ASSIGNED
+                  - RIDE_ENROUTE_PICKUP
+                  - RIDE_ARRIVED_PICKUP
+                  - RIDE_CONFIRMED
+                _NAME_: VALID_ENUM_message_order_fulfillments_state_descriptor_code
+              - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+          - *confirm_fulfillments_Tags_Tests
+      - *confirm_payments_Tests
+      - *on_init_items_Tests
+      - *select_provider_Tests
+      - *on_init_quote_Tests
+      - *on_init_cancellation_terms_Tests
+      - &on_confirm_status_Tests
+        _NAME_: status_Tests
+        _RETURN_:
+          - _NAME_: status_Enums_Tests
+            _RETURN_:
+              - &on_confirm_VALID_ENUM_message_order_status
+                attr: $.message.order.status
+                _RETURN_: attr all in enumList
+                enumList:
+                  - UPDATED
+                  - SOFT_CANCEL
+                  - CONFIRM_CANCEL
+                  - ACTIVE
+                  - COMPLETE
+                  - CANCELLED
+                  - CONFIRM_UPDATE
+                  - SOFT_UPDATE
+                _NAME_: VALID_ENUM_message_order_status
+      - _NAME_: created_at_Tests
+        _RETURN_:
+          - _NAME_: created_Attributes_Tests
+            _RETURN_:
+              - &on_confirm_REQUIRED_message_order_created_at
+                attr: $.message.order.created_at
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_created_at
+      - _NAME_: updated_at_Tests
+        _RETURN_:
+          - _NAME_: updated_Attributes_Tests
+            _RETURN_:
+              - &on_confirm_REQUIRED_message_order_updated_at
+                attr: $.message.order.updated_at
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_updated_at
+      - &on_confirm_id_Tests
+        _NAME_: id_Tests
+        _RETURN_:
+          - _NAME_: id_Attributes_Tests
+            _RETURN_: *_TESTS__update_1__RETURN__0__RETURN_
+      - *confirm_tags_Tests
+    on_cancel:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - on_cancel
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: fulfillments_Tests
+        _RETURN_:
+          - _NAME_: fulfillments_Attributes_Tests
+            _RETURN_:
+              - *init_REQUIRED_message_order_fulfillments_id
+              - *init_REQUIRED_message_order_fulfillments_stops_location_gps
+              - *init_REQUIRED_message_order_fulfillments_customer_person_name
+              - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
+              - &on_cancel_REQUIRED_message_order_fulfillments_agent_person_name
+                attr: $.message.order.fulfillments[*].agent.person.name
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_agent_person_name
+              - &on_cancel_REQUIRED_message_order_fulfillments_agent_contact_phone
+                attr: $.message.order.fulfillments[*].agent.contact.phone
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_agent_contact_phone
+              - &on_cancel_REQUIRED_message_order_fulfillments_vehicle_registration
+                attr: $.message.order.fulfillments[*].vehicle.registration
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_vehicle_registration
+              - attr: $.message.order.fulfillments[*].vehicle.make
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_vehicle_make
+              - attr: $.message.order.fulfillments[*].vehicle.model
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_fulfillments_vehicle_model
+              - *on_init_REQUIRED_message_order_fulfillments_type
+          - _NAME_: fulfillments_Enums_Tests
+            _RETURN_:
+              - *confirm_VALID_ENUM_message_order_fulfillments_type
+              - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
+              - *on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+          - *confirm_fulfillments_Tags_Tests
+      - _NAME_: payments_Tests
+        _RETURN_:
+          - *confirm_payments_Attributes_Tests
+          - _NAME_: payments_Enums_Tests
+            _RETURN_:
+              - *init_VALID_ENUM_message_order_payments_type
+              - *init_VALID_ENUM_message_order_payments_collected_by
+              - *init_VALID_ENUM_message_order_payments_status
+      - _NAME_: items_Tests
+        _RETURN_:
+          - _NAME_: items_Attributes_Tests
+            _RETURN_:
+              - *select_REQUIRED_message_order_items_id
+              - *on_select_REQUIRED_message_order_items_descriptor_name
+              - *on_select_REQUIRED_message_order_items_fulfillment_ids
+              - *on_init_REQUIRED_message_order_items_payment_ids
+              - *on_select_REQUIRED_message_order_items_price_currency
+              - *on_select_REQUIRED_message_order_items_price_value
+          - *on_select_items_Enums_Tests
+          - *on_select_items_Tags_Tests
+      - *select_provider_Tests
+      - _NAME_: quote_Tests
+        _RETURN_:
+          - *on_init_quote_Attributes_Tests
+          - *on_select_quote_Enums_Tests
+      - _NAME_: cancellation_terms_Tests
+        _RETURN_:
+          - _NAME_: cancellation_Attributes_Tests
+            _RETURN_:
+              - &on_cancel_REQUIRED_message_order_cancellation_terms_fulfillment_state_descriptor_code
+                attr: $.message.order.cancellation_terms[*].fulfillment_state.descriptor.code
+                _RETURN_: attr are present
+                _NAME_: REQUIRED_message_order_cancellation_terms_fulfillment_state_descriptor_code
+              - *on_init_REQUIRED_message_order_cancellation_terms_reason_required
+      - *on_confirm_id_Tests
+      - *on_confirm_status_Tests
+      - _NAME_: cancellation_Tests
+        _RETURN_:
+          - _NAME_: cancellation_Enums_Tests
+            _RETURN_:
+              - enumList:
+                  - CONSUMER
+                  - PROVIDER
+                enumPath: $.message.order.cancellation.cancelled_by
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_cancellation_cancelled_by
+              - enumList:
+                  - "000"
+                  - "001"
+                  - "002"
+                  - "003"
+                  - "004"
+                  - "005"
+                  - "011"
+                  - "012"
+                  - "013"
+                  - "014"
+                enumPath: $.message.order.cancellation.reason.descriptor.code
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_cancellation_reason_descriptor_code
+      - *confirm_tags_Tests
+    on_update:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - on_update
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: order_Tests
+        _RETURN_:
+          - _NAME_: order_Attributes_Tests
+            _RETURN_:
+              - *select_REQUIRED_message_order_items_id
+              - *on_select_REQUIRED_message_order_items_descriptor_name
+              - *on_select_REQUIRED_message_order_items_price_currency
+              - *on_select_REQUIRED_message_order_items_price_value
+              - *on_select_REQUIRED_message_order_items_fulfillment_ids
+              - *on_init_REQUIRED_message_order_items_payment_ids
+              - *select_REQUIRED_message_order_provider_id
+              - *init_REQUIRED_message_order_fulfillments_id
+              - *init_REQUIRED_message_order_fulfillments_stops_location_gps
+              - *on_cancel_REQUIRED_message_order_fulfillments_vehicle_registration
+              - *init_REQUIRED_message_order_fulfillments_customer_person_name
+              - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
+              - *on_cancel_REQUIRED_message_order_fulfillments_agent_person_name
+              - *on_cancel_REQUIRED_message_order_fulfillments_agent_contact_phone
+              - *on_init_REQUIRED_message_order_fulfillments_type
+              - *on_select_REQUIRED_message_order_quote_price_value
+              - *on_select_REQUIRED_message_order_quote_price_currency
+              - *on_select_REQUIRED_message_order_quote_breakup_price_currency
+              - *on_select_REQUIRED_message_order_quote_breakup_price_value
+              - *confirm_REQUIRED_message_order_payments_id
+              - *on_cancel_REQUIRED_message_order_cancellation_terms_fulfillment_state_descriptor_code
+              - *on_init_REQUIRED_message_order_cancellation_terms_reason_required
+              - *on_confirm_REQUIRED_message_order_created_at
+              - *on_confirm_REQUIRED_message_order_updated_at
+              - *update_REQUIRED_message_order_id
+          - _NAME_: order_Enums_Tests
+            _RETURN_:
+              - *on_select_VALID_ENUM_message_order_items_descriptor_code
+              - *confirm_VALID_ENUM_message_order_fulfillments_type
+              - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
+              - *on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+              - *on_select_VALID_ENUM_message_order_quote_breakup_title
+              - *init_VALID_ENUM_message_order_payments_collected_by
+              - *init_VALID_ENUM_message_order_payments_status
+              - *init_VALID_ENUM_message_order_payments_type
+              - *on_confirm_VALID_ENUM_message_order_status
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+          - &on_update_order_Tags_Tests
+            _NAME_: order_Tags_Tests
+            _RETURN_:
+              - *confirm_VALIDATE_TAG_message_order_tags_descriptor_code
+              - *on_select_VALIDATE_TAG_message_order_items_tags_descriptor_code
+              - *confirm_VALIDATE_TAG_message_order_fulfillments_tags_descriptor_code
+    on_status:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - on_status
+                _NAME_: VALID_ENUM_context_action
+      - _NAME_: order_Tests
+        _RETURN_:
+          - _NAME_: order_Attributes_Tests
+            _RETURN_:
+              - *select_REQUIRED_message_order_items_id
+              - *on_select_REQUIRED_message_order_items_descriptor_name
+              - *on_select_REQUIRED_message_order_items_price_currency
+              - *on_select_REQUIRED_message_order_items_price_value
+              - *on_select_REQUIRED_message_order_items_fulfillment_ids
+              - *on_init_REQUIRED_message_order_items_payment_ids
+              - *select_REQUIRED_message_order_provider_id
+              - *init_REQUIRED_message_order_fulfillments_id
+              - *init_REQUIRED_message_order_fulfillments_stops_location_gps
+              - *on_cancel_REQUIRED_message_order_fulfillments_vehicle_registration
+              - *init_REQUIRED_message_order_fulfillments_customer_person_name
+              - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
+              - *on_cancel_REQUIRED_message_order_fulfillments_agent_person_name
+              - *on_cancel_REQUIRED_message_order_fulfillments_agent_contact_phone
+              - *on_init_REQUIRED_message_order_fulfillments_type
+              - *on_select_REQUIRED_message_order_quote_price_value
+              - *on_select_REQUIRED_message_order_quote_price_currency
+              - *on_select_REQUIRED_message_order_quote_breakup_price_currency
+              - *on_select_REQUIRED_message_order_quote_breakup_price_value
+              - *confirm_REQUIRED_message_order_payments_id
+              - *on_init_REQUIRED_message_order_cancellation_terms_reason_required
+          - _NAME_: order_Enums_Tests
+            _RETURN_:
+              - *on_select_VALID_ENUM_message_order_items_descriptor_code
+              - *confirm_VALID_ENUM_message_order_fulfillments_type
+              - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
+              - *on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+              - *on_select_VALID_ENUM_message_order_quote_breakup_title
+              - *init_VALID_ENUM_message_order_payments_collected_by
+              - *init_VALID_ENUM_message_order_payments_status
+              - *init_VALID_ENUM_message_order_payments_type
+              - *on_init_VALID_ENUM_message_order_cancellation_terms_fulfillment_state_descriptor_code
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+              - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+              - enumList:
+                  - SOFT_CANCEL
+                  - CONFIRM_CANCEL
+                  - ACTIVE
+                  - COMPLETE
+                  - CANCELLED
+                  - CONFIRM_UPDATE
+                  - UPDATED
+                  - SOFT_UPDATE
+                enumPath: $.message.order.status
+                _CONTINUE_: "!(enumPath are present)"
+                _RETURN_: enumPath all in enumList
+                _NAME_: VALID_ENUM_message_order_status
+          - *on_update_order_Tags_Tests
+    track:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - track
+                _NAME_: VALID_ENUM_context_action
+    on_track:
+      - _NAME_: Context_tests
+        _RETURN_:
+          - *select_Context_Attributes_Tests
+          - _NAME_: Context_Enums_Tests
+            _RETURN_:
+              - *search_VALID_ENUM_context_location_country_code
+              - *search_VALID_ENUM_context_domain
+              - attr: $.context.action
+                _RETURN_: attr all in enumList
+                enumList:
+                  - on_track
+                _NAME_: VALID_ENUM_context_action
   _SESSION_DATA_:
     trans: {}
