@@ -35429,81 +35429,85 @@ x-validations:
                 enumList:
                   - on_confirm
                 _NAME_: VALID_ENUM_context_action
-      - _NAME_: fulfillments_Tests
-        _RETURN_:
-          - _NAME_: fulfillments_Attributes_Tests
+      - _NAME_: VALID_TESTS
+        error: "$.error.code"
+        _CONTINUE_: error are present
+        _RETURN_: 
+          - _NAME_: fulfillments_Tests
             _RETURN_:
-              - *init_REQUIRED_message_order_fulfillments_id
-              - *init_REQUIRED_message_order_fulfillments_customer_person_name
-              - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
-              - *on_init_REQUIRED_message_order_fulfillments_type
-              - *init_REQUIRED_message_order_fulfillments_stops_location_gps
-          - _NAME_: fulfillments_Enums_Tests
+              - _NAME_: fulfillments_Attributes_Tests
+                _RETURN_:
+                  - *init_REQUIRED_message_order_fulfillments_id
+                  - *init_REQUIRED_message_order_fulfillments_customer_person_name
+                  - *init_REQUIRED_message_order_fulfillments_customer_contact_phone
+                  - *on_init_REQUIRED_message_order_fulfillments_type
+                  - *init_REQUIRED_message_order_fulfillments_stops_location_gps
+              - _NAME_: fulfillments_Enums_Tests
+                _RETURN_:
+                  - *confirm_VALID_ENUM_message_order_fulfillments_type
+                  - &on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
+                    attr: $.message.order.fulfillments[*].state.descriptor.code
+                    _RETURN_: attr all in enumList
+                    enumList:
+                      - RIDE_CANCELLED
+                      - RIDE_ENDED
+                      - RIDE_STARTED
+                      - RIDE_ASSIGNED
+                      - RIDE_ENROUTE_PICKUP
+                      - RIDE_ARRIVED_PICKUP
+                      - RIDE_CONFIRMED
+                    _NAME_: VALID_ENUM_message_order_fulfillments_state_descriptor_code
+                  - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
+                  - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
+                  - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
+                  - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
+                  - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
+              - *confirm_fulfillments_Tags_Tests
+          - *confirm_payments_Tests
+          - *on_init_items_Tests
+          - *select_provider_Tests
+          - *on_init_quote_Tests
+          - *on_init_cancellation_terms_Tests
+          - &on_confirm_status_Tests
+            _NAME_: status_Tests
             _RETURN_:
-              - *confirm_VALID_ENUM_message_order_fulfillments_type
-              - &on_confirm_VALID_ENUM_message_order_fulfillments_state_descriptor_code
-                attr: $.message.order.fulfillments[*].state.descriptor.code
-                _RETURN_: attr all in enumList
-                enumList:
-                  - RIDE_CANCELLED
-                  - RIDE_ENDED
-                  - RIDE_STARTED
-                  - RIDE_ASSIGNED
-                  - RIDE_ENROUTE_PICKUP
-                  - RIDE_ARRIVED_PICKUP
-                  - RIDE_CONFIRMED
-                _NAME_: VALID_ENUM_message_order_fulfillments_state_descriptor_code
-              - *init_VALID_ENUM_message_order_fulfillments_vehicle_category
-              - *select_VALID_ENUM_message_order_fulfillments_vehicle_variant
-              - *select_VALID_ENUM_message_order_fulfillments_vehicle_energy_type
-              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_type
-              - *select_VALID_ENUM_message_order_fulfillments_stops_authorization_status
-          - *confirm_fulfillments_Tags_Tests
-      - *confirm_payments_Tests
-      - *on_init_items_Tests
-      - *select_provider_Tests
-      - *on_init_quote_Tests
-      - *on_init_cancellation_terms_Tests
-      - &on_confirm_status_Tests
-        _NAME_: status_Tests
-        _RETURN_:
-          - _NAME_: status_Enums_Tests
+              - _NAME_: status_Enums_Tests
+                _RETURN_:
+                  - &on_confirm_VALID_ENUM_message_order_status
+                    attr: $.message.order.status
+                    _RETURN_: attr all in enumList
+                    enumList:
+                      - UPDATED
+                      - SOFT_CANCEL
+                      - CONFIRM_CANCEL
+                      - ACTIVE
+                      - COMPLETE
+                      - CANCELLED
+                      - CONFIRM_UPDATE
+                      - SOFT_UPDATE
+                    _NAME_: VALID_ENUM_message_order_status
+          - _NAME_: created_at_Tests
             _RETURN_:
-              - &on_confirm_VALID_ENUM_message_order_status
-                attr: $.message.order.status
-                _RETURN_: attr all in enumList
-                enumList:
-                  - UPDATED
-                  - SOFT_CANCEL
-                  - CONFIRM_CANCEL
-                  - ACTIVE
-                  - COMPLETE
-                  - CANCELLED
-                  - CONFIRM_UPDATE
-                  - SOFT_UPDATE
-                _NAME_: VALID_ENUM_message_order_status
-      - _NAME_: created_at_Tests
-        _RETURN_:
-          - _NAME_: created_Attributes_Tests
+              - _NAME_: created_Attributes_Tests
+                _RETURN_:
+                  - &on_confirm_REQUIRED_message_order_created_at
+                    attr: $.message.order.created_at
+                    _RETURN_: attr are present
+                    _NAME_: REQUIRED_message_order_created_at
+          - _NAME_: updated_at_Tests
             _RETURN_:
-              - &on_confirm_REQUIRED_message_order_created_at
-                attr: $.message.order.created_at
-                _RETURN_: attr are present
-                _NAME_: REQUIRED_message_order_created_at
-      - _NAME_: updated_at_Tests
-        _RETURN_:
-          - _NAME_: updated_Attributes_Tests
+              - _NAME_: updated_Attributes_Tests
+                _RETURN_:
+                  - &on_confirm_REQUIRED_message_order_updated_at
+                    attr: $.message.order.updated_at
+                    _RETURN_: attr are present
+                    _NAME_: REQUIRED_message_order_updated_at
+          - &on_confirm_id_Tests
+            _NAME_: id_Tests
             _RETURN_:
-              - &on_confirm_REQUIRED_message_order_updated_at
-                attr: $.message.order.updated_at
-                _RETURN_: attr are present
-                _NAME_: REQUIRED_message_order_updated_at
-      - &on_confirm_id_Tests
-        _NAME_: id_Tests
-        _RETURN_:
-          - _NAME_: id_Attributes_Tests
-            _RETURN_: *_TESTS__update_1__RETURN__0__RETURN_
-      - *confirm_tags_Tests
+              - _NAME_: id_Attributes_Tests
+                _RETURN_: *_TESTS__update_1__RETURN__0__RETURN_
+          - *confirm_tags_Tests
     on_cancel:
       - _NAME_: Context_tests
         _RETURN_:
