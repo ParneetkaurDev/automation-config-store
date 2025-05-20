@@ -73,9 +73,11 @@ jobs:
           echo "API_SERVICE_URL=${{ vars.API_SERVICE_URL }}" >> \$REPO_DIR/.env
           echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}" >> \$REPO_DIR/.env
           echo "CONTAINER_NAME=${{ vars.CONTAINER_NAME }}" >> \$REPO_DIR/.env
+          echo "CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}" >> \$REPO_DIR/.env
           echo "DOMAIN=${{ vars.DOMAIN }}" >> \$REPO_DIR/.env
           echo "VERSION=${{ vars.VERSION }}" >> \$REPO_DIR/.env
-          
+          echo "SERVICE_NAME=${{ vars.SERVICE_NAME }}" >> \$REPO_DIR/.env
+          echo "TRACE_URL=${{ vars.TRACE_URL }}" >> \$REPO_DIR/.env
           EOF
 
       - name: Verify .env and docker-compose.yml files
@@ -109,7 +111,8 @@ jobs:
           ssh -i ./key.pem ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
           REPO_DIR=~/ONDC-automation-framework/api-service/api-service-generator-${{ github.ref_name }}
           git clone --single-branch --branch ${{ github.ref_name }} https://github.com/ONDC-Official/automation-config-store.git \$REPO_DIR/automation-config-store
-           mv -f \$REPO_DIR/automation-config-store/src/config/build.yaml  \$REPO_DIR/src/config/build.yaml
+           rm -rf \$REPO_DIR/src/config
+           mv -f \$REPO_DIR/automation-config-store/src/config  \$REPO_DIR/src/config
           EOF
 
 
