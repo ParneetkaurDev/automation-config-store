@@ -192,7 +192,7 @@ jobs:
           echo "SIGN_PRIVATE_KEY=${{ secrets.SIGN_PRIVATE_KEY }}" >> \$REPO_DIR/.env
           echo "PORT=${{ vars.PORT }}" >> \$REPO_DIR/.env
           echo "SIGN_PUBLIC_KEY=${{ vars.SIGN_PUBLIC_KEY }}" >> \$REPO_DIR/.env
-          echo "SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID_STAING }}" >> \$REPO_DIR/.env
+          echo "SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID_STAGING }}" >> \$REPO_DIR/.env
           echo "UKID=${{ vars.UKID_STAGING }}" >> \$REPO_DIR/.env
           echo "ONDC_ENV=${{ vars.ONDC_ENV }}" >> \$REPO_DIR/.env
           echo "SUBSCRIBER_URL=${{ vars.SUBSCRIBER_URL }}" >> \$REPO_DIR/.env
