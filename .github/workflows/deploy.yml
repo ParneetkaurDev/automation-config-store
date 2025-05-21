@@ -197,7 +197,7 @@ jobs:
           echo "ONDC_ENV=${{ vars.ONDC_ENV }}" >> \$REPO_DIR/.env
           echo "SUBSCRIBER_URL=${{ vars.SUBSCRIBER_URL }}" >> \$REPO_DIR/.env
           echo "REDIS_USERNAME=${{ vars.REDIS_USERNAME }}" >> \$REPO_DIR/.env
-          echo "REDIS_HOST=${{ vars.REDIS_HOST_STAGING }}" >> \$REPO_DIR/.env
+          echo "REDIS_HOST=${{ vars.REDIS_HOST }}" >> \$REPO_DIR/.env
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> \$REPO_DIR/.env
           echo "REDIS_PORT=${{ vars.REDIS_PORT_STAGING }}" >> \$REPO_DIR/.env
           echo "MOCK_SERVER_URL=${{ vars.MOCK_SERVER_URL_STAGING }}" >> \$REPO_DIR/.env
