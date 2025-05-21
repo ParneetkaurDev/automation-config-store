@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy-draft:
-    if: startsWith(github.ref_name, 'release/') == false
+    if: startsWith(github.ref_name, 'release') == false
     runs-on: ubuntu-latest
     environment:  
           name: ${{ github.ref_name }}
@@ -79,6 +79,9 @@ jobs:
           echo "VERSION=${{ vars.VERSION }}" >> \$REPO_DIR/.env
           echo "SERVICE_NAME=${{ vars.SERVICE_NAME }}" >> \$REPO_DIR/.env
           echo "TRACE_URL=${{ vars.TRACE_URL }}" >> \$REPO_DIR/.env
+          echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}" >> \$REPO_DIR/.env
+
+          
           EOF
 
       - name: Verify .env and docker-compose.yml files
@@ -142,7 +145,7 @@ jobs:
           EOF
 
   deploy-release:
-    if: startsWith(github.ref_name, 'release/') == true
+    if: startsWith(github.ref_name, 'release') == true
     runs-on: ubuntu-latest
     environment:  
           name: ${{ github.ref_name }}
@@ -193,12 +196,12 @@ jobs:
           echo "SIGN_PRIVATE_KEY=${{ secrets.SIGN_PRIVATE_KEY }}" >> \$REPO_DIR/.env
           echo "PORT=${{ vars.PORT }}" >> \$REPO_DIR/.env
           echo "SIGN_PUBLIC_KEY=${{ vars.SIGN_PUBLIC_KEY }}" >> \$REPO_DIR/.env
-          echo "SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID_STAING }}" >> \$REPO_DIR/.env
+          echo "SUBSCRIBER_ID=${{ vars.SUBSCRIBER_ID_STAGING }}" >> \$REPO_DIR/.env
           echo "UKID=${{ vars.UKID_STAGING }}" >> \$REPO_DIR/.env
           echo "ONDC_ENV=${{ vars.ONDC_ENV }}" >> \$REPO_DIR/.env
           echo "SUBSCRIBER_URL=${{ vars.SUBSCRIBER_URL }}" >> \$REPO_DIR/.env
           echo "REDIS_USERNAME=${{ vars.REDIS_USERNAME }}" >> \$REPO_DIR/.env
-          echo "REDIS_HOST=${{ vars.REDIS_HOST_STAGING }}" >> \$REPO_DIR/.env
+          echo "REDIS_HOST=${{ vars.REDIS_HOST }}" >> \$REPO_DIR/.env
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> \$REPO_DIR/.env
           echo "REDIS_PORT=${{ vars.REDIS_PORT_STAGING }}" >> \$REPO_DIR/.env
           echo "MOCK_SERVER_URL=${{ vars.MOCK_SERVER_URL_STAGING }}" >> \$REPO_DIR/.env
@@ -210,6 +213,8 @@ jobs:
           echo "VERSION=${{ vars.VERSION }}" >> \$REPO_DIR/.env
           echo "SERVICE_NAME=${{ vars.SERVICE_NAME }}" >> \$REPO_DIR/.env
           echo "TRACE_URL=${{ vars.TRACE_URL_STAGING }}" >> \$REPO_DIR/.env
+          echo "API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_STAGING }}" >> \$REPO_DIR/.env
+
           EOF
 
       - name: Verify .env and docker-compose.yml files
