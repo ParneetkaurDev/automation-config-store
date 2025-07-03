@@ -15994,10 +15994,10 @@ x-validations:
                   - (\\*)|(^std\\:[0-9]{2,4}$)
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
-              - _NAME_: REGEX_CONTEXT_TIMESTAMP
+              - _NAME_: REGEX_CONTEXT_TIMESTAMP_1
                 attr: $.context.timestamp
                 reg:
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: REGEX_CONTEXT_BAP_ID
@@ -16071,7 +16071,7 @@ x-validations:
               - _NAME_: ENUM_FULFILMENT_STOPS_TIME
                 attr: $.message.intent.fulfillment.stops[*].time.timestamp
                 reg:
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               
@@ -16455,14 +16455,14 @@ x-validations:
                 attr: >-
                   $.message.catalog.providers[*].fulfillments[*].stops[*].time.range.end
                 reg: 
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: VALID_ENUM_MESSAGE_PROVIDERS_FULFILLMENTS_STOPS_TIME_DURATION
                 attr: >-
                   $.message.catalog.providers[*].fulfillments[*].stops[*].time.duration
                 reg: 
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: REQUIRED_FULFILLMENT_TAGS
@@ -16509,7 +16509,7 @@ x-validations:
                 attr: >-
                   $.message.catalog.providers[*].fulfillments[*].stops[*].time.timestamp
                 reg: 
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: REQUIRED_MESSAGE_PROVIDERS_FULFILLMENTS_VEHICLE_CATEGORY
@@ -16935,13 +16935,13 @@ x-validations:
               - _NAME_: VALID_ENUM_MESSAGE_PROVIDERS_FULFILLMENTS_STOPS_TIME_END
                 attr: $.message.order.fulfillments[*].stops[*].time.range.end
                 reg: 
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: VALID_ENUM_MESSAGE_PROVIDERS_FULFILLMENTS_STOPS_TIME_DURATION
                 attr: $.message.order.fulfillments[*].stops[*].time.duration
                 reg:
-                  -  ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  -  ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: REQUIRED_FULFILLMENT_TAGS_3
@@ -17018,7 +17018,7 @@ x-validations:
               - _NAME_: REQUIRED_MESSAGE_PROVIDERS_FULFILLMENTS_STOPS_TIME_TIMESTAMP
                 attr: $.message.order.fulfillments[*].stops[*].time.timestamp
                 reg: 
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: REQUIRED_MESSAGE_PROVIDERS_FULFILLMENTS_VEHICLE_CATEGORY
@@ -17486,12 +17486,12 @@ x-validations:
               - _NAME_: REGEX_ON_CONFIRM_CREATED_AT
                 attr: $.message.order.created_at
                 reg:
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _RETURN_: attr follow regex reg
               - _NAME_: REGEX_ON_CONFIRM_UPDATED_AT
                 attr: $.message.order.updated_at
                 reg:
-                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\.\\d{3}Z$
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _RETURN_: attr follow regex reg
 
     
