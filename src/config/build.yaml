@@ -17085,25 +17085,45 @@ x-validations:
         usecasepath: $.message.order.quote.id
         _CONTINUE_: '!(usecasepath are present)'
         _RETURN_: &ref_159
-          - _NAME_: REQUIRED_QUOTE_ITEM_PRICE_CURRENCY
-            attr: $.message.order.quote.price.currency
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_ITEM_PRICE_VALUE
-            attr: $.message.order.quote.price.value
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_TITLE
-            attr: $.message.order.quote.breakup[*].title
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_PRICE_CURRENCY
-            attr: $.message.order.quote.breakup[*].price.currency
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_PRICE_VALUE
-            attr: $.message.order.quote.breakup[*].price.value
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_QUOTE_ITEM_ID
-            attr: $.message.order.quote.breakup[*].item.id
-            _CONTINUE_: '!(attr are present)'
-            _RETURN_: attr are present
+          - _NAME_: REQUIRED_QUOTE_ITEMS
+            _RETURN_:
+              - _NAME_: REQUIRED_QUOTE_ITEM_PRICE_CURRENCY
+                attr: $.message.order.quote.price.currency
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_QUOTE_ITEM_PRICE_VALUE
+                attr: $.message.order.quote.price.value
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_QUOTE_TITLE
+                attr: $.message.order.quote.breakup[*].title
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_QUOTE_PRICE_CURRENCY
+                attr: $.message.order.quote.breakup[*].price.currency
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_QUOTE_PRICE_VALUE
+                attr: $.message.order.quote.breakup[*].price.value
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_QUOTE_ITEM_ID
+                attr: $.message.order.quote.breakup[*].item.id
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr are present
+          - _NAME_: VALID_ENUM_ITEMS
+            _RETURN_:
+              - _NAME_: REQUIRED_QUOTE_TITLE
+                attr: $.message.order.quote.breakup[*].title
+                enumList:
+                  - BASE_FARE
+                  - TAX
+                  - CONVENIENCE_FEE
+                  - SEAT_FARE
+                  - ADD_ONS
+                  - OTHER_CHARGES
+                  - REFUND
+                  - CANCELLATION_CHARGES
+                _CONTINUE_: '!(attr are present)'
+                _RETURN_: attr any in enumList
+
+
+
     init:
       - _NAME_: INIT_CONTEXT
         action:
@@ -17418,7 +17438,8 @@ x-validations:
         action:
           - on_confirm
         _RETURN_: *ref_173
-      - _NAME_: ON_CONFIRM_AUTH_FULFILLMENTS
+      - &ON_CONFIRM_AUTH_FULFILLMENTS
+        _NAME_: ON_CONFIRM_AUTH_FULFILLMENTS
         action:
           - on_confirm
         usecasepath: $.message.order.fulfillments[*].type
@@ -17438,6 +17459,7 @@ x-validations:
               - OTP
               - QR
             _RETURN_: attr are present
+      
       - _NAME_: ON_CONFIRM_QUOTE
         action:
           - on_confirm
@@ -17493,7 +17515,124 @@ x-validations:
                 reg:
                   - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
                 _RETURN_: attr follow regex reg
-
     
+    cancel:
+      - _NAME_: CANCEL_CONTEXT
+        action:
+          - cancel
+        domain:
+          - ONDC:TRV12
+        version:
+          - 2.0.0
+        _RETURN_: *ref_147
+
+      - _NAME_: REQUIRED_ORDER_ID
+        attr: $.message.order_id
+        _RETURN_: attr are present
+    on_cancel:
+      - _NAME_: CANCEL_CONTEXT
+        action:
+          - on_cancel
+        domain:
+          - ONDC:TRV12
+        version:
+          - 2.0.0
+        _RETURN_: *ref_147 
+
+      - _NAME_: ON_CANCEL_ITEMS
+        action:
+          - on_confirm
+        _RETURN_: *ref_152       
+
+      - _NAME_: ON_CANCEL_FULFILLMENTS
+        action:
+          - on_cancel
+        _RETURN_: *ref_173
+      - *ON_CONFIRM_AUTH_FULFILLMENTS
+      - _NAME_: ON_CANCEL_PROVIDER
+        action:
+          - on_cancel
+        domain:
+          - ONDC:TRV12
+        _RETURN_: *ref_163
+      - _NAME_: ON_CANCEL_PAYMENTS
+        action:
+          - on_cancel
+        _RETURN_: *ref_174
+      - _NAME_: ON_CANCEL_PAYMENT_TAGS
+        action:
+          - on_confirm
+        _RETURN_: *ref_162 
+
+      - _NAME_: ON_CANCEL_ORDER
+        action:
+          - on_cancel
+        _RETURN_:
+          - _NAME_: REQUIRED_ON_CONFIRM_ORDER
+            _RETURN_:
+              - _NAME_: REQUIRED_ORDER_ID
+                attr: $.message.order.id
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ORDER_STATUS
+                attr: $.message.order.status
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ON_CONFIRM_CREATED_AT
+                attr: $.message.order.created_at
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_ON_CONFIRM_UPDATED_AT
+                attr: $.message.order.updated_at
+                _RETURN_: attr are present
+          - _NAME_: VALID_ENUM_ON_CONFIRM_ORDER
+            _RETURN_:
+              - _NAME_: VALID_ENUM_ORDER_STATUS
+                attr: $.message.order.status
+                enumList:
+                  - ACTIVE
+                  - COMPLETE
+                  - CANCELLED
+                _RETURN_: attr any in enumList
+              - _NAME_: REGEX_ON_CONFIRM_CREATED_AT
+                attr: $.message.order.created_at
+                reg:
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
+                _RETURN_: attr follow regex reg
+              - _NAME_: REGEX_ON_CONFIRM_UPDATED_AT
+                attr: $.message.order.updated_at
+                reg:
+                  - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
+                _RETURN_: attr follow regex reg
+
+      - _NAME_: ON_CANCEL_CANCELLATION
+        action:
+          - on_cancel
+        _RETURN_:
+          - _NAME_: REQUIRED_CANCELLED_BY
+            attr: $.message.order.cancellation.cancelled_by
+            _RETURN_: attr are present
+
+          - _NAME_: REQUIRED_CANCELLED_TIME
+            attr: $.message.order.cancellation.time
+            _RETURN_: attr are present
+
+          - _NAME_: VALID_ENUM_CANCELLED_BY
+            attr: $.message.order.cancellation.cancelled_by
+            enumList:
+              - CONSUMER
+              - PROVIDER
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr any in enumList
+
+          - _NAME_: REGEX_ON_CANCEL_TIME
+            attr: $.message.order.cancellation.time
+            reg:
+              - ^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$
+            _RETURN_: attr follow regex reg    
+
+      - _NAME_: ON_CANCEL_QUOTE
+        action:
+          - on_confirm
+        _RETURN_: *ref_159
+
+
   _SESSION_DATA_:
     trans: {}    
