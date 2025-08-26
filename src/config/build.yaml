@@ -7238,7 +7238,7 @@ x-validations:
               - _NAME_: REGEX_CONTEXT_BAP_URI
                 attr: $.context.bap_uri
                 reg:
-                  - ^https?:\/\/(localhost|[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+))(:\d+)?(\/[a-zA-Z0-9:._\-\/])?$
+                  - ^https?://([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*|localhost)(:\d+)?(/.*)?$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
               - _NAME_: REQUIRED_CONTEXT_TTL
