@@ -85,6 +85,9 @@ jobs:
               FORM_SERVICE=${{ vars.FORM_SERVICE }}
               NODE_ENV=${{ vars.NODE_ENV }}
               LOKI_HOST=${{ vars.LOKI_HOST }}
+              TRACE_URL=${{ vars.TRACE_URL }}
+              SERVICE_NAME=automation-mock-service-${{ vars.CONTAINER_NAME }}
+
           EOF
             
           # docker run -d --rm --name mock-test \
@@ -179,6 +182,8 @@ jobs:
             FORM_SERVICE=${{ vars.FORM_SERVICE }}
             NODE_ENV=${{ vars.NODE_ENV }}
             LOKI_HOST=${{ vars.LOKI_HOST }}
+            TRACE_URL=${{ vars.TRACE_URL }}
+            SERVICE_NAME=automation-mock-service-${{ vars.CONTAINER_NAME }}
             EOF
 
             IMAGE_NAME=ghcr.io/ondc-official/automation-mock-service-${{vars.CONTAINER_NAME}}

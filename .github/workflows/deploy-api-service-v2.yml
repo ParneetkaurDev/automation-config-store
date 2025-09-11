@@ -72,20 +72,6 @@ jobs:
       - name: Run container locally
         run: |
           IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
-          # cat > ./.env <<EOF
-          #     REDIS_USERNAME=${{ vars.REDIS_USERNAME }}
-          #     REDIS_HOST=${{ vars.REDIS_HOST }}
-          #     REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
-          #     REDIS_PORT=${{ vars.REDIS_PORT }}
-          #     PORT=${{ vars. API_SERVICE_PORT }}
-          #     API_SERVICE_URL=${{  vars.API_SERVICE_URL }}
-          #     DOMAIN=${{ vars.DOMAIN }}
-          #     CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}
-          #     API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}
-          #     FORM_SERVICE=${{ vars.FORM_SERVICE }}
-          #     NODE_ENV=${{ vars.NODE_ENV }}
-          #     LOKI_HOST=${{ vars.LOKI_HOST }}
-          # EOF
 
           cat > ./.env <<EOF
             NODE_ENV=${{ vars.NODE_ENV }}
@@ -108,7 +94,7 @@ jobs:
             CONTAINER_NAME=${{ vars.CONTAINER_NAME }}
             DOMAIN=${{ vars.DOMAIN }}
             VERSION=${{ vars.VERSION }}
-            SERVICE_NAME=${{ vars.SERVICE_NAME }}
+            SERVICE_NAME=automation-api-service-${{ vars.CONTAINER_NAME }}
             TRACE_URL=${{ vars.TRACE_URL }}
             API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}
             LOKI_HOST=${{ vars.LOKI_HOST }}
@@ -220,7 +206,7 @@ jobs:
             CONTAINER_NAME=${{ vars.CONTAINER_NAME }}
             DOMAIN=${{ vars.DOMAIN }}
             VERSION=${{ vars.VERSION }}
-            SERVICE_NAME=${{ vars.SERVICE_NAME }}
+            SERVICE_NAME=automation-api-service-${{ vars.CONTAINER_NAME }}
             TRACE_URL=${{ vars.TRACE_URL }}
             API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}
             LOKI_HOST=${{ vars.LOKI_HOST }}
