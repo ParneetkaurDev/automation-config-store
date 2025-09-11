@@ -1,0 +1,89 @@
+catalog:
+  descriptor:
+    name: "ABC Insurance Ltd"
+  providers:
+    - categories:
+        - descriptor:
+            name: "Micro Insurance"
+            code: "MICRO_INSURANCE"
+          id: "C1"
+        - descriptor:
+            name: "Micro Hospicash Insurance"
+            code: "MICRO_HOSPICASH_INSURANCE"
+          parent_category_id: "C1"
+          id: "C2"
+      descriptor:
+        long_desc: "ABC Insurance Ltd. Deals in multiple Insurance Services like Health, Motor, Marine etc"
+        name: "ABC Insurance Ltd."
+        short_desc: "ABC Insurance Ltd. India"
+        images:
+          - url: "https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png"
+            size_type: "xs"
+      id: "P1"
+      tags:
+        - descriptor:
+            code: "MASTER_POLICY"
+          list:
+            - descriptor:
+                code: "POLICY_ID"
+              value: "e103b4a5-10f8-42c7-b888-dbf0e2edd696"
+      items:
+        - id: "I1"
+          category_ids:
+            - "C2"
+          descriptor:
+            name: "Micro Hospicash Insurance"
+            short_desc: "ABC Individual Insurance Class"
+          time:
+            duration: "P1Y"
+            label: "TENURE"
+          tags:
+            - descriptor:
+                code: "BAP_INPUTS"
+              list:
+                - descriptor:
+                    code: "BUYER_NAME"
+                    short_desc: "Describes the format as 'Salutation | First Name | Middle Name | Last Name'"
+                  value: "-"
+                - descriptor:
+                    code: "BUYER_PHONE_NUMBER"
+                    short_desc: "Format: Country code + 10-digit mobile number (e.g., 91-9876543210)"
+                  value: "-"
+                - descriptor:
+                    code: "BUYER_PAN_NUMBER"
+                    short_desc: "PAN number in alphanumeric format"
+                  value: "-"
+                - descriptor:
+                    code: "BUYER_DOB"
+                    short_desc: "Format: DD/MM/YYYY"
+                  value: "-"
+                - descriptor:
+                    code: "BUYER_GENDER"
+                    short_desc: "Values: male, female, transgender"
+                  value: "-"
+                - descriptor:
+                    code: "SUM_INSURED"
+                    short_desc: "Numerical value without separators"
+                  value: "-"
+                - descriptor:
+                    code: "BUYER_EMAIL"
+                  value: "-"
+                - descriptor:
+                    code: "TENURE"
+                    short_desc: "ISO 8601 duration format (e.g., P6M, P1Y)"
+                  value: "-"
+      payments:
+        - collected_by: "BPP"
+  tags:
+    - descriptor:
+        code: BPP_TERMS
+        name: BPP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: STATIC_TERMS
+          value: 'https://api.example-bap.com/booking/terms'
+        - descriptor: 
+            code: OFFLINE_CONTRACT
+          value: 'true'  
+       
