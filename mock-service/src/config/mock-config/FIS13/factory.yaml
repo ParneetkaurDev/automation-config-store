@@ -1,0 +1,152 @@
+codes:
+  - code: 100
+    action_id: search
+    action: search
+    default: FIS13/2.0.0/search/search/default.yaml
+    message_id: true
+ 
+  - code: 101
+    action_id: search_purchase_journey_transit
+    action: search
+    default: FIS13/2.0.0/search/search_purchase_journey_transit/default.yaml
+    message_id: true
+
+  - code: 102
+    action_id: search_purchase_journey_hospicash
+    action: search
+    default: FIS13/2.0.0/search/search_purchase_journey_hospicash/default.yaml
+    message_id: true
+  
+  - code: 103
+    action_id: search_insurence_provider
+    action: search
+    default: FIS13/2.0.0/search/search_insurence_provider/default.yaml
+    message_id: true
+
+  - code: 104
+    action_id: on_search
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search/default.yaml
+    message_id: false
+
+  - code: 105
+    action_id: on_search_purchase_journey_hospicash
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_purchase_journey_hospicash/default.yaml
+    message_id: false
+
+  - code: 106
+    action_id: on_search_purchase_journey_transit
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_purchase_journey_transit/default.yaml
+    message_id: false
+
+  - code: 107
+    action_id: on_search_insurence_provider
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_insurence_providers/default.yaml
+    message_id: false
+
+
+  - code: 108
+    action_id: select
+    action: select
+    default: FIS13/2.0.0/select/default.yaml
+    message_id: true
+
+  - code: 109
+    action_id: on_select
+    action: on_select
+    default: FIS13/2.0.0/on_select/on_select_transit_insurence/default.yaml
+    message_id: false
+
+  - code: 110
+    action_id: on_select_hospicash
+    action: on_select
+    default: FIS13/2.0.0/on_select/on_select_hospicash_insurence/default.yaml
+    message_id: false
+
+  - code: 111
+    action_id: init
+    action: init
+    default: FIS13/2.0.0/init/init_transit_insurence/default.yaml
+    message_id: true
+    
+  - code: 112
+    action_id: init_hospicash
+    action: init
+    default: FIS13/2.0.0/init/init_hospicash_insurence/default.yaml
+    message_id: true
+
+  - code: 113
+    action_id: on_init
+    action: on_init
+    default: FIS13/2.0.0/on_init/on_init_transit_insurence/default.yaml
+    message_id: false
+
+  - code: 114
+    action_id: on_init_hospicash
+    action: on_init
+    default: FIS13/2.0.0/on_init/on_init_hospicash_insurence/default.yaml
+    message_id: false
+
+  - code: 115
+    action_id: confirm
+    action: confirm
+    default: FIS13/2.0.0/confirm/confirm_transit_insurence/default.yaml
+    message_id: true
+    
+  - code: 116
+    action_id: confirm_hospicash
+    action: confirm
+    default: FIS13/2.0.0/confirm/confirm_hospicash_insurence/default.yaml
+    message_id: true
+
+  - code: 117
+    action_id: on_confirm
+    action: on_confirm
+    default: FIS13/2.0.0/on_confirm/on_confirm_transit_insurence/default.yaml
+    message_id: false
+
+  - code: 118
+    action_id: on_confirm_hospicash
+    action: on_confirm
+    default: FIS13/2.0.0/on_confirm/on_confirm_hospicash_insurence/default.yaml
+    message_id: false
+
+  - code: 119
+    action_id: on_update
+    action: on_update
+    default: FIS13/2.0.0/on_update/on_update_transit/default.yaml
+    message_id: false
+
+  - code: 120
+    action_id: on_update_hospicash
+    action: on_update
+    default: FIS13/2.0.0/on_update/on_update_hospicash/default.yaml
+    message_id: false
+
+  - code: 121
+    action_id: search_discover_product_transit
+    action: search
+    default: FIS13/2.0.0/search/search_discover_products/search_discover_product_transit/default.yaml
+    message_id: true
+
+  - code: 122
+    action_id: search_discover_product_hospicash
+    action: search
+    default: FIS13/2.0.0/search/search_discover_products/search_discover_product_hospicash/default.yaml
+    message_id: true
+
+  - code: 123
+    action_id: on_search_discover_product_tranist
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_discover_product/on_search_discover_product_transit/default.yaml
+    message_id: false
+
+  - code: 124
+    action_id: on_search_discover_product_hospicash
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_discover_product/on_search_discover_product_hospicash/default.yaml
+    message_id: false
+
