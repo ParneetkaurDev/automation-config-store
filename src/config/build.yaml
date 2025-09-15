@@ -3245,8 +3245,7 @@ x-flows:
                         currency: INR
                         value: '-10'
                 payments:
-                  - id: PAYMENT_ID
-                    type: PRE_ORDER
+                  - type: PRE_ORDER
                     status: NOT-PAID
                     collected_by: BAP
                 tags:
@@ -3347,8 +3346,7 @@ x-flows:
                             type: CARD_IDENTIFIER
                     type: ONLINE
                 payments:
-                  - id: PAYMENT_ID
-                    collected_by: BAP
+                  - collected_by: BAP
                     type: PRE_ORDER
                     status: PAID
                     params:
@@ -3523,8 +3521,7 @@ x-flows:
                         currency: INR
                         value: '-10'
                 payments:
-                  - id: PAYMENT_ID
-                    type: PRE_ORDER
+                  - type: PRE_ORDER
                     status: PAID
                     collected_by: BAP
                     params:
@@ -5722,12 +5719,6 @@ x-attributes:
                 owner: BAP
                 usage: NOT-PAID
                 description: Describes the payment status
-              id:
-                required: optional
-                type: string
-                owner: BAP
-                usage: PAYMENT_ID
-                description: Describes the payment id
             tags:
               BPP_TERMS:
                 required: Mandatory
@@ -6004,12 +5995,6 @@ x-attributes:
                     usage: -9999999908
                     description: Describes the customer phone
             payments:
-              id:
-                required: optional
-                type: string
-                owner: BPP
-                usage: PAYMENT_ID
-                description: Describes the payment id
               collected_by:
                 required: optional
                 type: string
@@ -7221,9 +7206,6 @@ x-validations:
         action:
           - init
         _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_ID
-            attr: $.message.order.payments[*].id
-            _RETURN_: attr are present
           - _NAME_: REQUIRED_PAYMENT_TYPE
             attr: $.message.order.payments[*].type
             _RETURN_: attr are present
@@ -7380,9 +7362,6 @@ x-validations:
         action:
           - on_init
         _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_ID
-            attr: $.message.order.payments[*].id
-            _RETURN_: attr are present
           - _NAME_: REQUIRED_PAYMENT_TYPE
             attr: $.message.order.payments[*].type
             _RETURN_: attr are present
