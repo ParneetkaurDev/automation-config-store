@@ -72,23 +72,39 @@ jobs:
       - name: Run container locally
         run: |
           IMAGE_NAME=ghcr.io/ondc-official/automation-mock-service-${{vars.CONTAINER_NAME}}
-          cat > ./.env <<EOF
-              REDIS_USERNAME=${{ vars.REDIS_USERNAME }}
-              REDIS_HOST=${{ vars.REDIS_HOST }}
-              REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
-              REDIS_PORT=${{ vars.REDIS_PORT }}
-              PORT=${{ vars.MOCK_SERVICE_PORT }}
-              API_SERVICE_URL=${{  vars.API_SERVICE_URL }}
-              DOMAIN=${{ vars.DOMAIN }}
-              CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}
-              API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}
-              FORM_SERVICE=${{ vars.FORM_SERVICE }}
-              NODE_ENV=${{ vars.NODE_ENV }}
-              LOKI_HOST=${{ vars.LOKI_HOST }}
-              TRACE_URL=${{ vars.TRACE_URL }}
-              SERVICE_NAME=automation-mock-service-${{ vars.CONTAINER_NAME }}
-
+          if [[ "$BUILD_TYPE" == "draft" ]]; then
+          cat > .env <<EOF
+          REDIS_USERNAME=${{ vars.REDIS_USERNAME }}
+          REDIS_HOST=${{ vars.REDIS_HOST }}
+          REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+          REDIS_PORT=${{ vars.REDIS_PORT }}
+          PORT=${{ vars.MOCK_SERVICE_PORT }}
+          API_SERVICE_URL=${{ vars.API_SERVICE_URL }}
+          DOMAIN=${{ vars.DOMAIN }}
+          CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}
+          API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}
+          FORM_SERVICE=${{ vars.FORM_SERVICE_DEV }}
+          NODE_ENV=${{ vars.NODE_ENV }}
+          LOKI_HOST=${{ vars.LOKI_HOST }}
           EOF
+
+          elif [[ "$BUILD_TYPE" == "release" ]]; then
+          cat > .env <<EOF
+          REDIS_USERNAME=${{ vars.REDIS_USERNAME }}
+          REDIS_HOST=${{ vars.REDIS_HOST }}
+          REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+          REDIS_PORT=${{ vars.REDIS_PORT_STAGING }}
+          PORT=${{ vars.MOCK_SERVICE_PORT }}
+          API_SERVICE_URL=${{ vars.API_SERVICE_URL_STAGING }}
+          DOMAIN=${{ vars.DOMAIN }}
+          CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_STAGING }}
+          API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_STAGING }}
+          FORM_SERVICE=${{ vars.FORM_SERVICE_STAGING }}
+          NODE_ENV=${{ vars.NODE_ENV }}
+          LOKI_HOST=${{ vars.LOKI_HOST }}
+          EOF
+          fi
+
             
           # docker run -d --rm --name mock-test \
           #   -p ${{ vars.MOCK_SERVICE_PORT }}:${{ vars.MOCK_SERVICE_PORT }} \
@@ -148,16 +164,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}  # environment exactly matches branch name
     steps:
-      - name: Detect build type
-        run: |
-          if [[ "${GITHUB_REF_NAME}" == draft* ]]; then
-            echo "BUILD_TYPE=draft" >> $GITHUB_ENV
-          elif [[ "${GITHUB_REF_NAME}" == release* ]]; then
-            echo "BUILD_TYPE=release" >> $GITHUB_ENV
-          else
-            echo "BUILD_TYPE=default" >> $GITHUB_ENV
-          fi
-
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -165,26 +171,59 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            REPO_DIR="~/ONDC-automation-framework/mock/automation-mock-service-${{ github.ref_name }}"
+            # derive BUILD_TYPE from branch/tag name
+            if [[ "${{ github.ref_name }}" == draft* ]]; then
+              BUILD_TYPE=draft
+            elif [[ "${{ github.ref_name }}" == release* ]]; then
+              BUILD_TYPE=release
+            else
+              BUILD_TYPE=default
+            fi
+            REPO_DIR="$HOME/ONDC-automation-framework/mock/automation-mock-service-${{ github.ref_name }}"
             mkdir -p $REPO_DIR
+            cd $REPO_DIR
+
+
 
             echo "Writing .env file..."
-            cat > $REPO_DIR/.env <<EOF
+            if [[ "$BUILD_TYPE" == "draft" ]]; then
+            cat > .env <<EOF
             REDIS_USERNAME=${{ vars.REDIS_USERNAME }}
             REDIS_HOST=${{ vars.REDIS_HOST }}
             REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
             REDIS_PORT=${{ vars.REDIS_PORT }}
             PORT=${{ vars.MOCK_SERVICE_PORT }}
-            API_SERVICE_URL=${{  vars.API_SERVICE_URL }}
+            API_SERVICE_URL=${{ vars.API_SERVICE_URL }}
             DOMAIN=${{ vars.DOMAIN }}
             CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL }}
             API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_DEV }}
-            FORM_SERVICE=${{ vars.FORM_SERVICE }}
+            FORM_SERVICE=${{ vars.FORM_SERVICE_DEV }}
             NODE_ENV=${{ vars.NODE_ENV }}
             LOKI_HOST=${{ vars.LOKI_HOST }}
-            TRACE_URL=${{ vars.TRACE_URL }}
-            SERVICE_NAME=automation-mock-service-${{ vars.CONTAINER_NAME }}
             EOF
+  
+            elif [[ "$BUILD_TYPE" == "release" ]]; then
+            cat > .env <<EOF
+            REDIS_USERNAME=${{ vars.REDIS_USERNAME }}
+            REDIS_HOST=${{ vars.REDIS_HOST }}
+            REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+            REDIS_PORT=${{ vars.REDIS_PORT_STAGING }}
+            PORT=${{ vars.MOCK_SERVICE_PORT }}
+            API_SERVICE_URL=${{ vars.API_SERVICE_URL_STAGING }}
+            DOMAIN=${{ vars.DOMAIN }}
+            CONFIG_SERVICE_URL=${{ vars.CONFIG_SERVICE_URL_STAGING }}
+            API_SERVICE_KEY=${{ secrets.API_SERVICE_KEY_STAGING }}
+            FORM_SERVICE=${{ vars.FORM_SERVICE_STAGING }}
+            NODE_ENV=${{ vars.NODE_ENV }}
+            LOKI_HOST=${{ vars.LOKI_HOST }}
+            EOF
+            else
+            cat > .env <<EOF
+            BUILD_TYPE=$BUILD_TYPE
+            EOF
+            echo "buildtype is not dev or staging"
+            fi
+
 
             IMAGE_NAME=ghcr.io/ondc-official/automation-mock-service-${{vars.CONTAINER_NAME}}
 
