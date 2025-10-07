@@ -104,6 +104,7 @@ export interface Input {
 	phone_number?: string;
 	pan_number?: string;
 	start_address?: string;
+	policy_id?: string;
 	dob?: string;
 	gender?: string;
 	end_address?: string;

@@ -16,7 +16,7 @@ codes:
     action: search
     default: FIS13/2.0.0/search/search_purchase_journey_hospicash/default.yaml
     message_id: true
-  
+
   - code: 103
     action_id: search_insurence_provider
     action: search
@@ -34,6 +34,7 @@ codes:
     action: on_search
     default: FIS13/2.0.0/on_search/on_search_purchase_journey_hospicash/default.yaml
     message_id: false
+ 
 
   - code: 106
     action_id: on_search_purchase_journey_transit
@@ -77,7 +78,7 @@ codes:
     action: init
     default: FIS13/2.0.0/init/init_hospicash_insurence/default.yaml
     message_id: true
-
+ 
   - code: 113
     action_id: on_init
     action: on_init
@@ -150,3 +151,62 @@ codes:
     default: FIS13/2.0.0/on_search/on_search_discover_product/on_search_discover_product_hospicash/default.yaml
     message_id: false
 
+  - code: 125
+    action_id: search_discover_product_accidental
+    action: search
+    default: FIS13/2.0.0/search/search_discover_products/search_discover_product_accidental/default.yaml
+    message_id: true
+  
+  - code: 126
+    action_id: on_search_discover_product_accidental
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_discover_product/on_search_discover_product_accidental/default.yaml
+    message_id: false     
+
+  - code: 127
+    action_id: search_purchase_journey_accidental
+    action: search
+    default: FIS13/2.0.0/search/search_purchase_journey_accidental/default.yaml
+    message_id: true
+
+  - code: 128
+    action_id: on_search_purchase_journey_accidental
+    action: on_search
+    default: FIS13/2.0.0/on_search/on_search_purchase_journey_accidental/default.yaml
+    message_id: false    
+ 
+  - code: 129
+    action_id: on_select_accidental
+    action: on_select
+    default: FIS13/2.0.0/on_select/on_select_accidental_insurence /default.yaml
+    message_id: false
+
+  - code: 130
+    action_id: init_accidental
+    action: init
+    default: FIS13/2.0.0/init/init_accidental_insurence/default.yaml
+    message_id: true
+
+  - code: 131
+    action_id: on_init_accidental
+    action: on_init
+    default: FIS13/2.0.0/on_init/on_init_accidental_insurence/default.yaml
+    message_id: false
+
+  - code: 132
+    action_id: confirm_accidental
+    action: confirm
+    default: FIS13/2.0.0/confirm/confirm_accidental_insurence/default.yaml
+    message_id: true
+
+  - code: 134
+    action_id: on_confirm_accidental
+    action: on_confirm
+    default: FIS13/2.0.0/on_confirm/on_confirm_accidental_insurence/default.yaml
+    message_id: false
+
+  - code: 135
+    action_id: on_update_accidental
+    action: on_update
+    default: FIS13/2.0.0/on_update/on_update_accidental/default.yaml
+    message_id: false  

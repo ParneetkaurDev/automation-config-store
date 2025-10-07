@@ -1,0 +1,149 @@
+order:
+  items:
+    - id: CHILD_ITEM_ID_I1
+      parent_item_id: I1
+      category_ids:
+        - C2
+      descriptor:
+        name: Micro Accidental Insurance Plan
+        short_desc: Individual Insurance Class
+      price:
+        currency: INR
+        value: "900"
+      tags:
+        - descriptor:
+            name: General Information
+            code: GENERAL_INFO
+          list:
+            - descriptor:
+                code: ACCIDENTAL_DEATH_SUM_INSURED
+              value: "10000000"
+            - descriptor:
+                code: PERMANENT_TOTAL_DISABILITY_SUM_INSURED
+              value: "10000000"
+            - descriptor:
+                code: PERMANENT_PARTIAL_DISABILITY_SUM_INSURED
+              value: "10000000"
+            - descriptor:
+                code: TEMPORARY_TOTAL_DISABILITY_SUM_INSURED
+              value: "10000000"
+            - descriptor:
+                code: MEDICAL_EXPENSES_COVERAGE
+              value: "100000"
+            - descriptor:
+                code: HOSPITALIZATION_BENEFITS
+              value: "10000"
+            - descriptor:
+                code: EMI_DURING_TEMPORARY_DISABILITY
+              value: "true"
+            - descriptor:
+                code: EMI_DURING_PERMANENT_DISABILITY
+              value: "false"
+            - descriptor:
+                code: NUMBER_OF_EMI_PAYABLE
+              value: "5"
+            - descriptor:
+                code: INITIAL_WAITING_PERIOD
+              value: "true"
+            - descriptor:
+                code: MINIMUM_AGE_LIMIT
+              value: "15"
+            - descriptor:
+                code: MAXIMUM_AGE_LIMIT
+              value: "75"
+            - descriptor:
+                code: TNC_LINK
+              value: https://fis.test.bpp.io/tnc.html
+            - descriptor:
+                code: TENURE_TYPE
+              value: TRANSIT
+        - descriptor:
+            name: Inclusions
+            code: INCLUSIONS
+          list:
+            - descriptor:
+                name: Hospitalization
+            - descriptor:
+                name: Surgery
+        - descriptor:
+            name: Exclusions
+            code: EXCLUSIONS
+          list:
+            - descriptor:
+                name: Physiotherapy
+      time:
+        duration: P1Y
+        label: TENURE
+
+  fulfillments:
+    - id: F1
+      type: POLICY
+      tags:
+        - descriptor:
+            code: NOMINEE_DETAILS
+            name: Nominee Details
+          display: false
+          list:
+            - descriptor:
+                code: NOMINEE_NAME
+                short_desc: "Describes the nominee name in the format as  'Salutation | First Name | Middle Name | Last Name' represents a full name structure, where the values are separated by a pipe (|) symbol"
+              value: "-"
+            - descriptor:
+                code: NOMINEE_DOB
+                short_desc: "Describes the nominee dob, as: DD/MM/YYYY, separated by a forward slash ( / )."
+              value: "-"
+            - descriptor:
+                code: NOMINEE_RELATIONSHIP
+                short_desc: Describes the nominee relationship
+              value: "-"
+            - descriptor:
+                code: APPOINTEE_NAME
+                short_desc: "Describes the Appointee name in the format as  'Salutation | First Name | Middle Name | Last Name' represents a full name structure, where the values are separated by a pipe (|) symbol"
+              value: "-"
+            - descriptor:
+                code: APPOINTEE_RELATIONSHIP
+                short_desc: Describes the Appointee relationship
+              value: "-"
+            - descriptor:
+                code: GOOD_HEALTH_DECLARATION
+              value: "-"
+
+  provider:
+    id: P1
+    descriptor:
+      name: ABC Insurance Ltd.
+      short_desc: ABC Insurance Ltd. India
+      long_desc: ABC Insurance Ltd. Deals in multiple Insurance Services like Health, Motor, Marine etc
+      images:
+        - url: https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png
+          size_type: xs
+    tags:
+      - descriptor:
+          code: MASTER_POLICY
+        list:
+          - descriptor:
+              code: POLICY_ID
+            value: e103b4a5-10f8-42c7-b888-dbf0e2edd696
+
+  quote:
+    id: OFFER_ID/PROPOSAL_ID
+    price:
+      currency: INR
+      value: "1000"
+    breakup:
+      - title: BASE_PRICE
+        price:
+          currency: INR
+          value: "900"
+      - title: CONVIENCE_FEE
+        price:
+          currency: INR
+          value: "50"
+      - title: TAX
+        price:
+          currency: INR
+          value: "40"
+      - title: PROCESSING_FEE
+        price:
+          currency: INR
+          value: "10"

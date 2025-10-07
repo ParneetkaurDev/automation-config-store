@@ -24,6 +24,16 @@ import { MockSearchDiscoverProductTransitClass } from "./2.0.0/search/search_dis
 import { MockOnSearchDiscoverHospicashClass } from "./2.0.0/on_search/on_search_discover_product/on_search_discover_product_hospicash/class";
 import { MockOnSearchDiscoverTransitClass } from "./2.0.0/on_search/on_search_discover_product/on_search_discover_product_transit/class";
 import { MockAction } from "./classes/mock-action";
+import { MockOnSearchDiscoverAccidentalClass } from "./2.0.0/on_search/on_search_discover_product/on_search_discover_product_accidental/class";
+import { MockSearchDiscoverProductAccidentalClass } from "./2.0.0/search/search_discover_products/search_discover_product_accidental/class";
+import { MockSearchPurchaseJourneyAccidentalClass } from "./2.0.0/search/search_purchase_journey_accidental/class";
+import { MockOnSelectAccidentalInsurencClass } from "./2.0.0/on_select/on_select_accidental_insurence /class";
+import { MockInitAccidentalClass } from "./2.0.0/init/init_accidental_insurence/class";
+import { MockOnInitAccidentalClass } from "./2.0.0/on_init/on_init_accidental_insurence/class";
+import { MockConfirmAccidentalClass } from "./2.0.0/confirm/confirm_accidental_insurence/class";
+import { MockOnConfirmAccidentalClass } from "./2.0.0/on_confirm/on_confirm_accidental_insurence/class";
+import { MockOnupdateAccidentalClass } from "./2.0.0/on_update/on_update_accidental/class";
+import { MockOnSearchPurchaseJourneyAccidentalClass } from "./2.0.0/on_search/on_search_purchase_journey_accidental/class";
 
 // Type helper for constructor
 type Ctor<T> = new () => T;
@@ -37,35 +47,47 @@ const registry = {
 	search_insurence_provider: MockSearchInsurenceProviderClass,
 	search_discover_product_hospicash: MockSearchDiscoverProductHospicashClass,
 	search_discover_product_transit: MockSearchDiscoverProductTransitClass,
+	search_discover_product_accidental: MockSearchDiscoverProductAccidentalClass,
+	search_purchase_journey_accidental: MockSearchPurchaseJourneyAccidentalClass,
 
 	// on_search
 	on_search_purchase_journey_hospicash: MockOnSearchPurchaseJourneyHospicashClass,
 	on_search_purchase_journey_transit: MockOnSearchPurchaseJourneyTransitClass,
+	on_search_purchase_journey_accidental: MockOnSearchPurchaseJourneyAccidentalClass,
 	on_search: MockOnSearchClass,
 	on_search_insurence_provider: MockOnSearchInsurenceProvidersClass,
 	on_search_discover_product_tranist: MockOnSearchDiscoverTransitClass,
 	on_search_discover_product_hospicash: MockOnSearchDiscoverHospicashClass,
+	on_search_discover_product_accidental: MockOnSearchDiscoverAccidentalClass,
 
 	// select / on_select
 	select: MockSelectClass,
 	on_select: MockOnSelectTransitInsurenceClass,
 	on_select_hospicash: MockOnSelectHospicashInsurencClass,
+	on_select_accidental: MockOnSelectAccidentalInsurencClass,
 
 	// init / on_init
 	init: MockInitTransitInsurenceClass,
 	init_hospicash: MockInitHospicashClass,
+	init_accidental: MockInitAccidentalClass,
+
 	on_init: MockOnInitTransitClass,
 	on_init_hospicash: MockOnInitHospicashClass,
+	on_init_accidental: MockOnInitAccidentalClass,
 
 	// confirm / on_confirm
 	confirm: MockConfirmTransitClass,
 	confirm_hospicash: MockConfirmHospicashClass,
+	confirm_accidental: MockConfirmAccidentalClass,
+
 	on_confirm: MockOnConfirmTransitClass,
 	on_confirm_hospicash: MockOnConfirmHospicashClass,
+	on_confirm_accidental: MockOnConfirmAccidentalClass,
 
 	// update / on_update
 	on_update: MockOnupdateTransitClass,
 	on_update_hospicash: MockOnupdateHospicashClass,
+	on_update_accidental: MockOnupdateAccidentalClass,
 } as const satisfies Record<string, Ctor<MockAction>>;
 
 type MockActionId = keyof typeof registry;
