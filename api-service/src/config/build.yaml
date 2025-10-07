@@ -7241,6 +7241,7 @@ x-validations:
                   - ^https?://([a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*|localhost)(:\d+)?(/.*)?$
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
+
               - _NAME_: REQUIRED_CONTEXT_TTL
                 attr: $.context.ttl
                 reg:
@@ -7261,6 +7262,7 @@ x-validations:
               - MICRO_HOSPICASH_INSURANCE
               - MICRO_TRANSIT_INSURANCE
               - MICRO_INSURANCE
+              - MICRO_ACCIDENTAL_INSURANCE
             _CONTINUE_: '!(attr are present)'
             _RETURN_: attr all in enumList
       
@@ -7548,6 +7550,53 @@ x-validations:
                   - DELIVERY_EXECUTIVE_VEHICLE_NO
                 _CONTINUE_: '!(subTags are present)'
                 _RETURN_: subTags all in validValues      
+      
+          - _NAME_: REQUIRED_ACCIDENTAL_ITEMS_TAG_GROUP
+            category_code_path: $.message.catalog.providers[*].categories[*].descriptor.code
+            tagPathBAP: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
+            validTags:
+              - BAP_INPUTS
+            var_category_code: 
+              - MICRO_ACCIDENTAL_INSURANCE
+            _CONTINUE_: '!(var_category_code all in category_code_path && (tagPathBAP any in validTags) )'
+            _RETURN_:
+              - _NAME_: REQUIRED_ITEMS_TAG_GROUP
+                validTags:
+                  - BAP_INPUTS
+                tagPath: $.message.catalog.providers[*].items[*].tags[*].descriptor.code
+                _RETURN_: tagPath any in validTags
+              - _NAME_: REQUIRED_BAP_INPUTS 
+                _SCOPE_: $.message.catalog.providers[*].items[*].tags[?(@.descriptor.code=='BAP_INPUTS')]
+                subTags: $.list[*].descriptor.code
+                validValues:
+                  - BUYER_NAME
+                  - BUYER_PHONE_NUMBER
+                  - BUYER_PAN_NUMBER
+                  - DERIVED_DATA
+                  - PRODUCT_CATEGORY
+                  - ORDER_ID
+                  - ORDER_VALUE
+                  - ORDER_TYPE
+                  - ORDER_WEIGHT
+                  - START_ADDRESS
+                  - END_ADDRESS
+                  - PAYMENT_MODE
+                  - TRANSIT_START_DATE
+                  - TRANSIT_END_DATE
+                  - PACKAGING_TYPE
+                  - PACKAGING_VIDEO
+                  - SEALING_TYPE
+                  - WATERPROOFING
+                  - MODE_OF_TRANSPORT
+                  - LOGISTICS_COST
+                  - ORDERS_ONTIME_PCT
+                  - LOGISTICS_PARTNER_GSTIN
+                  - DELIVERY_EXECUTIVE_NAME
+                  - DELIVERY_EXECUTIVE_PHONE_NO
+                  - DELIVERY_EXECUTIVE_UNIQUE_ID
+                  - DELIVERY_EXECUTIVE_VEHICLE_NO
+                _CONTINUE_: '!(subTags are present)'
+                _RETURN_: subTags any in validValues      
 
           - _NAME_: REQUIRED_HOSPICASH_ITEMS_TAG_GROUP
             category_code_path: $.message.catalog.providers[*].categories[*].descriptor.code
@@ -7765,12 +7814,13 @@ x-validations:
                     - EXCLUSIONS
                   tagPath: $.message.order.items[*].tags[*].descriptor.code
                   _RETURN_: tagPath any in validTags
-                - _NAME_: REQUIRED_GENERAL_INFO
-                  _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
-                  subTags: $.list[*].descriptor.code
-                  validValues:
-                    - COVERAGE_AMOUNT
-                  _RETURN_: validValues any in subTags  
+                # - _NAME_: REQUIRED_GENERAL_INFO
+                #   _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
+                #   subTags: $.list[*].descriptor.code
+                #   validValues:
+                #     - COVERAGE_AMOUNT
+                #   _CONTINUE_: '!(validValues are present)'  
+                #   _RETURN_: validValues any in subTags  
           
           - _NAME_: REQUIRED_HOSPICASH_ITEMS_TAG_GENERAL_INFO_GROUP_1
             _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
@@ -7801,6 +7851,40 @@ x-validations:
                     - DURATION_OF_COVER
                     - MINIMUM_AGE_LIMIT
                     - MAXIMUM_AGE_LIMIT
+                  _RETURN_: validValues any in subTags  
+        
+          - _NAME_: REQUIRED_ACCIDENTAL_ITEMS_TAG_GENERAL_INFO_GROUP_1
+            _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
+            subTagsPath: $.list[*].descriptor.code
+            validValuesList:
+              - MICRO_ACCIDENTAL_INSURANCE
+            _CONTINUE_: '!(validValuesList any in subTagsPath)'
+            _RETURN_:
+                - _NAME_: REQUIRED_GENERAL_INFO_TAG_GROUP
+                  validTags:
+                    - GENERAL_INFO
+                    - INCLUSIONS
+                    - EXCLUSIONS
+                  tagPath: $.message.order.items[*].tags[*].descriptor.code
+                  _RETURN_: tagPath any in validTags
+                - _NAME_: REQUIRED_GENERAL_INFO
+                  _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
+                  subTags: $.list[*].descriptor.code
+                  validValues:
+                    - ACCIDENTAL_DEATH_SUM_INSURED
+                    - PERMANENT_TOTAL_DISABILITY_SUM_INSURED
+                    - PERMANENT_PARTIAL_DISABILITY_SUM_INSURED
+                    - TEMPORARY_TOTAL_DISABILITY_SUM_INSURED
+                    - MEDICAL_EXPENSES_COVERAGE
+                    - HOSPITALIZATION_BENEFITS
+                    - EMI_DURING_TEMPORARY_DISABILITY
+                    - EMI_DURING_PERMANENT_DISABILITY
+                    - NUMBER_OF_EMI_PAYABLE
+                    - INITIAL_WAITING_PERIOD
+                    - MINIMUM_AGE_LIMIT
+                    - MAXIMUM_AGE_LIMIT
+                    - TNC_LINK
+                    - TENURE_TYPE
                   _RETURN_: validValues any in subTags  
                     
       - &ON_ACTION_PROVIDER
@@ -8281,12 +8365,12 @@ x-validations:
                         - POLICY_INFO
                       tagPath: $.message.order.items[*].tags[*].descriptor.code
                       _RETURN_: tagPath any in validTags
-                    - _NAME_: REQUIRED_GENERAL_INFO
-                      _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
-                      subTags: $.list[*].descriptor.code
-                      validValues:
-                        - COVERAGE_AMOUNT
-                      _RETURN_: subTags any in validValues  
+                    # - _NAME_: REQUIRED_GENERAL_INFO
+                    #   _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='GENERAL_INFO')]
+                    #   subTags: $.list[*].descriptor.code
+                    #   validValues:
+                    #     - COVERAGE_AMOUNT
+                    #   _RETURN_: subTags any in validValues  
                     - _NAME_: REQUIRED_POLICY_INFO
                       _SCOPE_: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_INFO')]
                       subTags: $.list[*].descriptor.code

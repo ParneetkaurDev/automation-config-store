@@ -1,0 +1,48 @@
+order:
+  items:
+    - id: CHILD_ITEM_ID_I1
+      parent_item_id: I1
+
+  fulfillments:
+    - id: F1
+      type: POLICY
+      customer:
+        person:
+          name: "Mr. | Joe | Wick | Adams"
+          dob: "2001-12-17"
+        contact:
+          phone: "+91-9988776655"
+          email: john.doe@example.com
+
+  provider:
+    id: P1
+
+  payments:
+    - id: PA1
+      collected_by: BPP
+      status: PAID
+      type: ON_ORDER
+
+  tags:
+    - descriptor:
+        code: BAP_TERMS
+        name: BAP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: STATIC_TERMS
+          value: "https://api.example-bap.com/booking/terms"
+        - descriptor:
+            code: OFFLINE_CONTRACT
+          value: "true"
+    - descriptor:
+        code: BPP_TERMS
+        name: BPP Terms of Engagement
+      display: false
+      list:
+        - descriptor:
+            code: STATIC_TERMS
+          value: "https://api.example-bpp.com/booking/terms"
+        - descriptor:
+            code: OFFLINE_CONTRACT
+          value: "true"
