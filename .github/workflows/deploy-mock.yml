@@ -241,4 +241,5 @@ jobs:
             docker run -d --name automation-mock-service-${{ vars.CONTAINER_NAME }} \
               --env-file $REPO_DIR/.env \
               -p ${{ vars.MOCK_SERVICE_PORT }}:${{ vars.MOCK_SERVICE_PORT }} \
+                --restart unless-stopped \
               $IMAGE_NAME:stable
