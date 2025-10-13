@@ -310,4 +310,5 @@ jobs:
             docker run -d --name automation-api-service-${{ vars.CONTAINER_NAME }} \
               --env-file $REPO_DIR/.env \
               -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
+                --restart unless-stopped \
               $IMAGE_NAME:stable
