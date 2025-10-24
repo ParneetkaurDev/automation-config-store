@@ -66,7 +66,7 @@ export async function generateMockResponse(
 	}
 }
 
-export function getMockActionObject(actionId: string, domain: string = defaultDomain) {
+export function getMockActionObject(actionId: string, sessionId?: string) {
 		return getFIS10MockAction(actionId);
 		}
 
