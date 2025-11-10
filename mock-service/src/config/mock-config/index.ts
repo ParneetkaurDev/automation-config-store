@@ -9,7 +9,7 @@ import { getMockAction as getFIS12MockAction } from "./FIS12/action-factory";
 export { MockSessionData };
 
 // Default to FIS10 for testing
-const defaultDomain = process.env.DOMAIN || "ONDC:FIS10";
+const defaultDomain = process.env.DOMAIN || "ONDC:FIS12";
 
 export const actionConfig = yaml.load(
 	readFileSync(path.join(__dirname, "./FIS12/factory.yaml"), "utf8")
@@ -17,19 +17,10 @@ export const actionConfig = yaml.load(
 
 export const defaultSessionData = (domain: string = defaultDomain) => {
 	let sessionDataPath: string;
-	console.log("domain>>>>>>>>>>>", domain);
+
 	switch (domain) {
-		case "ONDC:FIS14":
-			sessionDataPath = path.join(__dirname, `./FIS14/session-data.yaml`);
-			break;
-		case "ONDC:FIS10":
-			sessionDataPath = path.join(__dirname, `./FIS10/session-data.yaml`);
-			break;
 		case "ONDC:FIS12":
 			sessionDataPath = path.join(__dirname, `./FIS12/session-data.yaml`);
-			break;
-		case "ONDC:TRV14":
-			sessionDataPath = path.join(__dirname, `./TRV14/session-data.yaml`);
 			break;
 		default:
 			sessionDataPath = path.join(__dirname, `./${domain}/session-data.yaml`);
@@ -113,5 +104,5 @@ export function getSaveDataContent(version: string, action: string, domain: stri
 }
 
 export function getUiMetaKeys(): (keyof MockSessionData)[] {
-	return ["kyc_verification_status", "consumer_information_form"];
+	return ["kyc_verification_status", "consumer_information_form", "personal_loan_information_form","loan_amount_adjustment_form", "manadate_details_form"];
 }
