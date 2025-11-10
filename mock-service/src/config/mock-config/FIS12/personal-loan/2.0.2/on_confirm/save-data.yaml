@@ -1,0 +1,13 @@
+save-data:
+  - path: "$.context.transaction_id"
+    key: "transaction_id"
+  - path: "$.context.message_id"
+    key: "message_id"
+  - path: "$.message.order"
+    key: "order"
+  - path: "$.message.order.id"
+    key: "order_id"
+  - path: "$.message.order.quote.id"
+    key: "quote_id"
+  - path: "$.message.order.payments[0].id"
+    key: "payment_id" 

@@ -65,6 +65,9 @@ export interface SessionData {
 	stage?: string; // optional transient stage marker
 	kyc_verification_status?: string;
 	consumer_information_form?: string;
+	manadate_details_form?: string;
+	loan_amount_adjustment_form?: string;
+	personal_loan_information_form?: string;
 }
 
 export type BecknContext = {

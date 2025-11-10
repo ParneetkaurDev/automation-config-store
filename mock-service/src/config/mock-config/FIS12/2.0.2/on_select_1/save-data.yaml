@@ -1,5 +1,0 @@
-save-data:
-  transaction_id: "$.context.transaction_id"
-  message_id: "$.context.message_id"
-  kyc_verification_status: "$.order.items[0].xinput.form.url"
-
