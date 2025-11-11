@@ -2,6 +2,11 @@ name: Deploy Mock Service
 
 on:
   workflow_dispatch:
+    inputs:
+      skip_build:
+        description: 'Skip build step'
+        required: false
+        default: 'false'
   push:
     paths:
       - "api-service/**"
@@ -14,6 +19,7 @@ on:
 
 jobs:
   build-and-verify:
+    if: ${{ github.event.inputs.skip_build != 'true' }}
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}  # environment exactly matches branch name
 
