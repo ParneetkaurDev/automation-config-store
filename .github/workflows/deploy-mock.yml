@@ -203,6 +203,8 @@ jobs:
             NODE_ENV=${{ vars.NODE_ENV }}
             LOKI_HOST=${{ vars.LOKI_HOST }}
             SERVICE_NAME=automation-mock-service-${{ vars.CONTAINER_NAME }}
+            FINVU_AA_SERVICE_URL=automation-mock-service-${{ vars.FINVU_AA_SERVICE_URL }}
+
             EOF
   
             elif [[ "$BUILD_TYPE" == "release" ]]; then
@@ -220,6 +222,8 @@ jobs:
             NODE_ENV=${{ vars.NODE_ENV }}
             LOKI_HOST=${{ vars.LOKI_HOST }}
             SERVICE_NAME=automation-mock-service-${{ vars.CONTAINER_NAME }}
+            FINVU_AA_SERVICE_URL=automation-mock-service-${{ vars.FINVU_AA_SERVICE_URL }}
+
             EOF
             else
             cat > .env <<EOF
