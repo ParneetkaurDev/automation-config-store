@@ -2,25 +2,36 @@ import { readFileSync } from "fs";
 import logger from "@ondc/automation-logger";
 import path from "path";
 import yaml from "js-yaml";
-import { SessionData as MockSessionData } from "./FIS12/session-types";
-import { createMockResponse as createFIS12MockResponse } from "./FIS12/version-factory";
-import { getMockAction as getFIS12MockAction } from "./FIS12/action-factory";
+import { SessionData as MockSessionData } from "./FIS13/session-types";
+import { createMockResponse as createFIS13MockResponse } from "./FIS13/version-factory";
+import { getMockAction as getFIS13MockAction } from "./FIS13/action-factory";
 
 export { MockSessionData };
 
-// Default to FIS10 for testing
-const defaultDomain = process.env.DOMAIN || "ONDC:FIS12";
+// Default to FIS13 for testing
+const defaultDomain = process.env.DOMAIN || "ONDC:FIS13";
 
 export const actionConfig = yaml.load(
-	readFileSync(path.join(__dirname, "./FIS12/factory.yaml"), "utf8")
+	readFileSync(path.join(__dirname, "./FIS13/factory.yaml"), "utf8")
 ) as any;
 
 export const defaultSessionData = (domain: string = defaultDomain) => {
 	let sessionDataPath: string;
-
 	switch (domain) {
+		case "ONDC:FIS13":
+			sessionDataPath = path.join(__dirname, `./FIS13/session-data.yaml`);
+			break;
+		case "ONDC:FIS14":
+			sessionDataPath = path.join(__dirname, `./FIS14/session-data.yaml`);
+			break;
+		case "ONDC:FIS10":
+			sessionDataPath = path.join(__dirname, `./FIS10/session-data.yaml`);
+			break;
 		case "ONDC:FIS12":
 			sessionDataPath = path.join(__dirname, `./FIS12/session-data.yaml`);
+			break;
+		case "ONDC:TRV14":
+			sessionDataPath = path.join(__dirname, `./TRV14/session-data.yaml`);
 			break;
 		default:
 			sessionDataPath = path.join(__dirname, `./${domain}/session-data.yaml`);
@@ -43,7 +54,7 @@ export async function generateMockResponse(
 		console.log("generateMockResponse - defaultDomain:", defaultDomain);
 		console.log("generateMockResponse - sessionData", sessionData);
 		
-		let response = await createFIS12MockResponse(
+		let response = await createFIS13MockResponse(
 			session_id,
 			sessionData,
 			action_id,
@@ -58,7 +69,7 @@ export async function generateMockResponse(
 }
 
 export function getMockActionObject(actionId: string, domain: string = defaultDomain) {
-		return getFIS12MockAction(actionId);
+		return getFIS13MockAction(actionId);
 		}
 
 export function getActionData(code: number, domain: string = defaultDomain) {
@@ -80,6 +91,7 @@ export function getSaveDataContent(version: string, action: string, domain: stri
 	
 	switch (domain) {
 		case "ONDC:FIS14":
+		case "ONDC:FIS13":
 		case "ONDC:TRV14":
 		case "ONDC:FIS10":
 		case "ONDC:FIS12":
@@ -104,5 +116,5 @@ export function getSaveDataContent(version: string, action: string, domain: stri
 }
 
 export function getUiMetaKeys(): (keyof MockSessionData)[] {
-	return ["kyc_verification_status", "consumer_information_form", "personal_loan_information_form","loan_amount_adjustment_form", "manadate_details_form"];
+	return ["individual_information_form","family_information_form","Ekyc_details_form","Proposer_Details_form","nominee_details_form","consumer_information_form"];
 }
