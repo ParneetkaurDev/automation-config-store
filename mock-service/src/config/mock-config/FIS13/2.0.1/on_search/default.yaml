@@ -1,0 +1,163 @@
+catalog:
+  descriptor:
+    name: "ABC Insurance Ltd"
+  providers:
+    - id: "P1"
+      descriptor:
+        name: "ABC Insurance Ltd."
+        short_desc: "ABC Insurance Ltd. India"
+        long_desc: "ABC Insurance Ltd. Deals in multiple Insurance Services like Health, Motor, Marine etc"
+        images:
+          - url: "https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png"
+            size_type: "xs"
+      categories:
+        - id: "C1"
+          descriptor:
+            name: "Individual Insurance"
+            code: "INDIVIDUAL_INSURANCE"
+        - id: "C2"
+          descriptor:
+            name: "Family Insurance"
+            code: "FAMILY_INSURANCE"
+        - id: "C3"
+          descriptor:
+            name: "Health Insurance"
+            code: "HEALTH_INSURANCE"
+      items:
+        - id: "I1"
+          category_ids: ["C1", "C3"]
+          descriptor:
+            name: "Health Gain Plus Individual"
+            short_desc: "ABC Individual Health Insurance Class A with custom addon"
+          time:
+            duration: "P1Y"
+            label: "TENURE"
+          tags:
+            - descriptor:
+                name: "General Information"
+                code: "GENERAL_INFO"
+              list:
+                - descriptor:
+                    code: "COVERAGE_AMOUNT"
+                  value: "10000000"
+                - descriptor:
+                    code: "CO_PAYMENT"
+                  value: "Yes"
+                - descriptor:
+                    code: "ROOM_RENT_CAP"
+                  value: "25000"
+                - descriptor:
+                    code: "RESTORATION_BENEFIT"
+                  value: "No"
+                - descriptor:
+                    code: "CLAIM_SETTLEMENT_RATIO"
+                  value: "0.8"
+                - descriptor:
+                    code: "PRE_HOSPITALIZATION_COVERAGE_DAYS"
+                  value: "2"
+                - descriptor:
+                    code: "POST_HOSPITALIZATION_COVERAGE_DAYS"
+                  value: "5"
+                - descriptor:
+                    code: "MATERNITY_COVERAGE"
+                  value: "Yes"
+                - descriptor:
+                    code: "INITIAL_WAITING_PERIOD"
+                  value: "No"
+                - descriptor:
+                    code: "CASHLESS_HOSPITALS"
+                  value: "50"
+                - descriptor:
+                    code: "ROOM_CATEGORY"
+                  value: "Deluxe"
+          add_ons:
+            - id: "A1"
+              quantity:
+                available:
+                  count: 1
+              descriptor:
+                name: "No Claim Bonus"
+                code: "NO_CLAIM_BONUS"
+            - id: "A2"
+              quantity:
+                available:
+                  count: 1
+              descriptor:
+                name: "Daycare Cover"
+                code: "DAYCARE_COVER"
+            - id: "A3"
+              quantity:
+                available:
+                  count: 1
+              descriptor:
+                name: "Daily Cash Allowance"
+                code: "DAILY_CASH_ALLOWANCE"
+            - id: "A4"
+              quantity:
+                available:
+                  count: 1
+              descriptor:
+                name: "Domicialiary Expenses"
+                code: "DOMICILIARY_EXPENSES"
+            - id: "A5"
+              quantity:
+                available:
+                  count: 1
+              descriptor:
+                name: "Health Check-ups"
+                code: "HEALTH_CHECK_UPS"
+          xinput:
+            required: true
+            head:
+              descriptor:
+                name: "Customer Information"
+              index:
+                min: 0
+                cur: 0
+                max: 0
+              headings:
+                - "INSURED_PERSONAL_DETAILS"
+            form:
+              id: "FO1"
+              mime_type: "text/html"
+              url: "https://fis.test.bpp.io/form/buyer_dtls?formId=FO1"
+              resubmit: true
+              multiple_sumbissions: false
+      payments:
+        - collected_by: BPP
+          tags:
+            - descriptor:
+                code: BUYER_FINDER_FEES
+              display: false
+              list:
+                - descriptor:
+                    code: BUYER_FINDER_FEES_TYPE
+                  value: percent-annualized
+                - descriptor:
+                    code: BUYER_FINDER_FEES_PERCENTAGE
+                  value: "1"
+            - descriptor:
+                code: SETTLEMENT_TERMS
+              display: false
+              list:
+                - descriptor:
+                    code: SETTLEMENT_WINDOW
+                  value: PT60M
+                - descriptor:
+                    code: SETTLEMENT_BASIS
+                  value: Delivery
+                - descriptor:
+                    code: DELAY_INTEREST
+                  value: "2.5"
+                - descriptor:
+                    code: MANDATORY_ARBITRATION
+                  value: "TRUE"
+                - descriptor:
+                    code: COURT_JURISDICTION
+                  value: New Delhi
+                - descriptor:
+                    code: STATIC_TERMS
+                  value: https://www.icicibank.com/personal-banking/loans/personal-loan
+                - descriptor:
+                    code: OFFLINE_CONTRACT
+                  value: "true"

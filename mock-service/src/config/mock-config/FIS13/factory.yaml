@@ -1,0 +1,156 @@
+codes:
+  - code: 200
+    action_id: search
+    action: search
+    default: FIS13/2.0.1/search/default.yaml
+    message_id: true
+  - code: 201
+    action_id: on_search
+    action: on_search
+    default: FIS13/2.0.1/on_search/default.yaml
+    message_id: false
+  - code: 202
+    action_id: search2
+    action: search
+    default: FIS13/2.0.1/search2/default.yaml
+    message_id: true
+  - code: 203
+    action_id: on_search2
+    action: on_search
+    default: FIS13/2.0.1/on_search2/default.yaml
+    message_id: false
+  - code: 202
+    action_id: search3
+    action: search
+    default: FIS13/2.0.1/search3/default.yaml
+    message_id: true
+  - code: 203
+    action_id: on_search3
+    action: on_search
+    default: FIS13/2.0.1/on_search3/default.yaml
+    message_id: false
+  - code: 204
+    action_id: select
+    action: select
+    default: FIS13/2.0.1/select/default.yaml
+    message_id: true
+  - code: 205
+    action_id: on_select
+    action: on_select
+    default: FIS13/2.0.1/on_select/default.yaml
+    message_id: false
+  - code: 206
+    action_id: init
+    action: init
+    default: FIS13/2.0.1/init/default.yaml
+    message_id: true
+  - code: 207
+    action_id: on_init
+    action: on_init
+    default: FIS13/2.0.1/on_init/default.yaml
+    message_id: false
+  - code: 208
+    action_id: init2
+    action: init
+    default: FIS13/2.0.1/init2/default.yaml
+    message_id: true
+  - code: 209
+    action_id: on_init2
+    action: on_init
+    default: FIS13/2.0.1/on_init2/default.yaml
+    message_id: false
+  - code: 210
+    action_id: init3
+    action: init
+    default: FIS13/2.0.1/init3/default.yaml
+    message_id: true
+  - code: 211
+    action_id: on_init3
+    action: on_init
+    default: FIS13/2.0.1/on_init3/default.yaml
+    message_id: false
+  - code: 212
+    action_id: confirm
+    action: confirm
+    default: FIS13/2.0.1/confirm/default.yaml
+    message_id: true
+  - code: 213
+    action_id: on_confirm
+    action: on_confirm
+    default: FIS13/2.0.1/on_confirm/default.yaml
+    message_id: false
+  - code: 214
+    action_id: update
+    action: update
+    default: FIS13/2.0.1/update/default.yaml
+    message_id: true
+  - code: 214
+    action_id: on_update
+    action: on_update
+    default: FIS13/2.0.1/on_update/default.yaml
+    message_id: false 
+  - code: 215
+    action_id: on_update_unsolicited
+    action: on_update
+    default: FIS13/2.0.1/on_update_unsolicited/default.yaml
+    message_id: true
+  - code: 219
+    action_id: on_update_unsolicited2
+    action: on_update
+    default: FIS13/2.0.1/on_update_unsolicited2/default.yaml
+    message_id: true
+  - code: 220
+    action_id: on_update_unsolicited3
+    action: on_update
+    default: FIS13/2.0.1/on_update_unsolicited3/default.yaml
+    message_id: true
+  - code: 221
+    action_id: on_update_unsolicited4
+    action: on_update
+    default: FIS13/2.0.1/on_update_unsolicited4/default.yaml
+    message_id: true
+  - code: 222
+    action_id: on_update_unsolicited5
+    action: on_update
+    default: FIS13/2.0.1/on_update_unsolicited5/default.yaml
+    message_id: true
+  - code: 224
+    action_id: on_update_unsolicited6
+    action: on_update
+    default: FIS13/2.0.1/on_update_unsolicited6/default.yaml
+    message_id: true
+  - code: 225
+    action_id: on_update_unsolicited7
+    action: on_update
+    default: FIS13/2.0.1/on_update_unsolicited7/default.yaml
+    message_id: true
+  - code: 216
+    action_id: status
+    action: status
+    default: FIS13/2.0.1/status/default.yaml
+    message_id: true
+  - code: 217
+    action_id: on_status
+    action: on_status
+    default: FIS13/2.0.1/on_status/default.yaml
+    message_id: false
+  - code: 218
+    action_id: on_status_unsolicited
+    action: on_status
+    default: FIS13/2.0.1/on_status_unsolicited/default.yaml
+    message_id: true
+  - code: 223
+    action_id: on_status_unsolicited2
+    action: on_status
+    default: FIS13/2.0.1/on_status_unsolicited2/default.yaml
+    message_id: true
+  - code: 226
+    action_id: cancel
+    action: cancel
+    default: FIS13/2.0.1/cancel/default.yaml
+    message_id: true
+  - code: 227
+    action_id: on_cancel
+    action: on_cancel
+    default: FIS13/2.0.1/on_cancel/default.yaml
+    message_id: true
