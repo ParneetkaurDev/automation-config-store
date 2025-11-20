@@ -45,11 +45,8 @@ export async function updateFulfillmentDefaultGenerator(existingPayload: any, se
     if (!existingPayload.message.update_target) existingPayload.message.update_target = 'payments';
 
     existingPayload.message.order = existingPayload.message.order || {};
-    existingPayload.message.order.payments = existingPayload.message.order.payments || [{}];
 
-    const payment = existingPayload.message.order.payments[0];
-    payment.time = payment.time || {};
-
+   
     // Choose label based on flow_id, user_inputs, or saved update_label
     let labelFromSession = sessionData.update_label;
     
@@ -65,24 +62,19 @@ export async function updateFulfillmentDefaultGenerator(existingPayload: any, se
     }
     
     // Fallback to user_inputs if no flow-based mapping found
-    if (!labelFromSession) {
-      labelFromSession = sessionData.user_inputs?.foreclosure_amount ? 'FORECLOSURE'
-        : sessionData.user_inputs?.missed_emi_amount ? 'MISSED_EMI_PAYMENT'
-        : sessionData.user_inputs?.part_payment_amount ? 'PRE_PART_PAYMENT'
-        : payment.time.label;
-    }
+    // if (!labelFromSession) {
+    //   labelFromSession = sessionData.user_inputs?.foreclosure_amount ? 'FORECLOSURE'
+    //     : sessionData.user_inputs?.missed_emi_amount ? 'MISSED_EMI_PAYMENT'
+    //     : sessionData.user_inputs?.part_payment_amount ? 'PRE_PART_PAYMENT'
+    //     : payment.time.label;
+    // }
     
-    if (labelFromSession) {
-      payment.time.label = labelFromSession;
-      console.log(`Payment label set to: ${labelFromSession} based on flow_id: ${sessionData.flow_id}`);
-    }
+    // if (labelFromSession) {
+    //   payment.time.label = labelFromSession;
+    //   console.log(`Payment label set to: ${labelFromSession} based on flow_id: ${sessionData.flow_id}`);
+    // }
 
-    // Amount mapping for part payment (optional for other labels)
-    if (sessionData.user_inputs?.part_payment_amount) {
-      payment.params = payment.params || {};
-      payment.params.amount = String(sessionData.user_inputs.part_payment_amount);
-      payment.params.currency = payment.params.currency || sessionData.update_currency || 'INR';
-    }
+   
   }
   
   console.log("Gold Loan update payload generated successfully");

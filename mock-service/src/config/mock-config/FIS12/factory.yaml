@@ -10,9 +10,9 @@ codes:
     default: FIS12/gold-loan/2.0.2/on_search/default.yaml
     message_id: false
   - code: 202
-    action_id: select
+    action_id: select_adjust_loan_amount
     action: select
-    default: FIS12/gold-loan/2.0.2/select/default.yaml
+    default: FIS12/gold-loan/2.0.2/select_adjust_loan_amount/default.yaml
     message_id: true
   - code: 2021
     action_id: select_1
@@ -25,9 +25,9 @@ codes:
     default: FIS12/gold-loan/2.0.2/select_2/default.yaml
     message_id: true
   - code: 203
-    action_id: on_select
+    action_id: on_select_adjust_loan_amount
     action: on_select
-    default: FIS12/gold-loan/2.0.2/on_select/default.yaml
+    default: FIS12/gold-loan/2.0.2/on_select_adjust_loan_amount/default.yaml
     message_id: false
   - code: 2031
     action_id: on_select_1

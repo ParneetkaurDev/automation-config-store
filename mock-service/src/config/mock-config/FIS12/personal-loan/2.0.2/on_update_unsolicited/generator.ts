@@ -81,7 +81,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
       }
 
       // Map item.id from session data (carry-forward from confirm)
-      const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+      const selectedItem = Array.isArray(sessionData.selected_items) ? sessionData.selected_items[0] : undefined;
       if (selectedItem?.id) {
         if (order.items?.[0]) {
           order.items[0].id = selectedItem.id;
@@ -129,8 +129,8 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   // Ensure payments structure exists
   orderRef.payments = orderRef.payments || [{}];
   const firstPayment = orderRef.payments[0];
-  firstPayment.time = firstPayment.time || {};
-  firstPayment.time.label = label;
+  // firstPayment.time = firstPayment.time || {};
+  // firstPayment.time.label = label;
 
   if (label === 'MISSED_EMI_PAYMENT') {
     // Set payment params for missed EMI (matching on_confirm installment amount)
@@ -140,14 +140,13 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     
     // Set time range based on context timestamp
     const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
-    firstPayment.time.range = generateTimeRangeFromContext(contextTimestamp);
     
     // Mark the specific delayed installment as PAID (based on current month)
     updateMissedEMIStatus(orderRef.payments, contextTimestamp);
     
     // Set payment URL
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=46360&ref_id=${encodeURIComponent(refId)}`;
+    // firstPayment.url = `https://pg.icici.com/?amount=46360&ref_id=${encodeURIComponent(refId)}`;
   }
 
   if (label === 'FORECLOSURE') {
@@ -165,16 +164,22 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     firstPayment.params = firstPayment.params || {};
     firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
     firstPayment.params.currency = "INR";
-    
+    const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
+
     // Mark unpaid installments as DEFERRED (already paid ones stay PAID)
     updateForeclosurePaymentStatus(orderRef.payments);
-    
+    orderRef.payments.forEach((payment:any) => {
+      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
+        payment.time.range = generateTimeRangeFromContext(contextTimestamp)
+
+       
+      }
+    });
     // Remove time range for foreclosure
-    if (firstPayment.time.range) delete firstPayment.time.range;
     
     // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
+    // const refId = sessionData.?message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
+    // firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
   }
   
   if (label === 'PRE_PART_PAYMENT') {

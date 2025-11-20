@@ -57,7 +57,7 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
   }
   
   // Update form_response with status and submission_id (preserve existing structure)
-  const submission_id = sessionData?.form_data?.consumer_information_form?.form_submission_id;
+  const submission_id = sessionData?.form_data?.loan_amount_adjustment_form?.form_submission_id;
 
   console.log("checking form data", sessionData.form_data.consumer_information_form)
 

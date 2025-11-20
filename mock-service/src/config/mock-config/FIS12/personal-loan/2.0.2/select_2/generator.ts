@@ -43,9 +43,11 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
   }
   
   // Update item.id if available from session data (carry-forward from on_search)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  const selectedItem = Array.isArray(sessionData.selected_items) ? sessionData.selected_items[0] : undefined;
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
+    sessionData.selected_items_xinput.form_response.status= "APPROVED"
+    existingPayload.message.order.items[0].xinput=sessionData.selected_items_xinput
     console.log("Updated item.id:", selectedItem.id);
   }
   
@@ -55,21 +57,8 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
     existingPayload.message.order.items[0].location_ids = [selectedLocationId];
     console.log("Updated location_ids:", selectedLocationId);
   }
+   
   
-  // Update form_response with status and submission_id (preserve existing structure)
-  const submission_id = sessionData?.form_data?.consumer_information_form?.form_submission_id;
-
-  console.log("checking form data", sessionData.form_data.consumer_information_form)
-
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-    existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
-    if (submission_id) {
-      existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
-    } else {
-      existingPayload.message.order.items[0].xinput.form_response.submission_id = `F01_SUBMISSION_ID_${Date.now()}`;
-    }
-    console.log("Updated form_response with status and submission_id");
-  }
   
   return existingPayload;
 }

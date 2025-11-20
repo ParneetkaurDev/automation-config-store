@@ -5,7 +5,7 @@
  * 1. Update context with current timestamp
  * 2. Update transaction_id and message_id from session data (carry-forward mapping)
  * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update form URL for kyc_verification_status (preserve existing structure)
+ * 4. Update form URL for verification_status (preserve existing structure)
  */
 
 export async function onSelect2Generator(existingPayload: any, sessionData: any) {
@@ -53,8 +53,8 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
   
   // Update form URL for kyc_verification_status (preserve existing structure)
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/kyc_verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-    console.log("URL for kyc_verification_status in on_select_2", url);
+    const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+    console.log("URL for verification_status in on_select_2", url);
     existingPayload.message.order.items[0].xinput.form.url = url;
   }
 

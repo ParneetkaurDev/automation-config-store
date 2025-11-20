@@ -73,8 +73,7 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   
   // Update fulfillment state to DISBURSED (loan has been confirmed and disbursed)
   if (existingPayload.message?.order?.fulfillments?.[0]?.state?.descriptor) {
-    existingPayload.message.order.fulfillments[0].state.descriptor.code = "DISBURSED";
-    existingPayload.message.order.fulfillments[0].state.descriptor.name = "Loan Disbursed";
+       existingPayload.message.order.fulfillments[0].state.descriptor.name = "Loan Disbursed";
     console.log("Updated fulfillment state to DISBURSED");
   }
   

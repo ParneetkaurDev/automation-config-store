@@ -127,8 +127,7 @@ order:
     ttl: "PT15D"
 
   fulfillments:
-    - type: "LOAN"
-      customer:
+    - customer:
         person: { name: "John Doe" }
         contact:
           phone: "+91-9999999999"

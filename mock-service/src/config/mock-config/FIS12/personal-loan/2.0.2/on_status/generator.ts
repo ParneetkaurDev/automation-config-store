@@ -1,3 +1,5 @@
+import { generateTimeRangeFromContext } from "../generator-utils";
+
 export async function onStatusGenerator(existingPayload: any, sessionData: any) {
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
@@ -60,21 +62,29 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
       }
     }
   }
+  const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
 
+  existingPayload.message.order.payments.forEach((payment:any) => {
+        if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
+          payment.time.range = generateTimeRangeFromContext(contextTimestamp)
+  
+         
+        }
+      });
   // Fix fulfillments: remove customer details and state
-  if (existingPayload.message?.order?.fulfillments) {
-    existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
-      // Remove customer details
-      delete fulfillment.customer;
-      // Remove state
-      delete fulfillment.state;
-    });
-  }
+  // if (existingPayload.message?.order?.fulfillments) {
+  //   existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
+  //     // Remove customer details
+  //     delete fulfillment.customer;
+  //     // Remove state
+  //     delete fulfillment.state;
+  //   });
+  // }
 
   // Remove documents section completely
-  if (existingPayload.message?.order?.documents) {
-    delete existingPayload.message.order.documents;
-  }
+  // if (existingPayload.message?.order?.documents) {
+  //   delete existingPayload.message.order.documents;
+  // }
 
   // Update quote information if provided
   if (sessionData.quote_amount && existingPayload.message?.order?.quote) {

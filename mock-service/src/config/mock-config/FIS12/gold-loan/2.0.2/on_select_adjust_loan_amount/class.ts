@@ -3,9 +3,9 @@ import yaml from "js-yaml";
 import path from "path";
 import { MockAction, MockOutput, saveType } from "../../../classes/mock-action";
 import { SessionData } from "../../../session-types";
-import { onSelectDefaultGenerator } from "./generator";
+import { onSelectAdjustLoanAmountDefaultGenerator } from "./generator";
 
-export class MockOnSelectClass extends MockAction {
+export class MockOnSelectAdjustLoanAmountClass extends MockAction {
     get saveData(): saveType {
         return yaml.load(
             readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
@@ -20,13 +20,13 @@ export class MockOnSelectClass extends MockAction {
         return {};
     }
     name(): string {
-        return "on_select";
+        return "on_select_adjust_loan_amount";
     }
     get description(): string {
-        return "Mock for on_select";
+        return "Mock for on_select_adjust_loan_amount";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return onSelectDefaultGenerator(existingPayload, sessionData);
+        return onSelectAdjustLoanAmountDefaultGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         // Basic structural validation for the two variants

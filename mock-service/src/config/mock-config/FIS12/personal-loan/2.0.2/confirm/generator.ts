@@ -33,9 +33,12 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
-  
+  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
+  if(existingPayload.message?.order?.items?.[0]?.xinput?.form_response){
+    existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+  } 
   // Update item.id if available from session data (carry-forward from previous flows)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  const selectedItem =Array.isArray(sessionData.selected_items) ? sessionData.selected_items[0] : undefined ;
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     console.log("Updated item.id:", selectedItem.id);

@@ -4,3 +4,5 @@ save-data:
   selected_provider: "$.message.order.provider"
   selected_items: "$.message.order.items[*]"
   selected_fulfillments: "$.message.order.fulfillments[*]"
+  quote: "$.message.quote" 
+  loan_amount_adjustment_form: "$..form.url"

@@ -1,9 +1,9 @@
 import { MockSearchClass } from "./gold-loan/2.0.2/search/class";
 import { MockOnSearchClass } from "./gold-loan/2.0.2/on_search/class";
-import { MockSelectClass} from "./gold-loan/2.0.2/select/class";
+import { MockSelectAdjustLoanAmountClass} from "./gold-loan/2.0.2/select_adjust_loan_amount/class";
 import { MockSelect1Class } from "./gold-loan/2.0.2/select_1/class";
 import { MockSelect2Class } from "./gold-loan/2.0.2/select_2/class";
-import { MockOnSelectClass } from "./gold-loan/2.0.2/on_select/class";
+import { MockOnSelectAdjustLoanAmountClass } from "./gold-loan/2.0.2/on_select_adjust_loan_amount/class";
 import { MockOnSelect1Class } from "./gold-loan/2.0.2/on_select_1/class";
 import { MockOnSelect2Class } from "./gold-loan/2.0.2/on_select_2/class";
 import { MockInitClass } from "./gold-loan/2.0.2/init/class";
@@ -15,7 +15,7 @@ import { MockOnUpdateClass } from "./gold-loan/2.0.2/on_update/class";
 import { MockOnUpdateUnsolicitedClass } from "./gold-loan/2.0.2/on_update_unsolicited/class";
 import type { MockAction } from "./classes/mock-action";
 import { MockConsumerInformationFormClass } from "./gold-loan/2.0.2/form/consumer_information_form";
-import { MockKycVerificationStatusClass } from "./gold-loan/2.0.2/form_2/kyc_verification_status";
+import { MockVerificationStatusClass } from "./gold-loan/2.0.2/form_2/verification_status";
 import { MockStatusClass } from "./gold-loan/2.0.2/status/class";
 import { MockOnStatusClass } from "./gold-loan/2.0.2/on_status/class";
 import { MockOnStatusUnsolicitedClass } from "./gold-loan/2.0.2/on_status_unsolicited/class";
@@ -55,7 +55,7 @@ import { MockUpdatePersonalLoanFulfillmentClass } from "./personal-loan/2.0.2/up
 import { MockOnUpdatePersonalLoanFulfillmentClass } from "./personal-loan/2.0.2/on_update_personal_loan_fulfillment/class";
 import { MockLoanAdjustmentFormClass } from "./personal-loan/2.0.2/loan-adjustment-form/loan-amount-adjustment-form";
 import { MockMandateDetailsForm } from "./personal-loan/2.0.2/mandate-details-form/manadate-details-form";
-import { MockPersonalLoanInformationFormClass } from "./personal-loan/2.0.2/personal_loan_information_form/personal_loan_information_form";
+import { MockPersonalLoanInformationFormClass } from "./personal-loan/2.0.2/personal_loan_information_form/class";
 
 type Ctor<T> = new () => T;
 
@@ -68,13 +68,12 @@ const registry = {
 	on_search: MockOnSearchClass,
 
 	// select
-	select: MockSelectClass,
 	select_1: MockSelect1Class,
 	select_2: MockSelect2Class,
-	on_select: MockOnSelectClass,
 	on_select_1: MockOnSelect1Class,
 	on_select_2: MockOnSelect2Class,
-
+	select_adjust_loan_amount: MockSelectAdjustLoanAmountClass,
+	on_select_adjust_loan_amount: MockOnSelectAdjustLoanAmountClass,
 	// init / on_init
 	init: MockInitClass,
 	on_init: MockOnInitClass,
@@ -93,7 +92,7 @@ const registry = {
 	on_update: MockOnUpdateClass,
 	on_update_unsolicited: MockOnUpdateUnsolicitedClass,
 	consumer_information_form: MockConsumerInformationFormClass,
-	kyc_verification_status: MockKycVerificationStatusClass,
+	verification_status: MockVerificationStatusClass,
 	loan_amount_adjustment_form: MockLoanAdjustmentFormClass,
 	manadate_details_form: MockMandateDetailsForm,
 	personal_loan_information_form: MockPersonalLoanInformationFormClass,

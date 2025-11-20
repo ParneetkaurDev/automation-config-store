@@ -45,6 +45,8 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
                        (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
+    sessionData.selected_items_xinput.form_response.status= "PENDING"
+    existingPayload.message.order.items[0].xinput=sessionData.selected_items_xinput
     console.log("Updated item.id:", selectedItem.id);
   }
   
@@ -76,7 +78,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
       const consentRequest = {
         custId: custId,
         templateName: "FINVUDEMO_TESTING",
-        consentDescription: "Gold Loan Account Aggregator Consent",
+        consentDescription: "Personal Loan Account Aggregator Consent",
         redirectUrl: "https://google.co.in"
       };
       
@@ -99,7 +101,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
       // Inject consent handler into payload tags
       if (existingPayload.message?.order?.items?.[0]) {
         const item = existingPayload.message.order.items[0];
-        
+        item.xinput=sessionData.selected_items_xinput
         // Initialize tags array if it doesn't exist
         if (!item.tags) {
           item.tags = [];
@@ -169,12 +171,16 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     console.warn("⚠️ No contact number found in session data - skipping Finvu AA integration");
     console.log("Available form data:", sessionData.form_data);
   }
-  
+  console.log("Available form data:", sessionData.form_data);
+  console.log("Available form data personal info :", sessionData.form_data.personal_loan_information_form);
   console.log("--- Finvu AA Integration End ---");
 
   // ========== FORM URL UPDATE ==========
   
   console.log("=== On Select1 Generator End ===");
+  console.log("Form data:", sessionData?.form_data?.personal_loan_information_form);
+  console.log("Form data:", sessionData?.form_data?.personal_loan_information_form.contactNumber);
+  
   return existingPayload;
 }
 
