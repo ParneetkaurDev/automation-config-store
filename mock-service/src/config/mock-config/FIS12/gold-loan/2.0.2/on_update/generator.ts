@@ -160,8 +160,10 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     addDelayedInstallment(orderRef, contextTimestamp);
     
     // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=46360&ref_id=${encodeURIComponent(refId)}`;
+    const paymentAmount = firstPayment.params.amount;
+    const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
+    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&amount=${paymentAmount}`;
+    console.log("Payment URL for MISSED_EMI_PAYMENT:", firstPayment.url);
   }
 
   if (label === 'FORECLOSURE') {
@@ -184,9 +186,10 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     // Remove time range for foreclosure
     if (firstPayment.time.range) delete firstPayment.time.range;
     
-    // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
+        const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
+        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&direct=true`;
+        firstPayment.url = paymentUrl;
+        console.log("Payment URL for FORECLOSURE:", firstPayment.url);
   }
   
   if (label === 'PRE_PART_PAYMENT') {

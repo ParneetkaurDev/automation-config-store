@@ -1,18 +1,3 @@
-/**
- * On Update Unsolicited Generator for FIS12
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data
- * 3. Map quote.id, provider.id, order.id, and item.id from session data
- * 4. Handle three payment types: MISSED_EMI_PAYMENT, FORECLOSURE, PRE_PART_PAYMENT
- * 5. Set time ranges based on context timestamp for MISSED_EMI_PAYMENT
- * 6. Update payment statuses based on flow:
- *    - MISSED_EMI_PAYMENT: Mark delayed installment as PAID
- *    - FORECLOSURE: Mark all installments as PAID
- *    - PRE_PART_PAYMENT: Add deferred installments with PAID status for some
- */
-
 export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
   if (existingPayload.context) {
@@ -201,8 +186,10 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     updateMissedEMIStatus(orderRef.payments, contextTimestamp);
     
     // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=46360&ref_id=${encodeURIComponent(refId)}`;
+
+    const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
+    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&direct=true`;
+    console.log("Payment URL for MISSED_EMI_PAYMENT:", firstPayment.url);
   }
 
   if (label === 'FORECLOSURE') {
@@ -228,8 +215,9 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     if (firstPayment.time.range) delete firstPayment.time.range;
     
     // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
+    const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
+    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&direct=true`;
+    console.log("Payment URL for FORECLOSURE:", firstPayment.url);
   }
   
   if (label === 'PRE_PART_PAYMENT') {

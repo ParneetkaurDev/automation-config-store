@@ -116,7 +116,6 @@ export async function onUpdatePersonalLoanFulfillmentGenerator(existingPayload: 
     } else {
       console.warn("⚠️ existingPayload.message is missing");
     }
-
   // Branch by update label
   const orderRef = existingPayload.message?.order || {};
   const label = sessionData.update_label
@@ -130,7 +129,7 @@ export async function onUpdatePersonalLoanFulfillmentGenerator(existingPayload: 
   orderRef.payments = orderRef.payments || [{}];
   const firstPayment = orderRef.payments[0];
   firstPayment.time = firstPayment.time || {};
-  firstPayment.time.label = label;
+  
 
   if (label === 'MISSED_EMI_PAYMENT') {
     // Set payment params for missed EMI (matching on_confirm installment amount)
@@ -147,7 +146,7 @@ export async function onUpdatePersonalLoanFulfillmentGenerator(existingPayload: 
     
     // Set payment URL
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=46360&ref_id=${encodeURIComponent(refId)}`;
+    // firstPayment.url = `https://pg.icici.com/?amount=46360&ref_id=${encodeURIComponent(refId)}`;
   }
 
   if (label === 'FORECLOSURE') {
@@ -165,16 +164,23 @@ export async function onUpdatePersonalLoanFulfillmentGenerator(existingPayload: 
     firstPayment.params = firstPayment.params || {};
     firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
     firstPayment.params.currency = "INR";
-    
+    const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
+
     // Mark unpaid installments as DEFERRED (already paid ones stay PAID)
     updateForeclosurePaymentStatus(orderRef.payments);
-    
-    // Remove time range for foreclosure
+       // Remove time range for foreclosurePF
+       orderRef.payments.forEach((payment:any) => {
+        if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
+          payment.time.range = generateTimeRangeFromContext(contextTimestamp)
+  
+         
+        }
+      });
     if (firstPayment.time.range) delete firstPayment.time.range;
     
     // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
+    // const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
+    // firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
   }
   
   if (label === 'PRE_PART_PAYMENT') {
@@ -195,7 +201,7 @@ export async function onUpdatePersonalLoanFulfillmentGenerator(existingPayload: 
     
     // Set payment URL
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
+    // firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
   }
   
   console.log("=== On Update Personal Loan Fulfillment Generator Complete ===");

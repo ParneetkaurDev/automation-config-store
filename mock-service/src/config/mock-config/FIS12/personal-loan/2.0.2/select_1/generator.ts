@@ -7,7 +7,7 @@ export async function select1Generator(existingPayload: any, sessionData: any) {
   // console.log("data--> " + data)
   
   console.log("existingPayload-->",existingPayload)
-  const submission_id = sessionData?.form_data?.consumer_information_form?.form_submission_id;
+  const submission_id = sessionData?.form_data?.personal_loan_information_form?.form_submission_id;
 
   // Map provider.id and item.id from on_search saved session if available
   const selectedProvider = sessionData.selected_provider;

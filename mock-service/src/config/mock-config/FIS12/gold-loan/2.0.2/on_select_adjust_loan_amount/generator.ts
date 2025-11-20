@@ -1,14 +1,14 @@
 /**
- * On Select Generator for FIS12 Gold Loan
+ * On Select Generator for FIS12 Gold Loan - Adjust Loan Amount
  * 
  * Logic:
  * 1. Update context with current timestamp
  * 2. Update transaction_id and message_id from session data (carry-forward mapping)
  * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update xinput form ID to FO3 for offline journey (preserve existing structure)
+ * 4. Update xinput form URL for loan_amount_adjustment_form
  */
 
-export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
+export async function onSelectAdjustLoanAmountDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("On Select generator - Available session data:", {
     transaction_id: sessionData.transaction_id,
     message_id: sessionData.message_id,
@@ -46,12 +46,17 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
     }
   }
   
-  // Update xinput form ID to FO3 for offline journey (preserve existing structure)
+  // Update xinput form URL for loan_amount_adjustment_form
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    existingPayload.message.order.items[0].xinput.form.id = "FO3";
-    existingPayload.message.order.items[0].xinput.form.url = "https://bpp.credit.becknprotocol.org/loans-details/xinput?formid=FO3";
-    console.log("Updated xinput form to FO3 for offline journey");
+    const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/loan_amount_adjustment_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+    console.log("✅ URL for loan_amount_adjustment_form in on_select_adjust_loan_amount:", url);
+    existingPayload.message.order.items[0].xinput.form.url = url;
+    console.log("✅ Form URL successfully set in payload");
+  } else {
+    console.error("❌ FAILED: Payload structure doesn't match expected path for form URL!");
+    console.log("Actual payload structure:", JSON.stringify(existingPayload.message?.order, null, 2));
   }
+
   
   return existingPayload;
 } 

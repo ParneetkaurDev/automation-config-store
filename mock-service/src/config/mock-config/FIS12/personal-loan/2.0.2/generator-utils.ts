@@ -66,7 +66,7 @@ export function updateForeclosurePaymentStatus(payments: any[]) {
     if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
       // Keep already PAID installments as PAID, change others to DEFERRED
       if (payment.status !== 'PAID') {
-        payment.status = 'DEFERRED';
+        payment.status = 'NOT-PAID';
       }
     }
   });

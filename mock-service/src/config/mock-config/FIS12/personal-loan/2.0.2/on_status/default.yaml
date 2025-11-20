@@ -179,8 +179,7 @@ order:
         price: { value: "1100", currency: "INR" }
 
   fulfillments:
-    - type: "LOAN"
-      customer:
+    - customer:
         person:
           name: "John Doe"
         contact:
