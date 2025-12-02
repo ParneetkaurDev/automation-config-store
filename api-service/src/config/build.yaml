@@ -41747,12 +41747,15 @@ x-validations:
             attr: $.message.order.fulfillments[*].type
             enumList: &FULFILLMENT_TYPE
               - LOAN
+            _CONTINUE_: '!(attr are present)'  
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_AGENT_NAME
             attr: $.message.order.fulfillments[*].agent.person.name
+            _CONTINUE_: '!(attr are present)'
             _RETURN_: attr are present
           - _NAME_: REQUIRED_FULFILLMENT_AGENT_CONTACT
             attr: $.message.order.fulfillments[*].agent.contact.phone
+            _CONTINUE_: '!(attr are present)'
             _RETURN_: attr are present
 
       # Common xinput validations for on_select_2 offer flow (both loan types)

@@ -56,6 +56,7 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
     if (item.xinput?.form_response) {
       item.xinput.form_response.status = form_status;
       if (submission_id) {
+        item.xinput.form_response.status = 'COMPLETED';
         item.xinput.form_response.submission_id = submission_id;
       }
     }

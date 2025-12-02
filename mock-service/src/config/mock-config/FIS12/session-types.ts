@@ -65,6 +65,7 @@ export interface SessionData {
 	stage?: string; // optional transient stage marker
 	consumer_information_form?: string;
 	verification_status?: string;
+	Ekyc_details_form?: string;
 	manadate_details_form?: string;
 	loan_amount_adjustment_form?: string;
 	personal_loan_information_form?: string;

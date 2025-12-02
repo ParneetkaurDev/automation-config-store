@@ -28,11 +28,6 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
   
-  // Load order_id into order.id (structure uses order.id)
-  if (sessionData.order_id && existingPayload.message) {
-    existingPayload.message.order = existingPayload.message.order || {};
-    existingPayload.message.order.id = sessionData.order_id;
-  }
   
   // Load update_target from session data
   if (sessionData.update_target && existingPayload.message) {
@@ -45,6 +40,7 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
     if (!existingPayload.message.update_target) existingPayload.message.update_target = 'payments';
 
     existingPayload.message.order = existingPayload.message.order || {};
+    existingPayload.message.order.id = sessionData.order_id;
     existingPayload.message.order.payments = existingPayload.message.order.payments || [{}];
 
     const payment = existingPayload.message.order.payments[0];

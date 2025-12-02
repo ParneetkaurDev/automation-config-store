@@ -10,7 +10,7 @@
 
 import { randomUUID } from 'crypto';
 
-export async function select2Generator(existingPayload: any, sessionData: any) {
+export async function select3Generator(existingPayload: any, sessionData: any) {
   console.log("Select2 generator - Available session data:", {
     selected_provider: !!sessionData.selected_provider,
     selected_items: !!sessionData.selected_items,
@@ -62,7 +62,7 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
   console.log("checking form data", sessionData.form_data.consumer_information_form)
 
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-    // existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
+    existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
     if (submission_id) {
       existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
     } else {

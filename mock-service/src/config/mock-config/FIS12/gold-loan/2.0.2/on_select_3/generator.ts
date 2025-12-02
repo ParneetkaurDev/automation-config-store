@@ -8,7 +8,7 @@
  * 4. Update form URL for verification_status (preserve existing structure)
  */
 
-export async function onSelect2Generator(existingPayload: any, sessionData: any) {
+export async function onSelect3Generator(existingPayload: any, sessionData: any) {
   console.log("On Select2 generator - Available session data:", {
     transaction_id: sessionData.transaction_id,
     message_id: sessionData.message_id,
@@ -51,7 +51,7 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
     console.log("Updated location_ids:", selectedLocationId);
   }
   
-  // Update form URL for kyc_verification_status (preserve existing structure)
+  // Update form URL for Ekyc_details_form (preserve existing structure)
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/Ekyc_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
     console.log("URL for Ekyc_details_form in on_select_2", url);

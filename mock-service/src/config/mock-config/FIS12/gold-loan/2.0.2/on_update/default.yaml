@@ -158,7 +158,7 @@ order:
     price:
       currency: INR
       value: "223836"
-    ttl: PT15D
+    ttl: P15D
     breakup:
       - title: PRINCIPAL
         price:
