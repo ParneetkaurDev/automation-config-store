@@ -5,7 +5,7 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
 
   console.log("sessionData for on_status_unsolicited", sessionData);
 
-  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
+  const submission_id = sessionData?.form_data?.Ekyc_details_form?.form_submission_id;
 
   const form_status = sessionData?.form_data?.kyc_verification_status?.idType;
   

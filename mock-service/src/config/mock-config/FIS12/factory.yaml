@@ -19,10 +19,21 @@ codes:
     action: select
     default: FIS12/gold-loan/2.0.2/select_1/default.yaml
     message_id: true
+  - code: 2121
+    action_id: select_multiple_offer
+    action: select
+    default: FIS12/gold-loan/2.0.2/select_multiple_offer_1/default.yaml
+    message_id: true
+    
   - code: 2022
     action_id: select_2
     action: select
     default: FIS12/gold-loan/2.0.2/select_2/default.yaml
+    message_id: true
+  - code: 2023
+    action_id: select_gold_3
+    action: select
+    default: FIS12/gold-loan/2.0.2/select_3/default.yaml
     message_id: true
   - code: 203
     action_id: on_select_adjust_loan_amount
@@ -34,10 +45,20 @@ codes:
     action: on_select
     default: FIS12/gold-loan/2.0.2/on_select_1/default.yaml
     message_id: false
+  - code: 2123
+    action_id: on_select_multiple_offer
+    action: on_select
+    default: FIS12/gold-loan/2.0.2/on_select_multiple_offer_1/default.yaml
+    message_id: false
   - code: 2032
     action_id: on_select_2
     action: on_select
     default: FIS12/gold-loan/2.0.2/on_select_2/default.yaml
+    message_id: false
+  - code: 2115
+    action_id: on_select_gold_3
+    action: on_select
+    default: FIS12/gold-loan/2.0.2/on_select_3/default.yaml
     message_id: false
   - code: 204
     action_id: init

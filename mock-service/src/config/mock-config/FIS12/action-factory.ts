@@ -56,6 +56,11 @@ import { MockOnUpdatePersonalLoanFulfillmentClass } from "./personal-loan/2.0.2/
 import { MockLoanAdjustmentFormClass } from "./personal-loan/2.0.2/loan-adjustment-form/loan-amount-adjustment-form";
 import { MockMandateDetailsForm } from "./personal-loan/2.0.2/mandate-details-form/manadate-details-form";
 import { MockPersonalLoanInformationFormClass } from "./personal-loan/2.0.2/personal_loan_information_form/class";
+import { MockSelect3Class } from "./gold-loan/2.0.2/select_3/class";
+import { MockOnSelect3Class } from "./gold-loan/2.0.2/on_select_3/class";
+import { MockEkycVerificationStatusClass } from "./gold-loan/2.0.2/form_3/ekyc_details_form";
+import { MockSelectMultipleOfferClass } from "./gold-loan/2.0.2/select_multiple_offer_1/class";
+import { MockOnSelectMultipleOfferClass } from "./gold-loan/2.0.2/on_select_multiple_offer_1/class";
 
 type Ctor<T> = new () => T;
 
@@ -70,8 +75,12 @@ const registry = {
 	// select
 	select_1: MockSelect1Class,
 	select_2: MockSelect2Class,
+	select_multiple_offer: MockSelectMultipleOfferClass,
+	on_select_multiple_offer: MockOnSelectMultipleOfferClass,
+	select_gold_3: MockSelect3Class,
 	on_select_1: MockOnSelect1Class,
 	on_select_2: MockOnSelect2Class,
+	on_select_gold_3: MockOnSelect3Class,
 	select_adjust_loan_amount: MockSelectAdjustLoanAmountClass,
 	on_select_adjust_loan_amount: MockOnSelectAdjustLoanAmountClass,
 	// init / on_init
@@ -92,7 +101,9 @@ const registry = {
 	on_update: MockOnUpdateClass,
 	on_update_unsolicited: MockOnUpdateUnsolicitedClass,
 	consumer_information_form: MockConsumerInformationFormClass,
+	consumer_information_form_1: MockConsumerInformationFormClass,
 	verification_status: MockVerificationStatusClass,
+	Ekyc_details_form: MockEkycVerificationStatusClass,
 	loan_amount_adjustment_form: MockLoanAdjustmentFormClass,
 	manadate_details_form: MockMandateDetailsForm,
 	personal_loan_information_form: MockPersonalLoanInformationFormClass,

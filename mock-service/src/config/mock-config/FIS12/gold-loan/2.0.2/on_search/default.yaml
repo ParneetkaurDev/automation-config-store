@@ -13,8 +13,8 @@ catalog:
       categories:
         - id: "100001"
           descriptor:
-            code: "LOAN"
-            name: "Loan"       
+            code: "GOLD_LOAN"
+            name: "GOLD_LOAN"       
         - id: "101123"
           parent_category_id: "100001"
           descriptor:

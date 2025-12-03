@@ -192,7 +192,6 @@ order:
             max: 0
           headings:
             - "JOURNEY_OFFLINE"
-            - "SET_LOAN_AMOUNT"
         form:
           id: "FO3"
           mime_type: "application/html"
