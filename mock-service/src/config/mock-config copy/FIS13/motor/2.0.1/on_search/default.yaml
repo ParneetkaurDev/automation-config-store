@@ -1,0 +1,366 @@
+catalog:
+  descriptor:
+    name: "ABC Insurance Ltd"
+
+  providers:
+    - id: "P1"
+
+      categories:
+        - descriptor:
+            name: "Two Wheeler Comprehensive"
+            code: "TWO_WHEELER_COMPRIHENSIVE_INSURANCE"
+          parent_category_id: "C11"
+          id: "C1"
+
+        - descriptor:
+            name: "Two Wheeler Third Party"
+            code: "TWO_WHEELER_THIRD_PARTY_INSURANCE"
+          parent_category_id: "C11"
+          id: "C2"
+
+        - descriptor:
+            name: "Two Wheeler Own Damage"
+            code: "TWO_WHEELER_OWN_DAMAGE"
+          parent_category_id: "C11"
+          id: "C3"
+
+        - descriptor:
+            name: "Four Wheeler Comprehensive"
+            code: "FOUR_WHEELER_COMPRIHENSIVE_INSURANCE"
+          parent_category_id: "C10"
+          id: "C4"
+
+        - descriptor:
+            name: "Four Wheeler Third Party"
+            code: "FOUR_WHEELER_THIRD_PARTY_INSURANCE"
+          parent_category_id: "C10"
+          id: "C5"
+
+        - descriptor:
+            name: "Four Wheeler Own Damage"
+            code: "FOUR_WHEELER_OWN_DAMAGE"
+          parent_category_id: "C10"
+          id: "C6"
+
+        - descriptor:
+            name: "Motor Insurance"
+            code: "MOTOR_INSURANCE"
+          id: "C8"
+
+        - descriptor:
+            name: "FOUR WHEELER"
+            code: "FOUR_WHEELER_INSURANCE"
+          parent_category_id: "C8"
+          id: "C10"
+
+        - descriptor:
+            name: "TWO WHEELER"
+            code: "TWO_WHEELER_INSURANCE"
+          parent_category_id: "C8"
+          id: "C11"
+
+      descriptor:
+        long_desc: "Insurance Provider Long Description"
+        name: "Insurance Provider Name"
+        short_desc: "Insurance Provider Short Description"
+        images:
+          - url: "https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png"
+            size_type: "xs"
+
+      items:
+
+        - id: "I1"
+          category_ids:
+            - "C1"
+            - "C2"
+            - "C3"
+
+          descriptor:
+            name: "2-Wheeler 3rd Party Motor Insurance"
+            short_desc: "2-Wheeler 3rd Party Motor Insurance by ABC Insurance Provider"
+            images:
+              - url: "https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png"
+                size_type: "xs"
+
+          time:
+            duration: "P1Y"
+            label: "TENURE"
+
+          xinput:
+            head:
+              descriptor:
+                name: "Vehicle Details"
+              index:
+                min: 0
+                cur: 0
+                max: 0
+              headings:
+                - "VEHICLE_DETAILS"
+
+            form:
+              id: "FO1"
+              mime_type: "text/html"
+              url: "https://fis.test.bpp.io/form/vehicle_dtls_new?formid=FO1"
+              multiple_sumbissions: false
+              resubmit: false
+
+            required: true
+
+          add_ons:
+            - id: "A1"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Consumables Cover"
+                code: "CONSUMABLES_COVER"
+
+            - id: "A2"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Depreciation Cover"
+                code: "DEPRECIATION_COVER"
+
+            - id: "A3"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Electrical Accessories Cover"
+                code: "ELECTRICAL_ACCESSORIES_COVER"
+
+            - id: "A4"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "KEY COVER"
+                code: "KEY_COVER"
+
+            - id: "A5"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Non Electrical Accessories Cover"
+                code: "NON_ELECTRICAL_ACCESSORIES_COVER"
+
+            - id: "A6"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Tyre Cover"
+                code: "TYRE_COVER"
+
+            - id: "A7"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Personal Baggage Cover"
+                code: "PERSONAL_BAGGAGE_COVER"
+
+            - id: "A8"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Return To Invoice"
+                code: "RETURN_TO_INVOICE"
+
+            - id: "A9"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Daily Allowance"
+                code: "DAILY_ALLOWANCE"
+
+        - id: "I2"
+          category_ids:
+            - "C4"
+            - "C5"
+            - "C6"
+
+          descriptor:
+            name: "4-Wheeler 3rd Party Motor Insurance"
+            short_desc: "4-Wheeler 3rd Party Motor Insurance by ABC Insurance Provider"
+            images:
+              - url: "https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png"
+                size_type: "xs"
+
+          time:
+            duration: "P1Y"
+            label: "TENURE"
+
+          xinput:
+            head:
+              descriptor:
+                name: "Vehicle Details"
+              index:
+                min: 0
+                cur: 0
+                max: 0
+              headings:
+                - "Vehicle Details"
+
+            form:
+              id: "FO2"
+              mime_type: "text/html"
+              url: "https://fis.test.bpp.io/form/vehicle_dtls_renewal?formid=FO2"
+              multiple_sumbissions: false
+              resubmit: false
+
+            required: true
+
+          add_ons:
+            - id: "A1"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Consumables Cover"
+                code: "CONSUMABLES_COVER"
+
+            - id: "A2"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Depreciation Cover"
+                code: "DEPRECIATION_COVER"
+
+            - id: "A3"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Electrical Accessories Cover"
+                code: "ELECTRICAL_ACCESSORIES_COVER"
+
+            - id: "A4"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "KEY COVER"
+                code: "KEY_COVER"
+
+            - id: "A5"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Non Electrical Accessories Cover"
+                code: "NON_ELECTRICAL_ACCESSORIES_COVER"
+
+            - id: "A6"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Tyre Cover"
+                code: "TYRE_COVER"
+
+            - id: "A7"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Personal Baggage Cover"
+                code: "PERSONAL_BAGGAGE_COVER"
+
+            - id: "A8"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Return To Invoice"
+                code: "RETURN_TO_INVOICE"
+
+            - id: "A9"
+              quantity:
+                available:
+                  count: 1
+                maximum:
+                  count: 1
+              descriptor:
+                name: "Daily Allowance"
+                code: "DAILY_ALLOWANCE"
+
+      payments:
+        - collected_by: "BPP"
+          tags:
+            - descriptor:
+                code: "BUYER_FINDER_FEES"
+              display: false
+              list:
+                - descriptor:
+                    code: "BUYER_FINDER_FEES_TYPE"
+                  value: "percent-annualized"
+                - descriptor:
+                    code: "BUYER_FINDER_FEES_PERCENTAGE"
+                  value: "1"
+
+            - descriptor:
+                code: "SETTLEMENT_TERMS"
+              display: false
+              list:
+                - descriptor:
+                    code: "SETTLEMENT_WINDOW"
+                  value: "PT60M"
+                - descriptor:
+                    code: "SETTLEMENT_BASIS"
+                  value: "Delivery"
+                - descriptor:
+                    code: "DELAY_INTEREST"
+                  value: "2.5"
+                - descriptor:
+                    code: "MANDATORY_ARBITRATION"
+                  value: "TRUE"
+                - descriptor:
+                    code: "COURT_JURISDICTION"
+                  value: "New Delhi"
+                - descriptor:
+                    code: "STATIC_TERMS"
+                  value: "https://www.icicibank.com/personal-banking/loans/personal-loan"
+                - descriptor:
+                    code: "OFFLINE_CONTRACT"
+                  value: "true"
