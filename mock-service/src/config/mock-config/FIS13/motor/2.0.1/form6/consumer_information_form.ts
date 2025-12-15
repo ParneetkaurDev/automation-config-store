@@ -1,6 +1,6 @@
 import axios from "axios";
-import { MockAction, MockOutput, saveType } from "../../classes/mock-action";
-import { SessionData } from "../../session-types";
+import { MockAction, MockOutput, saveType } from "../../../classes/mock-action";
+import { SessionData } from "../../../session-types";
 import { validateFormHtml } from "./validate-form";
 import { resolveFormActions } from "./resolve-action";
 
@@ -37,7 +37,7 @@ export class MockConsumerInformationFormClass extends MockAction {
 		return { valid: true };
 	}
 
-	override async __forceSaveData(
+	 async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
 		

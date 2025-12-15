@@ -39,7 +39,7 @@ export class MockVehicleDetailsFormClass extends MockAction {
 		return { valid: true };
 	}
 
-	override async __forceSaveData(
+	 async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
 		
