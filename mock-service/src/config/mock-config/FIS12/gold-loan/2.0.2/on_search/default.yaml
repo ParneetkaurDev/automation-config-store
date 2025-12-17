@@ -14,12 +14,7 @@ catalog:
         - id: "100001"
           descriptor:
             code: "GOLD_LOAN"
-            name: "GOLD_LOAN"       
-        - id: "101123"
-          parent_category_id: "100001"
-          descriptor:
-            code: "GOLD_LOAN"
-            name: "Gold Loan"
+            name: "Gold Loan"       
         - id: "101124"
           parent_category_id: "101123"
           descriptor:

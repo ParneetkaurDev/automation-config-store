@@ -4,15 +4,16 @@ import { SessionData } from "../../../session-types";
 import { validateFormHtml } from "./validate-form";
 import { resolveFormActions } from "./resolve-action";
 
-export class MockConsumerInformationFormPl202Class extends MockAction {
+export class MockVerificationPlStatusClass extends MockAction {
 	name(): string {
-		return "consumer_information_form";
+		return "verification_status";
 	}
 	get description(): string {
-		return "Mock for consumer_information_form";
+		return "Mock for verification_status";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-		throw new Error("Method not implemented.");
+		console.log("verification_status generator", existingPayload, sessionData);
+		return Promise.resolve(existingPayload);
 	}
 	async validate(
 		targetPayload: any,
@@ -24,7 +25,7 @@ export class MockConsumerInformationFormPl202Class extends MockAction {
 				message: "Session data is required for validation",
 			};
 		}
-		const formLink = sessionData["consumer_information_form"];
+		const formLink = sessionData["verification_status"];
 		if (!formLink) {
 			return { valid: false, message: "Form link not found in session data" };
 		}
@@ -40,8 +41,7 @@ export class MockConsumerInformationFormPl202Class extends MockAction {
 	override async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
-		
-		const formLink = sessionData["consumer_information_form"];
+		const formLink = sessionData["verification_status"];
 		if (!formLink) {
 			throw new Error("Form link not found in session data");
 		}
@@ -49,7 +49,7 @@ export class MockConsumerInformationFormPl202Class extends MockAction {
 		const formData = formRaw.data;
 		return {
 			...sessionData,
-			consumer_information_form: resolveFormActions(formLink, formData),
+			verification_status: resolveFormActions(formLink, formData),
 		};
 	}
 
@@ -57,7 +57,7 @@ export class MockConsumerInformationFormPl202Class extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		return { "save-data": { consumer_information_form: "consumer_information_form" } };
+		return { "save-data": { verification_status: "verification_status" } };
 	}
 	get defaultData(): any {
 		return {};

@@ -5,8 +5,11 @@
  * 1. Update context with current timestamp and correct action
  * 2. Update transaction_id and message_id from session data (carry-forward mapping)
  * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update form_response with status and submission_id (preserve existing structure)
+ * 4. Generate quote.id with gold_loan_ prefix if placeholder
+ * 5. Update form_response with status and submission_id (preserve existing structure)
  */
+
+import { randomUUID } from 'crypto';
 
 export async function initDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for init", sessionData);
@@ -17,7 +20,12 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     existingPayload.context.action = "init";
   }
 
-  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
+  // Get submission_id from Ekyc_details_form (the form submitted before init)
+  // This maintains form trail continuity - use the actual submission_id from form service
+  const submission_id = sessionData?.form_data?.Ekyc_details_form?.form_submission_id || 
+                       sessionData?.form_data?.kyc_verification_status?.form_submission_id;
+  
+  console.log("Submission ID for init (from Ekyc_details_form):", submission_id);
   
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -26,21 +34,49 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   
   // Generate new UUID message_id for init (new API call)
   if (existingPayload.context) {
-    existingPayload.context.message_id = crypto.randomUUID();
+    existingPayload.context.message_id = randomUUID();
     console.log("Generated new UUID message_id for init:", existingPayload.context.message_id);
   }
   
-  // Update provider.id if available from session data (carry-forward from previous flows)
-  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
+  // Generate or update provider.id with gold_loan_ prefix
+  if (existingPayload.message?.order?.provider) {
+    if (sessionData.selected_provider?.id) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-    console.log("Updated provider.id:", sessionData.selected_provider.id);
+      console.log("Updated provider.id from session:", sessionData.selected_provider.id);
+    } else if (!existingPayload.message.order.provider.id || 
+               existingPayload.message.order.provider.id === "PROVIDER_ID" ||
+               existingPayload.message.order.provider.id.startsWith("PROVIDER_ID")) {
+      existingPayload.message.order.provider.id = `gold_loan_${randomUUID()}`;
+      console.log("Generated provider.id:", existingPayload.message.order.provider.id);
+    }
   }
   
-  // Update item.id if available from session data (carry-forward from previous flows)
+  // Generate or update item.id with gold_loan_ prefix
   const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
+  if (existingPayload.message?.order?.items?.[0]) {
+    if (selectedItem?.id) {
     existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
+      console.log("Updated item.id from session:", selectedItem.id);
+    } else if (!existingPayload.message.order.items[0].id || 
+               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_1" ||
+               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_2" ||
+               existingPayload.message.order.items[0].id.startsWith("ITEM_ID_GOLD_LOAN")) {
+      existingPayload.message.order.items[0].id = `gold_loan_${randomUUID()}`;
+      console.log("Generated item.id:", existingPayload.message.order.items[0].id);
+    }
+  }
+  
+  // Generate or update quote.id with gold_loan_ prefix
+  if (existingPayload.message?.order?.quote) {
+    if (sessionData.quote_id) {
+      existingPayload.message.order.quote.id = sessionData.quote_id;
+      console.log("Updated quote.id from session:", sessionData.quote_id);
+    } else if (!existingPayload.message.order.quote.id || 
+               existingPayload.message.order.quote.id === "LOAN_LEAD_ID_OR_SIMILAR" ||
+               existingPayload.message.order.quote.id.startsWith("LOAN_LEAD_ID")) {
+      existingPayload.message.order.quote.id = `gold_loan_${randomUUID()}`;
+      console.log("Generated quote.id:", existingPayload.message.order.quote.id);
+    }
   }
   
   // Update form ID from session data (carry-forward from previous flows)
@@ -52,11 +88,16 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   }
   
   // Update form_response with status and submission_id (preserve existing structure)
+  // Use the actual submission_id from form service to maintain form trail continuity
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
     existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
     if (submission_id) {
+      // Use the actual submission_id from form service (UUID generated by form service)
       existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+      console.log("Updated form_response with submission_id from form service:", submission_id);
     } else {
+      console.warn("⚠️ No submission_id found in session data - form may not have been submitted yet");
+      // Only generate fallback if absolutely necessary
       existingPayload.message.order.items[0].xinput.form_response.submission_id = `F03_SUBMISSION_ID_${Date.now()}`;
     }
     console.log("Updated form_response with status and submission_id");

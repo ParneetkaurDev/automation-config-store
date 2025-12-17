@@ -14,6 +14,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     existingPayload.context.message_id = generateUUID();
   }
 
+  console.log("sessionData onUpdateUnsolicitedDefaultGenerator", JSON.stringify(sessionData.payments));
   // Helper function to generate UUID v4
   function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -26,6 +27,12 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   // Load order from session data
   if (existingPayload.message) {
     const order = existingPayload.message.order || (existingPayload.message.order = {});
+
+    // Carry forward payments from session data (previously mapped from the flow)
+    if (sessionData.payments?.length) {
+      order.payments = sessionData.payments;
+      console.log("Carried forward payments from sessionData.payments (installment ranges preserved)");
+    }
 
     // Map order.id from session data (carry-forward from confirm)
     if (sessionData.order_id) {
@@ -56,6 +63,14 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     const idx = order.quote.breakup.findIndex((b: any) => (b.title || '').toUpperCase() === title.toUpperCase());
     const row = { title, price: { value, currency } };
     if (idx >= 0) order.quote.breakup[idx] = row; else order.quote.breakup.push(row);
+  }
+
+  // Helper to remove a breakup line
+  function removeBreakup(order: any, title: string) {
+    if (!order.quote || !Array.isArray(order.quote.breakup)) return;
+    order.quote.breakup = order.quote.breakup.filter((b: any) => 
+      (b.title || '').toUpperCase() !== title.toUpperCase()
+    );
   }
 
   // Helper to generate time range based on context timestamp
@@ -90,69 +105,84 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     });
   }
 
-  // Helper to mark unpaid installments as DEFERRED for foreclosure
+  // Helper to update payment status for foreclosure
+  // Based on installment index: First 2 installments → PAID, Next 3 installments → DEFERRED
   function updateForeclosurePaymentStatus(payments: any[]) {
     if (!Array.isArray(payments)) return;
     
+    // Track installment index separately (only counting POST_FULFILLMENT installments)
+    let installmentIndex = 0;
+    
     payments.forEach(payment => {
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
-        // Keep already PAID installments as PAID, change others to DEFERRED
-        if (payment.status !== 'PAID') {
+        if (installmentIndex < 2) {
+          // First 2 installments → PAID
+          payment.status = 'PAID';
+        } else if (installmentIndex < 5) {
+          // Next 3 installments (indices 2, 3, 4) → DEFERRED
           payment.status = 'DEFERRED';
         }
+        // Increment installment index
+        installmentIndex++;
       }
     });
   }
 
-  // Helper to update payment status for missed EMI (specific installment)
+  // Helper to update payment status for missed EMI
+  // Based on installment index: First 2 installments → PAID, Next 3 installments → DEFERRED
   function updateMissedEMIStatus(payments: any[], contextTimestamp: string) {
     if (!Array.isArray(payments)) return;
     
-    const contextDate = new Date(contextTimestamp);
-    const contextMonth = contextDate.getUTCMonth();
-    const contextYear = contextDate.getUTCFullYear();
+    // Track installment index separately (only counting POST_FULFILLMENT installments)
+    let installmentIndex = 0;
     
-    // Find the installment that matches the current month and mark it as PAID
     payments.forEach(payment => {
-      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT' && payment.time?.range?.start) {
-        const paymentDate = new Date(payment.time.range.start);
-        const paymentMonth = paymentDate.getUTCMonth();
-        const paymentYear = paymentDate.getUTCFullYear();
-        
-        if (paymentMonth === contextMonth && paymentYear === contextYear) {
+      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
+        if (installmentIndex < 2) {
+          // First 2 installments → PAID
           payment.status = 'PAID';
+        } else if (installmentIndex < 5) {
+          // Next 3 installments (indices 2, 3, 4) → DEFERRED
+          payment.status = 'DEFERRED';
         }
+        // Increment installment index
+        installmentIndex++;
       }
     });
   }
 
-  // Helper to update payment status for pre part payment (some PAID, some DEFERRED)
-  function updatePrePartPaymentStatus(payments: any[], contextTimestamp: string) {
+  // Helper to update payment status for pre part payment
+  // Based on installment index: First 2 installments → PAID, Next 2 installments → DEFERRED, Rest → NOT-PAID
+  function updatePrePartPaymentStatus(payments: any[]) {
     if (!Array.isArray(payments)) return;
     
-    const contextDate = new Date(contextTimestamp);
-    const contextMonth = contextDate.getUTCMonth();
-    const contextYear = contextDate.getUTCFullYear();
-    
-    let paidCount = 0;
-    let deferredCount = 0;
+    // Track installment index separately (only counting POST_FULFILLMENT installments)
+    let installmentIndex = 0;
     
     payments.forEach(payment => {
-      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT' && payment.time?.range?.start) {
-        const paymentDate = new Date(payment.time.range.start);
-        const paymentMonth = paymentDate.getUTCMonth();
-        const paymentYear = paymentDate.getUTCFullYear();
-        
-        // Mark current and next 2 installments as PAID
-        if (paymentMonth >= contextMonth && paymentMonth <= contextMonth + 2 && paymentYear === contextYear && paidCount < 3) {
+      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
+        if (installmentIndex < 2) {
+          // First 2 installments → PAID
           payment.status = 'PAID';
-          paidCount++;
-        }
-        // Mark next 2 installments as DEFERRED
-        else if (paymentMonth > contextMonth + 2 && paymentMonth <= contextMonth + 4 && paymentYear === contextYear && deferredCount < 2) {
+        } else if (installmentIndex < 4) {
+          // Next 2 installments (indices 2, 3) → DEFERRED
           payment.status = 'DEFERRED';
-          deferredCount++;
+        } else {
+          // Rest of installments → NOT-PAID
+          payment.status = 'NOT-PAID';
         }
+        // Increment installment index
+        installmentIndex++;
+      }
+    });
+  }
+
+  // Helper to remove URLs from all payments (unsolicited updates should not have payment URLs)
+  function removePaymentUrls(payments: any[]) {
+    if (!Array.isArray(payments)) return;
+    payments.forEach(payment => {
+      if (payment.url) {
+        delete payment.url;
       }
     });
   }
@@ -166,13 +196,52 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     || sessionData.user_inputs?.part_payment_amount && 'PRE_PART_PAYMENT'
     || 'FORECLOSURE';
 
-  // Ensure payments structure exists
+  // Ensure payments structure exists - load from session first
+  if (sessionData.payments?.length && !orderRef.payments?.length) {
+    orderRef.payments = sessionData.payments;
+    console.log("Loaded payments from sessionData.payments");
+  }
+  
   orderRef.payments = orderRef.payments || [{}];
+  
+  // For foreclosure, ensure the first payment is the foreclosure payment
+  if (label === 'FORECLOSURE') {
+    // Check if first payment is already a foreclosure payment
+    const isFirstPaymentForeclosure = orderRef.payments[0]?.time?.label === 'FORECLOSURE' && 
+                                      orderRef.payments[0]?.type === 'POST_FULFILLMENT';
+    
+    if (!isFirstPaymentForeclosure) {
+      // Remove any existing foreclosure payment from the array
+      orderRef.payments = orderRef.payments.filter((p: any) => 
+        !(p.time?.label === 'FORECLOSURE' && p.type === 'POST_FULFILLMENT')
+      );
+      
+      // Create foreclosure payment and insert at the beginning
+      const foreclosurePayment = {
+        id: "PAYMENT_ID_GOLD_LOAN",
+        type: "POST_FULFILLMENT",
+        status: "PAID",
+        params: {
+          amount: "0", // Will be set later in foreclosure section
+          currency: "INR"
+        },
+        time: {
+          label: "FORECLOSURE"
+        }
+      };
+      orderRef.payments.unshift(foreclosurePayment);
+      console.log("Created foreclosure payment at index 0");
+    }
+  }
+  
   const firstPayment = orderRef.payments[0];
   firstPayment.time = firstPayment.time || {};
   firstPayment.time.label = label;
 
   if (label === 'MISSED_EMI_PAYMENT') {
+    // Remove FORCLOSUER_CHARGES from quote breakup (should not be present for missed EMI)
+    removeBreakup(orderRef, 'FORCLOSUER_CHARGES');
+    
     // Set payment params for missed EMI (matching on_confirm installment amount)
     firstPayment.params = firstPayment.params || {};
     firstPayment.params.amount = "46360"; // Matches INSTALLMENT_AMOUNT from on_confirm
@@ -182,14 +251,8 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
     firstPayment.time.range = generateTimeRangeFromContext(contextTimestamp);
     
-    // Mark the specific delayed installment as PAID (based on current month)
+    // Update installment statuses: mark past installments as PAID, current and future as DEFERRED
     updateMissedEMIStatus(orderRef.payments, contextTimestamp);
-    
-    // Set payment URL
-
-    const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
-    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&direct=true`;
-    console.log("Payment URL for MISSED_EMI_PAYMENT:", firstPayment.url);
   }
 
   if (label === 'FORECLOSURE') {
@@ -203,43 +266,85 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     const foreclosureCharges = '9536';
     const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest) + parseInt(foreclosureCharges));
     
-    // Set payment params for foreclosure
+    // Ensure first payment is POST_FULFILLMENT with FORECLOSURE label
+    firstPayment.id = firstPayment.id || "PAYMENT_ID_GOLD_LOAN";
+    firstPayment.type = "POST_FULFILLMENT";
+    firstPayment.status = "PAID";
     firstPayment.params = firstPayment.params || {};
     firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
     firstPayment.params.currency = "INR";
-    
-    // Mark unpaid installments as DEFERRED (already paid ones stay PAID)
-    updateForeclosurePaymentStatus(orderRef.payments);
+    firstPayment.time = firstPayment.time || {};
+    firstPayment.time.label = "FORECLOSURE";
     
     // Remove time range for foreclosure
     if (firstPayment.time.range) delete firstPayment.time.range;
     
-    // Set payment URL
-    const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
-    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&direct=true`;
-    console.log("Payment URL for FORECLOSURE:", firstPayment.url);
+    // Update installment statuses: first 2 installments → PAID, next 3 → DEFERRED
+    // Note: This only updates POST_FULFILLMENT installments, skipping the first POST_FULFILLMENT payment
+    updateForeclosurePaymentStatus(orderRef.payments);
   }
   
   if (label === 'PRE_PART_PAYMENT') {
+    // Remove FORCLOSUER_CHARGES from quote breakup (should not be present for pre part payment)
+    removeBreakup(orderRef, 'FORCLOSUER_CHARGES');
+    
     // Add pre payment charge to quote.breakup
     upsertBreakup(orderRef, 'PRE_PAYMENT_CHARGE', '4500');
     
-    // Set payment params for pre part payment (installment amount + pre payment charge)
-    firstPayment.params = firstPayment.params || {};
-    firstPayment.params.amount = "50860"; // 46360 (installment) + 4500 (pre payment charge)
-    firstPayment.params.currency = "INR";
+    // Check if first payment is already a PRE_PART_PAYMENT payment
+    const isFirstPaymentPrePart = orderRef.payments[0]?.time?.label === 'PRE_PART_PAYMENT' && 
+                                   orderRef.payments[0]?.type === 'POST_FULFILLMENT';
     
-    // Update payment statuses: some PAID, some DEFERRED
-    const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
-    updatePrePartPaymentStatus(orderRef.payments, contextTimestamp);
+    if (!isFirstPaymentPrePart) {
+      // Remove any existing PRE_PART_PAYMENT payment from the array
+      orderRef.payments = orderRef.payments.filter((p: any) => 
+        !(p.time?.label === 'PRE_PART_PAYMENT' && p.type === 'POST_FULFILLMENT')
+      );
+      
+      // Create PRE_PART_PAYMENT payment and insert at the beginning
+      const prePartPayment = {
+        id: "PAYMENT_ID_GOLD_LOAN",
+        type: "POST_FULFILLMENT",
+        status: "PAID",
+        params: {
+          amount: "92720",
+          currency: "INR"
+        },
+        time: {
+          label: "PRE_PART_PAYMENT"
+        }
+      };
+      orderRef.payments.unshift(prePartPayment);
+      console.log("Created PRE_PART_PAYMENT payment at index 0");
+    } else {
+      // Update existing first payment
+      firstPayment.id = firstPayment.id || "PAYMENT_ID_GOLD_LOAN";
+      firstPayment.type = "POST_FULFILLMENT";
+      firstPayment.status = "PAID";
+      firstPayment.params = firstPayment.params || {};
+      firstPayment.params.amount = "92720";
+      firstPayment.params.currency = "INR";
+      firstPayment.time = firstPayment.time || {};
+      firstPayment.time.label = "PRE_PART_PAYMENT";
+      if (firstPayment.time.range) delete firstPayment.time.range;
+    }
     
-    // Remove time range for pre part payment
-    if (firstPayment.time.range) delete firstPayment.time.range;
+    // Ensure ON_ORDER payment has status PAID (should be at index 1)
+    const onOrderPayment = orderRef.payments.find((p: any) => p.type === 'ON_ORDER');
+    if (onOrderPayment) {
+      onOrderPayment.status = "PAID";
+    }
     
-    // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
+    // Update installment statuses: first 2 → PAID, next 2 → DEFERRED, rest → NOT-PAID
+    updatePrePartPaymentStatus(orderRef.payments);
   }
+
+  // Remove all payment URLs for unsolicited update (unsolicited updates should not have payment URLs)
+  if (orderRef.payments) {
+    removePaymentUrls(orderRef.payments);
+  }
+
+  console.log("existingPayload onUpdateUnsolicitedDefaultGenerator", JSON.stringify(existingPayload, null, 2));
   
   return existingPayload;
 }

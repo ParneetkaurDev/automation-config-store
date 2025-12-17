@@ -43,11 +43,10 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
     existingPayload.message.order.id = sessionData.order_id;
     existingPayload.message.order.payments = existingPayload.message.order.payments || [{}];
 
-    const payment = existingPayload.message.order.payments[0];
-    payment.time = payment.time || {};
-
     // Choose label based on flow_id, user_inputs, or saved update_label
     let labelFromSession = sessionData.update_label;
+    console.log("labelFromSession", labelFromSession);
+    console.log("sessionData.flow_id", sessionData.flow_id);
     
     // Map flow IDs to specific payment labels
     if (sessionData.flow_id) {
@@ -60,24 +59,40 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
       }
     }
     
-    // Fallback to user_inputs if no flow-based mapping found
-    if (!labelFromSession) {
-      labelFromSession = sessionData.user_inputs?.foreclosure_amount ? 'FORECLOSURE'
-        : sessionData.user_inputs?.missed_emi_amount ? 'MISSED_EMI_PAYMENT'
-        : sessionData.user_inputs?.part_payment_amount ? 'PRE_PART_PAYMENT'
-        : payment.time.label;
-    }
-    
-    if (labelFromSession) {
-      payment.time.label = labelFromSession;
-      console.log(`Payment label set to: ${labelFromSession} based on flow_id: ${sessionData.flow_id}`);
+    // Fallback to existing label if no flow-based mapping found
+    const existingPayment = existingPayload.message.order.payments[0];
+    if (!labelFromSession && existingPayment?.time?.label) {
+      labelFromSession = existingPayment.time.label;
     }
 
-    // Amount mapping for part payment (optional for other labels)
-    if (sessionData.user_inputs?.part_payment_amount) {
-      payment.params = payment.params || {};
-      payment.params.amount = String(sessionData.user_inputs.part_payment_amount);
-      payment.params.currency = payment.params.currency || sessionData.update_currency || 'INR';
+    // Create minimal payment object based on label type
+    if (labelFromSession === 'PRE_PART_PAYMENT') {
+      // For PRE_PART_PAYMENT: include params with amount
+      existingPayload.message.order.payments[0] = {
+        time: {
+          label: labelFromSession
+        },
+        params: {
+          amount: "92720",
+          currency: sessionData.update_currency || 'INR'
+        }
+      };
+      console.log(`PRE_PART_PAYMENT - params.amount set to: 92720`);
+    } else if (labelFromSession === 'FORECLOSURE' || labelFromSession === 'MISSED_EMI_PAYMENT') {
+      // For FORECLOSURE and MISSED_EMI_PAYMENT: only time.label (minimal payload)
+      existingPayload.message.order.payments[0] = {
+        time: {
+          label: labelFromSession
+        }
+      };
+      console.log(`${labelFromSession} - minimal payload with only time.label`);
+    } else if (labelFromSession) {
+      // Fallback for any other label
+      existingPayload.message.order.payments[0] = {
+        time: {
+          label: labelFromSession
+        }
+      };
     }
   }
   

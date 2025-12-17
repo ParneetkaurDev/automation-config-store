@@ -7,4 +7,4 @@ save-data:
   selected_provider: "$.message.order.provider"
   billing: "$.message.order.billing"
   tags: "$.message.order.tags[*]"
-  kyc_verification_status: "$..form.url" 
+  payment_url_form: "$..form.url" 
