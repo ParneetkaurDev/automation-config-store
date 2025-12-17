@@ -32,7 +32,13 @@ export async function select1Generator(existingPayload: any, sessionData: any) {
   }
 
   if(existingPayload.message?.order?.items?.[0]?.xinput?.form_response){
+    if (submission_id) {
+      // Use the actual UUID submission_id from form service (not a static placeholder)
     existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+      console.log("Updated form_response with submission_id from form service:", submission_id);
+    } else {
+      console.warn("⚠️ No submission_id found for consumer_information_form - form may not have been submitted yet");
+    }
   }
 
   return existingPayload;

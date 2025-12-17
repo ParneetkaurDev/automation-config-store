@@ -66,27 +66,14 @@ order:
               name: "Lsp Address"
             value: "One Indiabulls centre, Tower 1, 18th Floor Jupiter mill compound 841, Senapati Bapat Marg, Elphinstone Road, Mumbai 400013"
     locations:
-      - id: "L1"
-        gps: "28.574909, 77.194029"
-        descriptor:
-          name: "Mumbai Central"
-        address: "123 Marine Drive, Mumbai, Maharashtra"
-        area_code: "400001"
       - id: "L2"
         gps: "28.584909, 77.134029"
         descriptor:
           name: "Mumbai East"
         address: "162 Dadar, Mumbai, Maharashtra"
         area_code: "400001"
-      - id: "L3"
-        gps: "28.584909, 77.134029"
-        descriptor:
-          name: "Mumbai West"
-        address: "182 Juhu, Mumbai, Maharashtra"
-        area_code: "400001"
-
   items:
-    - id: "ITEM_ID_GOLD_LOAN_1"
+    - id: "ITEM_ID_GOLD_LOAN_2"
       descriptor:
         code: "LOAN"
         name: "Gold Loan"
@@ -94,9 +81,7 @@ order:
         currency: "INR"
         value: "441800"
       location_ids:
-        - "L1"
         - "L2"
-        - "L3"
       tags:
         - descriptor:
             code: "LOAN_INFO"
@@ -170,7 +155,7 @@ order:
             - descriptor:
                 code: "COOL_OFF_PERIOD"
                 name: "cool off period"
-                short_desc: "Cooling off/look-up period during which borrower shall not be\tTAGS m jayega charged any penalty"
+                short_desc: "Cooling off/look-up period during which borrower shall not be charged any penalty"
               value: "PT30D"
             - descriptor:
                 code: "INSTALLMENT_AMOUNT"
@@ -188,19 +173,18 @@ order:
             name: "JOURNEY_OFFLINE"
           index:
             min: 0
-            cur: 0
-            max: 0
+            cur: 1
+            max: 1
           headings:
-            - "JOURNEY_OFFLINE"
             - "SET_LOAN_AMOUNT"
+            - "JOURNEY_OFFLINE"
         form:
           id: "FO3"
           mime_type: "application/html"
-          url: "https://https://bpp.credit.becknprotocol.org/loans-details/xinput?formid=FO3"
+          url: "https://bpp.credit.becknprotocol.org/loans-details/xinput?formid=FO3"
           resubmit: false
           multiple_sumbissions: false
         required: true
-
   quote:
     id: "LOAN_LEAD_ID_OR_SIMILAR"
     price:
@@ -235,8 +219,7 @@ order:
         price:
           value: "0"
           currency: "INR"
-    ttl: "P15D"
-
+    ttl: "PT15D"
   fulfillments:
     - type: "LOAN"
       agent:

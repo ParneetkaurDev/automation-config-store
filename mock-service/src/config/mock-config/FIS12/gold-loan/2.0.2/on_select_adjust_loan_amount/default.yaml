@@ -216,7 +216,7 @@ order:
         form:
           id: FO2
           mime_type: text/html
-          url: "https://https://bpp.credit.becknprotocol.org/loans-details/xinput?formid=FO2"
+          url: "https://bpp.credit.becknprotocol.org/loans-details/xinput?formid=FO2"
           resubmit: false
           multiple_sumbissions: false
         required: true

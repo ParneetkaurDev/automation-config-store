@@ -41982,6 +41982,7 @@ x-validations:
             attr: $.message.order.fulfillments[*].type
             enumList: &FULFILLMENT_TYPE
               - LOAN
+            _CONTINUE_: '!(attr are present)'  
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_CUSTOMER_PERSON_NAME
             attr: $.message.order.fulfillments[*].customer.person.name
@@ -42118,6 +42119,7 @@ x-validations:
         _RETURN_:
           - _NAME_: REQUIRED_FULFILLMENT_TYPE
             attr: $.message.order.fulfillments[*].type
+            _CONTINUE_: '!(attr are present)'
             enumList: *FULFILLMENT_TYPE
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_STATE_DESCRIPTOR_CODE
@@ -42295,6 +42297,7 @@ x-validations:
         _RETURN_:
           - _NAME_: REQUIRED_FULFILLMENT_TYPE
             attr: $.message.order.fulfillments[*].type
+            _CONTINUE_: '!(attr are present)'
             enumList: *FULFILLMENT_TYPE
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
@@ -42408,6 +42411,7 @@ x-validations:
           - _NAME_: REQUIRED_FULFILLMENT_TYPE
             attr: $.message.order.fulfillments[*].type
             enumList: *FULFILLMENT_TYPE
+            _CONTINUE_: '!(attr are present)'
             _RETURN_: attr all in enumList
 
       # Conditional: Fulfillment state (only present in some on_status variants)

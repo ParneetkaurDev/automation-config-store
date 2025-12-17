@@ -61,6 +61,10 @@ import { MockOnSelect3Class } from "./gold-loan/2.0.2/on_select_3/class";
 import { MockEkycVerificationStatusClass } from "./gold-loan/2.0.2/form_3/ekyc_details_form";
 import { MockSelectMultipleOfferClass } from "./gold-loan/2.0.2/select_multiple_offer_1/class";
 import { MockOnSelectMultipleOfferClass } from "./gold-loan/2.0.2/on_select_multiple_offer_1/class";
+import { MockConsumerInformationFormPl202Class } from "./personal-loan/2.0.2/form/consumer_information_form";
+import { MockEKycVerificationStatusPl202Class } from "./personal-loan/2.0.2/form_2/kyc_verification_status";
+import { MockPaymentUrlFormStatusClass } from "./personal-loan/2.0.2/form_3/payment_url_form";
+import { MockVerificationPlStatusClass } from "./personal-loan/2.0.2/form_4/verification_status";
 
 type Ctor<T> = new () => T;
 
@@ -100,10 +104,14 @@ const registry = {
 	update: MockUpdateClass,
 	on_update: MockOnUpdateClass,
 	on_update_unsolicited: MockOnUpdateUnsolicitedClass,
+	consumer_information_form_pl_202: MockConsumerInformationFormPl202Class,
 	consumer_information_form: MockConsumerInformationFormClass,
 	consumer_information_form_1: MockConsumerInformationFormClass,
 	verification_status: MockVerificationStatusClass,
+	verification_status_pl: MockVerificationPlStatusClass,
 	Ekyc_details_form: MockEkycVerificationStatusClass,
+	Ekyc_details_form_pl_202: MockEKycVerificationStatusPl202Class,
+	payment_url_form: MockPaymentUrlFormStatusClass,
 	loan_amount_adjustment_form: MockLoanAdjustmentFormClass,
 	manadate_details_form: MockMandateDetailsForm,
 	personal_loan_information_form: MockPersonalLoanInformationFormClass,

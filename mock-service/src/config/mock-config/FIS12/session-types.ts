@@ -64,6 +64,7 @@ export interface SessionData {
 	flow_variant?: string; // WITH_AA | WITHOUT_AA | other
 	stage?: string; // optional transient stage marker
 	consumer_information_form?: string;
+	payment_url_form?: string;
 	verification_status?: string;
 	Ekyc_details_form?: string;
 	manadate_details_form?: string;

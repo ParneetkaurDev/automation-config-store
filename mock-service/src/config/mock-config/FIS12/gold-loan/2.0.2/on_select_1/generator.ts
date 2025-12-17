@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { randomUUID } from 'crypto';
 
 export async function onSelect1Generator(existingPayload: any, sessionData: any) {
   console.log("=== On Select1 Generator Start ===");
@@ -29,18 +30,33 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     console.log("Updated message_id:", sessionData.message_id);
   }
   
-  // Update provider.id if available from session data (carry-forward from select_1)
-  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
+  // Generate or update provider.id with gold_loan_ prefix
+  if (existingPayload.message?.order?.provider) {
+    if (sessionData.selected_provider?.id) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-    console.log("Updated provider.id:", sessionData.selected_provider.id);
+      console.log("Updated provider.id from session:", sessionData.selected_provider.id);
+    } else if (!existingPayload.message.order.provider.id || 
+               existingPayload.message.order.provider.id === "PROVIDER_ID" ||
+               existingPayload.message.order.provider.id.startsWith("PROVIDER_ID")) {
+      existingPayload.message.order.provider.id = `gold_loan_${randomUUID()}`;
+      console.log("Generated provider.id:", existingPayload.message.order.provider.id);
+    }
   }
   
-  // Update item.id if available from session data (carry-forward from select_1)
+  // Generate or update item.id with gold_loan_ prefix
   const selectedItem = sessionData.item || 
                        (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
+  if (existingPayload.message?.order?.items?.[0]) {
+    if (selectedItem?.id) {
     existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
+      console.log("Updated item.id from session:", selectedItem.id);
+    } else if (!existingPayload.message.order.items[0].id || 
+               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_1" ||
+               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_2" ||
+               existingPayload.message.order.items[0].id.startsWith("ITEM_ID_GOLD_LOAN")) {
+      existingPayload.message.order.items[0].id = `gold_loan_${randomUUID()}`;
+      console.log("Generated item.id:", existingPayload.message.order.items[0].id);
+    }
   }
   
   // Update location_ids if available from session data

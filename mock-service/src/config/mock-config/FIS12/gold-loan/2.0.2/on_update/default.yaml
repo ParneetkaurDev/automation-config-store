@@ -73,6 +73,8 @@ order:
       descriptor:
         code: LOAN
         name: Gold Loan
+      location_ids:
+        - "L2"  
       price:
         currency: INR
         value: "232800"
@@ -162,7 +164,7 @@ order:
     breakup:
       - title: PRINCIPAL
         price:
-          value: "60920"
+          value: "400000"
           currency: INR
       - title: INSURANCE_CHARGES
         price:

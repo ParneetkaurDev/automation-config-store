@@ -46,7 +46,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     sessionData.selected_items_xinput.form_response.status= "PENDING"
-    existingPayload.message.order.items[0].xinput=sessionData.selected_items_xinput
+    // existingPayload.message.order.items[0].xinput=sessionData.selected_items_xinput
     console.log("Updated item.id:", selectedItem.id);
   }
   
@@ -70,10 +70,10 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     
     try {
       // Call Finvu AA Service to generate consent handler
-      const finvuServiceUrl = process.env.FINVU_AA_SERVICE_URL || 'http://localhost:3002';
-      const consentUrl = `${finvuServiceUrl}/finvu-aa/consent/generate`;
+      // const finvuServiceUrl = process.env.FINVU_AA_SERVICE_URL || 'http://localhost:3002';
+      // const consentUrl = `${finvuServiceUrl}/finvu-aa/consent/generate`;
       
-      console.log("Calling Finvu AA Service:", consentUrl);
+      // console.log("Calling Finvu AA Service:", consentUrl);
       
       const consentRequest = {
         custId: custId,
@@ -82,26 +82,26 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
         redirectUrl: "https://google.co.in"
       };
       
-      console.log("Consent request payload:", consentRequest);
+      // console.log("Consent request payload:", consentRequest);
       
-      const response = await axios.post(consentUrl, consentRequest, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        timeout: 10000 // 10 second timeout
-      });
+      // const response = await axios.post(consentUrl, consentRequest, {
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   timeout: 10000 // 10 second timeout
+      // });
       
-      const consentHandler = response.data.consentHandler;
-      console.log("✅ Consent handler generated:", consentHandler);
+      // const consentHandler = response.data.consentHandler;
+      // console.log("✅ Consent handler generated:", consentHandler);
       
       // Store consent handler in session data for later use (verify step)
-      sessionData.consent_handler = consentHandler;
-      console.log("Stored consent_handler in session data");
+      // sessionData.consent_handler = consentHandler;
+      // console.log("Stored consent_handler in session data");
       
       // Inject consent handler into payload tags
       if (existingPayload.message?.order?.items?.[0]) {
         const item = existingPayload.message.order.items[0];
-        item.xinput=sessionData.selected_items_xinput
+        // item.xinput=sessionData.selected_items_xinput
         // Initialize tags array if it doesn't exist
         if (!item.tags) {
           item.tags = [];
@@ -131,7 +131,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
             code: 'CONSENT_HANDLER',
             name: 'Consent Handler'
           },
-          value: consentHandler
+          value: "consentHandler" 
         };
         
         // Find and update existing CONSENT_HANDLER or add new one
@@ -172,14 +172,14 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     console.log("Available form data:", sessionData.form_data);
   }
   console.log("Available form data:", sessionData.form_data);
-  console.log("Available form data personal info :", sessionData.form_data.personal_loan_information_form);
+  console.log("Available form data personal info :", sessionData.form_data.consumer_information_form);
   console.log("--- Finvu AA Integration End ---");
 
   // ========== FORM URL UPDATE ==========
   
   console.log("=== On Select1 Generator End ===");
-  console.log("Form data:", sessionData?.form_data?.personal_loan_information_form);
-  console.log("Form data:", sessionData?.form_data?.personal_loan_information_form.contactNumber);
+  console.log("Form data:", sessionData?.form_data?.consumer_information_form);
+  console.log("Form data:", sessionData?.form_data?.consumer_information_form.contactNumber);
   
   return existingPayload;
 }

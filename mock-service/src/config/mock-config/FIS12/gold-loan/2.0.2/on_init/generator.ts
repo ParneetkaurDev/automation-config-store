@@ -1,12 +1,4 @@
-/**
- * On Init Generator for FIS12 Gold Loan
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update customer name in fulfillments from session data
- */
+import { randomUUID } from 'crypto';
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_init", sessionData);
@@ -26,18 +18,46 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     existingPayload.context.message_id = sessionData.message_id;
     console.log("Using matching message_id from init:", sessionData.message_id);
   }
-  
-  // Update provider.id if available from session data (carry-forward from init)
-  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
-    existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-    console.log("Updated provider.id:", sessionData.selected_provider.id);
+
+  // Generate or update provider.id with gold_loan_ prefix
+  if (existingPayload.message?.order?.provider) {
+    if (sessionData.selected_provider?.id) {
+      existingPayload.message.order.provider.id = sessionData.selected_provider.id;
+      console.log("Updated provider.id from session:", sessionData.selected_provider.id);
+    } else if (!existingPayload.message.order.provider.id || 
+               existingPayload.message.order.provider.id === "PROVIDER_ID" ||
+               existingPayload.message.order.provider.id.startsWith("PROVIDER_ID")) {
+      existingPayload.message.order.provider.id = `gold_loan_${randomUUID()}`;
+      console.log("Generated provider.id:", existingPayload.message.order.provider.id);
+    }
   }
   
-  // Update item.id if available from session data (carry-forward from init)
+  // Generate or update item.id with gold_loan_ prefix
   const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
+  if (existingPayload.message?.order?.items?.[0]) {
+    if (selectedItem?.id) {
+      existingPayload.message.order.items[0].id = selectedItem.id;
+      console.log("Updated item.id from session:", selectedItem.id);
+    } else if (!existingPayload.message.order.items[0].id || 
+               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_1" ||
+               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_2" ||
+               existingPayload.message.order.items[0].id.startsWith("ITEM_ID_GOLD_LOAN")) {
+      existingPayload.message.order.items[0].id = `gold_loan_${randomUUID()}`;
+      console.log("Generated item.id:", existingPayload.message.order.items[0].id);
+    }
+  }
+  
+  // Generate or update quote.id with gold_loan_ prefix
+  if (existingPayload.message?.order?.quote) {
+    if (sessionData.quote_id) {
+      existingPayload.message.order.quote.id = sessionData.quote_id;
+      console.log("Updated quote.id from session:", sessionData.quote_id);
+    } else if (!existingPayload.message.order.quote.id || 
+               existingPayload.message.order.quote.id === "LOAN_LEAD_ID_OR_SIMILAR" ||
+               existingPayload.message.order.quote.id.startsWith("LOAN_LEAD_ID")) {
+      existingPayload.message.order.quote.id = `gold_loan_${randomUUID()}`;
+      console.log("Generated quote.id:", existingPayload.message.order.quote.id);
+    }
   }
   
   // Update location_ids from session data (carry-forward from previous flows)
@@ -63,6 +83,37 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     existingPayload.message.order.fulfillments[0].customer.contact.email = sessionData.customer_email;
     console.log("Updated customer email:", sessionData.customer_email);
   }
+
+
+  if (existingPayload.message?.order?.payments?.length) {
+    const contextDate = existingPayload.context?.timestamp
+      ? new Date(existingPayload.context.timestamp)
+      : new Date();
+
+    // First installment starts next month to ensure it's after context timestamp
+    const base = new Date(Date.UTC(contextDate.getUTCFullYear(), contextDate.getUTCMonth() + 1, 1));
+
+    const setMonthRange = (baseDate: Date, monthOffset: number) => {
+      const start = new Date(Date.UTC(baseDate.getUTCFullYear(), baseDate.getUTCMonth() + monthOffset, 1));
+      // Day 0 of next month gives last day of target month
+      const end = new Date(Date.UTC(baseDate.getUTCFullYear(), baseDate.getUTCMonth() + monthOffset + 1, 0, 23, 59, 59, 999));
+      return { start: start.toISOString(), end: end.toISOString() };
+    };
+
+    let installmentIndex = 0;
+    existingPayload.message.order.payments.forEach((payment: any) => {
+      if (payment?.type === "POST_FULFILLMENT" && payment?.time?.range) {
+        const range = setMonthRange(base, installmentIndex);
+        payment.time.range.start = range.start;
+        payment.time.range.end = range.end;
+        installmentIndex += 1;
+        console.log(`Updated installment #${installmentIndex} range:`, range);
+      }
+    });
+  }
+
+  console.log("payments in on_init near return", JSON.stringify(existingPayload.message?.order?.payments));
+  console.log("payments in session data near return", JSON.stringify(sessionData.payments));
   
   return existingPayload;
 }

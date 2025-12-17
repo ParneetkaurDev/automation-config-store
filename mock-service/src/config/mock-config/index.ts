@@ -104,5 +104,5 @@ export function getSaveDataContent(version: string, action: string, domain: stri
 }
 
 export function getUiMetaKeys(): (keyof MockSessionData)[] {
-	return ["verification_status", "consumer_information_form", "personal_loan_information_form","loan_amount_adjustment_form", "manadate_details_form"];
+	return ["verification_status", "Ekyc_details_form","payment_url_form","consumer_information_form", "personal_loan_information_form","loan_amount_adjustment_form", "manadate_details_form"];
 }

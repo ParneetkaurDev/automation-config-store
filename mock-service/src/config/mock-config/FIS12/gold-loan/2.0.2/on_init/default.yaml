@@ -167,39 +167,46 @@ order:
               value: "https://icicibank.com/loan/kfs-terms"
           display: true
   quote:
-    id: "LOAN_LEAD_ID_OR_SIMILAR"
+    id: LOAN_LEAD_ID_OR_SIMILAR
     price:
-      currency: "INR"
-      value: "232800"
+      currency: INR
+      value: "442300"
     breakup:
-      - title: "PRINCIPAL"
+      - title: PRINCIPAL
         price:
-          value: "200000"
-          currency: "INR"
-      - title: "INTEREST"
+          value: "400000"
+          currency: INR
+
+      - title: INTEREST
         price:
-          value: "30000"
-          currency: "INR"
-      - title: "PROCESSING_FEE"
+          value: "40000"
+          currency: INR
+
+      - title: PROCESSING_FEE
         price:
           value: "1800"
-          currency: "INR"
-      - title: "OTHER_UPFRONT_CHARGES"
+          currency: INR
+
+      - title: OTHER_UPFRONT_CHARGES
         price:
           value: "0"
-          currency: "INR"
-      - title: "INSURANCE_CHARGES"
+          currency: INR
+
+      - title: INSURANCE_CHARGES
         price:
           value: "500"
-          currency: "INR"
-      - title: "NET_DISBURSED_AMOUNT"
+          currency: INR
+
+      - title: NET_DISBURSED_AMOUNT
         price:
-          value: "197700"
-          currency: "INR"
-      - title: "OTHER_CHARGES"
+          value: "397700"
+          currency: INR
+
+      - title: OTHER_CHARGES
         price:
           value: "0"
-          currency: "INR"
+          currency: INR
+
     ttl: "P15D"
   fulfillments:
     - type: "LOAN"
