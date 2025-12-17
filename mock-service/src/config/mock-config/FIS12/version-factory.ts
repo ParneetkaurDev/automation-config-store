@@ -1,7 +1,7 @@
 import { SessionData, Input } from "./session-types";
 import { RedisService } from "ondc-automation-cache-lib";
 import { SessionCache } from "../../../types/api-session-cache";
-import { createMockResponseFIS12_200 } from "./2.0.2/generaton-pipeline";
+import { createMockResponseFIS12_200 } from "./gold-loan/2.0.2/generaton-pipeline";
 import { createBuyerUrl, createSellerUrl } from "../../../utils/request-utils";
 
 export async function createMockResponse(
