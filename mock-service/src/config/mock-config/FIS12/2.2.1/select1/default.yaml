@@ -1,0 +1,11 @@
+order:
+  provider:
+    id: "PROVIDER_ID"
+  items:
+    - id: "ITEM_ID_ELECTRONICS"
+      xinput:
+        form:
+          id: "F03"
+        form_response:
+          status: "SUCCESS"
+          submission_id: "F03_SUBMISSION_ID"

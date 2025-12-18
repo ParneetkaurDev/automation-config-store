@@ -2,18 +2,30 @@ import { readFileSync } from "fs";
 import logger from "@ondc/automation-logger";
 import path from "path";
 import yaml from "js-yaml";
-import { SessionData as MockSessionData } from "./FIS13/session-types";
-import { createMockResponse as createFIS13MockResponse } from "./FIS13/version-factory";
-import { getMockAction as getFIS13MockAction } from "./FIS13/action-factory";
+import { SessionData as MockSessionData } from "./FIS12/session-types";
+import { createMockResponse as createFIS12MockResponse } from "./FIS12/version-factory";
+import { getMockAction as getFIS12MockAction } from "./FIS12/action-factory";
 
 export { MockSessionData };
 
 // Default to FIS13 for testing
 const defaultDomain = process.env.DOMAIN || "ONDC:FIS13";
 
-export const actionConfig = yaml.load(
-	readFileSync(path.join(__dirname, "./FIS13/factory.yaml"), "utf8")
-) as any;
+function getActionConfig(domain: string = defaultDomain) {
+	let factoryPath: string;
+	switch (domain) {
+		case "ONDC:FIS12":
+			factoryPath = path.join(__dirname, "./FIS12/factory.yaml");
+			break;
+		case "ONDC:FIS13":
+		default:
+			factoryPath = path.join(__dirname, "./FIS13/factory.yaml");
+			break;
+	}
+	return yaml.load(readFileSync(factoryPath, "utf8")) as any;
+}
+
+export const actionConfig = getActionConfig(defaultDomain);
 
 export const defaultSessionData = (domain: string = defaultDomain) => {
 	let sessionDataPath: string;
@@ -54,7 +66,7 @@ export async function generateMockResponse(
 		console.log("generateMockResponse - defaultDomain:", defaultDomain);
 		console.log("generateMockResponse - sessionData", sessionData);
 		
-		let response = await createFIS13MockResponse(
+		let response =await createFIS12MockResponse(
 			session_id,
 			sessionData,
 			action_id,
@@ -69,15 +81,16 @@ export async function generateMockResponse(
 }
 
 export function getMockActionObject(actionId: string, domain: string = defaultDomain) {
-		return getFIS13MockAction(actionId);
-		}
+		return getFIS12MockAction(actionId);
+}
 
 export function getActionData(code: number, domain: string = defaultDomain) {
-	if (!actionConfig) {
+	const config = getActionConfig(domain);
+	if (!config) {
 		throw new Error(`Domain ${domain} not supported`);
 	}
 	
-	const actionData = actionConfig.codes.find(
+	const actionData = config.codes.find(
 		(action: any) => action.code === code
 	);
 	if (actionData) {
@@ -116,5 +129,8 @@ export function getSaveDataContent(version: string, action: string, domain: stri
 }
 
 export function getUiMetaKeys(): (keyof MockSessionData)[] {
-	return ["individual_information_form","family_information_form","Ekyc_details_form","Proposer_Details_form","nominee_details_form","consumer_information_form","vehicle_details_form","vehicle_nominee_details_form","pan_details_form","personal_details_form","verification_status"];
+	return ["down_payment_form","personal_details_information_form","product_details_form","individual_information_form",
+		"family_information_form","Ekyc_details_form","Proposer_Details_form","nominee_details_form","consumer_information_form",
+		"vehicle_details_form","vehicle_nominee_details_form","pan_details_form","personal_details_form","verification_status",
+		"kyc_verification_status","manadate_details_form"];
 }
