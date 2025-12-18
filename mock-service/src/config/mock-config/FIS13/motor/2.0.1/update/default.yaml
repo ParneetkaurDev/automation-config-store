@@ -1,8 +1,0 @@
-update_target: "order.fulfillments"
-
-order:
-  id: O1
-  fulfillments:
-    - customer:
-        contact:
-          phone: "+91-9667788867"
