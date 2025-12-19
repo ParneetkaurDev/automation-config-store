@@ -1,0 +1,16 @@
+intent:
+  category:
+    descriptor:
+      code: "CREDIT_CARD"
+  tags:
+    - descriptor:
+        code: "BAP_TERMS"
+        name: "BAP Terms of Engagement"
+      display: false
+      list:
+        - descriptor:
+            code: "STATIC_TERMS"
+          value: "https://bap.credit.becknprotocol.io/personal-banking/loans/personal-loan"
+        - descriptor:
+            code: "OFFLINE_CONTRACT"
+          value: "true"
