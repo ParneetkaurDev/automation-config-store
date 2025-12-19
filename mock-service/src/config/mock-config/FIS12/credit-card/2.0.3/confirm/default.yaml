@@ -1,0 +1,31 @@
+order:
+  provider:
+    id: "101"
+
+  items:
+    - id: "d9eb81e2-96b5-477f-98dc-8518ad60d72e"
+
+  tags:
+    - descriptor:
+        code: "BAP_TERMS"
+        name: "BAP Terms of Engagement"
+      display: false
+      list:
+        - descriptor:
+            code: "STATIC_TERMS"
+          value: "https://bap.credit.becknprotocol.io/personal-banking/loans/personal-loan"
+        - descriptor:
+            code: "OFFLINE_CONTRACT"
+          value: "true"
+
+    - descriptor:
+        code: "BPP_TERMS"
+        name: "BPP Terms of Engagement"
+      display: false
+      list:
+        - descriptor:
+            code: "STATIC_TERMS"
+          value: "https://bpp.credit.becknprotocol.org/personal-banking/loans/personal-loan"
+        - descriptor:
+            code: "OFFLINE_CONTRACT"
+          value: "true"
