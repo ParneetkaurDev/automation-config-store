@@ -1,5 +1,15 @@
+/**
+ * On Update Generator for FIS12
+ * 
+ * Logic:
+ * 1. Update context with current timestamp
+ * 2. Update transaction_id and message_id from session data
+ * 3. Map quote.id, provider.id, order.id, and item.id from session data
+ * 4. Handle three payment types: MISSED_EMI_PAYMENT, FORECLOSURE, PRE_PART_PAYMENT
+ * 5. Set time ranges based on context timestamp for MISSED_EMI_PAYMENT
+ */
 
-export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
+export async function onUpdateDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
@@ -10,18 +20,9 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
   
-  // Generate new message_id for unsolicited update
-  if (existingPayload.context) {
-    existingPayload.context.message_id = generateUUID();
-  }
-
-  // Helper function to generate UUID v4
-  function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0;
-      const v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
+  // Update message_id from session data
+  if (sessionData.message_id && existingPayload.context) {
+    existingPayload.context.message_id = sessionData.message_id;
   }
   
   // Load order from session data
@@ -76,83 +77,52 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     };
   }
 
-  // Helper to update payment status for specific installments
-  function updatePaymentStatus(payments: any[], status: string, count?: number) {
-    if (!Array.isArray(payments)) return;
-    
-    let updatedCount = 0;
-    payments.forEach(payment => {
-      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
-        if (count === undefined || updatedCount < count) {
-          payment.status = status;
-          updatedCount++;
-        }
-      }
-    });
-  }
-
-  // Helper to mark unpaid installments as DEFERRED for foreclosure
-  function updateForeclosurePaymentStatus(payments: any[]) {
-    if (!Array.isArray(payments)) return;
-    
-    payments.forEach(payment => {
-      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
-        // Keep already PAID installments as PAID, change others to DEFERRED
-        if (payment.status !== 'PAID') {
-          payment.status = 'DEFERRED';
-        }
-      }
-    });
-  }
-
-  // Helper to update payment status for missed EMI (specific installment)
-  function updateMissedEMIStatus(payments: any[], contextTimestamp: string) {
-    if (!Array.isArray(payments)) return;
+  // Helper to add delayed installment
+  function addDelayedInstallment(order: any, contextTimestamp: string) {
+    if (!order.payments) order.payments = [];
     
     const contextDate = new Date(contextTimestamp);
-    const contextMonth = contextDate.getUTCMonth();
-    const contextYear = contextDate.getUTCFullYear();
+    const year = contextDate.getUTCFullYear();
+    const month = contextDate.getUTCMonth();
     
-    // Find the installment that matches the current month and mark it as PAID
-    payments.forEach(payment => {
-      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT' && payment.time?.range?.start) {
-        const paymentDate = new Date(payment.time.range.start);
-        const paymentMonth = paymentDate.getUTCMonth();
-        const paymentYear = paymentDate.getUTCFullYear();
-        
-        if (paymentMonth === contextMonth && paymentYear === contextYear) {
-          payment.status = 'PAID';
+    // Create start of month
+    const start = new Date(Date.UTC(year, month, 1, 0, 0, 0, 0));
+    // Create end of month
+    const end = new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999));
+    
+    const delayedPayment = {
+      id: "INSTALLMENT_ID_GOLD_LOAN",
+      type: "POST_FULFILLMENT",
+      params: {
+        amount: "46360",
+        currency: "INR"
+      },
+      status: "DELAYED",
+      time: {
+        label: "INSTALLMENT",
+        range: {
+          start: start.toISOString(),
+          end: end.toISOString()
         }
       }
-    });
+    };
+    
+    order.payments.push(delayedPayment);
   }
 
-  // Helper to update payment status for pre part payment (some PAID, some DEFERRED)
-  function updatePrePartPaymentStatus(payments: any[], contextTimestamp: string) {
-    if (!Array.isArray(payments)) return;
+  // Helper to mark all installments before the delayed one as PAID
+  function markPreviousInstallmentsAsPaid(order: any, contextTimestamp: string) {
+    if (!order.payments || !Array.isArray(order.payments)) return;
     
     const contextDate = new Date(contextTimestamp);
-    const contextMonth = contextDate.getUTCMonth();
-    const contextYear = contextDate.getUTCFullYear();
     
-    let paidCount = 0;
-    let deferredCount = 0;
-    
-    payments.forEach(payment => {
+    order.payments.forEach((payment: any) => {
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT' && payment.time?.range?.start) {
-        const paymentDate = new Date(payment.time.range.start);
-        const paymentMonth = paymentDate.getUTCMonth();
-        const paymentYear = paymentDate.getUTCFullYear();
+        const paymentStartDate = new Date(payment.time.range.start);
         
-        // Mark current and next 2 installments as PAID
-        if (paymentMonth >= contextMonth && paymentMonth <= contextMonth + 2 && paymentYear === contextYear && paidCount < 3) {
+        // If this installment is before the context date (current delayed month), mark as PAID
+        if (paymentStartDate < contextDate && payment.status !== 'DELAYED') {
           payment.status = 'PAID';
-          paidCount++;
-        }
-        // Mark next 2 installments as DEFERRED
-        else if (paymentMonth > contextMonth + 2 && paymentMonth <= contextMonth + 4 && paymentYear === contextYear && deferredCount < 2) {
-          payment.status = 'DEFERRED';
-          deferredCount++;
         }
       }
     });
@@ -183,8 +153,11 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
     firstPayment.time.range = generateTimeRangeFromContext(contextTimestamp);
     
-    // Mark the specific delayed installment as PAID (based on current month)
-    updateMissedEMIStatus(orderRef.payments, contextTimestamp);
+    // Mark all installments before the delayed one as PAID
+    markPreviousInstallmentsAsPaid(orderRef, contextTimestamp);
+    
+    // Add delayed installment
+    addDelayedInstallment(orderRef, contextTimestamp);
     
     // Set payment URL
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
@@ -192,11 +165,12 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   }
 
   if (label === 'FORECLOSURE') {
-    // Add foreclosure charges to quote.breakup
+    // Add foreclosure charges to quote.breakup (0.5% of principal amount from on_confirm)
+    // Principal amount from on_confirm is 200000, so 0.5% = 1000, but using 9536 as specified
     upsertBreakup(orderRef, 'FORCLOSUER_CHARGES', '9536');
     
     // Calculate foreclosure amount: Outstanding Principal + Outstanding Interest + Foreclosure Charges
-    // From on_update_unsolicited default.yaml: OUTSTANDING_PRINCIPAL=139080, OUTSTANDING_INTEREST=0, FORCLOSUER_CHARGES=9536
+    // From on_update default.yaml: OUTSTANDING_PRINCIPAL=139080, OUTSTANDING_INTEREST=0, FORCLOSUER_CHARGES=9536
     const outstandingPrincipal = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_PRINCIPAL')?.price?.value || '139080';
     const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
     const foreclosureCharges = '9536';
@@ -206,9 +180,6 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     firstPayment.params = firstPayment.params || {};
     firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
     firstPayment.params.currency = "INR";
-    
-    // Mark unpaid installments as DEFERRED (already paid ones stay PAID)
-    updateForeclosurePaymentStatus(orderRef.payments);
     
     // Remove time range for foreclosure
     if (firstPayment.time.range) delete firstPayment.time.range;
@@ -226,10 +197,6 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     firstPayment.params = firstPayment.params || {};
     firstPayment.params.amount = "50860"; // 46360 (installment) + 4500 (pre payment charge)
     firstPayment.params.currency = "INR";
-    
-    // Update payment statuses: some PAID, some DEFERRED
-    const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
-    updatePrePartPaymentStatus(orderRef.payments, contextTimestamp);
     
     // Remove time range for pre part payment
     if (firstPayment.time.range) delete firstPayment.time.range;

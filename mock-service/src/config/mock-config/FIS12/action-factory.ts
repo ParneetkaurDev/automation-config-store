@@ -38,6 +38,17 @@ import { MockConfirmedCancelClass } from "./2.2.1/confirmed_cancel/class";
 import { MockConfirmedOnCancelClass } from "./2.2.1/confirmed_on_cancel/class";
 import { MockSoftOnCancelClass } from "./2.2.1/soft_on_cancel/class";
 import { MockOnUpdateUnsolicitedCancelClass } from "./2.2.1/on_update_unsolicited_cancel/class";
+import { MockOnUpdateMissedEmiClass } from "./2.2.1/on_update_missed_Emi/class";
+import { MockOnUpdateForeclosureClass } from "./2.2.1/on_update_foreclosure/class";
+import { MockOnUpdatePrepartClass } from "./2.2.1/on_update_prepart/class";
+import { MockUpdateMissedEmiClass } from "./2.2.1/update_missed_Emi/class";
+import { MockUpdateForeclosureClass } from "./2.2.1/update_foreclosure/class";
+import { MockUpdatePrepartClass } from "./2.2.1/update_prepart/class";
+import { MockOnUpdateUnsolicitedMissedEmiClass } from "./2.2.1/on_update_unsolicited_missed_Emi/class";
+import { MockOnUpdateUnsolicitedForeclosureClass } from "./2.2.1/on_update_unsolicited_foreclosure/class";
+import { MockOnUpdateUnsolicitedPrepartClass } from "./2.2.1/on_update_unsolicited_prepart/class";
+import { MockOnSearchClass5 } from "./2.2.1/on_search5/class";
+import { MockOnSearchClass6 } from "./2.2.1/on_search6/class";
 
 // types/helpers
 type Ctor<T> = new () => T;
@@ -59,6 +70,8 @@ const registry = {
 	on_search2_purchase_finance: MockOnSearchClass2,
 	on_search3_purchase_finance: MockOnSearchClass3,
 	on_search4_purchase_finance: MockOnSearchClass4,
+	on_search5_purchase_finance: MockOnSearchClass5,
+	on_search6_purchase_finance: MockOnSearchClass6,
 
 	// form
 	product_details_form: MockProductDetailsFormClass,
@@ -94,9 +107,18 @@ const registry = {
 
 	// // update / on_update
 	update_purchase_finance: MockUpdateClass,
+	update_missed_Emi: MockUpdateMissedEmiClass,
+	update_foreclosure: MockUpdateForeclosureClass,
+	update_prepart: MockUpdatePrepartClass,
 	on_update_purchase_finance: MockOnUpdateClass,
+	on_update_missed_Emi: MockOnUpdateMissedEmiClass,
+	on_update_foreclosure: MockOnUpdateForeclosureClass,
+	on_update_prepart: MockOnUpdatePrepartClass,
 	on_update1_unsolicited_purchase_finance: MockOnUpdateUnsolicitedClass,
 	on_update_unsolicited_cancel: MockOnUpdateUnsolicitedCancelClass,
+	on_update_unsolicited_missed_Emi: MockOnUpdateUnsolicitedMissedEmiClass,
+	on_update_unsolicited_foreclosure: MockOnUpdateUnsolicitedForeclosureClass,
+	on_update_unsolicited_prepart: MockOnUpdateUnsolicitedPrepartClass,
 	verification_status: MockKycVerificationStatusClass,
 
 

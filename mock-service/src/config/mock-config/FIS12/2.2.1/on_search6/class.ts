@@ -3,9 +3,9 @@ import yaml from "js-yaml";
 import path from "path";
 import { MockAction, MockOutput, saveType } from "../../classes/mock-action";
 import { SessionData } from "../../session-types";
-import { onUpdateUnsolicitedDefaultGenerator } from "./generator";
+import { onSearchDefaultGenerator } from "./generator";
 
-export class MockOnUpdateUnsolicited3Class extends MockAction {
+export class MockOnSearchClass6 extends MockAction {
     get saveData(): saveType {
         return yaml.load(
             readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
@@ -16,28 +16,27 @@ export class MockOnUpdateUnsolicited3Class extends MockAction {
             readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
         );
     }
+    
     get inputs(): any {
-        return {};
+        return {
+        };
     }
+
     name(): string {
-        return "on_update_unsolicited";
+        return "on_search_full_pull";
     }
     get description(): string {
-        return "Mock for on_update (unsolicited)";
+        return "Mock for on_search_full_pull";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return onUpdateUnsolicitedDefaultGenerator(existingPayload, sessionData);
+        return onSearchDefaultGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
+
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-        if (!sessionData.transaction_id) {
-            return { 
-                valid: false, 
-                message: "No transaction_id available in session data" 
-            };
-        }
+
         return { valid: true };
     }
 }
