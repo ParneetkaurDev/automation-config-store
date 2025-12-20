@@ -49,6 +49,16 @@ codes:
     action: on_search
     default: FIS12/2.2.1/on_search4/default.yaml
     message_id: false
+  - code: 2015
+    action_id: on_search5_purchase_finance
+    action: on_search
+    default: FIS12/2.2.1/on_search5/default.yaml
+    message_id: false
+  - code: 2016
+    action_id: on_search6_purchase_finance
+    action: on_search
+    default: FIS12/2.2.1/on_search6/default.yaml
+    message_id: false
   - code: 202
     action_id: select_purchase_finance
     action: select
@@ -125,20 +135,65 @@ codes:
     action: update
     default: FIS12/2.2.1/update/default.yaml
     message_id: true
+  - code: 2081
+    action_id: update_missed_Emi
+    action: update
+    default: FIS12/2.2.1/update_missed_Emi/default.yaml
+    message_id: true
+  - code: 2082
+    action_id: update_foreclosure
+    action: update
+    default: FIS12/2.2.1/update_foreclosure/default.yaml
+    message_id: true
+  - code: 2083
+    action_id: update_prepart
+    action: update
+    default: FIS12/2.2.1/update_prepart/default.yaml
+    message_id: true
   - code: 209
     action_id: on_update_purchase_finance
     action: on_update
     default: FIS12/2.2.1/on_update/default.yaml
     message_id: false
   - code: 2091
+    action_id: on_update_missed_Emi
+    action: on_update
+    default: FIS12/2.2.1/on_update_missed_Emi/default.yaml
+    message_id: true
+  - code: 2092
+    action_id: on_update_foreclosure
+    action: on_update
+    default: FIS12/2.2.1/on_update_foreclosure/default.yaml
+    message_id: true
+  - code: 2093
+    action_id: on_update_prepart
+    action: on_update
+    default: FIS12/2.2.1/on_update_prepart/default.yaml
+    message_id: true
+  - code: 2101
     action_id: on_update1_unsolicited_purchase_finance
     action: on_update
     default: FIS12/2.2.1/on_update_unsolicited/default.yaml
     message_id: false
-  - code: 2092
+  - code: 2102
     action_id: on_update_unsolicited_cancel
     action: on_update
     default: FIS12/2.2.1/on_update_unsolicited_cancel/default.yaml
+    message_id: false
+  - code: 2103
+    action_id: on_update_unsolicited_missed_Emi
+    action: on_update
+    default: FIS12/2.2.1/on_update_unsolicited_missed_Emi/default.yaml
+    message_id: false
+  - code: 2104
+    action_id: on_update_unsolicited_foreclosure
+    action: on_update
+    default: FIS12/2.2.1/on_update_unsolicited_foreclosure/default.yaml
+    message_id: false
+  - code: 2105
+    action_id: on_update_unsolicited_prepart
+    action: on_update
+    default: FIS12/2.2.1/on_update_unsolicited_prepart/default.yaml
     message_id: false
   - code: 211
     action_id: status_purchase_finance

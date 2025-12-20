@@ -3,9 +3,9 @@ import yaml from "js-yaml";
 import path from "path";
 import { MockAction, MockOutput, saveType } from "../../classes/mock-action";
 import { SessionData } from "../../session-types";
-import { onUpdateUnsolicitedDefaultGenerator } from "./generator";
+import { updateDefaultGenerator } from "./generator";
 
-export class MockOnUpdateUnsolicited4Class extends MockAction {
+export class MockUpdateMissedEmiClass extends MockAction {
     get saveData(): saveType {
         return yaml.load(
             readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
@@ -20,13 +20,13 @@ export class MockOnUpdateUnsolicited4Class extends MockAction {
         return {};
     }
     name(): string {
-        return "on_update_unsolicited";
+        return "update";
     }
     get description(): string {
-        return "Mock for on_update (unsolicited)";
+        return "Mock for update";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-        return onUpdateUnsolicitedDefaultGenerator(existingPayload, sessionData);
+        return updateDefaultGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
         return { valid: true };
@@ -40,4 +40,4 @@ export class MockOnUpdateUnsolicited4Class extends MockAction {
         }
         return { valid: true };
     }
-}
+} 

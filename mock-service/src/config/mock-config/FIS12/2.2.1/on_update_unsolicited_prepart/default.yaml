@@ -1,16 +1,16 @@
 order:
   id: LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID
-  status: CANCELLED
+  status: ACTIVE
 
   provider:
     id: PROVIDER_ID
     descriptor:
-      name: ICICI Bank
-      short_desc: ICICI Bank Ltd
-      long_desc: ICICI Bank Ltd, India.
       images:
         - url: https://www.icicibank.com/content/dam/icicibank/india/assets/images/header/logo.png
           size_type: sm
+      name: ICICI Bank
+      short_desc: ICICI Bank Ltd
+      long_desc: ICICI Bank Ltd, India.
     tags:
       - descriptor:
           code: CONTACT_INFO
@@ -60,7 +60,7 @@ order:
           - descriptor:
               code: LSP_ADDRESS
               name: Lsp Address
-            value: >
+            value: >-
               One Indiabulls centre, Tower 1, 18th Floor Jupiter mill compound 841,
               Senapati Bapat Marg, Elphinstone Road, Mumbai 400013
 
@@ -75,7 +75,9 @@ order:
       price:
         currency: INR
         value: "70000"
-      fulfillment_ids: [F1, F2]
+      fulfillment_ids:
+        - F1
+        - F2
       tags:
         - descriptor:
             code: INFO
@@ -90,6 +92,7 @@ order:
             - descriptor:
                 code: TERM
                 name: Loan Term
+                short_desc: Loans Duration 5 months
               value: P5M
             - descriptor:
                 code: INTEREST_RATE_TYPE
@@ -102,23 +105,7 @@ order:
             - descriptor:
                 code: FORECLOSURE_FEE
                 name: Foreclosure Penalty
-              value: "0.5 %"
-            - descriptor:
-                code: INTEREST_RATE_CONVERSION_CHARGE
-                name: interest rate conversion charges
-              value: 1000 INR
-            - descriptor:
-                code: DELAY_PENALTY_FEE
-                name: Delayed payments penalty
-              value: "5 %"
-            - descriptor:
-                code: OTHER_PENALTY_FEE
-                name: Other Penal Charges
-              value: "1 %"
-            - descriptor:
-                code: ANNUAL_PERCENTAGE_RATE
-                name: Annual Percentage Rate
-              value: "5 %"
+              value: 0.5 %
             - descriptor:
                 code: REPAYMENT_FREQUENCY
                 name: Repayment Frequency
@@ -128,79 +115,28 @@ order:
                 name: Number of installments of repayment
               value: "7"
             - descriptor:
-                code: TNC_LINK
-                name: Terms & Conditions
-              value: https://icicibank.com/loan/tnc.html
-            - descriptor:
-                code: COOL_OFF_PERIOD
-                name: cool off period
-              value: P30D
-            - descriptor:
                 code: INSTALLMENT_AMOUNT
                 name: Installment amount
               value: 10000 INR
-            - descriptor:
-                code: MINIMUM_DOWNPAYMENT
-                name: Minimum Downpayment Required
-              value: 1000 INR
-            - descriptor:
-                code: SUBVENTION_RATE
-                name: Subvention Rate
-              value: "5 %"
-            - descriptor:
-                code: SELLER_SUBVENTION_RATE
-                name: Subvention Rate
-              value: "2 %"
-
-        - descriptor:
-            code: CHECKLISTS
-            name: Checklists
-          display: true
-          list:
-            - descriptor:
-                code: SET_DOWN_PAYMENT
-                name: Set Loan Amount
-              value: COMPLETED
-            - descriptor:
-                code: KYC
-                name: KYC
-              value: COMPLETED
-            - descriptor:
-                code: EMANDATE
-                name: Emandate
-              value: COMPLETED
-            - descriptor:
-                code: ESIGN
-                name: Esign
-              value: COMPLETED
 
   fulfillments:
     - id: F1
       type: LOAN
       state:
         descriptor:
-          code: DISBURSED
+          code: SANCTIONED
       customer:
         person:
           name: John Doe
         contact:
           phone: "+91-9999999999"
           email: john.doe@example.com
-      tags:
-        - descriptor:
-            code: INFO
-            name: Information
-          list:
-            - descriptor:
-                code: REFERENCE_NUMBER
-                name: Reference Number
-              value: "912345678912"
 
     - id: F2
       type: BASE_ORDER
       state:
         descriptor:
-          code: DELIVERED
+          code: PLACED
       customer:
         person:
           name: John Doe
@@ -217,36 +153,27 @@ order:
       currency: INR
       value: "70000"
     ttl: P15D
-    breakup:
-      - title: PRINCIPAL_AMOUNT
-        price: { value: "65000", currency: INR }
-      - title: INTEREST_AMOUNT
-        price: { value: "4000", currency: INR }
-      - title: PROCESSING_FEE
-        price: { value: "500", currency: INR }
-      - title: OTHER_UPFRONT_CHARGES
-        price: { value: "0", currency: INR }
-      - title: INSURANCE_CHARGES
-        price: { value: "500", currency: INR }
-      - title: NET_DISBURSED_AMOUNT
-        price: { value: "64000", currency: INR }
-      - title: OTHER_CHARGES
-        price: { value: "0", currency: INR }
 
-  cancellation_terms:
-    - fulfillment_state:
-        descriptor:
-          code: SANCTIONED
-      cancellation_fee:
-        percentage: "3%"
-    - external_ref:
-        mimetype: text/html
-        url: https://bpp.credit.becknprotocol.org/tnc.html
-    - fulfillment_state:
-        descriptor:
-          code: DISBURSED
-      cancellation_fee:
-        percentage: "5%"
+  payments:
+    - id: PAYMENT_ID_PURCHASE_FINANCE
+      type: POST_FULFILLMENT
+      status: PAID
+      params:
+        amount: "19714"
+        currency: INR
+        transaction_id: 19e45ecf-6481-4bcd-9ba8-55c7cf7af78d
+      time:
+        label: PRE_PART_PAYMENT
+        timestamp: 2024-10-01T04:00:00.000Z
+
+    - id: PAYMENT_ID_DOWNPAYMENT
+      type: PRE_ORDER
+      status: PAID
+      collected_by: BPP
+      params:
+        amount: "1000"
+        currency: INR
+        transaction_id: 3b5a664d-077e-47f0-96d1-06e68d397c78
 
   documents:
     - descriptor:
@@ -254,11 +181,12 @@ order:
         name: Loan Agreement Document
       mime_type: application/pdf
       url: https://lender.com/loan/loan-agreement/O1.pdf
+
     - descriptor:
         code: LOAN_CANCELLATION
         name: Loan Cancellation Document
       mime_type: application/pdf
       url: https://lender.com/loan/loan-cancellation/O1.pdf
 
-  created_at: "2024-05-06T04:19:20.443Z"
-  updated_at: "2024-05-07T07:20:15.443Z"
+  created_at: 2024-05-06T04:19:20.443Z
+  updated_at: 2024-05-06T04:20:15.443Z

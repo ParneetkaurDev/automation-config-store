@@ -1,6 +1,6 @@
 order:
   id: LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID
-  status: CANCELLED
+  status: ACTIVE
 
   provider:
     id: PROVIDER_ID
@@ -60,9 +60,7 @@ order:
           - descriptor:
               code: LSP_ADDRESS
               name: Lsp Address
-            value: >
-              One Indiabulls centre, Tower 1, 18th Floor Jupiter mill compound 841,
-              Senapati Bapat Marg, Elphinstone Road, Mumbai 400013
+            value: One Indiabulls centre, Tower 1, 18th Floor Jupiter mill compound 841, Senapati Bapat Marg, Elphinstone Road, Mumbai 400013
 
   items:
     - id: ITEM_ID_ELECTRONICS
@@ -75,7 +73,9 @@ order:
       price:
         currency: INR
         value: "70000"
-      fulfillment_ids: [F1, F2]
+      fulfillment_ids:
+        - F1
+        - F2
       tags:
         - descriptor:
             code: INFO
@@ -90,10 +90,12 @@ order:
             - descriptor:
                 code: TERM
                 name: Loan Term
+                short_desc: Loans Duration 5 months
               value: P5M
             - descriptor:
                 code: INTEREST_RATE_TYPE
                 name: Interest rate type
+                short_desc: Fixed Interest type
               value: FIXED
             - descriptor:
                 code: APPLICATION_FEE
@@ -102,6 +104,7 @@ order:
             - descriptor:
                 code: FORECLOSURE_FEE
                 name: Foreclosure Penalty
+                short_desc: Loan Foreclosure Penalty
               value: "0.5 %"
             - descriptor:
                 code: INTEREST_RATE_CONVERSION_CHARGE
@@ -110,34 +113,42 @@ order:
             - descriptor:
                 code: DELAY_PENALTY_FEE
                 name: Delayed payments penalty
+                short_desc: Delayed payments penalty
               value: "5 %"
             - descriptor:
                 code: OTHER_PENALTY_FEE
                 name: Other Penal Charges
+                short_desc: Other Penal Charges
               value: "1 %"
             - descriptor:
                 code: ANNUAL_PERCENTAGE_RATE
                 name: Annual Percentage Rate
+                short_desc: Effective annualized interest rate in percentage computed on net disbursed amount using IRR approach and reducing balance method
               value: "5 %"
             - descriptor:
                 code: REPAYMENT_FREQUENCY
                 name: Repayment Frequency
+                short_desc: Repayment Frequency by borrower
               value: P1M
             - descriptor:
                 code: NUMBER_OF_INSTALLMENTS
                 name: Number of installments of repayment
+                short_desc: Number of installments borrower has to make to payback the loan
               value: "7"
             - descriptor:
                 code: TNC_LINK
                 name: Terms & Conditions
+                short_desc: Terms and Conditions
               value: https://icicibank.com/loan/tnc.html
             - descriptor:
                 code: COOL_OFF_PERIOD
                 name: cool off period
+                short_desc: Cooling off/look-up period during which borrower shall not be charged any penalty
               value: P30D
             - descriptor:
                 code: INSTALLMENT_AMOUNT
                 name: Installment amount
+                short_desc: Each installment amount of repayment
               value: 10000 INR
             - descriptor:
                 code: MINIMUM_DOWNPAYMENT
@@ -179,28 +190,19 @@ order:
       type: LOAN
       state:
         descriptor:
-          code: DISBURSED
+          code: SANCTIONED
       customer:
         person:
           name: John Doe
         contact:
           phone: "+91-9999999999"
           email: john.doe@example.com
-      tags:
-        - descriptor:
-            code: INFO
-            name: Information
-          list:
-            - descriptor:
-                code: REFERENCE_NUMBER
-                name: Reference Number
-              value: "912345678912"
 
     - id: F2
       type: BASE_ORDER
       state:
         descriptor:
-          code: DELIVERED
+          code: PLACED
       customer:
         person:
           name: John Doe
@@ -217,48 +219,6 @@ order:
       currency: INR
       value: "70000"
     ttl: P15D
-    breakup:
-      - title: PRINCIPAL_AMOUNT
-        price: { value: "65000", currency: INR }
-      - title: INTEREST_AMOUNT
-        price: { value: "4000", currency: INR }
-      - title: PROCESSING_FEE
-        price: { value: "500", currency: INR }
-      - title: OTHER_UPFRONT_CHARGES
-        price: { value: "0", currency: INR }
-      - title: INSURANCE_CHARGES
-        price: { value: "500", currency: INR }
-      - title: NET_DISBURSED_AMOUNT
-        price: { value: "64000", currency: INR }
-      - title: OTHER_CHARGES
-        price: { value: "0", currency: INR }
 
-  cancellation_terms:
-    - fulfillment_state:
-        descriptor:
-          code: SANCTIONED
-      cancellation_fee:
-        percentage: "3%"
-    - external_ref:
-        mimetype: text/html
-        url: https://bpp.credit.becknprotocol.org/tnc.html
-    - fulfillment_state:
-        descriptor:
-          code: DISBURSED
-      cancellation_fee:
-        percentage: "5%"
-
-  documents:
-    - descriptor:
-        code: LOAN_AGREEMENT
-        name: Loan Agreement Document
-      mime_type: application/pdf
-      url: https://lender.com/loan/loan-agreement/O1.pdf
-    - descriptor:
-        code: LOAN_CANCELLATION
-        name: Loan Cancellation Document
-      mime_type: application/pdf
-      url: https://lender.com/loan/loan-cancellation/O1.pdf
-
-  created_at: "2024-05-06T04:19:20.443Z"
-  updated_at: "2024-05-07T07:20:15.443Z"
+  created_at: 2024-05-06T04:19:20.443Z
+  updated_at: 2024-05-07T07:20:15.443Z
