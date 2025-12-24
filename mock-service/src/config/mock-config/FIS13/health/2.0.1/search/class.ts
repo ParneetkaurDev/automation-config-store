@@ -30,6 +30,7 @@ export class MockSearchClass extends MockAction {
         return "search";
     }
     get description(): string {
+        
         return "Mock for search";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
