@@ -103,6 +103,7 @@ const registry = {
 	// // status / on_status
 	status_purchase_finance: MockStatusClass,
 	on_status_purchase_finance: MockOnStatusClass,
+	on_status_purchase_finance1:MockOnStatusClass,
 	on_status_unsolicited: MockOnStatusUnsolicitedClass,
 
 	// // update / on_update

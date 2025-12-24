@@ -41214,6 +41214,7 @@ x-validations:
             enumList: &SEARCH_CATEGORY_CODES
               - GOLD_LOAN
               - PERSONAL_LOAN
+              - PURCHASE_FINANCE
             _CONTINUE_: '!(attr are present)'
             _RETURN_: attr all in enumList
 
