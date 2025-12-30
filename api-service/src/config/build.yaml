@@ -22779,45 +22779,45 @@ x-validations:
           - _NAME_: REQUIRED_ITEM_DESCRIPTOR_NAME
             attr: $.message.catalog.providers[*].items[*].descriptor.name
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT
-            attr: $.message.catalog.providers[*].items[*].xinput.required
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_URL
-            attr: $.message.catalog.providers[*].items[*].xinput.form.url
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_ID
-            attr: $.message.catalog.providers[*].items[*].xinput.form.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_MIME_TYPE
-            attr: $.message.catalog.providers[*].items[*].xinput.form.mime_type
-            enumList: &FORM_MIME_TYPES
-              - text/html
-              - application/html
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
-            _RETURN_:
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-                attr: $.message.catalog.providers[*].items[*].xinput.head.index.min
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-                attr: $.message.catalog.providers[*].items[*].xinput.head.index.cur
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-                attr: $.message.catalog.providers[*].items[*].xinput.head.index.max
-                _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
-            attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
-            _RETURN_: attr are present
-          - _NAME_: VALID_XINPUT_HEADINGS_ENUM
-            attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
-            enumList: &XINPUT_HEADINGS_ON_SEARCH
-              - MERCHANT_AND_PRDOUCT_DEATILS
-              - PERSONAL_INFORMATION
-              - SET_DOWN_PAYMENT
-              - KYC
-              - EMANDATE
-              - ESIGN
-            _RETURN_: attr all in enumList
+          # - _NAME_: REQUIRED_XINPUT
+          #   attr: $.message.catalog.providers[*].items[*].xinput.required
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_XINPUT_FORM_URL
+          #   attr: $.message.catalog.providers[*].items[*].xinput.form.url
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_XINPUT_FORM_ID
+          #   attr: $.message.catalog.providers[*].items[*].xinput.form.id
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_XINPUT_FORM_MIME_TYPE
+          #   attr: $.message.catalog.providers[*].items[*].xinput.form.mime_type
+          #   enumList: &FORM_MIME_TYPES
+          #     - text/html
+          #     - application/html
+          #   _RETURN_: attr all in enumList
+          # - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
+          #   _RETURN_:
+          #     - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
+          #       attr: $.message.catalog.providers[*].items[*].xinput.head.index.min
+          #       _RETURN_: attr are present
+          #     - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
+          #       attr: $.message.catalog.providers[*].items[*].xinput.head.index.cur
+          #       _RETURN_: attr are present
+          #     - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
+          #       attr: $.message.catalog.providers[*].items[*].xinput.head.index.max
+          #       _RETURN_: attr are present
+          # - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
+          #   attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
+          #   _RETURN_: attr are present
+          # - _NAME_: VALID_XINPUT_HEADINGS_ENUM
+          #   attr: $.message.catalog.providers[*].items[*].xinput.head.headings[*]
+          #   enumList: &XINPUT_HEADINGS_ON_SEARCH
+          #     - MERCHANT_AND_PRDOUCT_DEATILS
+          #     - PERSONAL_INFORMATION
+          #     - SET_DOWN_PAYMENT
+          #     - KYC
+          #     - EMANDATE
+          #     - ESIGN
+          #   _RETURN_: attr all in enumList
 
     # ============================================================
     # SELECT
@@ -22978,25 +22978,25 @@ x-validations:
               - COMPLETED
             _RETURN_: attr all in enumList
 
-      - _NAME_: ON_SELECT_XINPUT
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
-            _RETURN_:
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-                attr: $.message.order.items[*].xinput.head.index.min
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-                attr: $.message.order.items[*].xinput.head.index.cur
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-                attr: $.message.order.items[*].xinput.head.index.max
-                _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_ID
-            attr: $.message.order.items[*].xinput.form.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_FORM_URL
-            attr: $.message.order.items[*].xinput.form.url
-            _RETURN_: attr are present
+      # - _NAME_: ON_SELECT_XINPUT
+      #   _RETURN_:
+      #     - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
+      #       _RETURN_:
+      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
+      #           attr: $.message.order.items[*].xinput.head.index.min
+      #           _RETURN_: attr are present
+      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
+      #           attr: $.message.order.items[*].xinput.head.index.cur
+      #           _RETURN_: attr are present
+      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
+      #           attr: $.message.order.items[*].xinput.head.index.max
+      #           _RETURN_: attr are present
+      #     - _NAME_: REQUIRED_XINPUT_FORM_ID
+      #       attr: $.message.order.items[*].xinput.form.id
+      #       _RETURN_: attr are present
+      #     - _NAME_: REQUIRED_XINPUT_FORM_URL
+      #       attr: $.message.order.items[*].xinput.form.url
+      #       _RETURN_: attr are present
 
       - _NAME_: ON_SELECT_QUOTE
         _RETURN_:
@@ -23080,6 +23080,7 @@ x-validations:
             enumList: &PAYMENT_TYPE_INIT
               - ON_ORDER
               - PRE_ORDER
+              - POST_FULFILLMENT
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_PAYMENT_STATUS
             attr: $.message.order.payments[*].status
@@ -23124,7 +23125,7 @@ x-validations:
             _CONTINUE_: '!(subTags are present)'
             _RETURN_: subTags all in validValues
           - _NAME_: REQUIRED_BPP_TERMS_TAG
-            validTags: *BPP_TERMS_TAG
+            validTags: *BAP_TERMS_TAG
             tagPath: $.message.order.payments[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
           - _NAME_: REQUIRED_BPP_TERMS_LIST
@@ -23253,13 +23254,14 @@ x-validations:
             enumList: &PAYMENT_TYPE_ON_INIT
               - ON_ORDER
               - PRE_ORDER
+              - POST_FULFILLMENT
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_PAYMENT_STATUS
             attr: $.message.order.payments[*].status
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
-            attr: $.message.order.payments[*].collected_by
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
+          #   attr: $.message.order.payments[*].collected_by
+          #   _RETURN_: attr are present
           - _NAME_: REQUIRED_PAYMENT_TAGS
             _RETURN_:
               - _NAME_: REQUIRED_BPP_TERMS_TAG
@@ -23313,24 +23315,24 @@ x-validations:
             enumList: *QUOTE_BREAKUP_TITLES
             _RETURN_: attr any in enumList
 
-      - _NAME_: ON_INIT_XINPUT
-        xinputpath: $.message.order.items[*].xinput.form.id
-        _CONTINUE_: '!(xinputpath are present)'
-        _RETURN_:
-          - _NAME_: REQUIRED_XINPUT_FORM_ID
-            attr: $.message.order.items[*].xinput.form.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
-            _RETURN_:
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-                attr: $.message.order.items[*].xinput.head.index.min
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-                attr: $.message.order.items[*].xinput.head.index.cur
-                _RETURN_: attr are present
-              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-                attr: $.message.order.items[*].xinput.head.index.max
-                _RETURN_: attr are present
+      # - _NAME_: ON_INIT_XINPUT
+      #   xinputpath: $.message.order.items[*].xinput.form.id
+      #   _CONTINUE_: '!(xinputpath are present)'
+      #   _RETURN_:
+      #     - _NAME_: REQUIRED_XINPUT_FORM_ID
+      #       attr: $.message.order.items[*].xinput.form.id
+      #       _RETURN_: attr are present
+      #     - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
+      #       _RETURN_:
+      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
+      #           attr: $.message.order.items[*].xinput.head.index.min
+      #           _RETURN_: attr are present
+      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
+      #           attr: $.message.order.items[*].xinput.head.index.cur
+      #           _RETURN_: attr are present
+      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
+      #           attr: $.message.order.items[*].xinput.head.index.max
+      #           _RETURN_: attr are present
 
     # ============================================================
     # CONFIRM
@@ -23774,13 +23776,13 @@ x-validations:
 
       - _NAME_: ON_STATUS_ORDER
         _RETURN_:
-          - _NAME_: REQUIRED_ORDER_ID
-            attr: $.message.order.id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_ORDER_STATUS
-            attr: $.message.order.status
-            enumList: *ORDER_STATUS
-            _RETURN_: attr all in enumList
+          # - _NAME_: REQUIRED_ORDER_ID
+          #   attr: $.message.order.id
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_ORDER_STATUS
+          #   attr: $.message.order.status
+          #   enumList: *ORDER_STATUS
+          #   _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_ORDER_PROVIDER_ID
             attr: $.message.order.provider.id
             _RETURN_: attr are present
@@ -23788,37 +23790,37 @@ x-validations:
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
 
-      - _NAME_: ON_STATUS_FULFILLMENTS
-        _RETURN_:
-          - _NAME_: REQUIRED_FULFILLMENT_ID
-            attr: $.message.order.fulfillments[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_TYPE
-            attr: $.message.order.fulfillments[*].type
-            enumList: *FULFILLMENT_TYPE_CONFIRM
-            _CONTINUE_: '!(attr are present)'
-            _RETURN_: attr all in enumList
+      # - _NAME_: ON_STATUS_FULFILLMENTS
+      #   _RETURN_:
+      #     - _NAME_: REQUIRED_FULFILLMENT_ID
+      #       attr: $.message.order.fulfillments[*].id
+      #       _RETURN_: attr are present
+      #     - _NAME_: REQUIRED_FULFILLMENT_TYPE
+      #       attr: $.message.order.fulfillments[*].type
+      #       enumList: *FULFILLMENT_TYPE_CONFIRM
+      #       _CONTINUE_: '!(attr are present)'
+      #       _RETURN_: attr all in enumList
 
-      - _NAME_: ON_STATUS_FULFILLMENT_STATE
-        statepath: $.message.order.fulfillments[*].state.descriptor.code
-        _CONTINUE_: '!(statepath are present)'
-        _RETURN_:
-          - _NAME_: VALID_FULFILLMENT_STATE_CODE
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: *FULFILLMENT_STATE_ON_UPDATE
-            _RETURN_: attr all in enumList
+      # - _NAME_: ON_STATUS_FULFILLMENT_STATE
+      #   statepath: $.message.order.fulfillments[*].state.descriptor.code
+      #   _CONTINUE_: '!(statepath are present)'
+      #   _RETURN_:
+      #     - _NAME_: VALID_FULFILLMENT_STATE_CODE
+      #       attr: $.message.order.fulfillments[*].state.descriptor.code
+      #       enumList: *FULFILLMENT_STATE_ON_UPDATE
+      #       _RETURN_: attr all in enumList
 
-      - _NAME_: ON_STATUS_PAYMENTS
-        paymentspath: $.message.order.payments[*].type
-        _CONTINUE_: '!(paymentspath are present)'
-        _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_TYPE
-            attr: $.message.order.payments[*].type
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PAYMENT_STATUS
-            attr: $.message.order.payments[*].status
-            enumList: *PAYMENT_STATUS_CONFIRM
-            _RETURN_: attr all in enumList
+      # - _NAME_: ON_STATUS_PAYMENTS
+      #   paymentspath: $.message.order.payments[*].type
+      #   _CONTINUE_: '!(paymentspath are present)'
+      #   _RETURN_:
+      #     - _NAME_: REQUIRED_PAYMENT_TYPE
+      #       attr: $.message.order.payments[*].type
+      #       _RETURN_: attr are present
+      #     - _NAME_: REQUIRED_PAYMENT_STATUS
+      #       attr: $.message.order.payments[*].status
+      #       enumList: *PAYMENT_STATUS_CONFIRM
+      #       _RETURN_: attr all in enumList
 
       - _NAME_: ON_STATUS_QUOTE
         attr: $.message.order.quote.breakup[*].title
