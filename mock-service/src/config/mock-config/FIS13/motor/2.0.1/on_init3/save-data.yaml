@@ -1,7 +1,5 @@
 save-data:
-  - path: "$.context.transaction_id"
-    key: "transaction_id"
-  - path: "$.context.message_id"
-    key: "message_id"
-  - path: "$.message.order"
-    key: "order" 
+    transaction_id: "$.context.transaction_id"
+    message_id: "$.context.message_id"
+    order: "$.message.order"
+    consumer_information_form: "$..form.url"

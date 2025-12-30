@@ -5,9 +5,9 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
 
   console.log("sessionData for on_status", sessionData);
 
-  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
+  const submission_id = sessionData?.form_data?.manual_review_form?.form_submission_id;
   
-  const form_status = sessionData?.form_data?.kyc_verification_status?.idType;
+  const form_status = sessionData?.form_data?.manual_review_form?.idType;
   
   // Update transaction_id and message_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -33,9 +33,10 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
     // Ensure item ID matches previous calls (carry-forward from previous flows)
     if (sessionData.item_id) {
       item.id = sessionData.item_id;
-    } else {
-      item.id = "ITEM_ID_GOLD_LOAN_2"; // Consistent ID
-    }
+    } 
+    // else {
+    //   item.id = "ITEM_ID_GOLD_LOAN_2"; // Consistent ID
+    // }
     
     // Update location_ids from session data (carry-forward from previous flows)
     const selectedLocationId = sessionData.selected_location_id;
@@ -52,12 +53,19 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
       console.log("Updated form ID:", formId);
     }
     
-    // Set form status to OFFLINE_PENDING
-    if (item.xinput?.form_response) {
-      item.xinput.form_response.status = form_status;
+    // Set form status and submission_id
+    if (item.xinput) {
+      // Create form_response if it doesn't exist
+      if (!item.xinput.form_response) {
+        item.xinput.form_response = {};
+      }
+      if (form_status) {
+        item.xinput.form_response.status = form_status;
+      }
       if (submission_id) {
         item.xinput.form_response.submission_id = submission_id;
       }
+      console.log("Updated form_response:", item.xinput.form_response);
     }
   }
 

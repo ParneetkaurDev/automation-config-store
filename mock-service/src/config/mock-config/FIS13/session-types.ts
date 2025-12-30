@@ -69,11 +69,18 @@ export interface SessionData {
 	Ekyc_details_form?: string;
 	Proposer_Details_form?: string;
 	nominee_details_form?: string;
+	//motor insurance
 	vehicle_details_form?: string;
 	vehicle_nominee_details_form?:string;
 	pan_details_form?:string;
 	personal_details_form?:string;
 	verification_status?: string;
+	manual_review_form?:string;
+	// Form submission data for on_status generators                                               
+  form_data?: Record<string, {                                                                   
+   form_submission_id?: string;                                                                 
+   idType?: string;                                                                             
+ }>;                                                                                            
 }
 
 export type BecknContext = {

@@ -63,6 +63,19 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     existingPayload.message.order.fulfillments[0].customer.contact.email = sessionData.customer_email;
     console.log("Updated customer email:", sessionData.customer_email);
   }
+   if (existingPayload.message?.order?.items) {
+    console.log("check for form +++")
+ existingPayload.message.order.items = existingPayload.message.order.items.map((item: any) => {
+      if (item.xinput?.form) {
+        // Generate dynamic form URL with session data
+        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/consumer_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+        console.log("Form URL generated:", url);
+        // sessionData.reference_data.individual_information_form = url
+        item.xinput.form.url = url;
+      }
+      return item;
+    });
+  }
   
   return existingPayload;
 }

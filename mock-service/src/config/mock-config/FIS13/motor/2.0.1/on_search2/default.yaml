@@ -1,127 +1,156 @@
 catalog:
   descriptor:
-    name: "ABC Insurance Ltd"
+    name: ABC Insurance Ltd
+
   providers:
-    - id: "P1"
-      descriptor:
-        name: "ABC Insurance Ltd."
-        short_desc: "ABC Insurance Ltd. India"
-        long_desc: "ABC Insurance Ltd. Deals in multiple Insurance Services like Health, Motor, Marine etc"
-        images:
-          - url: "https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png"
-            size_type: "xs"
+    - id: P1
+
       categories:
-        - id: "C1"
+        - id: C1
+          parent_category_id: C11
           descriptor:
-            name: "Individual Insurance"
-            code: "INDIVIDUAL_INSURANCE"
-        - id: "C2"
+            name: Two Wheeler Comprehensive
+            code: TWO_WHEELER_COMPRIHENSIVE_INSURANCE
+
+        - id: C2
+          parent_category_id: C11
           descriptor:
-            name: "Family Insurance"
-            code: "FAMILY_INSURANCE"
-        - id: "C3"
+            name: Two Wheeler Third Party
+            code: TWO_WHEELER_THIRD_PARTY_INSURANCE
+
+        - id: C3
+          parent_category_id: C11
           descriptor:
-            name: "Health Insurance"
-            code: "HEALTH_INSURANCE"
+            name: Two Wheeler Own Damage
+            code: TWO_WHEELER_OWN_DAMAGE
+
+        - id: C4
+          parent_category_id: C10
+          descriptor:
+            name: Four Wheeler Comprehensive
+            code: FOUR_WHEELER_COMPRIHENSIVE_INSURANCE
+
+        - id: C5
+          parent_category_id: C10
+          descriptor:
+            name: Four Wheeler Third Party
+            code: FOUR_WHEELER_THIRD_PARTY_INSURANCE
+
+        - id: C6
+          parent_category_id: C10
+          descriptor:
+            name: Four Wheeler Own Damage
+            code: FOUR_WHEELER_OWN_DAMAGE
+
+        - id: C8
+          descriptor:
+            name: Motor Insurance
+            code: MOTOR_INSURANCE
+
+        - id: C10
+          parent_category_id: C8
+          descriptor:
+            name: FOUR WHEELER
+            code: FOUR_WHEELER_INSURANCE
+
+        - id: C11
+          parent_category_id: C8
+          descriptor:
+            name: TWO WHEELER
+            code: TWO_WHEELER_INSURANCE
+
+      descriptor:
+        name: Insurance Provider Name
+        short_desc: Insurance Provider Short Description
+        long_desc: Insurance Provider Long Description
+        images:
+          - url: https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png
+            size_type: xs
+
       items:
-        - category_ids:
-            - C2
-            - C3
+        - id: I1
+          category_ids: [C1, C2, C3]
           descriptor:
-            name: Health Gain Plus Family
-            short_desc: short description of the Family Insurance Type 1
-          id: 1b0fb502-630d-4650-a195-9262c1436e2d
+            name: 2-Wheeler 3rd Party Motor Insurance
+            short_desc: 2-Wheeler 3rd Party Motor Insurance by ABC Insurance Provider
+            images:
+              - url: https://www.abcinsurance.com/content/dam/abc/india/assets/images/header/logo.png
+                size_type: xs
+
+          time:
+            label: TENURE
+            duration: P1Y
+
           tags:
             - descriptor:
                 name: General Information
                 code: GENERAL_INFO
               list:
-                - descriptor:
-                    code: COVERAGE_AMOUNT
-                  value: "10000000"
-                - descriptor:
-                    code: CO_PAYMENT
-                  value: "Yes"
-                - descriptor:
-                    code: ROOM_RENT_CAP
-                  value: "25000"
-                - descriptor:
-                    code: RESTORATION_BENEFIT
-                  value: "No"
-                - descriptor:
-                    code: CLAIM_SETTLEMENT_RATIO
-                  value: "0.8"
-                - descriptor:
-                    code: PRE_HOSPITALIZATION_COVERAGE_DAYS
-                  value: "2"
-                - descriptor:
-                    code: POST_HOSPITALIZATION_COVERAGE_DAYS
-                  value: "5"
-                - descriptor:
-                    code: MATERNITY_COVERAGE
-                  value: "Yes"
-                - descriptor:
-                    code: INITIAL_WAITING_PERIOD
-                  value: "No"
-                - descriptor:
-                    code: CASHLESS_HOSPITALS
-                  value: "50"
-                - descriptor:
-                    code: ROOM_CATEGORY
-                  value: Deluxe
+                - { descriptor: { code: PERSONAL_ACCIDENT_COVER }, value: "10000000" }
+                - { descriptor: { code: DEPRECIATION_COVER }, value: "Yes" }
+                - { descriptor: { code: ROAD_SIDE_ASSISTANCE }, value: "25000" }
+                - { descriptor: { code: CONSUMABLES_COVER }, value: "No" }
+                - { descriptor: { code: ELECTRICAL_ACCESSORIES_COVER }, value: "0.8" }
+                - { descriptor: { code: NON_ELECTRICAL_ACCESSORIES_COVER }, value: "2" }
+                - { descriptor: { code: ENGINE_COVER }, value: "5" }
+                - { descriptor: { code: EXTERNAL_CNG_OR_LPG_COVER }, value: "Yes" }
+                - { descriptor: { code: KEY_COVER }, value: "No" }
+                - { descriptor: { code: PERSONAL_BAGGAGE_COVER }, value: "50" }
+                - { descriptor: { code: TYRE_COVER }, value: "50" }
+                - { descriptor: { code: RETURN_TO_INVOICE }, value: "50" }
+                - { descriptor: { code: PER_DAY_CASH }, value: "50" }
+
           add_ons:
-            - id: C1
+            - id: A1
+              price: { currency: INR, value: "900" }
               quantity:
-                available:
-                  count: 1
+                available: { count: 1 }
+                maximum: { count: 1 }
               descriptor:
-                name: No Claim Bonus
-                code: NO_CLAIM_BONUS
-            - id: C2
+                name: Consumables Cover
+                code: CONSUMABLES_COVER
+
+            - id: A2
+              price: { currency: INR, value: "500" }
               quantity:
-                available:
-                  count: 1
+                available: { count: 1 }
+                maximum: { count: 1 }
               descriptor:
-                name: Daycare Cover
-                code: DAYCARE_COVER
-            - id: C3
-              quantity:
-                available:
-                  count: 1
-              descriptor:
-                name: Daily Cash Allowance
-                code: DAILY_CASH_ALLOWANCE
-            - id: "4"
-              quantity:
-                available:
-                  count: 1
-              descriptor:
-                name: Domicialiary Expenses
-                code: DOMICILIARY_EXPENSES
-            - id: "5"
-              quantity:
-                available:
-                  count: 1
-              descriptor:
-                name: Health Check-ups
-                code: HEALTH_CHECK_UPS
+                name: Depreciation Cover
+                code: DEPRECIATION_COVER
+
+        - id: CHILD_ITEM_CI1
+          parent_item_id: I1
+          price:
+            currency: INR
+            value: "12531"
+          category_ids: [C1, C2, C3]
+          descriptor:
+            name: 2-Wheeler 3rd Party Motor Insurance
+            short_desc: 2-Wheeler 3rd Party Motor Insurance by ABC Insurance Provider
+
           time:
-            duration: P1Y
             label: TENURE
-          xinput:
-            head:
-              descriptor:
-                name: Customer Information
-              index:
-                min: 0
-                cur: 0
-                max: 0
-              headings:
-                - INSURED_PERSONAL_DETAILS
-            form:
-              id: FO2
-              mime_type: text/html
-              url: https://fis.test.bpp.io/form/family_dtls?formId=FO2
-              resubmit: true
-              multiple_sumbissions: false
-            required: true
+            duration: P1Y
+
+      payments:
+        - collected_by: BPP
+          tags:
+            - descriptor:
+                code: BUYER_FINDER_FEES
+              display: false
+              list:
+                - { descriptor: { code: BUYER_FINDER_FEES_TYPE }, value: percent-annualized }
+                - { descriptor: { code: BUYER_FINDER_FEES_PERCENTAGE }, value: "1" }
+
+            - descriptor:
+                code: SETTLEMENT_TERMS
+              display: false
+              list:
+                - { descriptor: { code: SETTLEMENT_WINDOW }, value: PT60M }
+                - { descriptor: { code: SETTLEMENT_BASIS }, value: Delivery }
+                - { descriptor: { code: DELAY_INTEREST }, value: "2.5" }
+                - { descriptor: { code: MANDATORY_ARBITRATION }, value: "TRUE" }
+                - { descriptor: { code: COURT_JURISDICTION }, value: New Delhi }
+                - { descriptor: { code: STATIC_TERMS }, value: https://www.icicibank.com/personal-banking/loans/personal-loan }
+                - { descriptor: { code: OFFLINE_CONTRACT }, value: "true" }

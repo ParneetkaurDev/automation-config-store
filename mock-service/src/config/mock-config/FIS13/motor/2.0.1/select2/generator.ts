@@ -1,11 +1,3 @@
-/**
- * Select Generator for FIS12 Gold Loan
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update form_response with status and submission_id (preserve existing structure)
- */
 
 export async function selectDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("Select generator - Available session data:", {

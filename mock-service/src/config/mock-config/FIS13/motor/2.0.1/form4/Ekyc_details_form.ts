@@ -4,12 +4,12 @@ import { SessionData } from "../../../session-types";
 import { validateFormHtml } from "./validate-form";
 import { resolveFormActions } from "./resolve-action";
 
-export class MockConsumerInformationFormClass extends MockAction {
+export class MockEkycDetailsFormClass extends MockAction {
 	name(): string {
-		return "consumer_information_form";
+		return "Ekyc_details_form";
 	}
 	get description(): string {
-		return "Mock for nominee_details_form";
+		return "Mock for Ekyc_details_form";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
 		throw new Error("Method not implemented.");
@@ -24,7 +24,7 @@ export class MockConsumerInformationFormClass extends MockAction {
 				message: "Session data is required for validation",
 			};
 		}
-		const formLink = sessionData["consumer_information_form"];
+		const formLink = sessionData["Ekyc_details_form"];
 		if (!formLink) {
 			return { valid: false, message: "Form link not found in session data" };
 		}
@@ -37,11 +37,11 @@ export class MockConsumerInformationFormClass extends MockAction {
 		return { valid: true };
 	}
 
-	 async __forceSaveData(
+ async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
 		
-		const formLink = sessionData["consumer_information_form"];
+		const formLink = sessionData["Ekyc_details_form"];
 		if (!formLink) {
 			throw new Error("Form link not found in session data");
 		}
@@ -49,7 +49,7 @@ export class MockConsumerInformationFormClass extends MockAction {
 		const formData = formRaw.data;
 		return {
 			...sessionData,
-			consumer_information_form: resolveFormActions(formLink, formData),
+			Ekyc_details_form: resolveFormActions(formLink, formData),
 		};
 	}
 
@@ -57,7 +57,7 @@ export class MockConsumerInformationFormClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		return { "save-data": { nominee_details_form: "consumer_information_form" } };
+		return { "save-data": { Ekyc_details_form: "Ekyc_details_form" } };
 	}
 	get defaultData(): any {
 		return {};
