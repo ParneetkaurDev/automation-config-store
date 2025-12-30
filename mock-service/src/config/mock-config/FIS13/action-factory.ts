@@ -42,6 +42,10 @@ import { MockOnSearchClass as MotorMockOnSearchClass } from "./motor/2.0.1/on_se
 import { MockOnSearchClass2 as MotorMockOnSearchClass2 } from "./motor/2.0.1/on_search2/class";
 import { MockSelectClass as MotorMockSelectClass } from "./motor/2.0.1/select/class";
 import { MockOnSelectClass as MotorMockOnSelectClass } from "./motor/2.0.1/on_select/class";
+import { MockSelect2Class as MotorMockSelect2Class } from "./motor/2.0.1/select2/class";
+import { MockOnSelect2Class as MotorMockOnSelect2Class } from "./motor/2.0.1/on_select2/class";
+import { MockSelect3Class as MotorMockSelect3Class } from "./motor/2.0.1/select3/class";
+import { MockOnSelect3Class as MotorMockOnSelect3Class } from "./motor/2.0.1/on_select3/class";
 import { MockInitClass as MotorMockInitClass } from "./motor/2.0.1/init/class";
 import { MockInitClass2 as MotorMockInitClass2 } from "./motor/2.0.1/init2/class";
 import { MockInitClass3 as MotorMockInitClass3 } from "./motor/2.0.1/init3/class";
@@ -62,13 +66,23 @@ import { MockOnUpdateUnsolicited3Class as MotorMockOnUpdateUnsolicited3Class } f
 import { MockOnUpdateUnsolicited4Class as MotorMockOnUpdateUnsolicited4Class } from "./motor/2.0.1/on_update_unsolicited4/class";
 import { MockOnUpdateUnsolicited5Class as MotorMockOnUpdateUnsolicited5Class } from "./motor/2.0.1/on_update_unsolicited5/class";
 import { MockOnUpdateUnsolicited6Class as MotorMockOnUpdateUnsolicited6Class } from "./motor/2.0.1/on_update_unsolicited6/class";
-import { MockOnUpdateUnsolicited7Class as MotorMockOnUpdateUnsolicited7Class } from "./motor/2.0.1/on_update_unsolicited7/class";
 import { MockCancelClass as MotorMockCancelClass } from "./motor/2.0.1/cancel/class";
 import { MockOnCancelClass as MotorMockOnCancelClass } from "./motor/2.0.1/on_cancel/class";
 import { MockVehicleDetailsFormClass as MotorMockVehicleDetailsFormClass } from "./motor/2.0.1/form/vehicle_details_form";
 import { MockVerificationStatusFormClass } from "./health/2.0.1/form7/verification_status";
 import { MockSelect2Class } from "./health/2.0.1/select2/class";
 import { MockOnSelect2Class } from "./health/2.0.1/on_select2/class";
+import { MockPanDetailsFormClass as MotorMockPanDetailsFormClass} from "./motor/2.0.1/form3/pan_details_form";
+import { MockEkycDetailsFormClass as MotorMockEkycDetailsFormClass } from "./motor/2.0.1/form4/Ekyc_details_form";
+import { MockManualReviewFormClass as MotorMockManualReviewFormClass } from "./motor/2.0.1/form2/manual_review_form";
+import { MockConsumerInformationFormClass as MotorMockConsumerInformationFormClass } from "./motor/2.0.1/form7/consumer_information_form";
+import { MockVehicleNomineeDetailsFormClass as MotorMockVehicleNomineeDetailsFormClass } from "./motor/2.0.1/form5/vehicle_nominee_details_form";
+import { MockPersonalDetailsFormClass as MotorMockPersonalDetailsFormClass } from "./motor/2.0.1/form6/personal_details_form";
+import { MockOnStatusUnsolicited3Class } from "./health/2.0.1/on_status_unsolicited3/class";
+import { MockOnStatusUnsolicited4Class } from "./health/2.0.1/on_status_unsolicited4/class";
+import { MockOnStatusUnsolicited5Class } from "./health/2.0.1/on_status_unsolicited5/class";
+import { MockSearch2Class } from "./health/2.0.1/search2/class";
+import { MockSearch3Class } from "./health/2.0.1/search3/class";
 
 
 // types/helpers
@@ -81,8 +95,8 @@ const registry = {
 	//health api calls//
 	// search
 	search: MockSearchClass,
-	search2: MockSearchClass,
-	search3: MockSearchClass,
+	search2: MockSearch2Class,
+	search3: MockSearch3Class,
 
 	// on_search
 	on_search: MockOnSearchClass,
@@ -113,6 +127,9 @@ const registry = {
 	on_status: MockOnStatusClass,
 	on_status_unsolicited: MockOnStatusUnsolicitedClass,
 	on_status_unsolicited2: MockOnStatusUnsolicited2Class,
+	on_status_unsolicited3: MockOnStatusUnsolicited3Class,
+	on_status_unsolicited4: MockOnStatusUnsolicited4Class,
+	on_status_unsolicited5: MockOnStatusUnsolicited5Class,
 
 	// update / on_update
 	update: MockUpdateClass,
@@ -131,7 +148,6 @@ const registry = {
 	//form
 	individual_information_form: MockIndividualInformationFormClass,
 	family_information_form: MockFamilyInformationFormClass,
-	// Ekyc_details_form: MockVerificationStatusFormClass,
 	Ekyc_details_form: MockEkycDetailsFormClass,
 	Proposer_Details_form: MockProposerDetailsFormClass,
 	nominee_details_form: MockNomineeDetailsFormClass,
@@ -152,10 +168,10 @@ const registry = {
 	// select
 	select_motor: MotorMockSelectClass,
 	on_select_motor: MotorMockOnSelectClass,
-	select2_motor: MotorMockSelectClass,
-	on_select2_motor: MotorMockOnSelectClass,
-	select3_motor: MotorMockSelectClass,
-	on_select3_motor: MotorMockOnSelectClass,
+	select2_motor: MotorMockSelect2Class,
+	on_select2_motor: MotorMockOnSelect2Class,
+	select3_motor: MotorMockSelect3Class,
+	on_select3_motor: MotorMockOnSelect3Class,
 
 
 	// init / on_init
@@ -185,7 +201,6 @@ const registry = {
 	on_update_unsolicited4_motor: MotorMockOnUpdateUnsolicited4Class,
 	on_update_unsolicited5_motor: MotorMockOnUpdateUnsolicited5Class,
 	on_update_unsolicited6_motor: MotorMockOnUpdateUnsolicited6Class,
-	on_update_unsolicited7_motor: MotorMockOnUpdateUnsolicited7Class,
 
 	//cancel
     cancel_motor: MotorMockCancelClass,
@@ -193,7 +208,17 @@ const registry = {
 	
 	//form
 
-	vehicle_details_form:MotorMockVehicleDetailsFormClass
+	vehicle_details_form:MotorMockVehicleDetailsFormClass,
+	manual_review_form_motor:MotorMockManualReviewFormClass,
+	pan_details_form: MotorMockPanDetailsFormClass,
+	kyc_details_form:MotorMockEkycDetailsFormClass,
+	vehicle_nominee_details_form:MotorMockVehicleNomineeDetailsFormClass,
+	personal_details_form:MotorMockPersonalDetailsFormClass,
+	consumer_information_form_motor:MotorMockConsumerInformationFormClass,//need to update
+
+
+
+
 	
 
 

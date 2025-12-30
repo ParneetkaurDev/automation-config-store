@@ -6,4 +6,4 @@ save-data:
   item: "$.message.catalog.providers[0].items[0]"
   fulfillments: "$.message.catalog.fulfillments[*]"
   selected_provider: "$.message.catalog.providers[0]"
-  # family_information_form: "$..form.url"
+  family_information_form: "$..form.url"
