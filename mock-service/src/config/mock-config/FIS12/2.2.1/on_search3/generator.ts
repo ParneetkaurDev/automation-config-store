@@ -2,6 +2,12 @@ import axios from "axios";
 
 export async function onSearchDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("existingPayload on search", existingPayload);
+  const flowId = sessionData.flow_id;
+  const isWithAA = 
+  ["Purchase_Finance_With_AA","Purchase_Finance_Single_Redirection_With_AA","Purchase_Finance_With_AA_Multiple_Offer",
+    "Purchase_Finance_With_AA_Loan_Foreclosure","Purchase_Finance_With_AA_Missed_EMI_Payment","Purchase_Finance_With_AA_Pre_Part_Payment",
+    "Purchase_Finance_With_AA_Cancellation"].includes(flowId);
+
 
   // Set payment_collected_by if present in session data
   if (sessionData.collected_by && existingPayload.message?.catalog?.providers?.[0]?.payments?.[0]) {
@@ -14,10 +20,25 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   }
   console.log("sessionData.message_id", sessionData);
 
+
+  // Update form URLs for items with session data (preserve existing structure)
+  if (existingPayload.message?.catalog?.providers?.[0]?.items) {
+    existingPayload.message.catalog.providers[0].items = existingPayload.message.catalog.providers[0].items.map((item: any) => {
+      if (item.xinput?.form) {
+        item.xinput.form.id = "personal_details_information_form";
+        item.xinput.form_response.status = "SUCCESS";
+        item.xinput.form_response.submission_id = sessionData.personal_details_information_form;
+        console.log("Updated form_response with status and submission_id");
+      }
+      return item;
+    });
+  }
+
+   console.log("session data of on_search", sessionData);
    // Extract customer ID from session data
    const contactNumber = sessionData.form_data?.personal_details_information_form?.contactNumber;
   
-   if (contactNumber) {
+   if (contactNumber && isWithAA) {
      const custId = `${contactNumber}@finvu`;
      console.log("Customer ID for consent:", custId);
      
@@ -124,21 +145,5 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
      console.warn("⚠️ No contact number found in session data - skipping Finvu AA integration");
      console.log("Available form data:", sessionData.form_data);
    }
-
-
-  // Update form URLs for items with session data (preserve existing structure)
-  if (existingPayload.message?.catalog?.providers?.[0]?.items) {
-    existingPayload.message.catalog.providers[0].items = existingPayload.message.catalog.providers[0].items.map((item: any) => {
-      if (item.xinput?.form) {
-        item.xinput.form.id = "personal_details_information_form";
-        item.xinput.form_response.status = "SUCCESS";
-        item.xinput.form_response.submission_id = sessionData.personal_details_information_form;
-        console.log("Updated form_response with status and submission_id");
-      }
-      return item;
-    });
-  }
-
-  console.log("session data of on_search", sessionData);
   return existingPayload;
 } 
