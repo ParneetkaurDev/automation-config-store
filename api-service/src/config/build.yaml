@@ -23414,6 +23414,7 @@ x-validations:
         attr: $.message.order.status
         enumList: &ORDER_STATUS
           - ACTIVE
+          - COMPLETE
           - COMPLETED
           - CANCELLED
         _RETURN_: attr all in enumList
@@ -23850,8 +23851,11 @@ x-validations:
 
       - _NAME_: CANCEL_DESCRIPTOR
         _RETURN_:
-          - _NAME_: REQUIRED_DESCRIPTOR_SHORT_DESC
-            attr: $.message.descriptor.short_desc
+          - _NAME_: REQUIRED_DESCRIPTOR_NAME
+            attr: $.message.descriptor.name
+            _RETURN_: attr are present
+          - _NAME_: REQUIRED_DESCRIPTOR_CODE
+            attr: $.message.descriptor.code
             _RETURN_: attr are present
 
     # ============================================================
