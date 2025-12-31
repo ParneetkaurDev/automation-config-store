@@ -23881,6 +23881,7 @@ x-validations:
             enumList: &ORDER_STATUS_CANCEL
               - CANCELLED
               - CANCELLATION_INITIATED
+              - SOFT_CANCEL
             _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_ORDER_PROVIDER_ID
             attr: $.message.order.provider.id
@@ -23897,6 +23898,7 @@ x-validations:
               - CANCELLED
               - SANCTIONED
               - DISBURSED
+              - DELIVERED
             _RETURN_: attr all in enumList
 
       - _NAME_: ON_CANCEL_QUOTE
