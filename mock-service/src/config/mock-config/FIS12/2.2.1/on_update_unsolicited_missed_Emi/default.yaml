@@ -214,7 +214,7 @@ order:
           email: john.doe@example.com
 
   quote:
-    id: LOAN_LEAD_ID_OR_SIMILAR
+    id: 993f4b87-bc33-4242-aa8c-6d1806030c3c
     price:
       currency: INR
       value: "70000"
