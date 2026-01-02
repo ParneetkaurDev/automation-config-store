@@ -5,3 +5,5 @@ save-data:
     key: "message_id"
   - path: "$.message.order"
     key: "order" 
+  - path: "$.message.order.items[*].xinput.form.id"
+    key: "form_id"
