@@ -49,7 +49,7 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   // Update form_response with status and submission_id (preserve existing structure)
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
     existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
-    existingPayload.message.order.items[0].xinput.form.id = "Ekyc_details_form";
+    existingPayload.message.order.items[0].xinput.form.id = "Ekyc_details_verification_status";
     existingPayload.message.order.items[0].xinput.form_response.submission_id = sessionData.Ekyc_details_form;
     console.log("Updated form_response with status and submission_id");
   }

@@ -5,9 +5,9 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
 
   console.log("sessionData for on_status", sessionData);
 
-  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
+  const submission_id = sessionData?.form_data?.Ekyc_details_verification_status?.form_submission_id || sessionData.Ekyc_details_verification_status;
   
-  const form_status = sessionData?.form_data?.kyc_verification_status?.idType;
+  const form_status = sessionData?.form_data?.Ekyc_details_verification_status?.idType || sessionData.Ekyc_details_verification_status;
   
   // Update transaction_id and message_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -47,7 +47,7 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
     // Update form ID from session data (carry-forward from previous flows)
     if (item.xinput?.form) {
       // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-      const formId = sessionData.form_id || "FO3";
+      const formId = sessionData.form_id || "Ekyc_details_verification_status";
       item.xinput.form.id = formId;
       console.log("Updated form ID:", formId);
     }

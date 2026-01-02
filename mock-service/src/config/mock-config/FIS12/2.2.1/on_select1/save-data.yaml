@@ -6,3 +6,4 @@ save-data:
   selected_fulfillments: "$.message.order.fulfillments[*]"
   quote: "$.message.quote" 
   Ekyc_details_form: "$..form.url"
+  form_id: "$..form.id"
