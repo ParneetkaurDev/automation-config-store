@@ -6,3 +6,4 @@ save-data:
   selected_provider: "$.message.order.provider"
   billing: "$.message.order.billing"
   tags: "$.message.order.tags[*]" 
+  form_id: "$.message.order.items[*].xinput.form.id"

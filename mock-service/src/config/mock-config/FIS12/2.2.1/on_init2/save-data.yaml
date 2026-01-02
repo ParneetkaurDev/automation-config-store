@@ -2,4 +2,5 @@ save-data:
     transaction_id: "$.context.transaction_id"
     message_id: "$.context.message_id"
     order: "$.message.order"
+    form_id: "$.message.order.items[*].xinput.form.id"
     verification_status: "$..form.url"
