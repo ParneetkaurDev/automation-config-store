@@ -46,7 +46,7 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   // Update form ID from session data (carry-forward from previous flows)
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-    const formId = sessionData.form_id || "verification_status";
+    const formId = "verification_status";
     existingPayload.message.order.items[0].xinput.form.id = formId;
     console.log("Updated form ID:", formId);
   }
