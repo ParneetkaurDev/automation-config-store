@@ -46,6 +46,7 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
     
     // Update form ID from session data (carry-forward from previous flows)
     if (item.xinput?.form) {
+      console.log("sessionDatasaaaaaaaaaaaa",sessionData,sessionData.form_data,sessionData.form_id)
       // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
       const formId = sessionData.form_id || "Ekyc_details_verification_status";
       item.xinput.form.id = formId;
