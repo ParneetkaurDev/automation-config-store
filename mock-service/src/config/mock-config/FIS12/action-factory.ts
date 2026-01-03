@@ -93,7 +93,7 @@ const registry = {
 	on_init1_purchase_finance: MockOnInitClass,
 	init2_purchase_finance: MockInitClass2,
 	on_init2_purchase_finance: MockOnInitClass2,
-	init3_purchase_finance: MockInitClass2,
+	init3_purchase_finance: MockInitClass3,
 	on_init3_purchase_finance: MockOnInitClass3,
 
 	// // confirm / on_confirm
