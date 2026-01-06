@@ -24,7 +24,17 @@ export async function searchDefaultGenerator(
 		existingPayload.context.location.city.code = sessionData.user_inputs.city_code;
 	}
 
-	console.log("sessionData.message_id in search generator", sessionData.message_id);
+
+	const submissionId = sessionData.form_data?.form_submission_id
+		|| sessionData.individual_information_form
+		|| sessionData.family_information_form
+
+
+	// Update the form_response submission_id in the payload
+	if (submissionId && existingPayload.message?.intent?.provider?.items?.[0]?.xinput?.form_response) {
+		existingPayload.message.intent.provider.items[0].xinput.form_response.submission_id = submissionId;
+	}
+
 
 	return existingPayload;
 } 
