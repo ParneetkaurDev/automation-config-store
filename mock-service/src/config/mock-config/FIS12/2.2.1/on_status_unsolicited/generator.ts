@@ -14,7 +14,7 @@ export async function onStatusUnsolicitedGenerator(
   }
 
   if (sessionData.message_id && existingPayload.context) {
-    existingPayload.context.message_id = sessionData.message_id;
+    existingPayload.context.message_id = crypto.randomUUID();
   }
 
   // Update provider information from session data (carry-forward from previous flows)
