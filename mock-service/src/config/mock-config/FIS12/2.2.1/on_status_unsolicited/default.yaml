@@ -144,7 +144,7 @@ order:
             - descriptor:
                 code: "MINIMUM_DOWNPAYMENT"
                 name: "Minimum Downpayment Required"
-              value: "0 INR"
+              value: "1000 INR"
             - descriptor:
                 code: "SUBVENTION_RATE"
                 name: "Subvention Rate"
@@ -154,24 +154,32 @@ order:
                 name: "Subvention Rate"
               value: "2 %"
           display: true
-        - display: true
-          descriptor:
+        - descriptor:
             name: "Checklists"
             code: "CHECKLISTS"
+          display: true
           list:
             - descriptor:
                 name: "Set Loan Amount"
                 code: "SET_DOWN_PAYMENT"
               value: "COMPLETED"
             - descriptor:
-                name: "KYC, enach, esign"
-                code: "KYC_ENACH_ESIGN"
+                name: "KYC"
+                code: "KYC"
+              value: "COMPLETED"
+            - descriptor:
+                name: "Emandate"
+                code: "EMANDATE"
+              value: "PENDING"
+            - descriptor:
+                name: "Esign"
+                code: "ESIGN"
               value: "PENDING"
       xinput:
         form:
           id: "F04"
         form_response:
-          status: "PENDING"
+          status: "SUCCESS"
           submission_id: "F04_SUBMISSION_ID"
   quote:
     id: "993f4b87-bc33-4242-aa8c-6d1806030c3c"
