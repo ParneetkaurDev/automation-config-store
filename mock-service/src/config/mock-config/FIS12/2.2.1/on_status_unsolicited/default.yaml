@@ -166,7 +166,7 @@ order:
             - descriptor:
                 name: "KYC"
                 code: "KYC"
-              value: "PENDING"
+              value: "COMPLETED"
             - descriptor:
                 name: "Emandate"
                 code: "EMANDATE"
@@ -176,25 +176,13 @@ order:
                 code: "ESIGN"
               value: "PENDING"
       xinput:
-        head:
-          descriptor:
-            name: "Customer Information"
-          index:
-            min: 0
-            cur: 1
-            max: 1
-          headings:
-            - "SET_DOWN_PAYMENT"
-            - "KYC"
         form:
           id: "F04"
-          mime_type: "application/html"
-          url: "https://bpp.purchase-finance.becknprotoco.org/xinput/formid/F04"
-          resubmit: false
-          multiple_sumbissions: false
-        required: true
+        form_response:
+          status: "SUCCESS"
+          submission_id: "F04_SUBMISSION_ID"
   quote:
-    id: "993f4b87-bc33-4242-aa8c-6d1806030c3c"
+    id: "LOAN_LEAD_ID_OR_SIMILAR"
     price:
       currency: "INR"
       value: "70000"
