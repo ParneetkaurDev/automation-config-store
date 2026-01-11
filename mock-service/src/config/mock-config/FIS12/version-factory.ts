@@ -1,9 +1,10 @@
 import { SessionData, Input } from "./session-types";
 import { RedisService } from "ondc-automation-cache-lib";
 import { SessionCache } from "../../../types/api-session-cache";
-import { createBuyerUrl, createSellerUrl } from "../../../utils/request-utils";
 import { createMockResponseFIS12CC_300 } from "./credit-card/2.0.3/generaton-pipeline";
 import { createMockResponseFIS12PL_203 } from "./personal-loan/2.0.3/generaton-pipeline";
+import { createMockResponseFIS12_200 } from "./gold-loan/2.0.3/generaton-pipeline";
+import { createBuyerUrl, createSellerUrl } from "../../../utils/request-utils";
 
 export async function createMockResponse(
 	session_id: string,
@@ -24,6 +25,9 @@ export async function createMockResponse(
 	}
 	if (version === "2.0.3" && usecaseId === "PERSONAL LOAN") {
 		payload = await createMockResponseFIS12PL_203(action_id, sessionData);
+	}
+	if (version === "2.0.3" && usecaseId === "GOLD LOAN") {
+		payload = await createMockResponseFIS12_200(action_id, sessionData);
 	}
 	if (data.npType === "BAP") {
 		payload.context.bap_uri = data.subscriberUrl;
