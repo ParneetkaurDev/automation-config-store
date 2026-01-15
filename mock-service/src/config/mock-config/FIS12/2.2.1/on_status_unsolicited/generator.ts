@@ -53,7 +53,7 @@ export async function onStatusUnsolicitedGenerator(
 
       const submission_id =
         formId === "Ekyc_details_verification_status"
-          ? sessionData.Ekyc_details_form
+          ? sessionData.Ekyc_details_form: formId === "manadate_details_form" ? sessionData.manadate_details_form
           : sessionData.verification_status;
 
       // const form_status =
