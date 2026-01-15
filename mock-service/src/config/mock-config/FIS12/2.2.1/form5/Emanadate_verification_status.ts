@@ -6,10 +6,10 @@ import { resolveFormActions } from "./resolve-action";
 
 export class MockManadateDetailsFormClass extends MockAction {
 	name(): string {
-		return "manadate_details_form";
+		return "Emanadate_verification_status";
 	}
 	get description(): string {
-		return "Mock for manadate_details_form";
+		return "Mock for Emanadate_verification_status";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
 		throw new Error("Method not implemented.");
@@ -24,7 +24,7 @@ export class MockManadateDetailsFormClass extends MockAction {
 				message: "Session data is required for validation",
 			};
 		}
-		const formLink = sessionData["manadate_details_form"];
+		const formLink = sessionData["Emanadate_verification_status"];
 		if (!formLink) {
 			return { valid: false, message: "Form link not found in session data" };
 		}
@@ -41,7 +41,7 @@ export class MockManadateDetailsFormClass extends MockAction {
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
 		
-		const formLink = sessionData["manadate_details_form"];
+		const formLink = sessionData["Emanadate_verification_status"];
 		if (!formLink) {
 			throw new Error("Form link not found in session data");
 		}
@@ -49,7 +49,7 @@ export class MockManadateDetailsFormClass extends MockAction {
 		const formData = formRaw.data;
 		return {
 			...sessionData,
-			manadate_details_form: resolveFormActions(formLink, formData),
+			Emanadate_verification_status: resolveFormActions(formLink, formData),
 		};
 	}
 
@@ -57,7 +57,7 @@ export class MockManadateDetailsFormClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		return { "save-data": { manadate_details_form: "manadate_details_form" } };
+		return { "save-data": { Emanadate_verification_status: "Emanadate_verification_status" } };
 	}
 	get defaultData(): any {
 		return {};
