@@ -216,6 +216,11 @@ codes:
     action: on_status
     default: FIS12/2.2.1/on_status/default.yaml
     message_id: false
+  - code: 215
+    action_id: on_status_purchase_finance2
+    action: on_status
+    default: FIS12/2.2.1/on_status/default.yaml
+    message_id: false
   - code: 221
     action_id: soft_cancel_purchase_finance
     action: cancel
