@@ -23,10 +23,8 @@ import { MockConfirmClass } from "./2.2.1/confirm/class";
 import { MockOnConfirmClass } from "./2.2.1/on_confirm/class";
 import { MockInitClass2 } from "./2.2.1/init2/class";
 import { MockOnInitClass2 } from "./2.2.1/on_init2/class";
-import { MockInitClass3 } from "./2.2.1/init3/class";
 import { MockOnInitClass3 } from "./2.2.1/on_init3/class";
 import { MockEkycDetailsFormClass } from "./2.2.1/form4/Ekyc_details_form";
-import { MockManadateDetailsFormClass } from "./2.2.1/form5/manadate_details_form";
 import { MockKycVerificationStatusClass } from "./2.2.1/form6/verification_status";
 import { MockStatusClass } from "./2.2.1/status/class";
 import { MockOnStatusClass } from "./2.2.1/on_status/class";
@@ -49,6 +47,7 @@ import { MockOnUpdateUnsolicitedForeclosureClass } from "./2.2.1/on_update_unsol
 import { MockOnUpdateUnsolicitedPrepartClass } from "./2.2.1/on_update_unsolicited_prepart/class";
 import { MockOnSearchClass5 } from "./2.2.1/on_search5/class";
 import { MockOnSearchClass6 } from "./2.2.1/on_search6/class";
+import { MockManadateDetailsFormClass } from "./2.2.1/form5/Emanadate_verification_status";
 
 // types/helpers
 type Ctor<T> = new () => T;
@@ -78,7 +77,7 @@ const registry = {
 	personal_details_information_form: MockPersonalDetailsInformationFormClass,
 	down_payment_form: MockDownPaymentFormClass,
 	Ekyc_details_form: MockEkycDetailsFormClass,
-	manadate_details_form: MockManadateDetailsFormClass,
+	Emanadate_verification_status: MockManadateDetailsFormClass,
 
 	// select
 	select_purchase_finance : MockSelectClass,

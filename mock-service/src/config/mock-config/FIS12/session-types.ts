@@ -76,7 +76,7 @@ export interface SessionData {
 	pan_details_form?:string
 	personal_details_form?:string
 	down_payment_form?:string
-	manadate_details_form?:string
+	Emanadate_verification_status?:string
 	verification_status?:string
 	kyc_verification_status?:string
 }

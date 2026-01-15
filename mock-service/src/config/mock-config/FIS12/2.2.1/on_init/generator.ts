@@ -57,9 +57,9 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
  existingPayload.message.order.items = existingPayload.message.order.items.map((item: any) => {
       if (item.xinput?.form) {
         // Generate dynamic form URL with session data
-        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/manadate_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/Emanadate_verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
         console.log("Form URL generated:", url);
-        item.xinput.form.id = "manadate_details_form";
+        item.xinput.form.id = "Emanadate_verification_status";
         item.xinput.form.url = url;
       }
       return item;
