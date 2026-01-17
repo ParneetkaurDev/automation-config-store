@@ -17,7 +17,7 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     existingPayload.context.action = "init";
   }
 
-  const submission_id = sessionData?.verification_status;
+  const submission_id = sessionData?.Ekyc_details_verification_status;
   
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -46,7 +46,7 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   // Update form ID from session data (carry-forward from previous flows)
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-    const formId = "verification_status";
+    const formId = "Ekyc_details_verification_status";
     existingPayload.message.order.items[0].xinput.form.id = formId;
     console.log("Updated form ID:", formId);
   }

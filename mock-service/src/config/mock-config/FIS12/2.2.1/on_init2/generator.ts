@@ -70,10 +70,10 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
  existingPayload.message.order.items = existingPayload.message.order.items.map((item: any) => {
       if (item.xinput?.form) {
         // Generate dynamic form URL with session data
-        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/Ekyc_details_verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
         console.log("Form URL generated:", url);
         // sessionData.reference_data.individual_information_form = url
-        item.xinput.form.id = "verification_status";
+        item.xinput.form.id = "Ekyc_details_verification_status";
         item.xinput.form.url = url;
       }
       return item;

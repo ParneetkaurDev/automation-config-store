@@ -25,7 +25,7 @@ import { MockInitClass2 } from "./2.2.1/init2/class";
 import { MockOnInitClass2 } from "./2.2.1/on_init2/class";
 import { MockOnInitClass3 } from "./2.2.1/on_init3/class";
 import { MockEkycDetailsFormClass } from "./2.2.1/form4/Ekyc_details_form";
-import { MockKycVerificationStatusClass } from "./2.2.1/form6/verification_status";
+import { MockKycVerificationStatusClass } from "./2.2.1/form6/Ekyc_details_verification_status";
 import { MockStatusClass } from "./2.2.1/status/class";
 import { MockOnStatusClass } from "./2.2.1/on_status/class";
 import { MockOnStatusUnsolicitedClass } from "./2.2.1/on_status_unsolicited/class";
@@ -120,7 +120,7 @@ const registry = {
 	on_update_unsolicited_missed_Emi: MockOnUpdateUnsolicitedMissedEmiClass,
 	on_update_unsolicited_foreclosure: MockOnUpdateUnsolicitedForeclosureClass,
 	on_update_unsolicited_prepart: MockOnUpdateUnsolicitedPrepartClass,
-	verification_status: MockKycVerificationStatusClass,
+	Ekyc_details_verification_status: MockKycVerificationStatusClass,
 
 
 	// // cancel / on_cancel

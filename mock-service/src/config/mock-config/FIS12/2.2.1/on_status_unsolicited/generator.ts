@@ -52,17 +52,18 @@ export async function onStatusUnsolicitedGenerator(
       console.log("Updated form ID:", formId);
 
       const submission_id =
-        formId === "Ekyc_details_verification_status"
+        formId === "Ekyc_details_form"
           ? sessionData.Ekyc_details_form: formId === "Emanadate_verification_status" ? sessionData.Emanadate_verification_status
-          : sessionData.verification_status;
+          : sessionData.Ekyc_details_verification_status;
 
-      // const form_status =
-      //   formId === "Ekyc_details_verification_status"
-      //     ? sessionData?.form_data?.Ekyc_details_verification_status?.idType
-      //     : sessionData?.form_data?.verification_status?.idType;
+      const form_status =
+        formId === "Ekyc_details_verification_status"
+          ? sessionData?.form_data?.Ekyc_details_verification_status?.idType
+          : formId === "Emanadate_verification_status" ? sessionData?.form_data?.Emanadate_verification_status?.idType
+          : sessionData?.form_data?.Ekyc_details_form?.idType;
       // Set form status to OFFLINE_PENDING
       if (item.xinput?.form_response) {
-        item.xinput.form_response.status = "OFFLINE_PENDING";
+        item.xinput.form_response.status = form_status//"OFFLINE_PENDING";
         if (submission_id) {
           item.xinput.form_response.submission_id = submission_id;
         }
