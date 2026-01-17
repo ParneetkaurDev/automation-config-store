@@ -1,19 +1,18 @@
 import axios from "axios";
-import { validateFormHtml } from "./validate-form";
-import { resolveFormActions } from "./resolve-action";
 import { MockAction, MockOutput, saveType } from "../../classes/mock-action";
 import { SessionData } from "../../session-types";
+import { validateFormHtml } from "./validate-form";
+import { resolveFormActions } from "./resolve-action";
 
-export class MockEkycDetailsFormClass extends MockAction {
+export class MockKycVerificationStatusClass extends MockAction {
 	name(): string {
-		return "Ekyc_details_form";
+		return "E_sign_verification_status";
 	}
 	get description(): string {
-		return "Mock for Ekyc_details_form";
+		return "Mock for E_sign_verification_status";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
-		console.log("Ekyc_details_form generator", existingPayload, sessionData);
-		return Promise.resolve(existingPayload);
+		throw new Error("Method not implemented.");
 	}
 	async validate(
 		targetPayload: any,
@@ -25,13 +24,13 @@ export class MockEkycDetailsFormClass extends MockAction {
 				message: "Session data is required for validation",
 			};
 		}
-		const formLink = sessionData["Ekyc_details_form"];
+		const formLink = sessionData["E_sign_verification_status"];
 		if (!formLink) {
 			return { valid: false, message: "Form link not found in session data" };
 		}
 		const formRaw = await axios.get(formLink);
 		const formData = formRaw.data;
-		const r1:any = validateFormHtml(formData);
+		const r1 = validateFormHtml(formData);
 		if (r1.ok === false) {
 			return { valid: false, message: r1.errors.join("; ") };
 		}
@@ -41,7 +40,8 @@ export class MockEkycDetailsFormClass extends MockAction {
 	override async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
-		const formLink = sessionData["Ekyc_details_form"];
+		
+		const formLink = sessionData["E_sign_verification_status"];
 		if (!formLink) {
 			throw new Error("Form link not found in session data");
 		}
@@ -49,7 +49,7 @@ export class MockEkycDetailsFormClass extends MockAction {
 		const formData = formRaw.data;
 		return {
 			...sessionData,
-			Ekyc_details_form: resolveFormActions(formLink, formData),
+			E_sign_verification_status: resolveFormActions(formLink, formData),
 		};
 	}
 
@@ -57,7 +57,7 @@ export class MockEkycDetailsFormClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		return { "save-data": { Ekyc_details_form: "Ekyc_details_form" } };
+		return { "save-data": { E_sign_verification_status: "E_sign_verification_status" } };
 	}
 	get defaultData(): any {
 		return {};

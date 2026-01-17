@@ -66,7 +66,6 @@ export interface SessionData {
 	product_details_form?:string
 	individual_information_form?:string
 	family_information_form?:string
-	Ekyc_details_form?:string
 	Proposer_Details_form?:string
 	nominee_details_form?:string
 	consumer_information_form?:string
@@ -79,6 +78,7 @@ export interface SessionData {
 	Emanadate_verification_status?:string
 	verification_status?:string
 	kyc_verification_status?:string
+	E_sign_verification_status?:string
 	Ekyc_details_verification_status?:string
 }
 

@@ -24,8 +24,6 @@ import { MockOnConfirmClass } from "./2.2.1/on_confirm/class";
 import { MockInitClass2 } from "./2.2.1/init2/class";
 import { MockOnInitClass2 } from "./2.2.1/on_init2/class";
 import { MockOnInitClass3 } from "./2.2.1/on_init3/class";
-import { MockEkycDetailsFormClass } from "./2.2.1/form4/Ekyc_details_form";
-import { MockKycVerificationStatusClass } from "./2.2.1/form6/Ekyc_details_verification_status";
 import { MockStatusClass } from "./2.2.1/status/class";
 import { MockOnStatusClass } from "./2.2.1/on_status/class";
 import { MockOnStatusUnsolicitedClass } from "./2.2.1/on_status_unsolicited/class";
@@ -48,6 +46,8 @@ import { MockOnUpdateUnsolicitedPrepartClass } from "./2.2.1/on_update_unsolicit
 import { MockOnSearchClass5 } from "./2.2.1/on_search5/class";
 import { MockOnSearchClass6 } from "./2.2.1/on_search6/class";
 import { MockManadateDetailsFormClass } from "./2.2.1/form5/Emanadate_verification_status";
+import { MockEkycDetailsFormClass } from "./2.2.1/form4/Ekyc_details_verification_status";
+import { MockKycVerificationStatusClass } from "./2.2.1/form6/E_sign_verification_status";
 
 // types/helpers
 type Ctor<T> = new () => T;
@@ -76,8 +76,9 @@ const registry = {
 	product_details_form: MockProductDetailsFormClass,
 	personal_details_information_form: MockPersonalDetailsInformationFormClass,
 	down_payment_form: MockDownPaymentFormClass,
-	Ekyc_details_form: MockEkycDetailsFormClass,
+	Ekyc_details_verification_status: MockEkycDetailsFormClass,
 	Emanadate_verification_status: MockManadateDetailsFormClass,
+	E_sign_verification_status: MockKycVerificationStatusClass,
 
 	// select
 	select_purchase_finance : MockSelectClass,
@@ -120,7 +121,6 @@ const registry = {
 	on_update_unsolicited_missed_Emi: MockOnUpdateUnsolicitedMissedEmiClass,
 	on_update_unsolicited_foreclosure: MockOnUpdateUnsolicitedForeclosureClass,
 	on_update_unsolicited_prepart: MockOnUpdateUnsolicitedPrepartClass,
-	Ekyc_details_verification_status: MockKycVerificationStatusClass,
 
 
 	// // cancel / on_cancel
