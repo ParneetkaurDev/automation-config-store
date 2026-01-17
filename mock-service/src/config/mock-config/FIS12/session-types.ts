@@ -79,6 +79,7 @@ export interface SessionData {
 	Emanadate_verification_status?:string
 	verification_status?:string
 	kyc_verification_status?:string
+	Ekyc_details_verification_status?:string
 }
 
 export type BecknContext = {

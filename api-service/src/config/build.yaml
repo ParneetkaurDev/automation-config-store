@@ -23622,41 +23622,41 @@ x-validations:
           - payments
         _RETURN_: attr all in enumList
 
-      - _NAME_: UPDATE_FULFILLMENT_TARGET
-        update_target: $.message.update_target
-        target_match:
-          - fulfillments
-        _CONTINUE_: '!(update_target any in target_match)'
-        _RETURN_:
-          - _NAME_: REQUIRED_FULFILLMENT_ID
-            attr: $.message.order.fulfillments[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            _RETURN_: attr are present
-          - _NAME_: VALID_FULFILLMENT_STATE_ENUM
-            attr: $.message.order.fulfillments[*].state.descriptor.code
-            enumList: &FULFILLMENT_STATE_UPDATE
-              - DELIVERED
-              - PLACED
-            _RETURN_: attr all in enumList
+      # - _NAME_: UPDATE_FULFILLMENT_TARGET
+      #   update_target: $.message.update_target
+      #   target_match:
+      #     - fulfillments
+      #   _CONTINUE_: '!(update_target any in target_match)'
+      #   _RETURN_:
+      #     # - _NAME_: REQUIRED_FULFILLMENT_ID
+      #     #   attr: $.message.order.fulfillments[*].id
+      #     #   _RETURN_: attr are present
+      #     - _NAME_: REQUIRED_FULFILLMENT_STATE_CODE
+      #       attr: $.message.order.fulfillments[*].state.descriptor.code
+      #       _RETURN_: attr are present
+      #     - _NAME_: VALID_FULFILLMENT_STATE_ENUM
+      #       attr: $.message.order.fulfillments[*].state.descriptor.code
+      #       enumList: &FULFILLMENT_STATE_UPDATE
+      #         - DELIVERED
+      #         - PLACED
+      #       _RETURN_: attr all in enumList
 
-      - _NAME_: UPDATE_FULFILLMENT_CUSTOMER_CREDS
-        update_target: $.message.update_target
-        target_match:
-          - fulfillments
-        credspath: $.message.order.fulfillments[*].customer.person.creds[*].type
-        _CONTINUE_: '!(update_target any in target_match) || !(credspath are present)'
-        _RETURN_:
-          - _NAME_: REQUIRED_CUSTOMER_CREDS_TYPE
-            attr: $.message.order.fulfillments[*].customer.person.creds[*].type
-            enumList: &CUSTOMER_CREDS_TYPES
-              - IMEI
-              - SERIAL_NUMBER
-            _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_CUSTOMER_CREDS_ID
-            attr: $.message.order.fulfillments[*].customer.person.creds[*].id
-            _RETURN_: attr are present
+      # - _NAME_: UPDATE_FULFILLMENT_CUSTOMER_CREDS
+      #   update_target: $.message.update_target
+      #   target_match:
+      #     - fulfillments
+      #   credspath: $.message.order.fulfillments[*].customer.person.creds[*].type
+      #   _CONTINUE_: '!(update_target any in target_match) || !(credspath are present)'
+      #   _RETURN_:
+      #     - _NAME_: REQUIRED_CUSTOMER_CREDS_TYPE
+      #       attr: $.message.order.fulfillments[*].customer.person.creds[*].type
+      #       enumList: &CUSTOMER_CREDS_TYPES
+      #         - IMEI
+      #         - SERIAL_NUMBER
+      #       _RETURN_: attr all in enumList
+      #     - _NAME_: REQUIRED_CUSTOMER_CREDS_ID
+      #       attr: $.message.order.fulfillments[*].customer.person.creds[*].id
+      #       _RETURN_: attr are present
 
     # ============================================================
     # ON_UPDATE
