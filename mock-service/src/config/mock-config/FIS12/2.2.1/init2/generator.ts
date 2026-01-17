@@ -57,7 +57,7 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     if (submission_id) {
       existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
     } else {
-      existingPayload.message.order.items[0].xinput.form_response.submission_id = `F03_SUBMISSION_ID_${Date.now()}`;
+      existingPayload.message.order.items[0].xinput.form_response.submission_id = 'submission_id';
     }
     console.log("Updated form_response with status and submission_id");
   }

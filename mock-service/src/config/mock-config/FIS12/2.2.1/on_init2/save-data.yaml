@@ -3,4 +3,4 @@ save-data:
     message_id: "$.context.message_id"
     order: "$.message.order"
     form_id: "$.message.order.items[*].xinput.form.id"
-    Ekyc_details_verification_status: "$..form.url"
+    E_sign_verification_status: "$..form.url"

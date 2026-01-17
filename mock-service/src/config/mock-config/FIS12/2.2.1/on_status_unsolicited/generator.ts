@@ -47,20 +47,20 @@ export async function onStatusUnsolicitedGenerator(
     // Update form ID from session data (carry-forward from previous flows)
     if (item.xinput?.form) {
       // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-      const formId = sessionData.form_id || "Ekyc_details_verification_status";
+      const formId = sessionData.form_id || "E_sign_verification_status";
       item.xinput.form.id = formId;
       console.log("Updated form ID:", formId);
 
       const submission_id =
-        formId === "Ekyc_details_form"
-          ? sessionData.Ekyc_details_form: formId === "Emanadate_verification_status" ? sessionData.Emanadate_verification_status
-          : sessionData.Ekyc_details_verification_status;
+        formId === "Ekyc_details_verification_status"
+          ? sessionData.Ekyc_details_verification_status: formId === "Emanadate_verification_status" ? sessionData.Emanadate_verification_status
+          : sessionData.E_sign_verification_status;
 
       const form_status =
-        formId === "Ekyc_details_verification_status"
-          ? sessionData?.form_data?.Ekyc_details_verification_status?.idType
+        formId === "E_sign_verification_status"
+          ? sessionData?.form_data?.E_sign_verification_status?.idType
           : formId === "Emanadate_verification_status" ? sessionData?.form_data?.Emanadate_verification_status?.idType
-          : sessionData?.form_data?.Ekyc_details_form?.idType;
+          : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
       // Set form status to OFFLINE_PENDING
       if (item.xinput?.form_response) {
         item.xinput.form_response.status = form_status//"OFFLINE_PENDING";
