@@ -98,7 +98,7 @@ catalog:
                 - "VEHICLE_DETAILS"
 
             form:
-              id: "FO1"
+              id: "F01"
               mime_type: "text/html"
               url: "https://fis.test.bpp.io/form/vehicle_dtls_new?formid=FO1"
               multiple_sumbissions: false

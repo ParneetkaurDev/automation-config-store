@@ -2,4 +2,4 @@ save-data:
     transaction_id: "$.context.transaction_id"
     message_id: "$.context.message_id"
     order: "$.message.order"
-    vehicle_nominee_details_Form: "$..form.url"
+    vehicle_nominee_details_form: "$..form.url"

@@ -12,19 +12,19 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   }
   console.log("sessionData.message_id", sessionData);
 
-  // Update form URLs for items with session data (preserve existing structure)
-   if (existingPayload.message?.catalog?.providers?.[0]?.items) {
-    console.log("check for form +++")
-    existingPayload.message.catalog.providers[0].items = existingPayload.message.catalog.providers[0].items.map((item: any) => {
-      if (item.xinput?.form) {
-        // Generate dynamic form URL with session data
-        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/family_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-        console.log("Form URL generated:", url);
-        item.xinput.form.url = url;
-      }
-      return item;
-    });
-  }
+  // // Update form URLs for items with session data (preserve existing structure)
+  //  if (existingPayload.message?.catalog?.providers?.[0]?.items) {
+  //   console.log("check for form +++")
+  //   existingPayload.message.catalog.providers[0].items = existingPayload.message.catalog.providers[0].items.map((item: any) => {
+  //     if (item.xinput?.form) {
+  //       // Generate dynamic form URL with session data
+  //       const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/family_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+  //       console.log("Form URL generated:", url);
+  //       item.xinput.form.url = url;
+  //     }
+  //     return item;
+  //   });
+  // }
 
   console.log("session data of on_search", sessionData);
   return existingPayload;

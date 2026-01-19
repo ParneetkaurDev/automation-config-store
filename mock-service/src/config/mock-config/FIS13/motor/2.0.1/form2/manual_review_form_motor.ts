@@ -4,12 +4,12 @@ import { SessionData } from "../../../session-types";
 import { validateFormHtml } from "./validate-form";
 import { resolveFormActions } from "./resolve-action";
 
-export class MockEkycDetailsFormClass extends MockAction {
+export class MockManualReviewFormClass extends MockAction {
 	name(): string {
-		return "Ekyc_details_form";
+		return "manual_review_form_motor";
 	}
 	get description(): string {
-		return "Mock for Ekyc_details_form";
+		return "Mock for manual_review_form_motor";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
 		throw new Error("Method not implemented.");
@@ -24,7 +24,7 @@ export class MockEkycDetailsFormClass extends MockAction {
 				message: "Session data is required for validation",
 			};
 		}
-		const formLink = sessionData["Ekyc_details_form"];
+		const formLink = sessionData["manual_review_form_motor"];
 		if (!formLink) {
 			return { valid: false, message: "Form link not found in session data" };
 		}
@@ -37,11 +37,11 @@ export class MockEkycDetailsFormClass extends MockAction {
 		return { valid: true };
 	}
 
- async __forceSaveData(
+	 async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
 		
-		const formLink = sessionData["Ekyc_details_form"];
+		const formLink = sessionData["manual_review_form_motor"];
 		if (!formLink) {
 			throw new Error("Form link not found in session data");
 		}
@@ -49,7 +49,7 @@ export class MockEkycDetailsFormClass extends MockAction {
 		const formData = formRaw.data;
 		return {
 			...sessionData,
-			Ekyc_details_form: resolveFormActions(formLink, formData),
+			manual_review_form_motor: resolveFormActions(formLink, formData),
 		};
 	}
 
@@ -57,7 +57,7 @@ export class MockEkycDetailsFormClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		return { "save-data": { Ekyc_details_form: "Ekyc_details_form" } };
+		return { "save-data": { manual_review_form_motor: "manual_review_form_motor" } };
 	}
 	get defaultData(): any {
 		return {};

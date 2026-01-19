@@ -1,11 +1,6 @@
-/**
- * Select Generator for FIS12 Gold Loan
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update form_response with status and submission_id (preserve existing structure)
- */
+
+
+import { randomUUID } from "crypto";
 
 export async function selectDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("Select generator - Available session data:", {
@@ -27,10 +22,10 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   }
   
   // Update message_id from session data
-  if (sessionData.message_id && existingPayload.context) {
-    existingPayload.context.message_id = sessionData.message_id;
-  }
-  
+    if (sessionData.message_id && existingPayload.context) {
+      existingPayload.context.message_id = randomUUID();
+      // existingPayload.context.message_id = sessionData.message_id;
+    }
   // Update provider.id if available from session data (carry-forward from on_search)
   if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
@@ -38,20 +33,20 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   }
   
   // Update item.id if available from session data (carry-forward from on_search)
-  if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const selectedItem = sessionData.items[0];
-    if (existingPayload.message?.order?.items?.[0]) {
-      existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id:", selectedItem.id);
-    }
-  }
+  // if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
+  //   const selectedItem = sessionData.items[0];
+  //   if (existingPayload.message?.order?.items?.[0]) {
+  //     existingPayload.message.order.items[0].id = selectedItem.id;
+  //     console.log("Updated item.id:", selectedItem.id);
+  //   }
+  // }
   
   // Update form_response with status and submission_id (preserve existing structure)
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-    existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
-    existingPayload.message.order.items[0].xinput.form_response.submission_id = `F01_SUBMISSION_ID_${Date.now()}`;
-    console.log("Updated form_response with status and submission_id");
-  }
+  // if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+  //   existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
+  //   existingPayload.message.order.items[0].xinput.form_response.submission_id = `F01_SUBMISSION_ID_${Date.now()}`;
+  //   console.log("Updated form_response with status and submission_id");
+  // }
   
   return existingPayload;
 } 

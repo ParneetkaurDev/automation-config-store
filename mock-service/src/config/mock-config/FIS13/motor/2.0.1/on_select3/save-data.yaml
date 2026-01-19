@@ -5,4 +5,4 @@ save-data:
   selected_items: "$.message.order.items[*]"
   selected_fulfillments: "$.message.order.fulfillments[*]"
   quote: "$.message.quote" 
-  Ekyc_details_form: "$..form.url"
+  kyc_details_form: "$..form.url"

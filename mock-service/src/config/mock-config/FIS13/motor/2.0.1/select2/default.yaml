@@ -7,6 +7,14 @@ order:
           quantity:
             selected:
               count: 1
+      tags:
+        - descriptor:
+            name: General Information
+            code: GENERAL_INFO
+          list:
+            - descriptor:
+                code: IDV_SELECTED
+              value: "300000"
       xinput:
         form:
           id: "F03"
