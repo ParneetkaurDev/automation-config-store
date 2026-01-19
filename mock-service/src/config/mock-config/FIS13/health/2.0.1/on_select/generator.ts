@@ -31,13 +31,13 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
   }
   
   // Update item.id if available from session data (carry-forward from select)
-  if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const selectedItem = sessionData.items[0];
-    if (existingPayload.message?.order?.items?.[0]) {
-      existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id:", selectedItem.id);
-    }
-  }
+  // if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
+  //   const selectedItem = sessionData.items[0];
+  //   if (existingPayload.message?.order?.items?.[0]) {
+  //     existingPayload.message.order.items[0].id = selectedItem.id;
+  //     console.log("Updated item.id:", selectedItem.id);
+  //   }
+  // }
   // redirection to be done
  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;

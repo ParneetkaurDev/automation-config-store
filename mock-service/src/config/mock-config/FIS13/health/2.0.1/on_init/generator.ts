@@ -26,12 +26,12 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
   }
   
   // Update item.id if available from session data (carry-forward from init)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
-    console.log('sessionData>>>', sessionData)
-  }
+  // const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  // if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
+  //   existingPayload.message.order.items[0].id = selectedItem.id;
+  //   console.log("Updated item.id:", selectedItem.id);
+  //   console.log('sessionData>>>', sessionData)
+  // }
   
 
   // Update customer name in fulfillments if available from session data
