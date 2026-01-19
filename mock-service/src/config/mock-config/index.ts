@@ -116,5 +116,5 @@ export function getSaveDataContent(version: string, action: string, domain: stri
 }
 
 export function getUiMetaKeys(): (keyof MockSessionData)[] {
-	return ["individual_information_form","family_information_form","Ekyc_details_form","Proposer_Details_form","nominee_details_form","consumer_information_form","vehicle_details_form","vehicle_nominee_details_form","pan_details_form","personal_details_form","verification_status"];
+	return ["individual_information_form","family_information_form","Ekyc_details_form","Proposer_Details_form","nominee_details_form","consumer_information_form","vehicle_details_form","vehicle_nominee_details_form","pan_details_form","personal_details_form","verification_status","manual_review_form_motor"];
 }
