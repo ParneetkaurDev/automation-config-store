@@ -2,16 +2,10 @@ intent:
   category:
     descriptor:
       code: "HEALTH_INSURANCE"
-  provider:
-    id: "P1"
-    items:
-      - id: "I1"
-        xinput:
-          form:
-            id: "FO1"
-          form_response:
-            status: "SUCCESS"
-            submission_id: "e9a3b4a5-10f8-42c7-b888-dbf0e2edd684"
+  fulfillment:
+    agent:
+      person:
+        id: "0120TRVK"
   payment:
     collected_by: "BPP"
     tags:

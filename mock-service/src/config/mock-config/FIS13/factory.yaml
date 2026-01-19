@@ -221,137 +221,137 @@ codes:
     action: on_select
     default: FIS13/motor/2.0.1/on_select/default.yaml
     message_id: false
-  - code: 331
+  - code: 308
     action_id: select2_motor
     action: select
     default: FIS13/motor/2.0.1/select2/default.yaml
     message_id: true
-  - code: 332
+  - code: 309
     action_id: on_select2_motor
     action: on_select
     default: FIS13/motor/2.0.1/on_select2/default.yaml
     message_id: false
-  - code: 333
+  - code: 310
     action_id: select3_motor
     action: select
     default: FIS13/motor/2.0.1/select3/default.yaml
     message_id: true
-  - code: 334
+  - code: 311
     action_id: on_select3_motor
     action: on_select
     default: FIS13/motor/2.0.1/on_select3/default.yaml
     message_id: false
-  - code: 308
+  - code: 312
     action_id: init_motor
     action: init
     default: FIS13/motor/2.0.1/init/default.yaml
     message_id: true
-  - code: 309
+  - code: 313
     action_id: on_init_motor
     action: on_init
     default: FIS13/motor/2.0.1/on_init/default.yaml
     message_id: false
-  - code: 310
+  - code: 314
     action_id: init2_motor
     action: init
     default: FIS13/motor/2.0.1/init2/default.yaml
     message_id: true
-  - code: 311
+  - code: 315
     action_id: on_init2_motor
     action: on_init
     default: FIS13/motor/2.0.1/on_init2/default.yaml
     message_id: false
-  - code: 312
+  - code: 316
     action_id: init3_motor
     action: init
     default: FIS13/motor/2.0.1/init3/default.yaml
     message_id: true
-  - code: 313
+  - code: 317
     action_id: on_init3_motor
     action: on_init
     default: FIS13/motor/2.0.1/on_init3/default.yaml
     message_id: false
-  - code: 314
+  - code: 318
     action_id: confirm_motor
     action: confirm
     default: FIS13/motor/2.0.1/confirm/default.yaml
     message_id: true
-  - code: 315
+  - code: 319
     action_id: on_confirm_motor
     action: on_confirm
     default: FIS13/motor/2.0.1/on_confirm/default.yaml
     message_id: false
-  - code: 316
+  - code: 320
     action_id: update_motor
     action: update
     default: FIS13/motor/2.0.1/update/default.yaml
     message_id: true
-  - code: 317
+  - code: 321
     action_id: on_update_motor
     action: on_update
     default: FIS13/motor/2.0.1/on_update/default.yaml
     message_id: false
-  - code: 318
+  - code: 322
     action_id: on_update_unsolicited_motor
     action: on_update
     default: FIS13/motor/2.0.1/on_update_unsolicited/default.yaml
     message_id: true
-  - code: 319
+  - code: 323
     action_id: on_update_unsolicited2_motor
     action: on_update
     default: FIS13/motor/2.0.1/on_update_unsolicited2/default.yaml
     message_id: true
-  - code: 320
+  - code: 324
     action_id: on_update_unsolicited3_motor
     action: on_update
     default: FIS13/motor/2.0.1/on_update_unsolicited3/default.yaml
     message_id: true
-  - code: 321
+  - code: 325
     action_id: on_update_unsolicited4_motor
     action: on_update
     default: FIS13/motor/2.0.1/on_update_unsolicited4/default.yaml
     message_id: true
-  - code: 322
+  - code: 326
     action_id: on_update_unsolicited5_motor
     action: on_update
     default: FIS13/motor/2.0.1/on_update_unsolicited5/default.yaml
     message_id: true
-  - code: 323
+  - code: 327
     action_id: on_update_unsolicited6_motor
     action: on_update
     default: FIS13/motor/2.0.1/on_update_unsolicited6/default.yaml
     message_id: true
-  - code: 324
+  - code: 328
     action_id: on_update_unsolicited7_motor
     action: on_update
     default: FIS13/motor/2.0.1/on_update_unsolicited7/default.yaml
     message_id: true
-  - code: 325
+  - code: 329
     action_id: status_motor
     action: status
     default: FIS13/motor/2.0.1/status/default.yaml
     message_id: true
-  - code: 326
+  - code: 330
     action_id: on_status_motor
     action: on_status
     default: FIS13/motor/2.0.1/on_status/default.yaml
     message_id: false
-  - code: 327
+  - code: 331
     action_id: on_status_unsolicited_motor
     action: on_status
     default: FIS13/motor/2.0.1/on_status_unsolicited/default.yaml
     message_id: true
-  - code: 328
+  - code: 332
     action_id: on_status_unsolicited2_motor
     action: on_status
     default: FIS13/motor/2.0.1/on_status_unsolicited2/default.yaml
     message_id: true
-  - code: 329
+  - code: 333
     action_id: cancel_motor
     action: cancel
     default: FIS13/motor/2.0.1/cancel/default.yaml
     message_id: true
-  - code: 330
+  - code: 334
     action_id: on_cancel_motor
     action: on_cancel
     default: FIS13/motor/2.0.1/on_cancel/default.yaml

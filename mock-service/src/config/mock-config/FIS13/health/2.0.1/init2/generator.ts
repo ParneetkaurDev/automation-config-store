@@ -17,7 +17,10 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     existingPayload.context.action = "init";
   }
 
-  const submission_id = sessionData?.form_data?.Proposer_Details_form?.form_submission_id;
+   const submission_id = sessionData?.form_data?.Proposer_Details_form?.form_submission_id || sessionData?.Proposer_Details_form
+  const form_status = sessionData?.form_data?.Proposer_Details_form?.idType;
+
+
   
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -52,15 +55,40 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   }
   
   // Update form_response with status and submission_id (preserve existing structure)
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-    existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
-    if (submission_id) {
-      existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
-    } else {
-      existingPayload.message.order.items[0].xinput.form_response.submission_id = `F03_SUBMISSION_ID_${Date.now()}`;
-    }
-    console.log("Updated form_response with status and submission_id");
-  }
+  // if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+  //   existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
+  //   if (submission_id) {
+  //     existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+  //   } else {
+  //     existingPayload.message.order.items[0].xinput.form_response.submission_id = `F03_SUBMISSION_ID_${Date.now()}`;
+  //   }
+  //   console.log("Updated form_response with status and submission_id");
+  // }
 
+
+
+
+    if (existingPayload.message?.order?.items?.[0]) {
+    const item = existingPayload.message.order.items[0];
+    if (item.xinput?.form) {
+      const formId = sessionData.form_id || "F06";
+      item.xinput.form.id = formId;
+      console.log("Updated form ID:", formId);
+    }
+    
+    // Set form status and submission_id
+    if (item.xinput) {
+      // Create form_response if it doesn't exist
+      if (!item.xinput.form_response) {
+        item.xinput.form_response = {};
+      }
+      if (form_status) {
+        item.xinput.form_response.status = form_status;
+      }
+      if (submission_id) {
+        item.xinput.form_response.submission_id = submission_id;
+      }
+    }
+  }
   return existingPayload;
 }

@@ -41,11 +41,11 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
   }
   
   // Update location_ids from session data (carry-forward from previous flows)
-  const selectedLocationId = sessionData.selected_location_id;
-  if (selectedLocationId && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].location_ids = [selectedLocationId];
-    console.log("Updated location_ids:", selectedLocationId);
-  }
+  // const selectedLocationId = sessionData.selected_location_id;
+  // if (selectedLocationId && existingPayload.message?.order?.items?.[0]) {
+  //   existingPayload.message.order.items[0].location_ids = [selectedLocationId];
+  //   console.log("Updated location_ids:", selectedLocationId);
+  // }
   
   // Update customer name in fulfillments if available from session data
   if (sessionData.customer_name && existingPayload.message?.order?.fulfillments?.[0]?.customer?.person) {
@@ -66,13 +66,9 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
 
     //  Update form URLs for items with session data (preserve existing structure)
  if (existingPayload.message?.order?.items) {
-    console.log("check for form +++")
  existingPayload.message.order.items = existingPayload.message.order.items.map((item: any) => {
       if (item.xinput?.form) {
-        // Generate dynamic form URL with session data
         const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/nominee_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-        console.log("Form URL generated:", url);
-        // sessionData.reference_data.individual_information_form = url
         item.xinput.form.url = url;
       }
       return item;

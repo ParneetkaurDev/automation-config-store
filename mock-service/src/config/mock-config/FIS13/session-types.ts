@@ -75,8 +75,8 @@ export interface SessionData {
 	pan_details_form?:string;
 	personal_details_form?:string;
 	verification_status?: string;
-	manual_review_form?:string;
 	manual_review_form_motor?:string;
+	kyc_details_form?: string;
 	// Form submission data for on_status generators                                               
   form_data?: Record<string, {                                                                   
    form_submission_id?: string;                                                                 

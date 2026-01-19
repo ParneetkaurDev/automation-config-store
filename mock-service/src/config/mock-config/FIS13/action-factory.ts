@@ -73,8 +73,8 @@ import { MockVerificationStatusFormClass } from "./health/2.0.1/form7/verificati
 import { MockSelect2Class } from "./health/2.0.1/select2/class";
 import { MockOnSelect2Class } from "./health/2.0.1/on_select2/class";
 import { MockPanDetailsFormClass as MotorMockPanDetailsFormClass} from "./motor/2.0.1/form3/pan_details_form";
-import { MockEkycDetailsFormClass as MotorMockEkycDetailsFormClass } from "./motor/2.0.1/form4/Ekyc_details_form";
-import { MockManualReviewFormClass as MotorMockManualReviewFormClass } from "./motor/2.0.1/form2/manual_review_form";
+import { MockkycDetailsFormClass as MotorMockkycDetailsFormClass } from "./motor/2.0.1/form4/kyc_details_form";
+import { MockManualReviewFormClass as MotorMockManualReviewFormClass } from "./motor/2.0.1/form2/manual_review_form_motor";
 import { MockConsumerInformationFormClass as MotorMockConsumerInformationFormClass } from "./motor/2.0.1/form7/consumer_information_form";
 import { MockVehicleNomineeDetailsFormClass as MotorMockVehicleNomineeDetailsFormClass } from "./motor/2.0.1/form5/vehicle_nominee_details_form";
 import { MockPersonalDetailsFormClass as MotorMockPersonalDetailsFormClass } from "./motor/2.0.1/form6/personal_details_form";
@@ -211,7 +211,7 @@ const registry = {
 	vehicle_details_form:MotorMockVehicleDetailsFormClass,
 	manual_review_form_motor:MotorMockManualReviewFormClass,
 	pan_details_form: MotorMockPanDetailsFormClass,
-	kyc_details_form:MotorMockEkycDetailsFormClass,
+	kyc_details_form:MotorMockkycDetailsFormClass,
 	vehicle_nominee_details_form:MotorMockVehicleNomineeDetailsFormClass,
 	personal_details_form:MotorMockPersonalDetailsFormClass,
 	consumer_information_form_motor:MotorMockConsumerInformationFormClass,//need to update
