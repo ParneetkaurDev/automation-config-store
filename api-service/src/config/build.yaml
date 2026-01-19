@@ -43386,9 +43386,9 @@ x-validations:
             attr: $.message.order.items[*].xinput.form.id
             _RETURN_: attr are present
 
-          - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
-            attr: $.message.order.items[*].category_ids[*]
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
+          #   attr: $.message.order.items[*].category_ids[*]
+          #   _RETURN_: attr are present
 
       - _NAME_: ORDER_FULFILLMENT_VALIDATIONS
         _RETURN_:
