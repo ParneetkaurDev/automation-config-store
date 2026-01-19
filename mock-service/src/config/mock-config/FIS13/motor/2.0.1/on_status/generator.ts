@@ -5,9 +5,9 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
 
   console.log("sessionData for on_status", sessionData);
 
-  const submission_id = sessionData?.form_data?.manual_review_form?.form_submission_id;
-  
-  const form_status = sessionData?.form_data?.manual_review_form?.idType;
+  const submission_id = sessionData?.form_data?.manual_review_form_motor?.form_submission_id;
+
+  const form_status = sessionData?.form_data?.manual_review_form_motor?.idType;
   
   // Update transaction_id and message_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
