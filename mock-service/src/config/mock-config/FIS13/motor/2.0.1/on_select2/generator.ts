@@ -24,26 +24,24 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
   }
   
   // Update provider.id if available from session data (carry-forward from select)
-  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
-    existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-    console.log("Updated provider.id:", sessionData.selected_provider.id);
-  }
+  // if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
+  //   existingPayload.message.order.provider.id = sessionData.selected_provider.id;
+  //   console.log("Updated provider.id:", sessionData.selected_provider.id);
+  // }
   
   // Update item.id if available from session data (carry-forward from select)
-  if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const selectedItem = sessionData.items[0];
-    if (existingPayload.message?.order?.items?.[0]) {
-      existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id:", selectedItem.id);
-    }
-  }
+  // if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
+  //   const selectedItem = sessionData.items[0];
+  //   if (existingPayload.message?.order?.items?.[0]) {
+  //     existingPayload.message.order.items[0].id = selectedItem.id;
+  //     console.log("Updated item.id:", selectedItem.id);
+  //   }
+  // }
   // redirection to be done
  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/pan_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-    console.log("URL for Ekyc_details_form in on_select", url);
     existingPayload.message.order.items[0].xinput.form.id = "F04";
     existingPayload.message.order.items[0].xinput.form.url = url;
-    console.log("Updated xinput form to eKYC form");
   }
   
   return existingPayload;
