@@ -37,7 +37,7 @@ export class MockkycDetailsFormClass extends MockAction {
 		return { valid: true };
 	}
 
- async __forceSaveData(
+	async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
 		
