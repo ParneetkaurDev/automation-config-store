@@ -1,6 +1,6 @@
 update_target: "fulfillments"
 order:
-  id: "LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID"
+  id: LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID
   fulfillments:
     - state:
         descriptor:

@@ -40,7 +40,7 @@ export async function onSelectDefaultGenerator(
     Array.isArray(sessionData.items) &&
     sessionData.items.length > 0
   ) {
-    const selectedItem = sessionData.items[0];
+    const selectedItem = sessionData.items[1];
     if (existingPayload.message?.order?.items?.[0]) {
       existingPayload.message.order.items[0].id = selectedItem.id;
       console.log("Updated item.id:", selectedItem.id);
