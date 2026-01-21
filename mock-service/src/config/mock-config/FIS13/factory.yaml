@@ -356,3 +356,18 @@ codes:
     action: on_cancel
     default: FIS13/motor/2.0.1/on_cancel/default.yaml
     message_id: true
+  - code: 335
+    action_id: on_status_unsolicited3_motor
+    action: on_status
+    default: FIS13/motor/2.0.1/on_status_unsolicited3/default.yaml
+    message_id: true
+  - code: 336
+    action_id: on_status_unsolicited4_motor
+    action: on_status
+    default: FIS13/motor/2.0.1/on_status_unsolicited4/default.yaml
+    message_id: true
+  - code: 337
+    action_id: on_status_unsolicited5_motor
+    action: on_status
+    default: FIS13/motor/2.0.1/on_status_unsolicited5/default.yaml
+    message_id: true      

@@ -58,6 +58,9 @@ import { MockStatusClass as MotorMockStatusClass } from "./motor/2.0.1/status/cl
 import { MockOnStatusClass as MotorMockOnStatusClass } from "./motor/2.0.1/on_status/class";
 import { MockOnStatusUnsolicitedClass as MotorMockOnStatusUnsolicitedClass } from "./motor/2.0.1/on_status_unsolicited/class";
 import { MockOnStatusUnsolicited2Class as MotorMockOnStatusUnsolicited2Class } from "./motor/2.0.1/on_status_unsolicited2/class";
+import { MockOnStatusUnsolicited3Class as MotorMockOnStatusUnsolicited3Class } from "./motor/2.0.1/on_status_unsolicited3/class";
+import { MockOnStatusUnsolicited4Class as MotorMockOnStatusUnsolicited4Class } from "./motor/2.0.1/on_status_unsolicited4/class";
+import { MockOnStatusUnsolicited5Class as MotorMockOnStatusUnsolicited5Class } from "./motor/2.0.1/on_status_unsolicited5/class";
 import { MockUpdateClass as MotorMockUpdateClass } from "./motor/2.0.1/update/class";
 import { MockOnUpdateClass as MotorMockOnUpdateClass } from "./motor/2.0.1/on_update/class";
 import { MockOnUpdateUnsolicitedClass as MotorMockOnUpdateUnsolicitedClass } from "./motor/2.0.1/on_update_unsolicited/class";
@@ -191,6 +194,9 @@ const registry = {
 	on_status_motor: MotorMockOnStatusClass,
 	on_status_unsolicited_motor: MotorMockOnStatusUnsolicitedClass,
 	on_status_unsolicited2_motor: MotorMockOnStatusUnsolicited2Class,
+	on_status_unsolicited3_motor: MotorMockOnStatusUnsolicited3Class,
+	on_status_unsolicited4_motor: MotorMockOnStatusUnsolicited4Class,
+	on_status_unsolicited5_motor: MotorMockOnStatusUnsolicited5Class,
 
 	// update / on_update
 	update_motor: MotorMockUpdateClass,
