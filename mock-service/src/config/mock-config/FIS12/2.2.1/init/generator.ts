@@ -29,14 +29,14 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   }
   
   // Update item.id if available from session data (carry-forward from previous flows)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? (sessionData.items?.[1] ?? sessionData.items?.[0]) : undefined);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     console.log("Updated item.id:", selectedItem.id);
   }
   
   // Update form ID from session data (carry-forward from previous flows)
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
+  if (existingPayload.message?.order?.items?.[0]?.xinput?.form){
     // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
     const formId = sessionData.form_id || "FO3";
     existingPayload.message.order.items[0].xinput.form.id = formId;

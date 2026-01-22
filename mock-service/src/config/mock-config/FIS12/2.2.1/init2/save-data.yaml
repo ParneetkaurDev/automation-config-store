@@ -7,3 +7,4 @@ save-data:
   billing: "$.message.order.billing"
   tags: "$.message.order.tags[*]" 
   form_id: "$.message.order.items[*].xinput.form.id"
+  item: "$.message.order.items[1]"

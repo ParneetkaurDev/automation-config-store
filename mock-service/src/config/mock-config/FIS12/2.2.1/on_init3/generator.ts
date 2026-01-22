@@ -34,7 +34,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
   }
   
   // Update item.id if available from session data (carry-forward from init)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData?.items?.[1]?sessionData?.items?.[1]:sessionData?.items?.[1]: undefined);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     console.log("Updated item.id:", selectedItem.id);
