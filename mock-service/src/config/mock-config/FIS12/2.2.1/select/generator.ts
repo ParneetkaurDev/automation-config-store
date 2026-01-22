@@ -40,7 +40,7 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   
   // Update item.id if available from session data (carry-forward from on_search)
   if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const selectedItem = sessionData.items[1];
+    const selectedItem = sessionData?.items?.[1] ? sessionData?.items?.[1] : sessionData?.items?.[0];
     if (existingPayload.message?.order?.items?.[1]) {
       existingPayload.message.order.items[1].id = selectedItem.id;
       console.log("Updated item.id:", selectedItem.id);

@@ -5,4 +5,5 @@ save-data:
   selected_fulfillments: "$.message.order.fulfillments[*]"
   selected_provider: "$.message.order.provider"
   billing: "$.message.order.billing"
-  tags: "$.message.order.tags[*]" 
+  tags: "$.message.order.tags[*]"
+  item: "$.message.order.items[1]"

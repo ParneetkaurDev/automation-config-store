@@ -54,11 +54,11 @@ function yamlToJson(filePath: string): object {
 	}
 }
 
-export async function createMockResponseFIS12_221(
+export async function createMockResponseFIS12_220(
 	actionID: string,
 	sessionData: SessionData
 ) {
-	console.log("createMockResponseFIS12_221", actionID, sessionData);
+	console.log("createMockResponseFIS12_220", actionID, sessionData);
 	const factoryData = loadFactoryYaml(
 		path.resolve(__dirname, "../factory.yaml")
 	);

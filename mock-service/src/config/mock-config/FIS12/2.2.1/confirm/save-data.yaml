@@ -7,3 +7,4 @@ save-data:
   tags: "$.message.order.tags[*]"
   payments: "$.message.order.payments[*]" 
   quote: "$.message.order.quote"
+  item: "$.message.order.items[1]"
