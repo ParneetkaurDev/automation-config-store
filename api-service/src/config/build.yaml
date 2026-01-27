@@ -43553,9 +43553,9 @@ x-validations:
             attr: $.message.order.items[*].parent_item_id
             _RETURN_: attr are present
 
-          # - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
-          #   attr: $.message.order.items[*].category_ids[*]
-          #   _RETURN_: attr are present
+          - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
+            attr: $.message.order.items[*].category_ids[*]
+            _RETURN_: attr are present
 
           - _NAME_: REQUIRED_ITEM_FULFILLMENT_IDS
             attr: $.message.order.items[*].fulfillment_ids[*]
@@ -43626,39 +43626,39 @@ x-validations:
           #   attr: $.message.order.items[*].tags[?(@.descriptor.code=='VAHAN_DETAILS')].list[?(@.descriptor.code=='PREVIOUS_POLICY_END_DATE')].value
           #   _RETURN_: attr are present
 
-      - _NAME_: POLICY_TAG_VALIDATIONS
-        _RETURN_:
-          - _NAME_: POLICY_DETAILS_TAG
-            attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].descriptor.code
-            _RETURN_: attr are present
+      # - _NAME_: POLICY_TAG_VALIDATIONS
+      #   _RETURN_:
+      #     - _NAME_: POLICY_DETAILS_TAG
+      #       attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].descriptor.code
+      #       _RETURN_: attr are present
 
-          - _NAME_: COMMODITY_TYPE
-            attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='COMMODITY_TYPE')].value
-            _RETURN_: attr are present
+      #     - _NAME_: COMMODITY_TYPE
+      #       attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='COMMODITY_TYPE')].value
+      #       _RETURN_: attr are present
 
-          - _NAME_: SUM_INSURED
-            attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='SUM_INSURED')].value
-            _RETURN_: attr are present
+      #     - _NAME_: SUM_INSURED
+      #       attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='SUM_INSURED')].value
+      #       _RETURN_: attr are present
 
-          - _NAME_: MODE_OF_CONVEYANCE
-            attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='MODE_OF_CONVEYANCE')].value
-            _RETURN_: attr are present
+      #     - _NAME_: MODE_OF_CONVEYANCE
+      #       attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='MODE_OF_CONVEYANCE')].value
+      #       _RETURN_: attr are present
 
-          - _NAME_: BASIS_OF_VALUATION
-            attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='BASIS_OF_VALUATION')].value
-            _RETURN_: attr are present
+      #     - _NAME_: BASIS_OF_VALUATION
+      #       attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='BASIS_OF_VALUATION')].value
+      #       _RETURN_: attr are present
 
-          - _NAME_: POLICY_START_DATE
-            attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='POLICY_START_DATE')].value
-            _RETURN_: attr are present
+      #     - _NAME_: POLICY_START_DATE
+      #       attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='POLICY_START_DATE')].value
+      #       _RETURN_: attr are present
 
-          - _NAME_: INVOICE_NUMBER
-            attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='INVOICE_NUMBER')].value
-            _RETURN_: attr are present
+      #     - _NAME_: INVOICE_NUMBER
+      #       attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='INVOICE_NUMBER')].value
+      #       _RETURN_: attr are present
 
-          - _NAME_: INVOICE_DATE
-            attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='INVOICE_DATE')].value
-            _RETURN_: attr are present
+      #     - _NAME_: INVOICE_DATE
+      #       attr: $.message.order.items[*].tags[?(@.descriptor.code=='POLICY_DETAILS')].list[?(@.descriptor.code=='INVOICE_DATE')].value
+      #       _RETURN_: attr are present
 
       - _NAME_: PAYMENT_VALIDATIONS
         _RETURN_:
@@ -44004,9 +44004,9 @@ x-validations:
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
 
-          # - _NAME_: ITEM_PARENT_ID
-          #   attr: $.message.order.items[*].parent_item_id
-          #   _RETURN_: attr are present
+          - _NAME_: ITEM_PARENT_ID
+            attr: $.message.order.items[*].parent_item_id
+            _RETURN_: attr are present
 
           - _NAME_: ITEM_CATEGORY_ID
             attr: $.message.order.items[*].category_ids[*]
@@ -44763,9 +44763,9 @@ x-validations:
             attr: $.message.order.items[*].parent_item_id
             _RETURN_: attr are present
 
-          # - _NAME_: ITEM_CATEGORY_IDS
-          #   attr: $.message.order.items[*].category_ids[*]
-          #   _RETURN_: attr are present
+          - _NAME_: ITEM_CATEGORY_IDS
+            attr: $.message.order.items[*].category_ids[*]
+            _RETURN_: attr are present
 
           - _NAME_: ITEM_NAME
             attr: $.message.order.items[*].descriptor.name
