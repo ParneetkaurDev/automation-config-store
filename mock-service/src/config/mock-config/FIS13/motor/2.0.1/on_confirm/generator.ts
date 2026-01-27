@@ -41,11 +41,11 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   }
   
   // Update item.id if available from session data (carry-forward from confirm)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
-  }
+  // const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  // if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
+  //   existingPayload.message.order.items[0].id = selectedItem.id;
+  //   console.log("Updated item.id:", selectedItem.id);
+  // }
   
   // Update location_ids from session data (carry-forward from previous flows)
   const selectedLocationId = sessionData.selected_location_id;
