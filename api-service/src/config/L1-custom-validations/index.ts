@@ -215,8 +215,10 @@ export async function performL1CustomValidations(
   let previousAction: string | null = null;
   if (transactionId) {
     previousAction = await getPreviousAction(transactionId);
-    // Store current action as previous action for next call
-    await storePreviousAction(transactionId, action);
+    
+    if (action.startsWith("on_") && action !== "on_status") {
+      await storePreviousAction(transactionId, action);
+    }
   }
 
   if (insuranceType === INSURANCE_TYPES.HEALTH) {
