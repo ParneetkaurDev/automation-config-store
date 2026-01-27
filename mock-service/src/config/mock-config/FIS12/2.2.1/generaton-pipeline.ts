@@ -54,7 +54,7 @@ function yamlToJson(filePath: string): object {
 	}
 }
 
-export async function createMockResponseFIS12_220(
+export async function createMockResponseFIS12_221(
 	actionID: string,
 	sessionData: SessionData
 ) {
