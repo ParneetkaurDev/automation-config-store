@@ -43666,9 +43666,9 @@ x-validations:
             attr: $.message.order.payments[*].collected_by
             _RETURN_: attr are present
 
-          - _NAME_: PAYMENT_AMOUNT
-            attr: $.message.order.payments[*].params.amount
-            _RETURN_: attr are present
+          # - _NAME_: PAYMENT_AMOUNT
+          #   attr: $.message.order.payments[*].params.amount
+          #   _RETURN_: attr are present
 
           - _NAME_: PAYMENT_BANK_ACCOUNT
             attr: $.message.order.payments[*].params.bank_account_number
