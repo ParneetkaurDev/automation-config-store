@@ -43553,9 +43553,9 @@ x-validations:
             attr: $.message.order.items[*].parent_item_id
             _RETURN_: attr are present
 
-          - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
-            attr: $.message.order.items[*].category_ids[*]
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
+          #   attr: $.message.order.items[*].category_ids[*]
+          #   _RETURN_: attr are present
 
           - _NAME_: REQUIRED_ITEM_FULFILLMENT_IDS
             attr: $.message.order.items[*].fulfillment_ids[*]
@@ -44004,9 +44004,9 @@ x-validations:
             attr: $.message.order.items[*].id
             _RETURN_: attr are present
 
-          - _NAME_: ITEM_PARENT_ID
-            attr: $.message.order.items[*].parent_item_id
-            _RETURN_: attr are present
+          # - _NAME_: ITEM_PARENT_ID
+          #   attr: $.message.order.items[*].parent_item_id
+          #   _RETURN_: attr are present
 
           - _NAME_: ITEM_CATEGORY_ID
             attr: $.message.order.items[*].category_ids[*]

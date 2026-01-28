@@ -46,7 +46,7 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
    if (existingPayload.message?.order?.items?.[0]) {
     const item = existingPayload.message.order.items[0];
     if (item.xinput?.form) {
-      const formId = sessionData.form_id || "FO4";
+      const formId = sessionData.form_id || "F04";
       item.xinput.form.id = formId;
       console.log("Updated form ID:", formId);
     }

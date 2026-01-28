@@ -47,12 +47,12 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   // }
   
   // Update form ID from session data (carry-forward from previous flows)
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-    const formId = sessionData.form_id || "FO3";
-    existingPayload.message.order.items[0].xinput.form.id = formId;
-    console.log("Updated form ID:", formId);
-  }
+  // if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
+  //   // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
+  //   const formId = sessionData.form_id || "FO3";
+  //   existingPayload.message.order.items[0].xinput.form.id = formId;
+  //   console.log("Updated form ID:", formId);
+  // }
   
   // Update form_response with status and submission_id (preserve existing structure)
   // if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {

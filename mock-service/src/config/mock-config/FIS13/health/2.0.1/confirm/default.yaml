@@ -19,7 +19,7 @@ order:
       parent_item_id: "I1"
       xinput:
         form:
-          id: "FO8"
+          id: "F08"
         form_response:
           status: "SUCCESS"
           submission_id: "aab8e186-e9d6-4b93-8a70-8f6b8c471862"

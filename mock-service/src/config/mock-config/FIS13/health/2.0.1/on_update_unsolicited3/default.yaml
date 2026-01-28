@@ -50,10 +50,10 @@ order:
               list:
                 - descriptor:
                     code: REQUIRED
-                  value: TRUE
+                  value: "TRUE"
                 - descriptor:
                     code: CUSTOMER_SELECTION
-                  value: YES
+                  value: "YES"
                 - descriptor:
                     code: SUM_INSURED
                   value: "50000"
