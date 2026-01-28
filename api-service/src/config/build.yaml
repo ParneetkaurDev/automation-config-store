@@ -22457,7 +22457,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: &COMMON_CONTEXT
           - _NAME_: CONTEXT_REQUIRED
             _RETURN_:
@@ -22519,8 +22519,8 @@ x-validations:
                 _RETURN_: attr all in enumList
               - _NAME_: VALID_CONTEXT_VERSION
                 attr: $.context.version
-                enumList: &VERSION_2_2_1
-                  - 2.2.1
+                enumList: &VERSION_2_2_0
+                  - 2.2.0
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr all in enumList
           - _NAME_: CONTEXT_REGEX
@@ -22621,7 +22621,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: ON_SEARCH_CATALOG_NAME
@@ -22829,7 +22829,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: SELECT_PROVIDER_ID
@@ -22852,7 +22852,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: ON_SELECT_PROVIDER
@@ -23054,7 +23054,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: INIT_PROVIDER_ID
@@ -23163,7 +23163,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: ON_INIT_PROVIDER
@@ -23344,7 +23344,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: CONFIRM_PROVIDER_ID
@@ -23403,7 +23403,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: ON_CONFIRM_ORDER_ID
@@ -23608,7 +23608,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: UPDATE_ORDER_ID
@@ -23668,7 +23668,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: ON_UPDATE_ORDER
@@ -23751,7 +23751,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: STATUS_REF_ID
@@ -23772,7 +23772,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: ON_STATUS_ORDER
@@ -23838,7 +23838,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: CANCEL_ORDER_ID
@@ -23868,7 +23868,7 @@ x-validations:
         domain:
           - ONDC:FIS12
         version:
-          - 2.2.1
+          - 2.2.0
         _RETURN_: *COMMON_CONTEXT
 
       - _NAME_: ON_CANCEL_ORDER
