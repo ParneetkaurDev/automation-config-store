@@ -100,7 +100,7 @@ catalog:
             form:
               id: "F01"
               mime_type: "text/html"
-              url: "https://fis.test.bpp.io/form/vehicle_dtls_new?formid=FO1"
+              url: "https://fis.test.bpp.io/form/vehicle_dtls_new?formid=F01"
               multiple_sumbissions: false
               resubmit: false
 

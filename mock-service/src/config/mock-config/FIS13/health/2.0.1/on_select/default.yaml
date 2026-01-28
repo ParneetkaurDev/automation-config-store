@@ -67,7 +67,7 @@ order:
             - MANUAL_REVIEW
             - EKYC
         form:
-          id: FO4
+          id: F04
           mime_type: application/html
           url: "https://fis.test.bpp.io/form/ekyc_dtls?formid=FO4"
           resubmit: true

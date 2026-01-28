@@ -22,7 +22,7 @@ order:
               count: 1
       xinput:
         form:
-          id: "FO7"
+          id: "F07"
         form_response:
           status: "SUCCESS"
           submission_id: "6ae80f7d-1fe2-4bb2-8ead-8c3c2ded9358"

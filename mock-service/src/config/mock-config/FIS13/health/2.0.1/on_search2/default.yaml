@@ -117,9 +117,9 @@ catalog:
                 cur: 0
                 max: 0
               headings:
-                - INSURED_PERSONAL_DETAILS
+                - FAMILY_DETAILS
             form:
-              id: FO2
+              id: F03
               mime_type: text/html
               url: https://fis.test.bpp.io/form/family_dtls?formId=FO2
               resubmit: true

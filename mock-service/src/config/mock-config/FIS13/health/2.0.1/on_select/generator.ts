@@ -41,7 +41,6 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
   // redirection to be done
  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-    console.log("URL for verification_status in on_select >>>>>> verification_status", url);
     // existingPayload.message.order.items[0].xinput.form.id = "EKYC01";
     existingPayload.message.order.items[0].xinput.form.url = url;
     // console.log("Updated xinput form to eKYC form");

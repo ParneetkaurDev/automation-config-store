@@ -28,16 +28,14 @@ export async function searchDefaultGenerator(
 
 
 	const submissionId = sessionData.form_data?.form_submission_id
-		|| sessionData.individual_information_form;
+		|| sessionData.family_information_form
 
-	  const form_status = sessionData?.form_data?.individual_information_form?.idType;	
+	  const form_status = sessionData?.form_data?.pan_details_form?.idType;	
 
-	 
+
 	// Update the form_response submission_id in the payload
 	if (submissionId && existingPayload.message?.intent?.provider?.items?.[0]?.xinput?.form_response) {
 		existingPayload.message.intent.provider.items[0].xinput.form_response.submission_id = submissionId;
-		existingPayload.message.intent.provider.items[0].xinput.form_response.status = form_status;
-		existingPayload.message.intent.provider.items[0].xinput.form.id = "F01";
 	}
 
 

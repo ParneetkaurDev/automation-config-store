@@ -87,9 +87,9 @@ order:
             - "NOMINEE_DETAILS"
             - "CIS"
         form:
-          id: "FO7"
+          id: "F07"
           mime_type: "text/html"
-          url: "https://fis.test.bpp.io/form/nominee_dtls?formid=FO7"
+          url: "https://fis.test.bpp.io/form/nominee_dtls?formid=F07"
           resubmit: true
           multiple_sumbissions: false
       add_ons:

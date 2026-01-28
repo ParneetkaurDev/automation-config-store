@@ -76,7 +76,7 @@ order:
             - NOMINEE_DETAILS
             - CIS
         form:
-          id: FO5
+          id: F06
           mime_type: text/html
           url: "https://fis.test.bpp.io/form/medical_dtls?formid=FO5"
           resubmit: true
