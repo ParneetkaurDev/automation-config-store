@@ -1,7 +1,7 @@
 import { SessionData, Input } from "./session-types";
 import { RedisService } from "ondc-automation-cache-lib";
 import { SessionCache } from "../../../types/api-session-cache";
-import { createMockResponseFIS12_200 } from "./gold-loan/2.0.2/generaton-pipeline";
+import { createMockResponseFIS12_230 } from "./2.3.0/generaton-pipeline";
 import { createBuyerUrl, createSellerUrl } from "../../../utils/request-utils";
 
 export async function createMockResponse(
@@ -18,9 +18,14 @@ export async function createMockResponse(
 	const { version, usecaseId } = data;
 	sessionData.user_inputs = input
 	let payload: any = {};
-	if (version === "2.0.2") {
-		payload = await createMockResponseFIS12_200(action_id, sessionData);
+	if (version === "2.3.0") {
+		payload = await createMockResponseFIS12_230(action_id, sessionData);
 	}
+	
+	if (!payload || !payload.context) {
+		throw new Error(`Failed to create mock response for version ${version} and action ${action_id}`);
+	}
+	
 	if (data.npType === "BAP") {
 		payload.context.bap_uri = data.subscriberUrl;
 		payload.context.bpp_uri = createSellerUrl(data.domain, data.version);

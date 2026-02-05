@@ -1,155 +1,177 @@
-import { MockSearchClass } from "./gold-loan/2.0.2/search/class";
-import { MockOnSearchClass } from "./gold-loan/2.0.2/on_search/class";
-import { MockSelectAdjustLoanAmountClass} from "./gold-loan/2.0.2/select_adjust_loan_amount/class";
-import { MockSelect1Class } from "./gold-loan/2.0.2/select_1/class";
-import { MockSelect2Class } from "./gold-loan/2.0.2/select_2/class";
-import { MockOnSelectAdjustLoanAmountClass } from "./gold-loan/2.0.2/on_select_adjust_loan_amount/class";
-import { MockOnSelect1Class } from "./gold-loan/2.0.2/on_select_1/class";
-import { MockOnSelect2Class } from "./gold-loan/2.0.2/on_select_2/class";
-import { MockInitClass } from "./gold-loan/2.0.2/init/class";
-import { MockOnInitClass } from "./gold-loan/2.0.2/on_init/class";
-import { MockConfirmClass } from "./gold-loan/2.0.2/confirm/class";
-import { MockOnConfirmClass } from "./gold-loan/2.0.2/on_confirm/class";
-import { MockUpdateClass } from "./gold-loan/2.0.2/update/class";
-import { MockOnUpdateClass } from "./gold-loan/2.0.2/on_update/class";
-import { MockOnUpdateUnsolicitedClass } from "./gold-loan/2.0.2/on_update_unsolicited/class";
+
 import type { MockAction } from "./classes/mock-action";
-import { MockConsumerInformationFormClass } from "./gold-loan/2.0.2/form/consumer_information_form";
-import { MockVerificationStatusClass } from "./gold-loan/2.0.2/form_2/verification_status";
-import { MockStatusClass } from "./gold-loan/2.0.2/status/class";
-import { MockOnStatusClass } from "./gold-loan/2.0.2/on_status/class";
-import { MockOnStatusUnsolicitedClass } from "./gold-loan/2.0.2/on_status_unsolicited/class";
+import { MockManadateDetailsFormClass } from "./2.3.0/personal_loan/Emanadate_verification_status/Emanadate_verification_status";
+import { MockEkycDetailsFormClass } from "./2.3.0/personal_loan/kyc_form_verification_status/kyc_form_verification_status";
+import { MockMasterSearchClass } from "./2.3.0/master_search/class";
+import { MockMasterOnSearchClass } from "./2.3.0/master_on_search/class";
+import { MockSearchPersonalLoanClass } from "./2.3.0/personal_loan/search_personal_loan/class";
+import { MockSearchPersonalLoan2Class } from "./2.3.0/personal_loan/search_personal_loan_2/class";
+import { MockSearchPersonalLoan3Class } from "./2.3.0/personal_loan/search_personal_loan_3/class";
 
-// Personal Loan imports
-import { MockSearchPersonalLoanClass } from "./personal-loan/2.0.2/search/class";
-import { MockOnSearchPersonalLoanClass } from "./personal-loan/2.0.2/on_search/class";
-import { MockSelectBureauConsentPersonalLoanClass } from "./personal-loan/2.0.2/select_bureau_consent_personal_loan/class";
-import { MockOnSelectBureauConsentPersonalLoanClass } from "./personal-loan/2.0.2/on_select_bureau_consent_personal_loan/class";
-import { MockSelect1PersonalLoanClass } from "./personal-loan/2.0.2/select_1/class";
-import { MockSelect2PersonalLoanClass } from "./personal-loan/2.0.2/select_2/class";
-import { MockOnSelect1PersonalLoanClass } from "./personal-loan/2.0.2/on_select_1/class";
-import { MockOnSelect2PersonalLoanClass } from "./personal-loan/2.0.2/on_select_2/class";
-import { MockInitOfflineAndOnlinePersonalLoanClass } from "./personal-loan/2.0.2/init_offline_and_online_personal_loan/class";
-import { MockOnInitOfflineAndOnlinePersonalLoanClass } from "./personal-loan/2.0.2/on_init_offline_and_online_personal_loan/class";
-import { MockConfirmPersonalLoanClass } from "./personal-loan/2.0.2/confirm/class";
-import { MockOnConfirmPersonalLoanClass } from "./personal-loan/2.0.2/on_confirm/class";
-import { MockUpdatePersonalLoanClass } from "./personal-loan/2.0.2/update/class";
-import { MockOnUpdatePersonalLoanClass } from "./personal-loan/2.0.2/on_update/class";
-import { MockOnUpdateUnsolicitedPersonalLoanClass } from "./personal-loan/2.0.2/on_update_unsolicited/class";
-import { MockStatusPersonalLoanClass } from "./personal-loan/2.0.2/status/class";
-import { MockOnStatusPersonalLoanClass } from "./personal-loan/2.0.2/on_status/class";
-import { MockOnStatusUnsolicitedPersonalLoanClass } from "./personal-loan/2.0.2/on_status_unsolicited/class";
-import { MockInitOfflinePersonalLoanClass } from "./personal-loan/2.0.2/init_offline/class";
-import { MockOnInitOfflinePersonalLoanClass } from "./personal-loan/2.0.2/on_init_offline_personal_loan/class";
-import { MockInit1PersonalLoanClass } from "./personal-loan/2.0.2/init_1/class";
-import { MockInit2PersonalLoanClass } from "./personal-loan/2.0.2/init_2/class";
-import { MockInit3PersonalLoanClass } from "./personal-loan/2.0.2/init_3/class";
-import { MockOnInit1PersonalLoanClass } from "./personal-loan/2.0.2/on_init_1/class";
-import { MockOnInit2PersonalLoanClass } from "./personal-loan/2.0.2/on_init_2/class";
-import { MockOnInit3PersonalLoanClass } from "./personal-loan/2.0.2/on_init_3/class";
-import { MockSelect3PersonalLoanClass } from "./personal-loan/2.0.2/select_3/class";
-import { MockOnSelect3PersonalLoanClass } from "./personal-loan/2.0.2/on_select_3/class";
-import { MockStatus1PersonalLoanClass } from "./personal-loan/2.0.2/status_1/class";
-import { MockOnStatus1PersonalLoanClass } from "./personal-loan/2.0.2/on_status_1/class";
-import { MockUpdatePersonalLoanFulfillmentClass } from "./personal-loan/2.0.2/update_personal_loan_fulfillment/class";
-import { MockOnUpdatePersonalLoanFulfillmentClass } from "./personal-loan/2.0.2/on_update_personal_loan_fulfillment/class";
-import { MockLoanAdjustmentFormClass } from "./personal-loan/2.0.2/loan-adjustment-form/loan-amount-adjustment-form";
-import { MockMandateDetailsForm } from "./personal-loan/2.0.2/mandate-details-form/manadate-details-form";
-import { MockPersonalLoanInformationFormClass } from "./personal-loan/2.0.2/personal_loan_information_form/class";
-import { MockSelect3Class } from "./gold-loan/2.0.2/select_3/class";
-import { MockOnSelect3Class } from "./gold-loan/2.0.2/on_select_3/class";
-import { MockEkycVerificationStatusClass } from "./gold-loan/2.0.2/form_3/ekyc_details_form";
-import { MockSelectMultipleOfferClass } from "./gold-loan/2.0.2/select_multiple_offer_1/class";
-import { MockOnSelectMultipleOfferClass } from "./gold-loan/2.0.2/on_select_multiple_offer_1/class";
-import { MockConsumerInformationFormPl202Class } from "./personal-loan/2.0.2/form/consumer_information_form";
-import { MockEKycVerificationStatusPl202Class } from "./personal-loan/2.0.2/form_2/kyc_verification_status";
-import { MockPaymentUrlFormStatusClass } from "./personal-loan/2.0.2/form_3/payment_url_form";
-import { MockVerificationPlStatusClass } from "./personal-loan/2.0.2/form_4/verification_status";
+import { MockOnSearchPersonalLoanClass } from "./2.3.0/personal_loan/on_search_personal_loan/class";
+import { MockOnSearchPersonalLoan2Class } from "./2.3.0/personal_loan/on_search_personal_loan_2/class";
+import { MockSelect1PersonalLoanClass } from "./2.3.0/personal_loan/select_1_personal_loan/class";
+import { MockSelect2PersonalLoanClass } from "./2.3.0/personal_loan/select_2_personal_loan/class";
+import { MockOnSelect1PersonalLoanClass } from "./2.3.0/personal_loan/on_select_1_personal_loan/class";
+import { MockOnSelect2PersonalLoanClass } from "./2.3.0/personal_loan/on_select_2_personal_loan/class";
+import { MockInit1PersonalLoanClass } from "./2.3.0/personal_loan/init_1_personal_loan/class";
+import { MockInit2PersonalLoanClass } from "./2.3.0/personal_loan/init_2_personal_loan/class";
+import { MockInit3PersonalLoanClass } from "./2.3.0/personal_loan/init_3_personal_loan/class";
+import { MockInit4PersonalLoanClass } from "./2.3.0/personal_loan/init_4_personal_loan/class";
+import { MockOnInit1PersonalLoanClass } from "./2.3.0/personal_loan/on_init_1_personal_loan/class";
+import { MockOnInit2PersonalLoanClass } from "./2.3.0/personal_loan/on_init_2_personal_loan/class";
+import { MockOnInit3PersonalLoanClass } from "./2.3.0/personal_loan/on_init_3_personal_loan/class";
+import { MockOnInit4PersonalLoanClass } from "./2.3.0/personal_loan/on_init_4_personal_loan/class";
+import { MockConfirmPersonalLoanClass } from "./2.3.0/personal_loan/confirm_personal_loan/class";
+import { MockOnConfirmPersonalLoanClass } from "./2.3.0/personal_loan/on_confirm_personal_loan/class";
+import { MockStatusPersonalLoanClass } from "./2.3.0/personal_loan/status_personal_loan/class";
+import { MockOnStatusPersonalLoanClass } from "./2.3.0/personal_loan/on_status_personal_loan/class";
+import { MockOnStatusUnsolicitedPersonalLoanClass } from "./2.3.0/personal_loan/on_status_unsolicited_personal_loan/class";
+import { MockUpdatePersonalLoanFulfillmentClass } from "./2.3.0/personal_loan/update_personal_loan_items/class";
+import { MockOnUpdatePersonalLoanFulfillmentClass } from "./2.3.0/personal_loan/on_update_personal_loan_items/class";
+import { MockOnUpdateUnsolicitedPersonalLoanClass } from "./2.3.0/personal_loan/on_update_unsolicited_personal_loan/class";
+import { MockLoanAggrementVerificationStatusClass } from "./2.3.0/personal_loan/loan_aggrement_verification_status/loan_aggrement_verification_status";
+import { MockOnSearchPersonalLoan3Class } from "./2.3.0/personal_loan/on_search_personal_loan_3/class";
+import { MockUpdateMissedEmiClass } from "./2.3.0/update_missed_Emi/class";
+import { MockUpdateForeclosureClass } from "./2.3.0/update_foreclosure/class";
+import { MockUpdatePrepartClass } from "./2.3.0/update_prepart/class";
+import { MockOnUpdateMissedEmiClass } from "./2.3.0/on_update_missed_Emi/class";
+import { MockOnUpdateForeclosureClass } from "./2.3.0/on_update_foreclosure/class";
+import { MockOnUpdatePrepartClass } from "./2.3.0/on_update_prepart/class";
+import { MockOnUpdateUnsolicitedMissedEmiClass } from "./2.3.0/on_update_unsolicited_missed_Emi/class";
+import { MockOnUpdateUnsolicitedForeclosureClass } from "./2.3.0/on_update_unsolicited_foreclosure/class";
+import { MockOnUpdateUnsolicitedPrepartClass } from "./2.3.0/on_update_unsolicited_prepart/class";
+import { MockSearchPersonalLoan4Class } from "./2.3.0/personal_loan/search_personal_loan_4/class";
+import { MockOnSearchPersonalLoan4Class } from "./2.3.0/personal_loan/on_search_personal_loan_4/class";
+import { MockSearchPersonalLoan5Class } from "./2.3.0/personal_loan/search_personal_loan_5/class";
+import { MockOnSearchPersonalLoan5Class } from "./2.3.0/personal_loan/on_search_personal_loan_5/class";
+import { MockEntityEkycDetailsFormClass } from "./2.3.0/invoice_loan/entity_kyc_form_verification_status/entity_kyc_form_verification_status";
+import { MockSearchInvoiceLoanClass } from "./2.3.0/invoice_loan/search_invoice_loan/class";
+import { MockOnSearchInvoiceLoanClass } from "./2.3.0/invoice_loan/on_search_invoice_loan/class";
+import { MockOnSearchInvoiceLoan2Class } from "./2.3.0/invoice_loan/on_search_invoice_loan_2/class";
+import { MockSearchInvoiceLoan2Class } from "./2.3.0/invoice_loan/search_invoice_loan_2/class";
+import { MockSelect1InvoiceLoanClass } from "./2.3.0/invoice_loan/select_1_invoice_loan/class";
+import { MockOnSelect1InvoiceLoanClass } from "./2.3.0/invoice_loan/on_select_1_invoice_loan/class";
+import { MockSelect2InvoiceLoanClass } from "./2.3.0/invoice_loan/select_2_invoice_loan/class";
+import { MockOnSelect2InvoiceLoanClass } from "./2.3.0/invoice_loan/on_select_2_invoice_loan/class";
+import { MockInit1InvoiceLoanClass } from "./2.3.0/invoice_loan/init_1_invoice_loan/class";
+import { MockConfirmInvoiceLoanClass } from "./2.3.0/invoice_loan/confirm_invoice_loan/class";
+import { MockInit2InvoiceLoanClass } from "./2.3.0/invoice_loan/init_2_invoice_loan/class";
+import { MockInit3InvoiceLoanClass } from "./2.3.0/invoice_loan/init_3_invoice_loan/class";
+import { MockInit4InvoiceLoanClass } from "./2.3.0/invoice_loan/init_4_invoice_loan/class";
+import { MockOnConfirmInvoiceLoanClass } from "./2.3.0/invoice_loan/on_confirm_invoice_loan/class";
+import { MockOnInit1InvoiceLoanClass } from "./2.3.0/invoice_loan/on_init_1_invoice_loan/class";
+import { MockOnInit2InvoiceLoanClass } from "./2.3.0/invoice_loan/on_init_2_invoice_loan/class";
+import { MockOnInit3InvoiceLoanClass } from "./2.3.0/invoice_loan/on_init_3_invoice_loan/class";
+import { MockOnInit4InvoiceLoanClass } from "./2.3.0/invoice_loan/on_init_4_invoice_loan/class";
+import { MockOnInit5InvoiceLoanClass } from "./2.3.0/invoice_loan/on_init_5_invoice_loan/class";
+import { MockOnStatusInvoiceLoanClass } from "./2.3.0/invoice_loan/on_status_invoice_loan/class";
+import { MockOnStatusUnsolicitedInvoiceLoanClass } from "./2.3.0/invoice_loan/on_status_unsolicited_invoice_loan/class";
+import { MockStatusInvoiceLoanClass } from "./2.3.0/invoice_loan/status_invoice_loan/class";
+import { MockInit5InvoiceLoanClass } from "./2.3.0/invoice_loan/init_5_invoice_loan/class";
 
+// types/helpers
 type Ctor<T> = new () => T;
 
+// === keep your imports exactly as they are ===
+
+// Build a single source of truth registry
 const registry = {
-
-	// Gold Loan actions
 	// search
-    search: MockSearchClass,
-	// on_search
-	on_search: MockOnSearchClass,
-
-	// select
-	select_1: MockSelect1Class,
-	select_2: MockSelect2Class,
-	select_multiple_offer: MockSelectMultipleOfferClass,
-	on_select_multiple_offer: MockOnSelectMultipleOfferClass,
-	select_gold_3: MockSelect3Class,
-	on_select_1: MockOnSelect1Class,
-	on_select_2: MockOnSelect2Class,
-	on_select_gold_3: MockOnSelect3Class,
-	select_adjust_loan_amount: MockSelectAdjustLoanAmountClass,
-	on_select_adjust_loan_amount: MockOnSelectAdjustLoanAmountClass,
-	// init / on_init
-	init: MockInitClass,
-	on_init: MockOnInitClass,
-
-	// confirm / on_confirm
-	confirm: MockConfirmClass,
-	on_confirm: MockOnConfirmClass,
-
-	// status / on_status
-	status: MockStatusClass,
-	on_status: MockOnStatusClass,
-	on_status_unsolicited: MockOnStatusUnsolicitedClass,
-
-	// update / on_update
-	update: MockUpdateClass,
-	on_update: MockOnUpdateClass,
-	on_update_unsolicited: MockOnUpdateUnsolicitedClass,
-	consumer_information_form_pl_202: MockConsumerInformationFormPl202Class,
-	consumer_information_form: MockConsumerInformationFormClass,
-	consumer_information_form_1: MockConsumerInformationFormClass,
-	verification_status: MockVerificationStatusClass,
-	verification_status_pl: MockVerificationPlStatusClass,
-	Ekyc_details_form: MockEkycVerificationStatusClass,
-	Ekyc_details_form_pl_202: MockEKycVerificationStatusPl202Class,
-	payment_url_form: MockPaymentUrlFormStatusClass,
-	loan_amount_adjustment_form: MockLoanAdjustmentFormClass,
-	manadate_details_form: MockMandateDetailsForm,
-	personal_loan_information_form: MockPersonalLoanInformationFormClass,
-
-	// Personal Loan actions
-
+	master_search_unified_credit: MockMasterSearchClass,
+	master_on_search_unified_credit: MockMasterOnSearchClass,
+	Emanadate_verification_status: MockManadateDetailsFormClass,
+	kyc_form_verification_status: MockEkycDetailsFormClass,
+	loan_aggrement_verification_status: MockLoanAggrementVerificationStatusClass,
+	entity_kyc_form_verification_status: MockEntityEkycDetailsFormClass,
+	// ========== PERSONAL LOAN FLOWS ==========
+	// search / on_search
 	search_personal_loan: MockSearchPersonalLoanClass,
 	on_search_personal_loan: MockOnSearchPersonalLoanClass,
-	select_bureau_consent_personal_loan: MockSelectBureauConsentPersonalLoanClass,
-	on_select_bureau_consent_personal_loan: MockOnSelectBureauConsentPersonalLoanClass,
+	search_personal_loan_2: MockSearchPersonalLoan2Class,
+	on_search_personal_loan_2: MockOnSearchPersonalLoan2Class,
+	search_personal_loan_3: MockSearchPersonalLoan3Class,
+	on_search_personal_loan_3: MockOnSearchPersonalLoan3Class,
+	search_personal_loan_4: MockSearchPersonalLoan4Class,
+	on_search_personal_loan_4: MockOnSearchPersonalLoan4Class,
+	search_personal_loan_5: MockSearchPersonalLoan5Class,
+	on_search_personal_loan_5: MockOnSearchPersonalLoan5Class,
+
+	// select / on_select
 	select_1_personal_loan: MockSelect1PersonalLoanClass,
-	select_2_personal_loan: MockSelect2PersonalLoanClass,
 	on_select_1_personal_loan: MockOnSelect1PersonalLoanClass,
+	select_2_personal_loan: MockSelect2PersonalLoanClass,
 	on_select_2_personal_loan: MockOnSelect2PersonalLoanClass,
-	select_3_personal_loan: MockSelect3PersonalLoanClass,
-	on_select_3_personal_loan: MockOnSelect3PersonalLoanClass,
+
+	// init / on_init
+	init_1_personal_loan: MockInit1PersonalLoanClass,
+	on_init_1_personal_loan: MockOnInit1PersonalLoanClass,
+	init_2_personal_loan: MockInit2PersonalLoanClass,
+	on_init_2_personal_loan: MockOnInit2PersonalLoanClass,
+	init_3_personal_loan: MockInit3PersonalLoanClass,
+	on_init_3_personal_loan: MockOnInit3PersonalLoanClass,
+	init_4_personal_loan: MockInit4PersonalLoanClass,
+	on_init_4_personal_loan: MockOnInit4PersonalLoanClass,
+
+	// confirm / on_confirm
 	confirm_personal_loan: MockConfirmPersonalLoanClass,
 	on_confirm_personal_loan: MockOnConfirmPersonalLoanClass,
-	update_personal_loan: MockUpdatePersonalLoanClass,
-	on_update_personal_loan: MockOnUpdatePersonalLoanClass,
-	on_update_unsolicited_personal_loan: MockOnUpdateUnsolicitedPersonalLoanClass,
+
+	// status / on_status
 	status_personal_loan: MockStatusPersonalLoanClass,
 	on_status_personal_loan: MockOnStatusPersonalLoanClass,
 	on_status_unsolicited_personal_loan: MockOnStatusUnsolicitedPersonalLoanClass,
-	init_offline_personal_loan: MockInitOfflinePersonalLoanClass,
-	on_init_offline_personal_loan: MockOnInitOfflinePersonalLoanClass,
-	init_offline_and_online_personal_loan: MockInitOfflineAndOnlinePersonalLoanClass,
-	on_init_offline_and_online_personal_loan: MockOnInitOfflineAndOnlinePersonalLoanClass,
-	init_1_personal_loan: MockInit1PersonalLoanClass,
-	init_2_personal_loan: MockInit2PersonalLoanClass,
-	init_3_personal_loan: MockInit3PersonalLoanClass,
-	on_init_1_personal_loan: MockOnInit1PersonalLoanClass,
-	on_init_2_personal_loan: MockOnInit2PersonalLoanClass,
-	on_init_3_personal_loan: MockOnInit3PersonalLoanClass,
-	status_1_personal_loan: MockStatus1PersonalLoanClass,
-	on_status_1_personal_loan: MockOnStatus1PersonalLoanClass,
-	update_personal_loan_fulfillment: MockUpdatePersonalLoanFulfillmentClass,
-	on_update_personal_loan_fulfillment: MockOnUpdatePersonalLoanFulfillmentClass,
+
+	// update / on_update
+	update_personal_loan_items: MockUpdatePersonalLoanFulfillmentClass,
+	on_update_personal_loan_items: MockOnUpdatePersonalLoanFulfillmentClass,
+	on_update_unsolicited_personal_loan: MockOnUpdateUnsolicitedPersonalLoanClass,
+
+	//foreclosure
+	update_missed_Emi: MockUpdateMissedEmiClass,
+	update_foreclosure: MockUpdateForeclosureClass,
+	update_prepart: MockUpdatePrepartClass,
+
+	on_update_missed_Emi: MockOnUpdateMissedEmiClass,
+	on_update_foreclosure: MockOnUpdateForeclosureClass,
+	on_update_prepart: MockOnUpdatePrepartClass,
+
+	on_update_unsolicited_missed_Emi: MockOnUpdateUnsolicitedMissedEmiClass,
+	on_update_unsolicited_foreclosure: MockOnUpdateUnsolicitedForeclosureClass,
+	on_update_unsolicited_prepart: MockOnUpdateUnsolicitedPrepartClass,
+
+
+	//Invoice loan 
+	search_invoice_loan: MockSearchInvoiceLoanClass,
+	on_search_invoice_loan: MockOnSearchInvoiceLoanClass,
+	search_invoice_loan_2: MockSearchInvoiceLoan2Class,
+	on_search_invoice_loan_2: MockOnSearchInvoiceLoan2Class,
+
+	// select / on_select
+	select_1_invoice_loan: MockSelect1InvoiceLoanClass,
+	on_select_1_invoice_loan: MockOnSelect1InvoiceLoanClass,
+	select_2_invoice_loan: MockSelect2InvoiceLoanClass,
+	on_select_2_invoice_loan: MockOnSelect2InvoiceLoanClass,
+
+	// init / on_init
+	init_1_invoice_loan: MockInit1InvoiceLoanClass,
+	on_init_1_invoice_loan: MockOnInit1InvoiceLoanClass,
+	init_2_invoice_loan: MockInit2InvoiceLoanClass,
+	on_init_2_invoice_loan: MockOnInit2InvoiceLoanClass,
+	init_3_invoice_loan: MockInit3InvoiceLoanClass,
+	on_init_3_invoice_loan: MockOnInit3InvoiceLoanClass,
+	init_4_invoice_loan: MockInit4InvoiceLoanClass,
+	on_init_4_invoice_loan: MockOnInit4InvoiceLoanClass,
+	init_5_invoice_loan: MockInit5InvoiceLoanClass,
+	on_init_5_invoice_loan: MockOnInit5InvoiceLoanClass,
+	// confirm / on_confirm
+	confirm_invoice_loan: MockConfirmInvoiceLoanClass,
+	on_confirm_invoice_loan: MockOnConfirmInvoiceLoanClass,
+
+	// status / on_status
+	status_invoice_loan: MockStatusInvoiceLoanClass,
+	on_status_invoice_loan: MockOnStatusInvoiceLoanClass,
+	on_status_unsolicited_invoice_loan: MockOnStatusUnsolicitedInvoiceLoanClass,
 
 } as const satisfies Record<string, Ctor<MockAction>>;
 
@@ -157,6 +179,7 @@ type MockActionId = keyof typeof registry;
 
 // Construct by id
 export function getMockAction(actionId: string): MockAction {
+	console.log('actionId==>>>>>>>>>>>>>>>>', actionId)
 	const Ctor = registry[actionId as MockActionId];
 	if (!Ctor) {
 		throw new Error(`Action with ID ${actionId as string} not found`);
