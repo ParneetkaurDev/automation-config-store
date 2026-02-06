@@ -10,7 +10,6 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   if (sessionData.message_id && existingPayload.context) {
     existingPayload.context.message_id = sessionData.message_id;
   }
-  console.log("sessionData.message_id", sessionData);
 
   // // Update form URLs for items with session data (preserve existing structure)
   //  if (existingPayload.message?.catalog?.providers?.[0]?.items) {
@@ -26,6 +25,5 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   //   });
   // }
 
-  console.log("session data of on_search", sessionData);
   return existingPayload;
 } 

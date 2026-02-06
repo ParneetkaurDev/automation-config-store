@@ -179,6 +179,16 @@ codes:
     action: on_cancel
     default: FIS13/health/2.0.1/on_cancel/default.yaml
     message_id: true
+  - code: 236
+    action_id: search4
+    action: search
+    default: FIS13/health/2.0.1/search4/default.yaml
+    message_id: true
+  - code: 237
+    action_id: on_search4
+    action: on_search
+    default: FIS13/health/2.0.1/on_search4/default.yaml
+    message_id: false  
 
 # // Motor Insurance //
   - code: 300

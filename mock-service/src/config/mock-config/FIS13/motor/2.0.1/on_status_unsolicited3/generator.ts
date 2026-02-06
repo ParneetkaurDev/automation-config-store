@@ -15,7 +15,7 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
   }
   
   if (sessionData.message_id && existingPayload.context) {
-    existingPayload.context.message_id = sessionData.message_id;
+     existingPayload.context.message_id = crypto.randomUUID();
   }
   
 

@@ -77,7 +77,7 @@ order:
             - "PERSONAL_INFO"
             - "CIS"
         form:
-          id: "FO7"
+          id: "F07"
           mime_type: "text/html"
           url: "https://fis.test.bpp.io/form/ekyc?formid=FO7"
           resubmit: false

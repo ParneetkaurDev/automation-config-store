@@ -86,6 +86,8 @@ import { MockOnStatusUnsolicited4Class } from "./health/2.0.1/on_status_unsolici
 import { MockOnStatusUnsolicited5Class } from "./health/2.0.1/on_status_unsolicited5/class";
 import { MockSearch2Class } from "./health/2.0.1/search2/class";
 import { MockSearch3Class } from "./health/2.0.1/search3/class";
+import { MockSearch4Class } from "./health/2.0.1/search4/class";
+import { MockOnSearchClass4 } from "./health/2.0.1/on_search4/class";
 
 
 // types/helpers
@@ -100,11 +102,13 @@ const registry = {
 	search: MockSearchClass,
 	search2: MockSearch2Class,
 	search3: MockSearch3Class,
+	search4: MockSearch4Class,
 
 	// on_search
 	on_search: MockOnSearchClass,
 	on_search2: MockOnSearchClass2,
 	on_search3: MockOnSearchClass3,
+	on_search4: MockOnSearchClass4,
 
 	// select
 	select: MockSelectClass,
