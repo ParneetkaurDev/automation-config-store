@@ -3,6 +3,7 @@ info:
   title: ONDC Specification
   description: ONDC Specification
   version: 2.1.0
+  domain: ONDC:FIS10
 security:
   - SubscriberAuth: []
 paths:
