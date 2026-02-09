@@ -2,19 +2,18 @@ name: Deploy Api Service
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "api-service/**"
-      - "mock-service/**"
-    branches:
-      - "draft-*"
-      - "release-*"
+  # push:
+  #   paths:
+  #     - "api-service/**"
+  #     - "mock-service/**"
+  #   branches:
+  #     - "draft-*"
+  #     - "release-*"
 
-      
 jobs:
   build-and-verify:
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name }}  # environment exactly matches branch name
+    environment: ${{ github.ref_name }} # environment exactly matches branch name
 
     steps:
       - name: Checkout
@@ -31,7 +30,6 @@ jobs:
           fi
           echo "Detected BUILD_TYPE=$BUILD_TYPE"
           echo "Detected BUILD_TYPE=${{ steps.set_build_type.outputs.build_type }}"
-
 
       - name: Prepare build repo
         run: |
@@ -60,7 +58,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GIT_PAT }}
 
-
       - name: Build Docker image
         run: |
           cd automation-api-service-generator
@@ -77,7 +74,7 @@ jobs:
 
 
           if [[ "$BUILD_TYPE" == "draft" ]]; then
-  
+
           cat > ./.env <<EOF
           NODE_ENV=${{ vars.NODE_ENV }}
           SIGN_PRIVATE_KEY=${{ secrets.SIGN_PRIVATE_KEY }}
@@ -107,7 +104,7 @@ jobs:
           NO_URL=${{ vars.NO_URL }}
           NO_TOKEN=${{ secrets.NO_TOKEN }}
           EOF
-          
+
           elif [[ "$BUILD_TYPE" == "release" ]]; then
           cat > ./.env <<EOF
           NODE_ENV=${{ vars.NODE_ENV }}
@@ -152,16 +149,16 @@ jobs:
             -p ${{ vars. API_SERVICE_PORT }}:${{ vars. API_SERVICE_PORT }} \
             --env-file .env \
             $IMAGE_NAME:$TAG
-      
+
           echo "⏳ Waiting for service..."
           sleep 5
-      
+
           echo "📋 Container status:"
           docker ps -a
-      
+
           echo "📜 Logs:"
           docker logs api-test || true
-      
+
           # echo "🔍 Health check:"
           # curl -v http://localhost:${{ vars. API_SERVICE_PORT }}/health || true
 
@@ -198,7 +195,7 @@ jobs:
   deploy:
     needs: build-and-verify
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name }}  # environment exactly matches branch name
+    environment: ${{ github.ref_name }} # environment exactly matches branch name
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -216,7 +213,7 @@ jobs:
               BUILD_TYPE=default
             fi
 
-  
+
             REPO_DIR="$HOME/ONDC-automation-framework/api-service/automation-api-service-${{ github.ref_name }}"
             rm -rf $REPO_DIR
             mkdir -p $REPO_DIR
@@ -229,9 +226,9 @@ jobs:
             echo "Writing .env file..."
             cd $REPO_DIR
 
-            
+
             if [[ "$BUILD_TYPE" == "draft" ]]; then
-    
+
             cat > ./.env <<EOF
             NODE_ENV=${{ vars.NODE_ENV }}
             SIGN_PRIVATE_KEY=${{ secrets.SIGN_PRIVATE_KEY }}
@@ -261,7 +258,7 @@ jobs:
             NO_URL=${{ vars.NO_URL }}
             NO_TOKEN=${{ secrets.NO_TOKEN }}
             EOF
-            
+
             elif [[ "$BUILD_TYPE" == "release" ]]; then
             cat > ./.env <<EOF
             NODE_ENV=${{ vars.NODE_ENV }}
@@ -295,7 +292,7 @@ jobs:
             EOF
             fi
               
-            
+
 
 
             IMAGE_NAME=ghcr.io/ondc-official/automation-api-service-${{vars.CONTAINER_NAME}}
