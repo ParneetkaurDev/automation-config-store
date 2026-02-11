@@ -63,25 +63,14 @@ order:
                     code: "NOMINEE_DETAILS"
                     short_desc: "Describes the format as 'Salutation | First Name | Middle Name | Last Name | Relationship | Contact Number'"
                   value: "Mr. | Joe | Wick | Adams | Son | +91-9988776655"
+      
+
       xinput:
-        head:
-          descriptor:
-            name: "CIS Info"
-          index:
-            min: 0
-            cur: 2
-            max: 2
-          headings:
-            - "VEHICLE_NOMINEE_DETAILS"
-            - "PERSONAL_INFO"
-            - "CIS"
-        form:
-          id: "FO8"
-          mime_type: "application/html"
-          url: "https://fis.test.bpp.io/form/ekyc?formid=FO8"
-          resubmit: false
-          multiple_sumbissions: false
-        required: true
+          form:
+            id: F08
+          form_response:
+            status: "SUCCESS"
+            submission_id: "e9a3b4a5-10f8-42c7-b888-dbf0e2edd684"  
       tags:
         - descriptor:
             name: "General Information"

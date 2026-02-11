@@ -55,22 +55,10 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
 
    if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/vehicle_nominee_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-    existingPayload.message.order.items[0].xinput.form.id = "F06";
     existingPayload.message.order.items[0].xinput.form.url = url;
+    existingPayload.message.order.items[0].xinput.form.id = "F06";
   }
-//  if (existingPayload.message?.order?.items) {
-//     console.log("check for form +++")
-//  existingPayload.message.order.items = existingPayload.message.order.items.map((item: any) => {
-//       if (item.xinput?.form) {
-//         // Generate dynamic form URL with session data
-//         const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/vehicle_nominee_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-//         console.log("Form URL generated:", url);
-//            existingPayload.message.order.items[0].xinput.form.id = "F06";
-//     existingPayload.message.order.items[0].xinput.form.url = url;
-//       }
-//       return item;
-//     });
-//   }
+
   
   return existingPayload;
 }

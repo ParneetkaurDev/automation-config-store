@@ -26,7 +26,6 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   // Update message_id from session data
   if (sessionData.message_id && existingPayload.context) {
     existingPayload.context.message_id = randomUUID();
-    // existingPayload.context.message_id = sessionData.message_id;
   }
   
   // Update provider.id if available from session data (carry-forward from on_search)
@@ -48,7 +47,7 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   if (existingPayload.message?.order?.items?.[0]) {
     const item = existingPayload.message.order.items[0];
     if (item.xinput?.form) {
-      const formId = sessionData.form_id || "FO4";
+      const formId = sessionData.form_id || "F04";
       item.xinput.form.id = formId;
       console.log("Updated form ID:", formId);
     }

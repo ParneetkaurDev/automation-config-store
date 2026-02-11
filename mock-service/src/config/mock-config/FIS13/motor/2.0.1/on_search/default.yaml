@@ -226,9 +226,9 @@ catalog:
                 - "Vehicle Details"
 
             form:
-              id: "FO2"
+              id: "F02"
               mime_type: "text/html"
-              url: "https://fis.test.bpp.io/form/vehicle_dtls_renewal?formid=FO2"
+              url: "https://fis.test.bpp.io/form/vehicle_dtls_renewal?formid=F02"
               multiple_sumbissions: false
               resubmit: false
 

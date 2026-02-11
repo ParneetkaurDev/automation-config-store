@@ -10,7 +10,6 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   });
 
     const submission_id = sessionData?.form_data?.manual_review_form_motor?.form_submission_id || sessionData?.manual_review_form_motor;
-  console.log('submission_id', submission_id)
   const form_status = sessionData?.form_data?.manual_review_form_motor?.idType;
   // Update context timestamp
   if (existingPayload.context) {
@@ -41,7 +40,7 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
     
     if (item.xinput?.form) {
       // Use form ID from session data or default to FO3 
-      const formId = sessionData.form_id || "FO3";
+      const formId = sessionData.form_id || "F03";
       item.xinput.form.id = formId;
       console.log("Updated form ID:", formId);
     }

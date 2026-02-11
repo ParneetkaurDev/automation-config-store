@@ -17,12 +17,16 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     existingPayload.context.message_id = sessionData.message_id;
     console.log("Using matching message_id from confirm:", sessionData.message_id);
   }
-  
-  // Generate order.id (first time order ID is created in the flow)
+
+  // Set created_at and updated_at to current date
   if (existingPayload.message?.order) {
-    existingPayload.message.order.id = `POLICY_ID${Date.now()}_${sessionData.transaction_id?.slice(-8) || 'DEFAULT'}`;
-    console.log("Generated order.id:", existingPayload.message.order.id);
+    const now = new Date().toISOString();
+    existingPayload.message.order.created_at = now;
+    existingPayload.message.order.updated_at = now;
   }
+  
+  
+ 
   
   // Update provider.id if available from session data (carry-forward from confirm)
   if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {

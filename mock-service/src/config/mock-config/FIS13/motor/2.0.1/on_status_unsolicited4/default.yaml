@@ -109,24 +109,11 @@ order:
         duration: "P1Y"
         label: "TENURE"
       xinput:
-        head:
-          descriptor:
-            name: "Know your Customer"
-          index:
-            min: 0
-            cur: 2
-            max: 2
-          headings:
-            - "MANUAL_REVIEW"
-            - "PAN_DOB"
-            - "KYC"
-        form:
-          id: "FO5"
-          mime_type: "application/html"
-          url: "https://fis.test.bpp.io/form/ekyc?formid=FO5"
-          resubmit: false
-          multiple_sumbissions: false
-        required: true
+          form:
+            id: F05
+          form_response:
+            status: "SUCCESS"
+            submission_id: "e9a3b4a5-10f8-42c7-b888-dbf0e2edd684"   
       add_ons:
         - id: "A1"
           price:

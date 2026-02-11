@@ -1,13 +1,3 @@
-/**
- * On Confirm Generator for FIS12 Gold Loan
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Generate order.id (first time order ID is created)
- * 4. Update provider.id and item.id from session data (carry-forward mapping)
- * 5. Update customer information in fulfillments from session data
- */
 
 export async function onConfirmDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_confirm", sessionData);
@@ -28,24 +18,22 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     console.log("Using matching message_id from confirm:", sessionData.message_id);
   }
   
-  // Generate order.id (first time order ID is created in the flow)
-  if (existingPayload.message?.order) {
-    existingPayload.message.order.id = `LOAN_ORDER_${Date.now()}_${sessionData.transaction_id?.slice(-8) || 'DEFAULT'}`;
-    console.log("Generated order.id:", existingPayload.message.order.id);
-  }
+
   
+  // Set created_at and updated_at to current date
+  if (existingPayload.message?.order) {
+    const now = new Date().toISOString();
+    existingPayload.message.order.created_at = now;
+    existingPayload.message.order.updated_at = now;
+  }
+
   // Update provider.id if available from session data (carry-forward from confirm)
   if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
   
-  // Update item.id if available from session data (carry-forward from confirm)
-  // const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  // if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-  //   existingPayload.message.order.items[0].id = selectedItem.id;
-  //   console.log("Updated item.id:", selectedItem.id);
-  // }
+
   
   // Update location_ids from session data (carry-forward from previous flows)
   const selectedLocationId = sessionData.selected_location_id;
@@ -71,12 +59,7 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     console.log("Updated customer email:", sessionData.customer_email);
   }
   
-  // Update fulfillment state to DISBURSED (loan has been confirmed and disbursed)
-  if (existingPayload.message?.order?.fulfillments?.[0]?.state?.descriptor) {
-    existingPayload.message.order.fulfillments[0].state.descriptor.code = "DISBURSED";
-    existingPayload.message.order.fulfillments[0].state.descriptor.name = "Loan Disbursed";
-    console.log("Updated fulfillment state to DISBURSED");
-  }
+
   
   return existingPayload;
 }

@@ -35,14 +35,13 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
   }
   
   // Update item.id from session data (carry-forward from on_select_2)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
-  }
+  // const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  // if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
+  //   existingPayload.message.order.items[0].id = selectedItem.id;
+  //   console.log("Updated item.id:", selectedItem.id);
+  // }
   
   
-  // Update form ID to FO3 (carry-forward from on_select_2)
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     existingPayload.message.order.items[0].xinput.form.id = "FO3";
     console.log("Updated form ID to FO3");
@@ -68,9 +67,6 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     existingPayload.message.order.fulfillments[0].customer.person.name = sessionData.customer_name;
     console.log("Updated customer name:", sessionData.customer_name);
   }
-
-  // Note: Gold loans don't have payments in status responses
-  // Payments are handled separately during loan servicing (EMIs, foreclosure, etc.)
 
   // Update quote information if provided
   if (sessionData.quote_amount && existingPayload.message?.order?.quote) {

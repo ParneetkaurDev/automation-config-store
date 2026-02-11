@@ -121,9 +121,9 @@ order:
             - "PAN_DOB"
             - "KYC"
         form:
-          id: "FO5"
+          id: "F05"
           mime_type: "application/html"
-          url: "https://fis.test.bpp.io/form/ekyc?formid=FO5"
+          url: "https://fis.test.bpp.io/form/ekyc?formid=F05"
           resubmit: false
           multiple_sumbissions: false
         required: true
