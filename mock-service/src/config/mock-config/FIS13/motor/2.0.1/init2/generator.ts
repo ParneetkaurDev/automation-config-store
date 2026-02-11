@@ -1,12 +1,4 @@
-/**
- * Init Generator for FIS12 Gold Loan
- * 
- * Logic:
- * 1. Update context with current timestamp and correct action
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update form_response with status and submission_id (preserve existing structure)
- */
+
 
 export async function initDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for init", sessionData);
@@ -72,16 +64,7 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     }
   }
   
-  // Update form_response with status and submission_id (preserve existing structure)
-  // if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-  //   existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
-  //   if (submission_id) {
-  //     existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
-  //   } else {
-  //     existingPayload.message.order.items[0].xinput.form_response.submission_id = `F03_SUBMISSION_ID_${Date.now()}`;
-  //   }
-  //   console.log("Updated form_response with status and submission_id");
-  // }
+ 
 
   return existingPayload;
 }

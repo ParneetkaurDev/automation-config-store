@@ -18,10 +18,20 @@ export async function searchDefaultGenerator(
 		|| sessionData.vehicle_details_form;
 
 
+  const form_status = sessionData?.form_data?.verification_status?.idType;
+
 	// Update the form_response submission_id in the payload
 	if (submissionId && existingPayload.message?.intent?.provider?.items?.[0]?.xinput?.form_response) {
 		existingPayload.message.intent.provider.items[0].xinput.form_response.submission_id = submissionId;
+		 const item = existingPayload.message.order.items[0];
+		 if (item.xinput?.form) {
+         const formId = sessionData.form_id || "F01";
+         item.xinput.form.id = formId;
+         item.xinput.form_response.status = form_status;
+    }
 	}
+
+  
 
 
 	return existingPayload;

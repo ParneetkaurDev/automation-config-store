@@ -15,6 +15,11 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     existingPayload.context.message_id = sessionData.message_id;
   }
   
+    // Setupdated_at to current date
+  if (existingPayload.message?.order) {
+    const now = new Date().toISOString();
+    existingPayload.message.order.updated_at = now;
+  }
   // Load order from session data
   if (existingPayload.message) {
     const order = existingPayload.message.order || (existingPayload.message.order = {});

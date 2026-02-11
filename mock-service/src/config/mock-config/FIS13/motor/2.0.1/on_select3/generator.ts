@@ -37,7 +37,6 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
   //     console.log("Updated item.id:", selectedItem.id);
   //   }
   // }
-  // redirection to be done
  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/kyc_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
     existingPayload.message.order.items[0].xinput.form.id = "F05";

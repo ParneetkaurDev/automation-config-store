@@ -24,7 +24,6 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   // Update message_id from session data
     if (sessionData.message_id && existingPayload.context) {
       existingPayload.context.message_id = randomUUID();
-      // existingPayload.context.message_id = sessionData.message_id;
     }
   // Update provider.id if available from session data (carry-forward from on_search)
   if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {

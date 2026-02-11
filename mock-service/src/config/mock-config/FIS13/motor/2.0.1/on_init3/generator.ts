@@ -1,12 +1,4 @@
-/**
- * On Init Generator for FIS12 Gold Loan
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update customer name in fulfillments from session data
- */
+
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_init", sessionData);
@@ -33,12 +25,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
   
-  // Update item.id if available from session data (carry-forward from init)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
-  }
+ 
   
   // Update location_ids from session data (carry-forward from previous flows)
   const selectedLocationId = sessionData.selected_location_id;
@@ -67,11 +54,9 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     console.log("check for form +++")
  existingPayload.message.order.items = existingPayload.message.order.items.map((item: any) => {
       if (item.xinput?.form) {
-        // Generate dynamic form URL with session data
         const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/consumer_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-        console.log("Form URL generated:", url);
-        // sessionData.reference_data.individual_information_form = url
         item.xinput.form.url = url;
+         existingPayload.message.order.items[0].xinput.form.id = "F08";
       }
       return item;
     });

@@ -79,7 +79,7 @@ order:
         form:
           id: "F06"
           mime_type: "text/html"
-          url: "https://fis.test.bpp.io/form/ekyc?formid=FO6"
+          url: "https://fis.test.bpp.io/form/ekyc?formid=F06"
           resubmit: false
           multiple_sumbissions: false
         required: true
