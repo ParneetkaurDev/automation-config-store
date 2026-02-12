@@ -21,10 +21,10 @@ export async function onCancelGenerator(
     ({ state, ...f }: any) => f
   );
 
-  const cancellationCharge = 10;
   const breakupSum = sessionData.quote.breakup.reduce((total: number, item: any) => {
     return total + parseFloat(item.price.value);
   }, 0);
+  const cancellationCharge = breakupSum * 0.1;
   const refundAmount = -breakupSum;
 
   existingPayload.message.order.quote = {
