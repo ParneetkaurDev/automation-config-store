@@ -20,8 +20,8 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   
 
   
-  // Set created_at and updated_at to current date
-   if (existingPayload.message?.order) {
+  // Set created_at and updated_at to current date only if they exist in the payload
+  if (existingPayload.message?.order) {
      if (existingPayload.message.order.created_at) {
          delete existingPayload.message.order.created_at;
     }

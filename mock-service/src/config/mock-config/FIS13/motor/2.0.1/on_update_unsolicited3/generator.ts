@@ -18,7 +18,10 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     // Setupdated_at to current date
   if (existingPayload.message?.order) {
     const now = new Date().toISOString();
-    existingPayload.message.order.updated_at = now;
+    if (existingPayload.message.order.updated_at) {
+      existingPayload.message.order.updated_at = now;
+      existingPayload.message.order.created_at = sessionData.created_at;
+    }
   }
   // Helper function to generate UUID v4
   function generateUUID() {
