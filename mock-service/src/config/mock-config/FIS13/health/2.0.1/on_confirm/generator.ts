@@ -19,15 +19,14 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   }
 
   // Set created_at and updated_at to current date
-  if (existingPayload.message?.order) {
+ if (existingPayload.message?.order) {
+     if (existingPayload.message.order.created_at) {
+         delete existingPayload.message.order.created_at;
+    }
     const now = new Date().toISOString();
-    existingPayload.message.order.created_at = now;
-    existingPayload.message.order.updated_at = now;
+      existingPayload.message.order.created_at = now;
+      existingPayload.message.order.updated_at = now;
   }
-  
-  
- 
-  
   // Update provider.id if available from session data (carry-forward from confirm)
   if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
