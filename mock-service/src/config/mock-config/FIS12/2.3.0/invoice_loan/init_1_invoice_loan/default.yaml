@@ -4,6 +4,12 @@ order:
   items:
     - id: CHILD_ITEM_ID_LOAN_1
       parent_item_id: ITEM_ID_LOAN_2
+      xinput:
+        form:
+          id: F03
+        form_response:
+          status: SUCCESS
+          submission_id: F03_SUBMISSION_ID
   payments:
     - type: ON_FULFILLMENT
       id: LOAN_DISBURSMENT_ID

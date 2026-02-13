@@ -90,17 +90,17 @@ order:
       xinput:
         head:
           descriptor:
-            name: Individual KYC
-            code: INDIVIDUAL_KYC
+            name: Entity KYC
+            code: ENTITY_KYC
           headings:
             - INDIVIDUAL_KYC
             - ENTITY_KYC
             - EMANDATE
             - LOAN_AGREEMENT
         form:
-          id: F03
+          id: F04
           mime_type: application/html
-          url: 'https://bpp.credit.becknprotocol.org/xinput/formid/F03'
+          url: 'https://bpp.credit.becknprotocol.org/xinput/formid/F04'
           resubmit: false
           multiple_sumbissions: false
         required: true
@@ -205,7 +205,7 @@ order:
               value: INV-24-04-009
   fulfillments:
     - id: F4_AA
-      type: LOAN_JOURNEY
+      type: ONLINE
       customer:
         organization:
           address: 'Industrial Park, Bangalore'
@@ -241,7 +241,7 @@ order:
             - descriptor:
                 code: INDIVIDUAL_KYC
                 name: Individual KYC
-              value: PENDING
+              value: COMPLETED
             - descriptor:
                 code: ENTITY_KYC
                 name: Entity KYC
@@ -259,7 +259,7 @@ order:
                 name: Account Monitoring
               value: PENDING
   quote:
-    id: 993f4b87-bc33-4242-aa8c-6d1806030c3c
+    id: LOAN_LEAD_ID_OR_SIMILAR
     price:
       currency: INR
       value: '232800'
