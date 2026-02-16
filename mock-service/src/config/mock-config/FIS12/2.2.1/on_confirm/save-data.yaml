@@ -3,3 +3,4 @@ save-data:
     message_id: "$.context.message_id"
     order: "$.message.order"
     item: "$.message.order.items[1]"
+    quote: "$.message.order.quote"
