@@ -35,36 +35,50 @@ export async function select_1_DefaultGenerator(
     : sessionData.user_inputs;
 
 
-  const itemPayloads = userInputs.items.flatMap((item: any) => {
-    const itemCount = Number(item.count) || 1;
+  const mergedItemsMap = new Map<string, any>();
 
-    const remainingAddOns = (item.addOns || []).map((ao: any) => ({
-      id: ao.id,
-      remaining: Number(ao.count) || 0
-    }));
+  (userInputs.items || []).forEach((item: any) => {
+    const { count: countRaw, addOns: addOnsRaw, ...attributes } = item;
+    const itemCount = Number(countRaw) || 1;
 
-    return Array.from({ length: itemCount }, (_, index) => {
-      const isLastItem = index === itemCount - 1;
-      const currentAddOns: any[] = [];
+    const addOns = (addOnsRaw || [])
+      .map((ao: any) => ({
+        id: ao.id,
+        count: Number(ao.count) || 0
+      }))
+      .filter((ao: any) => ao.count > 0);
 
-      remainingAddOns.forEach((ao: any) => {
-        let countToAssign = 0;
-        if (isLastItem) {
+    const normalizedAddOns = addOns
+      .map((ao: any) => ({
+        id: ao.id,
+        ratio: ao.count / itemCount
+      }))
+      .sort((a: any, b: any) => a.id.localeCompare(b.id));
 
-          countToAssign = ao.remaining;
-        } else if (ao.remaining > 0) {
+    const addonKey = normalizedAddOns.map((ao: any) => `${ao.id}:${ao.ratio}`).join('|');
+    const attributesKey = JSON.stringify(attributes);
+    const groupKey = `${attributesKey}_${addonKey}`;
 
-          countToAssign = 1;
-        }
-
-        if (countToAssign > 0) {
-          currentAddOns.push({ id: ao.id, count: countToAssign });
-          ao.remaining -= countToAssign;
+    if (mergedItemsMap.has(groupKey)) {
+      const existing = mergedItemsMap.get(groupKey);
+      existing.count += itemCount;
+      existing.addOns.forEach((existingAo: any) => {
+        const matchingInputAo = addOns.find((ia: any) => ia.id === existingAo.id);
+        if (matchingInputAo) {
+          existingAo.count += matchingInputAo.count;
         }
       });
+    } else {
+      mergedItemsMap.set(groupKey, {
+        ...attributes,
+        count: itemCount,
+        addOns: addOns.map((ao: any) => ({ ...ao }))
+      });
+    }
+  });
 
-      return createItemPayload({ ...item, count: 1 }, currentAddOns);
-    });
+  const itemPayloads = Array.from(mergedItemsMap.values()).map((item: any) => {
+    return createItemPayload(item, item.addOns);
   });
 
 
