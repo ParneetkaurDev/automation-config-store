@@ -112,7 +112,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
 
     payments.forEach(payment => {
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT' && payment.time?.range?.start) {
-        const paymentDate = new Date(payment.time.range.start);
+        const paymentDate = new Date(payment.time?.range?.start);
         const paymentMonth = paymentDate.getUTCMonth();
         const paymentYear = paymentDate.getUTCFullYear();
 
@@ -135,7 +135,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
 
     payments.forEach(payment => {
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT' && payment.time?.range?.start) {
-        const paymentDate = new Date(payment.time.range.start);
+        const paymentDate = new Date(payment.time?.range?.start);
         const paymentMonth = paymentDate.getUTCMonth();
         const paymentYear = paymentDate.getUTCFullYear();
 
@@ -190,7 +190,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
 
     updateForeclosurePaymentStatus(orderRef.payments);
 
-    if (firstPayment.time.range) delete firstPayment.time.range;
+    if (firstPayment?.time?.range) delete firstPayment?.time?.range;
 
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
     firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
@@ -206,7 +206,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
     updatePrePartPaymentStatus(orderRef.payments, contextTimestamp);
 
-    if (firstPayment.time.range) delete firstPayment.time.range;
+    if (firstPayment.time?.range) delete firstPayment.time?.range;
 
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
     firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
