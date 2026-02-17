@@ -171,22 +171,22 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     orderRef.quote = sessionData.quote;
     // Calculate foreclosure amount: Outstanding Principal + Outstanding Interest + Foreclosure Charges
     // From on_update default.yaml: OUTSTANDING_PRINCIPAL=139080, OUTSTANDING_INTEREST=0, FORCLOSUER_CHARGES=9536
-    const outstandingPrincipal = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_PRINCIPAL')?.price?.value || '139080';
-    const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
-    const foreclosureCharges = '9536';
-    const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest) + parseInt(foreclosureCharges));
+    // const outstandingPrincipal = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_PRINCIPAL')?.price?.value || '139080';
+    // const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
+    // const foreclosureCharges = '9536';
+    // const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest) + parseInt(foreclosureCharges));
 
     // Set payment params for foreclosure
-    firstPayment.params = firstPayment.params || {};
-    firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
-    firstPayment.params.currency = "INR";
+    // firstPayment.params = firstPayment.params || {};
+    // firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
+    // firstPayment.params.currency = "INR";
 
     // Remove time range for foreclosure
     if (firstPayment.time.range) delete firstPayment.time.range;
 
     // Set payment URL
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
+    // firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
   }
 
   if (label === 'PRE_PART_PAYMENT') {
