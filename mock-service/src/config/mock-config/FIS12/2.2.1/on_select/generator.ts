@@ -12,38 +12,48 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
   }
-  
+
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
-  
+
   // Update message_id from session data
   if (sessionData.message_id && existingPayload.context) {
     existingPayload.context.message_id = sessionData.message_id;
   }
-  
+
   // Update provider.id if available from session data (carry-forward from select)
   if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
-  
+
   // Update item.id if available from session data (carry-forward from select)
   if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const selectedItem = sessionData?.items?.[1] ? sessionData?.items?.[1] : sessionData?.items?.[0];
-    if (existingPayload.message?.order?.items?.[0]) {
-      existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id:", selectedItem.id);
-    }
+    const selectedItems = sessionData.selected_items;
+
+    existingPayload.message.order.items = existingPayload.message.order.items.map(
+      (orderItem: any, index: number) => {
+        const selectedItem = selectedItems[index];
+
+        if (!selectedItem) return orderItem;
+
+        return {
+          ...orderItem,
+          id: selectedItem.id,
+          parent_item_id: selectedItem.parent_item_id
+        };
+      }
+    );
   }
   // redirection to be done
- if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
+  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/down_payment_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
     existingPayload.message.order.items[0].xinput.form.id = "down_payment_form";
     existingPayload.message.order.items[0].xinput.form.url = url;
     console.log("Updated xinput form to eKYC form");
   }
-  
+
   return existingPayload;
 } 
