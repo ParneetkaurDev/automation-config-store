@@ -211,6 +211,9 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
     firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
   }
+  const currentDate = new Date(existingPayload.context.timestamp).toISOString();
 
+  existingPayload.order.created_at = sessionData.created_at;
+  existingPayload.order.updated_at = currentDate;
   return existingPayload;
 }
