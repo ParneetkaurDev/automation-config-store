@@ -3,7 +3,7 @@ order:
   status: COMPLETE
 
   provider:
-    id: PROVIDER_ID
+    id: P1
     descriptor:
       name: ICICI Bank
       short_desc: ICICI Bank Ltd
@@ -170,7 +170,7 @@ order:
         percentage: "5%"
 
   payments:
-    - id: PAYMENT_ID_PURCHASE_FINANCE
+    - id: PID-8000
       type: POST_FULFILLMENT
       status: PAID
       params:
@@ -181,7 +181,7 @@ order:
         label: FORECLOSURE
         timestamp: 2024-10-01T04:00:00.000Z
 
-    - id: PAYMENT_ID_DOWNPAYMENT
+    - id: PID-5555
       type: PRE_ORDER
       status: PAID
       collected_by: BPP
@@ -190,7 +190,7 @@ order:
         currency: INR
         transaction_id: 3b5a664d-077e-47f0-96d1-06e68d397c78
 
-    - id: INSTALLMENT_ID_PURCHASE_FINANCE
+    - id: PID-5001
       type: POST_FULFILLMENT
       status: DEFERRED
       params:

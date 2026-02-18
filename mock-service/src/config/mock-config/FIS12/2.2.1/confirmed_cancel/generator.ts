@@ -4,13 +4,15 @@ export async function cancelGenerator(existingPayload: any, sessionData: any) {
   }
 
   console.log("sessionData for status", sessionData);
-  
+
   if (existingPayload.context?.transaction_id) {
     existingPayload.message = existingPayload.message || {};
     // existingPayload.message.ref_id = existingPayload.context.transaction_id;
+    existingPayload.message.order_id = sessionData.order_id;
+
     delete existingPayload.message.transaction_id;
-  } 
-  
+  }
+
 
   return existingPayload;
 }
