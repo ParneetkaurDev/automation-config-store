@@ -29,7 +29,7 @@ export interface SessionData {
 	error_message: string | undefined;
 	ref_id: string | undefined;
 	ttl: string | undefined;
-	usecaseId : string | undefined;
+	usecaseId: string | undefined;
 	stops: any[] | undefined;
 	update_stop: any[] | undefined;
 	update_quote: any[] | undefined;
@@ -63,23 +63,23 @@ export interface SessionData {
 	selected_location_id?: string;
 	flow_variant?: string; // WITH_AA | WITHOUT_AA | other
 	stage?: string; // optional transient stage marker
-	product_details_form?:string
-	individual_information_form?:string
-	family_information_form?:string
-	Proposer_Details_form?:string
-	nominee_details_form?:string
-	consumer_information_form?:string
-	vehicle_details_form?:string
-	personal_details_information_form?:string
-	vehicle_nominee_details_form?:string
-	pan_details_form?:string
-	personal_details_form?:string
-	down_payment_form?:string
-	Emanadate_verification_status?:string
-	verification_status?:string
-	kyc_verification_status?:string
-	E_sign_verification_status?:string
-	Ekyc_details_verification_status?:string
+	product_details_form?: string
+	individual_information_form?: string
+	family_information_form?: string
+	Proposer_Details_form?: string
+	nominee_details_form?: string
+	consumer_information_form?: string
+	vehicle_details_form?: string
+	personal_details_information_form?: string
+	vehicle_nominee_details_form?: string
+	pan_details_form?: string
+	personal_details_form?: string
+	down_payment_form?: string
+	Emanadate_verification_status?: string
+	verification_status?: string
+	kyc_verification_status?: string
+	E_sign_verification_status?: string
+	Ekyc_details_verification_status?: string
 }
 
 export type BecknContext = {
@@ -117,6 +117,7 @@ export interface Input {
 	retailCategory?: string;
 	returnToOrigin?: string;
 	default_feature?: string[];
+	provider?: any;
 	// Gold Loan specific fields
 	loan_amount?: number;
 	foreclosure_amount?: number;

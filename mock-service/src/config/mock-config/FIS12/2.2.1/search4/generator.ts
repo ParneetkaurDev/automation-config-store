@@ -23,14 +23,15 @@ export async function searchDefaultGenerator(
 	if (sessionData.user_inputs?.city_code) {
 		existingPayload.context.location.city.code = sessionData.user_inputs.city_code;
 	}
-
-	 // Update form_response with status and submission_id (preserve existing structure)
-	 if (existingPayload.message?.intent?.provider?.items?.[0]?.xinput?.form_response) {
+	const userInputs = sessionData.user_inputs
+	// Update form_response with status and submission_id (preserve existing structure)
+	if (existingPayload.message?.intent?.provider?.items?.[0]?.xinput?.form_response || userInputs) {
+		existingPayload.message.intent.provider = userInputs?.provider
 		existingPayload.message.intent.provider.items[0].xinput.form.id = "personal_details_information_form";
 		existingPayload.message.intent.provider.items[0].xinput.form_response.status = "SUCCESS";
 		existingPayload.message.intent.provider.items[0].xinput.form_response.submission_id = sessionData.personal_details_information_form;
 		console.log("Updated form_response with status and submission_id");
-	  }
+	}
 	console.log("sessionData.message_id in search generator", sessionData.message_id);
 
 	return existingPayload;
