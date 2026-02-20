@@ -197,7 +197,7 @@ export async function onCancelDefaultGenerator(existingPayload: any, sessionData
   }
   const currentDate = new Date(existingPayload.context.timestamp).toISOString();
 
-  existingPayload.order.created_at = sessionData.created_at;
-  existingPayload.order.updated_at = currentDate;
+  existingPayload.message.order.created_at = sessionData.created_at;
+  existingPayload.message.order.updated_at = currentDate;
   return existingPayload;
 }
