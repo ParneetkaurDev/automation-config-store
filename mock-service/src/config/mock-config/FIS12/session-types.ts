@@ -80,6 +80,7 @@ export interface SessionData {
 	kyc_verification_status?: string
 	E_sign_verification_status?: string
 	Ekyc_details_verification_status?: string
+	form_data?: any;
 }
 
 export type BecknContext = {
