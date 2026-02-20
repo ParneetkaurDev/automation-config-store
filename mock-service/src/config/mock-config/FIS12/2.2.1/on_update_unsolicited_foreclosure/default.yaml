@@ -192,7 +192,7 @@ order:
 
     - id: PID-5001
       type: POST_FULFILLMENT
-      status: DEFERRED
+      status: NOT_PAID
       params:
         amount: "9857"
         currency: INR

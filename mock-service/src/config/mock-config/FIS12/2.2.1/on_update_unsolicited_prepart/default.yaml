@@ -497,7 +497,7 @@ order:
       params:
         amount: "9857"
         currency: INR
-      status: DEFERRED
+      status: NOT_PAID
       time:
         label: INSTALLMENT
         range:
@@ -524,7 +524,7 @@ order:
       params:
         amount: "9857"
         currency: INR
-      status: DEFERRED
+      status: NOT_PAID
       time:
         label: INSTALLMENT
         range:

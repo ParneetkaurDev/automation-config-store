@@ -94,8 +94,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
 
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
         if (payment.status !== 'PAID') {
-          payment.status = 'DEFERRED';
-          payment.type = "NOT_PAID";
+          payment.status = 'NOT_PAID';
         }
       }
 
@@ -144,7 +143,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
           paidCount++;
         }
         else if (paymentMonth > contextMonth + 2 && paymentMonth <= contextMonth + 4 && paymentYear === contextYear && deferredCount < 2) {
-          payment.status = 'DEFERRED';
+          payment.status = 'NOT_PAID';
           deferredCount++;
         }
       }
@@ -184,16 +183,16 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
     const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest));
 
-    firstPayment.params = firstPayment.params || {};
-    firstPayment.params.amount = foreclosureAmount;
-    firstPayment.params.currency = "INR";
+    // firstPayment.params = firstPayment.params || {};
+    // firstPayment.params.amount = foreclosureAmount;
+    // firstPayment.params.currency = "INR";
 
     updateForeclosurePaymentStatus(orderRef.payments);
 
     if (firstPayment?.time?.range) delete firstPayment?.time?.range;
 
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
+    // const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
+    // firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
   }
 
   if (label === 'PRE_PART_PAYMENT') {
