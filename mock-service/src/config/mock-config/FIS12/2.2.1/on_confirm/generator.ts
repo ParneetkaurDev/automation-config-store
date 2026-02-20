@@ -91,10 +91,10 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     existingPayload.message.order.fulfillments[0].state.descriptor.name = "Loan Disbursed";
     console.log("Updated fulfillment state to DISBURSED");
   }
-  const currentDate = new Date(contextTimestamp).toISOString();
-
-  existingPayload.order.created_at = currentDate;
-  existingPayload.order.updated_at = currentDate;
+  if (existingPayload.message?.order) {
+    existingPayload.message.order.created_at = contextTimestamp;
+    existingPayload.message.order.updated_at = contextTimestamp;
+  }
 
 
   return existingPayload;
