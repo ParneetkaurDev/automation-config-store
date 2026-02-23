@@ -187,7 +187,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     // firstPayment.params.amount = foreclosureAmount;
     // firstPayment.params.currency = "INR";
 
-    updateForeclosurePaymentStatus(orderRef.payments);
+    updateForeclosurePaymentStatus(orderRef.payments.slice(0, -1));
 
     if (firstPayment?.time?.range) delete firstPayment?.time?.range;
 
