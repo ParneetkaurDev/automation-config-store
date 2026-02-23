@@ -158,7 +158,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     || sessionData.user_inputs?.part_payment_amount && 'PRE_PART_PAYMENT'
     || 'FORECLOSURE';
 
-  orderRef.payments = orderRef.payments || [{}];
+  orderRef.payments = orderRef.payments.slice(0, -1) || [{}];
   const firstPayment = orderRef.payments[0];
   firstPayment.time = firstPayment.time || {};
   firstPayment.time.label = label;
@@ -187,7 +187,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     // firstPayment.params.amount = foreclosureAmount;
     // firstPayment.params.currency = "INR";
 
-    updateForeclosurePaymentStatus(orderRef.payments.slice(0, -1));
+    updateForeclosurePaymentStatus(orderRef.payments);
 
     if (firstPayment?.time?.range) delete firstPayment?.time?.range;
 
