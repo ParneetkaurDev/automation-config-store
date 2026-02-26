@@ -5,7 +5,9 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
     transaction_id: sessionData.transaction_id,
     message_id: sessionData.message_id,
     quote: !!sessionData.quote,
-    items: !!sessionData.items
+    items: !!sessionData.items,
+    selected_items_1: sessionData.selected_items_1,
+    selected_items_id: sessionData.selected_items_id
   });
 
   // Update context timestamp
@@ -42,7 +44,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
         return {
           ...orderItem,
           id: selectedItem.id,
-          parent_item_id: selectedItem.parent_item_id
+          parent_item_id: selectedItem?.parent_item_id
         };
       }
     );
