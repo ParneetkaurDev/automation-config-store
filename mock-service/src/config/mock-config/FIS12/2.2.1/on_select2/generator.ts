@@ -40,7 +40,7 @@ export async function onSelectDefaultGenerator(
     Array.isArray(sessionData.items) &&
     sessionData.items.length > 0
   ) {
-    const selectedItems = sessionData?.selected_items;
+    const selectedItems = sessionData?.selected_items_1;
 
     existingPayload.message.order.items = existingPayload.message.order.items.map(
       (orderItem: any, index: number) => {

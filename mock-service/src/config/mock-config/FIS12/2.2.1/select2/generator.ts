@@ -11,6 +11,7 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   console.log("Select generator - Available session data:", {
     selected_provider: !!sessionData.selected_provider,
     selected_items: !!sessionData.selected_items,
+    selected_items_1: !!sessionData.selected_items_1,
     items: !!sessionData.items,
     transaction_id: sessionData.transaction_id,
     message_id: sessionData.message_id
@@ -40,7 +41,7 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   // Update item.id if available from session data (carry-forward from on_search)
   if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
     if (existingPayload.message?.order?.items) {
-      existingPayload.message.order.items = sessionData.selected_items;
+      existingPayload.message.order.items = sessionData.selected_items_1;
     }
   }
 
