@@ -48,7 +48,7 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
   }
 
   // Update form_response with status and submission_id (preserve existing structure)
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+  if (existingPayload.message?.order?.items) {
     existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
     existingPayload.message.order.items[0].xinput.form.id = "down_payment_form";
     existingPayload.message.order.items[0].xinput.form_response.submission_id = sessionData.down_payment_form;
