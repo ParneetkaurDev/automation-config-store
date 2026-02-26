@@ -47,6 +47,10 @@ export async function selectDefaultGenerator(existingPayload: any, sessionData: 
     }
   }
 
+  existingPayload.message.order.items[0].xinput ??= {};
+  existingPayload.message.order.items[0].xinput.form ??= {};
+  existingPayload.message.order.items[0].xinput.form_response ??= {};
+
   // Update form_response with status and submission_id (preserve existing structure)
   if (existingPayload.message?.order?.items) {
     existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
