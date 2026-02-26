@@ -31,7 +31,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
 
   // Update item.id if available from session data (carry-forward from select)
   if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const selectedItems = sessionData.selected_items;
+    const selectedItems = sessionData.selected_items_1;
 
     existingPayload.message.order.items = existingPayload.message.order.items.map(
       (orderItem: any, index: number) => {
