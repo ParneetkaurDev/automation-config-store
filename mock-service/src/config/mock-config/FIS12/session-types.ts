@@ -19,6 +19,7 @@ export interface SessionData {
 	item_ids: string[]; // Assuming these are strings; adjust if needed
 	items: any[] | undefined;
 	selected_items: any[] | undefined;
+	selected_items_1: any[] | undefined;
 	billing: any | undefined;
 	payments: any[] | undefined;
 	updated_payments: any[] | undefined;
