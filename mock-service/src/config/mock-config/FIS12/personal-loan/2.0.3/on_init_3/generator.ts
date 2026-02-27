@@ -66,14 +66,14 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
   }
 
   // Update form URL for kyc_verification_status (preserve existing structure)
-  console.log("🔍 Checking payload structure for kyc_verification_status in on_init_3:");
+  console.log("🔍 Checking payload structure for loan_agreement_esign_form in on_init_3:");
   console.log("  - Has items?", !!existingPayload.message?.order?.items);
   console.log("  - Has items[0]?", !!existingPayload.message?.order?.items?.[0]);
   console.log("  - Has xinput.form?", !!existingPayload.message?.order?.items?.[0]?.xinput?.form);
 
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/kyc_verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-    console.log("✅ URL for kyc_verification_status in on_init_3:", url);
+    const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/loan_agreement_esign_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+    console.log("✅ URL for loan_agreement_esign_form in on_init_3:", url);
     existingPayload.message.order.items[0].xinput.form.url = url;
     console.log("✅ Form URL successfully set in payload");
   } else {

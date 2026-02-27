@@ -29,7 +29,7 @@ export interface SessionData {
 	error_message: string | undefined;
 	ref_id: string | undefined;
 	ttl: string | undefined;
-	usecaseId : string | undefined;
+	usecaseId: string | undefined;
 	stops: any[] | undefined;
 	update_stop: any[] | undefined;
 	update_quote: any[] | undefined;
@@ -68,6 +68,7 @@ export interface SessionData {
 	payment_url_form?: string;
 	verification_status?: string;
 	Ekyc_details_form?: string;
+	loan_agreement_esign_form?: string;
 	manadate_details_form?: string;
 	loan_amount_adjustment_form?: string;
 	personal_loan_information_form?: string;

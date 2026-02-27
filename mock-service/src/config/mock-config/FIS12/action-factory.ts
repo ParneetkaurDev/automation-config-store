@@ -1,7 +1,7 @@
 // Gold Loan imports
 import { MockSearchClass } from "./gold-loan/2.0.3/search/class";
 import { MockOnSearchClass } from "./gold-loan/2.0.3/on_search/class";
-import { MockSelectAdjustLoanAmountClass} from "./gold-loan/2.0.3/select_adjust_loan_amount/class";
+import { MockSelectAdjustLoanAmountClass } from "./gold-loan/2.0.3/select_adjust_loan_amount/class";
 import { MockSelect1Class } from "./gold-loan/2.0.3/select_1/class";
 import { MockSelect2Class } from "./gold-loan/2.0.3/select_2/class";
 import { MockOnSelectAdjustLoanAmountClass } from "./gold-loan/2.0.3/on_select_adjust_loan_amount/class";
@@ -68,10 +68,12 @@ import { MockStatus1PersonalLoan3Class } from "./personal-loan/2.0.3/status_1/cl
 import { MockOnStatus1PersonalLoan3Class } from "./personal-loan/2.0.3/on_status_1/class";
 import { MockUpdatePersonalLoanFulfillment3Class } from "./personal-loan/2.0.3/update_personal_loan_fulfillment/class";
 import { MockOnUpdatePersonalLoanFulfillment3Class } from "./personal-loan/2.0.3/on_update_personal_loan_fulfillment/class";
-import { MockConsumerInformationForm3Class } from "./personal-loan/2.0.3/form/consumer_information_form";
-import { MockKycVerificationStatus3Class } from "./personal-loan/2.0.3/form_2/kyc_verification_status";
+import { MockPersonalLoanInformationFormClass } from "./personal-loan/2.0.3/personal_loan_information_form/class"
+import { MockKycVerificationStatus3Class } from "./personal-loan/2.0.3/verification_status__Ekyc/kyc_verification_status";
 import { MockLoanAdjustmentForm3Class } from "./personal-loan/2.0.3/loan-adjustment-form/loan-amount-adjustment-form";
 import { MockMandateDetails3Form } from "./personal-loan/2.0.3/mandate-details-form/manadate-details-form";
+import { MockVerificationStatusEmandate } from "./personal-loan/2.0.3/verification_status_Emandate/verification_Emandate"
+import { MockLoanAgreementEsignForm } from "./personal-loan/2.0.3/loan_agreement_esign_form/loan_agreement_esign_form"
 
 type Ctor<T> = new () => T;
 
@@ -79,7 +81,7 @@ const registry = {
 
 	// Gold Loan actions
 	// search
-    search: MockSearchClass,
+	search: MockSearchClass,
 	// on_search
 	on_search: MockOnSearchClass,
 
@@ -108,30 +110,31 @@ const registry = {
 	on_update: MockOnUpdateClass,
 	on_update_unsolicited: MockOnUpdateUnsolicitedClass,
 	// credit-card
-    search_cc: MockSearchCCClass,
-    on_search_cc: MockOnSearchCCClass,
-    select_cc: MockSelectCCClass,
-    on_select_cc: MockOnSelectCCClass,
-    init_cc: MockInitCCClass,
-    on_init_cc: MockOnInitCCClass,
-    confirm_cc: MockConfirmCCClass,
-    on_confirm_cc: MockOnConfirmCCClass,
-    on_status_unsolicited_cc: MockOnStatusUnsolicitedCCClass,
-    status_cc_1: MockStatus1CCClass,
-    on_status_cc_1: MockOnStatus1CCClass,
-    status_cc_2: MockStatus2CCClass,
-    on_status_cc_2: MockOnStatus2CCClass,
-    consumer_information_form_cc: MockConsumerInformationFormCCClass,
-    Ekyc_details_form_cc: MockKycVerificationStatusCCClass,
-	
-	
-    // PERSONAL_LAON-2.0.3
-	// todo form
-    consumer_information_form_pl: MockConsumerInformationForm3Class,
-    loan_amount_adjustment_form_pl: MockLoanAdjustmentForm3Class,
-    kyc_verification_status_pl: MockKycVerificationStatus3Class,
-    manadate_details_form_pl: MockMandateDetails3Form,
-	
+	search_cc: MockSearchCCClass,
+	on_search_cc: MockOnSearchCCClass,
+	select_cc: MockSelectCCClass,
+	on_select_cc: MockOnSelectCCClass,
+	init_cc: MockInitCCClass,
+	on_init_cc: MockOnInitCCClass,
+	confirm_cc: MockConfirmCCClass,
+	on_confirm_cc: MockOnConfirmCCClass,
+	on_status_unsolicited_cc: MockOnStatusUnsolicitedCCClass,
+	status_cc_1: MockStatus1CCClass,
+	on_status_cc_1: MockOnStatus1CCClass,
+	status_cc_2: MockStatus2CCClass,
+	on_status_cc_2: MockOnStatus2CCClass,
+	consumer_information_form_cc: MockConsumerInformationFormCCClass,
+	Ekyc_details_form_cc: MockKycVerificationStatusCCClass,
+
+
+	// PERSONAL_LAON-2.0.3
+
+	loan_amount_adjustment_form_pl: MockLoanAdjustmentForm3Class,
+	kyc_verification_status_pl: MockKycVerificationStatus3Class,
+	verification_status_e_mandate: MockVerificationStatusEmandate,
+	manadate_details_form_pl: MockMandateDetails3Form,
+	loan_agreement_esign_form: MockLoanAgreementEsignForm,
+	personal_loan_information_form: MockPersonalLoanInformationFormClass,
 	search_personal_loan_3: MockSearchPersonalLoan3Class,
 	on_search_personal_loan_3: MockOnSearchPersonalLoan3Class,
 	select_bureau_consent_personal_loan_3: MockSelectBureauConsentPersonalLoan3Class,
