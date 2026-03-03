@@ -1,10 +1,6 @@
-import axios from 'axios';
+import logger from "@ondc/automation-logger";
+import axios from "axios";
 
-/**
- * Generator for on_select_1 response
- * This is called during Gold Loan flow WITH Account Aggregator
- * Generates dynamic consent handler from Finvu AA Service
- */
 export async function onSelect1Generator(existingPayload: any, sessionData: any) {
   console.log("=== On Select1 Generator Start ===");
   console.log("Available session data:", {
@@ -62,7 +58,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
   console.log("--- Finvu AA Integration Start ---");
   
   // Extract customer ID from session data
-  const contactNumber = sessionData.form_data?.consumer_information_form?.contactNumber;
+  const contactNumber = sessionData.form_data?.personal_loan_information_form?.contactNumber;
   
   if (contactNumber) {
     const custId = `${contactNumber}@finvu`;
@@ -74,6 +70,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
       const consentUrl = `${finvuServiceUrl}/finvu-aa/consent/generate`;
       
       console.log("Calling Finvu AA Service:", consentUrl);
+      logger.info("Calling Finvu AA Service:", consentUrl)
       
       const consentRequest = {
         custId: custId,
@@ -84,20 +81,16 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
       
       console.log("Consent request payload:", consentRequest);
       
-      // const response = await axios.post(consentUrl, consentRequest, {
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   timeout: 10000 // 10 second timeout
-      // });
+      const response = await axios.post(consentUrl, consentRequest, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: 10000 // 10 second timeout
+      });
       
-      // const consentHandler = response.data.consentHandler;
-      // console.log("✅ Consent handler generated:", consentHandler);
-      
-      // Store consent handler in session data for later use (verify step)
-      // sessionData.consent_handler = consentHandler;
-      // console.log("Stored consent_handler in session data");
-      
+      const consentHandler = response.data.consentHandler;
+      console.log("✅ Consent handler generated:", consentHandler);
+
       // Inject consent handler into payload tags
       if (existingPayload.message?.order?.items?.[0]) {
         const item = existingPayload.message.order.items[0];
@@ -171,16 +164,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     console.warn("⚠️ No contact number found in session data - skipping Finvu AA integration");
     console.log("Available form data:", sessionData.form_data);
   }
-  // console.log("Available form data:", sessionData.form_data);
-  // console.log("Available form data personal info :", sessionData.form_data.personal_loan_information_form);
-  // console.log("--- Finvu AA Integration End ---");
 
-  // // ========== FORM URL UPDATE ==========
-  
-  // console.log("=== On Select1 Generator End ===");
-  // console.log("Form data:", sessionData?.form_data?.personal_loan_information_form);
-  // console.log("Form data:", sessionData?.form_data?.personal_loan_information_form.contactNumber);
-  
   return existingPayload;
 }
 
