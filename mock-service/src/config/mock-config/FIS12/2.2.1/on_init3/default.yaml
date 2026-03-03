@@ -1,6 +1,6 @@
 order:
   provider:
-    id: P1
+    id: "PROVIDER_ID"
     descriptor:
       images:
         - url: "https://www.icicibank.com/content/dam/icicibank/india/assets/images/header/logo.png"
@@ -197,7 +197,7 @@ order:
       type: "LOAN"
       id: "F1"
   payments:
-    - id: "PID-8000"
+    - id: "PAYMENT_ID_PURCHASE_FINANCE"
       type: "ON_ORDER"
       status: "NOT-PAID"
       collected_by: "BPP"
@@ -234,7 +234,7 @@ order:
             - descriptor:
                 code: "OFFLINE_CONTRACT"
               value: "true"
-    - id: "PID-5555"
+    - id: "PAYMENT_ID_DOWNPAYMENT"
       type: "PRE_ORDER"
       status: "PAID"
       collected_by: "BPP"
@@ -243,7 +243,7 @@ order:
         currency: "INR"
         transaction_id: "3b5a664d-077e-47f0-96d1-06e68d397c78"
     - type: "POST_FULFILLMENT"
-      id: "PID-5001"
+      id: "INSTALLMENT_ID_PURCHASE_FINANCE"
       params:
         amount: "9857"
         currency: "INR"
@@ -269,7 +269,7 @@ order:
                 short_desc: "Loan Interest"
               value: "571 INR"
     - type: "POST_FULFILLMENT"
-      id: "PID-5002"
+      id: "INSTALLMENT_ID_PURCHASE_FINANCE"
       params:
         amount: "9857"
         currency: "INR"
@@ -295,7 +295,7 @@ order:
                 short_desc: "Loan Interest"
               value: "571 INR"
     - type: "POST_FULFILLMENT"
-      id: "PID-5003"
+      id: "INSTALLMENT_ID_PURCHASE_FINANCE"
       params:
         amount: "9857"
         currency: "INR"
@@ -321,7 +321,7 @@ order:
                 short_desc: "Loan Interest"
               value: "571 INR"
     - type: "POST_FULFILLMENT"
-      id: "PID-5004"
+      id: "INSTALLMENT_ID_PURCHASE_FINANCE"
       params:
         amount: "9857"
         currency: "INR"
@@ -347,7 +347,7 @@ order:
                 short_desc: "Loan Interest"
               value: "571 INR"
     - type: "POST_FULFILLMENT"
-      id: "PID-5005"
+      id: "INSTALLMENT_ID_PURCHASE_FINANCE"
       params:
         amount: "9857"
         currency: "INR"
@@ -373,7 +373,7 @@ order:
                 short_desc: "Loan Interest"
               value: "571 INR"
     - type: "POST_FULFILLMENT"
-      id: "PID-5006"
+      id: "INSTALLMENT_ID_PURCHASE_FINANCE"
       params:
         amount: "9857"
         currency: "INR"
