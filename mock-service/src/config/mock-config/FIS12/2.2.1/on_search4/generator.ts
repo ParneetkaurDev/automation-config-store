@@ -15,6 +15,9 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   // Update form URLs for items with session data (preserve existing structure)
   if (existingPayload.message?.catalog?.providers?.[0]?.items) {
     existingPayload.message.catalog.providers[0].items = existingPayload.message.catalog.providers[0].items.map((item: any) => {
+      if (sessionData.item_id) {
+        item.id = sessionData.item_id
+      }
       if (item.xinput?.form) {
         item.xinput.form.id = "personal_details_information_form";
         item.xinput.form_response.status = "SUCCESS";

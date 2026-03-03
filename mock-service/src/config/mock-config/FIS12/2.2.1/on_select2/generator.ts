@@ -40,11 +40,21 @@ export async function onSelectDefaultGenerator(
     Array.isArray(sessionData.items) &&
     sessionData.items.length > 0
   ) {
-    const selectedItem = sessionData?.items?.[1] ? sessionData?.items?.[1] : sessionData?.items?.[0];
-    if (existingPayload.message?.order?.items?.[0]) {
-      existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id:", selectedItem.id);
-    }
+    const selectedItems = sessionData?.selected_items_1;
+
+    existingPayload.message.order.items = existingPayload.message.order.items.map(
+      (orderItem: any, index: number) => {
+        const selectedItem = selectedItems[index];
+
+        if (!selectedItem) return orderItem;
+
+        return {
+          ...orderItem,
+          id: selectedItem.id,
+          parent_item_id: selectedItem.parent_item_id
+        };
+      }
+    );
   }
   // redirection to be done
 
