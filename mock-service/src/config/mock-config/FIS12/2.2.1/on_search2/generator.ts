@@ -1,6 +1,6 @@
 export async function onSearchDefaultGenerator(existingPayload: any, sessionData: any) {
-  console.log("existingPayload on search", existingPayload);
-  
+  console.log("userinput=>>>>>>>>", sessionData.user_inputs, existingPayload);
+
   // Set payment_collected_by if present in session data
   if (sessionData.collected_by && existingPayload.message?.catalog?.providers?.[0]?.payments?.[0]) {
     existingPayload.message.catalog.providers[0].payments[0].collected_by = sessionData.collected_by;
@@ -13,9 +13,18 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   console.log("sessionData.message_id", sessionData);
 
   // Update form URLs for items with session data (preserve existing structure)
-   if (existingPayload.message?.catalog?.providers?.[0]?.items) {
+  if (existingPayload.message?.catalog?.providers?.[0]?.items) {
     console.log("check for form +++")
     existingPayload.message.catalog.providers[0].items = existingPayload.message.catalog.providers[0].items.map((item: any) => {
+      item = sessionData?.item;
+
+      // Match item.category_ids against sessionData.categories and return filtered array
+      const matchingCategories = Array.isArray(item?.category_ids) && Array.isArray(sessionData?.categories)
+        ? sessionData.categories.filter((category: any) =>
+          item.category_ids.includes(category.id)
+        )
+        : [];
+      existingPayload.message.catalog.providers[0].categories = matchingCategories
       if (item.xinput?.form) {
         // Generate dynamic form URL with session data
         const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/personal_details_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
