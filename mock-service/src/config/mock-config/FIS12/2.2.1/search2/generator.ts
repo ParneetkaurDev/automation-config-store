@@ -8,20 +8,28 @@ export async function searchDefaultGenerator(
   delete existingPayload.context.bpp_uri;
   delete existingPayload.context.bpp_id;
 
+  // Set start and end date dynamically
+  // const now = new Date();
+  // const end = new Date(now);
+  // end.setDate(now.getDate() + 2);
+  // if (
+  // 	existingPayload.message?.intent?.fulfillment?.stops?.[0]?.time?.range
+  // ) {
+  // 	existingPayload.message.intent.fulfillment.stops[0].time.range.start = now.toISOString();
+  // 	existingPayload.message.intent.fulfillment.stops[0].time.range.end = end.toISOString();
+  // }
+
   // Set city code from user inputs if available
   if (sessionData.user_inputs?.city_code) {
     existingPayload.context.location.city.code =
       sessionData.user_inputs.city_code;
   }
-
-  if (sessionData.user_inputs && sessionData.user_inputs?.provider) {
-    existingPayload.message.intent.provider = sessionData.user_inputs?.provider
-  }
-
+  const userInputs = sessionData.user_inputs
   // Update form_response with status and submission_id (preserve existing structure)
   if (
-    existingPayload.message?.intent?.provider?.items?.[0]?.xinput?.form_response
+    userInputs
   ) {
+    existingPayload.message.intent.provider = userInputs?.provider
     existingPayload.message.intent.provider.items[0].xinput.form.id =
       "product_details_form";
     existingPayload.message.intent.provider.items[0].xinput.form_response.status =
