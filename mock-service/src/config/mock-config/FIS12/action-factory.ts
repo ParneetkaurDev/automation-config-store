@@ -135,6 +135,7 @@ const registry = {
 	manadate_details_form_pl: MockMandateDetails3Form,
 	loan_agreement_esign_form: MockLoanAgreementEsignForm,
 	personal_loan_information_form: MockPersonalLoanInformationFormClass,
+	consumer_information_form_1: MockPersonalLoanInformationFormClass,
 	search_personal_loan_3: MockSearchPersonalLoan3Class,
 	on_search_personal_loan_3: MockOnSearchPersonalLoan3Class,
 	select_bureau_consent_personal_loan_3: MockSelectBureauConsentPersonalLoan3Class,
