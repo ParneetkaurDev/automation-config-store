@@ -135,7 +135,7 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     || sessionData.user_inputs?.foreclosure_amount && 'FORECLOSURE'
     || sessionData.user_inputs?.missed_emi_amount && 'MISSED_EMI_PAYMENT'
     || sessionData.user_inputs?.part_payment_amount && 'PRE_PART_PAYMENT'
-    || 'FORECLOSURE';
+
 
   // Ensure payments structure exists
   orderRef.payments = orderRef.payments || [{}];
