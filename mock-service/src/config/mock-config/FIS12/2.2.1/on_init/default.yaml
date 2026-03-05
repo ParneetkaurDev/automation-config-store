@@ -1,6 +1,6 @@
 order:
   provider:
-    id: P1
+    id: "PROVIDER_ID"
     descriptor:
       images:
         - url: "https://www.icicibank.com/content/dam/icicibank/india/assets/images/header/logo.png"
@@ -209,7 +209,7 @@ order:
       type: "LOAN"
       id: "F1"
   payments:
-    - id: "PID-8000"
+    - id: "PAYMENT_ID_PURCHASE_FINANCE"
       type: "ON_ORDER"
       status: "NOT-PAID"
       collected_by: "BPP"
@@ -246,7 +246,7 @@ order:
             - descriptor:
                 code: "OFFLINE_CONTRACT"
               value: "true"
-    - id: "PID-5555"
+    - id: "PAYMENT_ID_DOWNPAYMENT"
       type: "PRE_ORDER"
       status: "NOT-PAID"
       collected_by: "BPP"

@@ -19,9 +19,6 @@ export interface SessionData {
 	item_ids: string[]; // Assuming these are strings; adjust if needed
 	items: any[] | undefined;
 	selected_items: any[] | undefined;
-	selected_items_1: any[] | undefined;
-	selected_items_2: any[] | undefined;
-	selected_items_id: string | undefined;
 	billing: any | undefined;
 	payments: any[] | undefined;
 	updated_payments: any[] | undefined;
@@ -83,7 +80,6 @@ export interface SessionData {
 	kyc_verification_status?: string
 	E_sign_verification_status?: string
 	Ekyc_details_verification_status?: string
-	form_data?: any;
 }
 
 export type BecknContext = {
@@ -115,13 +111,13 @@ export interface Input {
 	start_gps?: string;
 	end_gps?: string;
 	start_code?: string;
+	provider?: any;
 	end_code?: string;
 	feature_discovery?: string[];
 	fulfillRequest?: string;
 	retailCategory?: string;
 	returnToOrigin?: string;
 	default_feature?: string[];
-	provider?: any;
 	// Gold Loan specific fields
 	loan_amount?: number;
 	foreclosure_amount?: number;

@@ -23,9 +23,11 @@ export async function searchDefaultGenerator(
 	if (sessionData.user_inputs?.city_code) {
 		existingPayload.context.location.city.code = sessionData.user_inputs.city_code;
 	}
+
+	existingPayload.message.intent.provider.items = sessionData.items
+
 	// Update form_response with status and submission_id (preserve existing structure)
-	if (sessionData?.provider) {
-		existingPayload.message.intent.provider = sessionData?.provider
+	if (existingPayload.message?.intent?.provider?.items?.[0]?.xinput?.form_response) {
 		existingPayload.message.intent.provider.items[0].xinput.form.id = "personal_details_information_form";
 		existingPayload.message.intent.provider.items[0].xinput.form_response.status = "SUCCESS";
 		existingPayload.message.intent.provider.items[0].xinput.form_response.submission_id = sessionData.personal_details_information_form;

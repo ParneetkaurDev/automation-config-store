@@ -77,7 +77,7 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     };
   }
 
-  // Helper to add delayed installmenorder.idt
+  // Helper to add delayed installment
   function addDelayedInstallment(order: any, contextTimestamp: string) {
     if (!order.payments) order.payments = [];
 
@@ -91,7 +91,7 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     const end = new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999));
 
     const delayedPayment = {
-      id: "INSTALLMENT_ID_GOLD_LOAN",
+      id: "INSTALLMENT_ID_PURCHASE_FINANCE",
       type: "POST_FULFILLMENT",
       params: {
         amount: "46360",
@@ -130,12 +130,12 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
 
   // Branch by update label
   const orderRef = existingPayload.message?.order || {};
+  console.log("labellllllllll=>>>>>>>>>", sessionData.update_label)
   const label = sessionData.update_label
     || orderRef?.payments?.[0]?.time?.label
     || sessionData.user_inputs?.foreclosure_amount && 'FORECLOSURE'
     || sessionData.user_inputs?.missed_emi_amount && 'MISSED_EMI_PAYMENT'
     || sessionData.user_inputs?.part_payment_amount && 'PRE_PART_PAYMENT'
-
 
   // Ensure payments structure exists
   orderRef.payments = orderRef.payments || [{}];
@@ -167,26 +167,26 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
   if (label === 'FORECLOSURE') {
     // Add foreclosure charges to quote.breakup (0.5% of principal amount from on_confirm)
     // Principal amount from on_confirm is 200000, so 0.5% = 1000, but using 9536 as specified
-    // upsertBreakup(orderRef, 'FORCLOSUER_CHARGES', '9536');
-    orderRef.quote = sessionData.quote;
+    upsertBreakup(orderRef, 'FORCLOSUER_CHARGES', '9536');
+
     // Calculate foreclosure amount: Outstanding Principal + Outstanding Interest + Foreclosure Charges
     // From on_update default.yaml: OUTSTANDING_PRINCIPAL=139080, OUTSTANDING_INTEREST=0, FORCLOSUER_CHARGES=9536
-    // const outstandingPrincipal = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_PRINCIPAL')?.price?.value || '139080';
-    // const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
-    // const foreclosureCharges = '9536';
-    // const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest) + parseInt(foreclosureCharges));
+    const outstandingPrincipal = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_PRINCIPAL')?.price?.value || '139080';
+    const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
+    const foreclosureCharges = '9536';
+    const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest) + parseInt(foreclosureCharges));
 
     // Set payment params for foreclosure
-    // firstPayment.params = firstPayment.params || {};
-    // firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
-    // firstPayment.params.currency = "INR";
+    firstPayment.params = firstPayment.params || {};
+    firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
+    firstPayment.params.currency = "INR";
 
     // Remove time range for foreclosure
     if (firstPayment.time.range) delete firstPayment.time.range;
 
     // Set payment URL
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    // firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
+    firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
   }
 
   if (label === 'PRE_PART_PAYMENT') {
@@ -205,10 +205,6 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
     firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
   }
-  const currentDate = new Date(existingPayload.context.timestamp).toISOString();
-
-  existingPayload.message.order.created_at = sessionData.created_at;
-  existingPayload.message.order.updated_at = currentDate;
 
   return existingPayload;
 }

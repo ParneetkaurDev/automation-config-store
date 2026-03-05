@@ -5,9 +5,7 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   if (sessionData.collected_by && existingPayload.message?.catalog?.providers?.[0]?.payments?.[0]) {
     existingPayload.message.catalog.providers[0].payments[0].collected_by = sessionData.collected_by;
   }
-  if (sessionData.provider_id) {
-    existingPayload.message.catalog.providers[0].id = sessionData.provider_id
-  }
+
   // Update message_id from session data
   if (sessionData.message_id && existingPayload.context) {
     existingPayload.context.message_id = sessionData.message_id;
@@ -17,9 +15,6 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   // Update form URLs for items with session data (preserve existing structure)
   if (existingPayload.message?.catalog?.providers?.[0]?.items) {
     existingPayload.message.catalog.providers[0].items = existingPayload.message.catalog.providers[0].items.map((item: any) => {
-      if (sessionData.item_id) {
-        item.id = sessionData.item_id
-      }
       if (item.xinput?.form) {
         item.xinput.form.id = "personal_details_information_form";
         item.xinput.form_response.status = "SUCCESS";
