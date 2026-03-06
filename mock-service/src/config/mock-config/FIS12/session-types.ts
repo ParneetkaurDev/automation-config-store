@@ -84,6 +84,8 @@ export interface SessionData {
 	E_sign_verification_status?: string
 	Ekyc_details_verification_status?: string
 	form_data?: any;
+	categories?: any;
+	selected_category?: any;
 }
 
 export type BecknContext = {
