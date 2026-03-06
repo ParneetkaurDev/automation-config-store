@@ -26,16 +26,11 @@ export async function onStatusUnsolicitedGenerator(
     existingPayload.message.order.provider.id = sessionData.provider_id;
   }
 
+  existingPayload.message.order.items = sessionData.selected_items
   // Fix items: ensure ID consistency and form status
   if (existingPayload.message?.order?.items?.[0]) {
     const item = existingPayload.message.order.items[0];
 
-    // Ensure item ID matches previous calls (carry-forward from previous flows)
-    if (sessionData.item_id) {
-      item.id = sessionData.item_id;
-    } else {
-      item.id = item.id; // Consistent ID
-    }
 
     // Update location_ids from session data (carry-forward from previous flows)
     const selectedLocationId = sessionData.selected_location_id;
@@ -53,14 +48,14 @@ export async function onStatusUnsolicitedGenerator(
 
       const submission_id =
         formId === "Ekyc_details_verification_status"
-          ? sessionData.Ekyc_details_verification_status: formId === "Emanadate_verification_status" ? sessionData.Emanadate_verification_status
-          : sessionData.E_sign_verification_status;
+          ? sessionData.Ekyc_details_verification_status : formId === "Emanadate_verification_status" ? sessionData.Emanadate_verification_status
+            : sessionData.E_sign_verification_status;
 
       const form_status =
         formId === "E_sign_verification_status"
           ? sessionData?.form_data?.E_sign_verification_status?.idType
           : formId === "Emanadate_verification_status" ? sessionData?.form_data?.Emanadate_verification_status?.idType
-          : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
+            : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
       // Set form status to OFFLINE_PENDING
       if (item.xinput?.form_response) {
         item.xinput.form_response.status = form_status//"OFFLINE_PENDING";
