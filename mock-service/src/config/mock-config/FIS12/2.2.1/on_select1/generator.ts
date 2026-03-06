@@ -35,7 +35,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
   if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
     const selectedItems = sessionData.selected_items_1;
 
-    existingPayload.message.order.items = existingPayload.message.order.items.map(
+    existingPayload.message.order.items = sessionData.selected_items.map(
       (orderItem: any, index: number) => {
         const selectedItem = selectedItems[index];
 
@@ -43,8 +43,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
 
         return {
           ...orderItem,
-          id: selectedItem.id,
-          parent_item_id: selectedItem?.parent_item_id
+          id: selectedItem.id
         };
       }
     );

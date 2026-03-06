@@ -17,19 +17,34 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   // Update form URLs for items with session data (preserve existing structure)
   if (existingPayload.message?.catalog?.providers?.[0]?.items) {
     console.log("check for form +++")
-    existingPayload.message.catalog.providers[0].items = existingPayload.message.catalog.providers[0].items.map((item: any) => {
-      if (sessionData.item_id) {
-        item.id = sessionData.item_id
-      }
-      if (item.xinput?.form) {
+    // Filter items from on_search session to find the one selected in search2 (matched by item_id)
+    const matchedItem = (sessionData.items as any[])?.find(
+      (item: any) => item.id === sessionData.item_id
+    );
+
+    if (matchedItem) {
+      // Match item.category_ids against sessionData.categories and return filtered array
+      const matchingCategories = Array.isArray(matchedItem?.category_ids) && Array.isArray(sessionData?.categories)
+        ? sessionData.categories.filter((category: any) =>
+          matchedItem.category_ids.includes(category.id)
+        )
+        : [];
+      existingPayload.message.catalog.providers[0].categories = matchingCategories;
+
+      if (matchedItem.xinput?.form) {
         // Generate dynamic form URL with session data
         const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/personal_details_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
         console.log("Form URL generated:", url);
-        item.xinput.form.id = "personal_details_information_form";
-        item.xinput.form.url = url;
+        matchedItem.xinput.form.id = "personal_details_information_form";
+        matchedItem.xinput.form.url = url;
       }
-      return item;
-    });
+
+      // Return only the matched item in the items array
+      existingPayload.message.catalog.providers[0].items = [matchedItem];
+    } else {
+      console.log(`[on_search2] No item found matching item_id: ${sessionData.item_id}`);
+      existingPayload.message.catalog.providers[0].items = [];
+    }
   }
 
   console.log("session data of on_search", sessionData);

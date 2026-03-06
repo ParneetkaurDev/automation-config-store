@@ -41,10 +41,14 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
 
     // Map item.id from session data (carry-forward from confirm)
     const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? (sessionData.items?.[1] ?? sessionData.items?.[0]) : undefined);
-    if (selectedItem?.id && order.items?.[0]) {
-      order.items[0].id = selectedItem.id;
+    // if (selectedItem?.id && order.items?.[0]) {
+    //   order.items[0].id = selectedItem.id;
+    // }
+    if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
+      existingPayload.message.order.items[0].id = sessionData.selected_items_id;
+      existingPayload.message.order.items[0].parent_item_id = selectedItem.parent_item_id
+      existingPayload.message.order.items[0].category_ids = selectedItem.category_ids
     }
-
     // Map quote.id from session data (carry-forward from confirm)
     if (sessionData.quote_id && order.quote) {
       order.quote.id = sessionData.quote_id;

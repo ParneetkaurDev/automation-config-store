@@ -57,8 +57,9 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   // Update item.id if available from session data (carry-forward from confirm)
   const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? (sessionData.items?.[1] ?? sessionData.items?.[0]) : undefined);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
+    existingPayload.message.order.items[0].id = sessionData.selected_items_id;
+    existingPayload.message.order.items[0].parent_item_id = selectedItem.parent_item_id
+    existingPayload.message.order.items[0].category_ids = selectedItem.category_ids
   }
 
   // Update location_ids from session data (carry-forward from previous flows)
@@ -86,11 +87,11 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   }
 
   // Update fulfillment state to DISBURSED (loan has been confirmed and disbursed)
-  if (existingPayload.message?.order?.fulfillments?.[0]?.state?.descriptor) {
-    existingPayload.message.order.fulfillments[0].state.descriptor.code = "DISBURSED";
-    existingPayload.message.order.fulfillments[0].state.descriptor.name = "Loan Disbursed";
-    console.log("Updated fulfillment state to DISBURSED");
-  }
+  // if (existingPayload.message?.order?.fulfillments?.[0]?.state?.descriptor) {
+  //   existingPayload.message.order.fulfillments[0].state.descriptor.code = "DISBURSED";
+  //   existingPayload.message.order.fulfillments[0].state.descriptor.name = "Loan Disbursed";
+  //   console.log("Updated fulfillment state to DISBURSED");
+  // }
   if (existingPayload.message?.order) {
     existingPayload.message.order.created_at = contextTimestamp;
     existingPayload.message.order.updated_at = contextTimestamp;

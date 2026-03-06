@@ -42,19 +42,19 @@ export async function onSelectDefaultGenerator(
   ) {
     const selectedItems = sessionData?.selected_items_1;
 
-    existingPayload.message.order.items = existingPayload.message.order.items.map(
-      (orderItem: any, index: number) => {
-        const selectedItem = selectedItems[index];
+    existingPayload.message.order.items = sessionData.selected_items
+      .map(
+        (orderItem: any, index: number) => {
+          const selectedItem = selectedItems[index];
 
-        if (!selectedItem) return orderItem;
+          if (!selectedItem) return orderItem;
 
-        return {
-          ...orderItem,
-          id: selectedItem.id,
-          parent_item_id: selectedItem.parent_item_id
-        };
-      }
-    );
+          return {
+            ...orderItem,
+            id: selectedItem.id,
+          };
+        }
+      );
   }
   // redirection to be done
 
