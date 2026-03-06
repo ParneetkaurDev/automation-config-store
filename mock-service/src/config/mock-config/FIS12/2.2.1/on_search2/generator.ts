@@ -1,4 +1,29 @@
 export async function onSearchDefaultGenerator(existingPayload: any, sessionData: any) {
+  const categories = [
+    {
+      "id": "101123",
+      "descriptor": {
+        "code": "PURCHASE_FINANCE",
+        "name": "Purchase Finance"
+      }
+    },
+    {
+      "id": "101124",
+      "parent_category_id": "101123",
+      "descriptor": {
+        "code": "AGRI_PURCHASE_FINANCE",
+        "name": "Agri Purchase Finance"
+      }
+    },
+    {
+      "id": "101125",
+      "parent_category_id": "101123",
+      "descriptor": {
+        "code": "ELECTRONICS_PURCHASE_FINANCE",
+        "name": "Electronics Purchase Finance"
+      }
+    }
+  ]
   console.log("existingPayload on search", existingPayload);
 
   // Set payment_collected_by if present in session data
@@ -24,8 +49,8 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
 
     if (matchedItem) {
       // Match item.category_ids against sessionData.categories and return filtered array
-      const matchingCategories = Array.isArray(matchedItem?.category_ids) && Array.isArray(sessionData?.categories)
-        ? sessionData.categories.filter((category: any) =>
+      const matchingCategories = Array.isArray(matchedItem?.category_ids) && Array.isArray(categories)
+        ? categories.filter((category: any) =>
           matchedItem.category_ids.includes(category.id)
         )
         : [];
