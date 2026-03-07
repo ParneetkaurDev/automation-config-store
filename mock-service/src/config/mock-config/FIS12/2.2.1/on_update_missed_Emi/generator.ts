@@ -45,7 +45,7 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     //   order.items[0].id = selectedItem.id;
     // }
     if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-      existingPayload.message.order.items[0].id = sessionData.selected_items_id;
+      existingPayload.message.order.items[0].id = selectedItem.id;
       existingPayload.message.order.items[0].parent_item_id = selectedItem.parent_item_id
       existingPayload.message.order.items[0].category_ids = selectedItem.category_ids
     }

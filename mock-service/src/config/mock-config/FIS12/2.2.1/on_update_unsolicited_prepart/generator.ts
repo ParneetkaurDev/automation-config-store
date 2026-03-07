@@ -103,7 +103,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
         // Keep already PAID installments as PAID, change others to DEFERRED
         if (payment.status !== 'PAID') {
-          payment.status = 'NOT_PAID';
+          payment.status = 'NOT-PAID';
         }
       }
     });
@@ -155,7 +155,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
         }
         // Mark next 2 installments as DEFERRED
         else if (paymentMonth > contextMonth + 2 && paymentMonth <= contextMonth + 4 && paymentYear === contextYear && deferredCount < 2) {
-          payment.status = 'NOT_PAID';
+          payment.status = 'NOT-PAID';
           deferredCount++;
         }
       }

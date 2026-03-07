@@ -40,30 +40,47 @@ export async function onSelectDefaultGenerator(
     Array.isArray(sessionData.items) &&
     sessionData.items.length > 0
   ) {
-    const selectedItems = sessionData?.selected_items_1;
+    const item = sessionData.selected_items_1;
 
-    existingPayload.message.order.items = sessionData.selected_items
-      .map(
-        (orderItem: any, index: number) => {
-          const selectedItem = selectedItems[index];
+    const itemIds = new Set(item.map((i: any) => i.id));
 
-          if (!selectedItem) return orderItem;
+    const selectedItems = sessionData.items.filter((i: any) =>
+      itemIds.has(i.id)
+    );
 
-          return {
-            ...orderItem,
-            id: selectedItem.id,
-          };
-        }
-      );
+    existingPayload.message.order.items = existingPayload.message.order.items.map(
+      (orderItem: any, index: number) => {
+        const selectedItem = selectedItems[index];
+
+        if (!selectedItem) return orderItem;
+
+        return {
+          ...orderItem,
+          id: selectedItem.id,
+          parent_item_id: selectedItem.parent_item_id,
+          category_ids: selectedItem.category_ids
+        };
+      }
+    );
   }
+  const formId = sessionData.form_id
   // redirection to be done
+  const submission_id =
+    formId === "Ekyc_details_verification_status"
+      ? sessionData.Ekyc_details_verification_status : formId === "Emanadate_verification_status" ? sessionData.Emanadate_verification_status
+        : sessionData.E_sign_verification_status;
 
+  const form_status =
+    formId === "E_sign_verification_status"
+      ? sessionData?.form_data?.E_sign_verification_status?.idType
+      : formId === "Emanadate_verification_status" ? sessionData?.form_data?.Emanadate_verification_status?.idType
+        : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
     existingPayload.message.order.items[0].xinput.form_response.status =
-      "SUCCESS";
-    existingPayload.message.order.items[0].xinput.form.id = "E_sign_verification_status";
+      form_status;
+    existingPayload.message.order.items[0].xinput.form.id = sessionData.form_id;
     existingPayload.message.order.items[0].xinput.form_response.submission_id =
-      sessionData.Ekyc_details_verification_status;
+      submission_id
     console.log("Updated form_response with status and submission_id");
   }
 

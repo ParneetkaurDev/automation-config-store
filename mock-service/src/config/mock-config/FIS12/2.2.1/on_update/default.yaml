@@ -223,7 +223,7 @@ order:
           currency: "INR"
       - title: "PROCESSING_FEE"
         price:
-          value: "571"
+          value: "500"
           currency: "INR"
       - title: "OTHER_UPFRONT_CHARGES"
         price:
@@ -231,7 +231,7 @@ order:
           currency: "INR"
       - title: "INSURANCE_CHARGES"
         price:
-          value: "571"
+          value: "500"
           currency: "INR"
       - title: "NET_DISBURSED_AMOUNT"
         price:

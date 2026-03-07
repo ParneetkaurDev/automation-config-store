@@ -26,6 +26,7 @@ export async function onStatusUnsolicitedGenerator(
     existingPayload.message.order.provider.id = sessionData.provider_id;
   }
 
+  sessionData.selected_items[0].xinput = existingPayload.message.order.items[0].xinput
   existingPayload.message.order.items = sessionData.selected_items
   // Fix items: ensure ID consistency and form status
   if (existingPayload.message?.order?.items?.[0]) {
@@ -63,6 +64,7 @@ export async function onStatusUnsolicitedGenerator(
           item.xinput.form_response.submission_id = submission_id;
         }
       }
+
     }
   }
 
