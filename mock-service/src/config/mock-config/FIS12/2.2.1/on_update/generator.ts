@@ -51,6 +51,10 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
       existingPayload.message.order.items[0].category_ids = selectedItem.category_ids
     }
 
+    if (sessionData.payments && order.payments) {
+      order.payments = sessionData.payments[0];
+    }
+
     // Map quote.id from session data (carry-forward from confirm)
     if (sessionData.quote_id && order.quote) {
       order.quote.id = sessionData.quote_id;

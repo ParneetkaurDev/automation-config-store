@@ -75,5 +75,25 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     console.log("Updated customer email:", sessionData.customer_email);
   }
 
+  // Update form ID from session data (carry-forward from previous flows)
+  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
+    // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
+    const formId = "E_sign_verification_status";
+    existingPayload.message.order.items[0].xinput.form.id = formId;
+    console.log("Updated form ID:", formId);
+  }
+  const submission_id = sessionData?.E_sign_verification_status;
+
+  // Update form_response with status and submission_id (preserve existing structure)
+  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+    existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
+    if (submission_id) {
+      existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+    } else {
+      existingPayload.message.order.items[0].xinput.form_response.submission_id = `F03_SUBMISSION_ID_${Date.now()}`;
+    }
+    console.log("Updated form_response with status and submission_id");
+  }
+
   return existingPayload;
 }

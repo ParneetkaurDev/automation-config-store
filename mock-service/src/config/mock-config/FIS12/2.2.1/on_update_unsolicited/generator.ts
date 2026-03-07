@@ -100,7 +100,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
 
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
         if (payment.status !== 'PAID') {
-          payment.status = 'NOT_PAID';
+          payment.status = 'NOT-PAID';
         }
       }
 
@@ -149,7 +149,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
           paidCount++;
         }
         else if (paymentMonth > contextMonth + 2 && paymentMonth <= contextMonth + 4 && paymentYear === contextYear && deferredCount < 2) {
-          payment.status = 'NOT_PAID';
+          payment.status = 'NOT-PAID';
           deferredCount++;
         }
       }

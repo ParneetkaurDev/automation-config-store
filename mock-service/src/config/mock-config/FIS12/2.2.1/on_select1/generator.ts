@@ -33,9 +33,15 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
 
   // Update item.id if available from session data (carry-forward from select)
   if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const selectedItems = sessionData.selected_items_1;
+    const item = sessionData.selected_items_1;
 
-    existingPayload.message.order.items = sessionData.selected_items.map(
+    const itemIds = new Set(item.map((i: any) => i.id));
+
+    const selectedItems = sessionData.items.filter((i: any) =>
+      itemIds.has(i.id)
+    );
+
+    existingPayload.message.order.items = existingPayload.message.order.items.map(
       (orderItem: any, index: number) => {
         const selectedItem = selectedItems[index];
 
@@ -43,7 +49,9 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
 
         return {
           ...orderItem,
-          id: selectedItem.id
+          id: selectedItem.id,
+          parent_item_id: selectedItem.parent_item_id,
+          category_ids: selectedItem.category_ids
         };
       }
     );

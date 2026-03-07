@@ -4,6 +4,7 @@ save-data:
     order: "$.message.order"
     item: "$.message.order.items[1]"
     quote: "$.message.order.quote"
+    payments: "$.message.order.payments"
     order_id: "$.message.order.id"
     created_at: "$.message.order.created_at"
     updated_at: "$.message.order.updated_at"
