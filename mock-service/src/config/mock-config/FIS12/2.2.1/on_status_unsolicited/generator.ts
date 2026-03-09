@@ -1,3 +1,5 @@
+import { injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
+
 export async function onStatusUnsolicitedGenerator(
   existingPayload: any,
   sessionData: any
@@ -83,16 +85,8 @@ export async function onStatusUnsolicitedGenerator(
     delete existingPayload.message.order.documents;
   }
 
-  // Update quote information if provided
-  if (sessionData.quote_amount && existingPayload.message?.order?.quote) {
-    existingPayload.message.order.quote.price.value = sessionData.quote_amount;
-  }
-
-  // Update loan amount in items if provided
-  if (sessionData.loan_amount && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].price.value =
-      sessionData.loan_amount;
-  }
+  injectLoanDetails(existingPayload, sessionData);
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }

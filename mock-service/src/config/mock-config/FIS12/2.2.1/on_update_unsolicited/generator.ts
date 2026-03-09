@@ -1,4 +1,6 @@
 
+import { generateInstallmentPayments, injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
+
 export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
@@ -220,5 +222,14 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
 
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = currentDate;
+
+  // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
+  injectLoanDetails(existingPayload, sessionData);
+
+  // ── Dynamic Installment Payments (POST_FULFILLMENT) ─────────────────────────
+  generateInstallmentPayments(existingPayload, sessionData);
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
   return existingPayload;
 }

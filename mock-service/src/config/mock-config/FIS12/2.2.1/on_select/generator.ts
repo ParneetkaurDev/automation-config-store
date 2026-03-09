@@ -1,4 +1,5 @@
 
+import { injectLoanDetails } from "../settlement-utils";
 
 export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("On Select generator - Available session data:", {
@@ -59,8 +60,13 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/down_payment_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
     existingPayload.message.order.items[0].xinput.form.id = "down_payment_form";
     existingPayload.message.order.items[0].xinput.form.url = url;
-    console.log("Updated xinput form to eKYC form");
+    console.log("Updated xinput form to down_payment form");
   }
+
+  // ── Dynamic Loan Details (down payment, EMI, interest, quote breakup) ────────
+  // This runs even if down_payment is 0 so quote/items tags stay consistent.
+  injectLoanDetails(existingPayload, sessionData);
+  // ────────────────────────────────────────────────────────────────────────
 
   return existingPayload;
 } 

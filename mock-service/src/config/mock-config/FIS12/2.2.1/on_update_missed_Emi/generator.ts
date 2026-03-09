@@ -9,6 +9,8 @@
  * 5. Set time ranges based on context timestamp for MISSED_EMI_PAYMENT
  */
 
+import { injectSettlementAmount } from "../settlement-utils";
+
 export async function onUpdateDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
   if (existingPayload.context) {
@@ -214,5 +216,10 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
 
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = currentDate;
+
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
+
   return existingPayload;
 }

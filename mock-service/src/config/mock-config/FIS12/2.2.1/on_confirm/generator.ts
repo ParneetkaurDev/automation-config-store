@@ -1,4 +1,5 @@
 
+import { injectSettlementAmount, injectLoanDetails, generateInstallmentPayments } from "../settlement-utils";
 
 function generateTimeRangeFromContext(contextTimestamp: string) {
   const contextDate = new Date(contextTimestamp);
@@ -97,6 +98,13 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     existingPayload.message.order.updated_at = contextTimestamp;
   }
 
+  // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
+  injectLoanDetails(existingPayload, sessionData);
+  // ── Dynamic Installment Payments (POST_FULFILLMENT) ─────────────────────────
+  generateInstallmentPayments(existingPayload, sessionData);
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
 
   return existingPayload;
 }

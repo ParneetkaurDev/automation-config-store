@@ -1,4 +1,6 @@
 
+import { injectSettlementAmount } from "../settlement-utils";
+
 export async function onCancelDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
   if (existingPayload.context) {
@@ -199,6 +201,10 @@ export async function onCancelDefaultGenerator(existingPayload: any, sessionData
     const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
     firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
   }
+
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
 
   return existingPayload;
 }

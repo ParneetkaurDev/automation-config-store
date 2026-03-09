@@ -1,3 +1,5 @@
+import { generateInstallmentPayments, injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
+
 function generateTimeRangeFromContext(contextTimestamp: string) {
   const contextDate = new Date(contextTimestamp);
   const year = contextDate.getUTCFullYear();
@@ -94,6 +96,13 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     }
     console.log("Updated form_response with status and submission_id");
   }
+  // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
+  injectLoanDetails(existingPayload, sessionData);
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
 
+  // ── Dynamic Installment Payments (POST_FULFILLMENT) ─────────────────────────
+  generateInstallmentPayments(existingPayload, sessionData);
   return existingPayload;
 }

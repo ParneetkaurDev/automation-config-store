@@ -1,4 +1,6 @@
 
+import { injectSettlementAmount } from "../settlement-utils";
+
 export async function onCancelDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
   if (existingPayload.context) {
@@ -202,5 +204,10 @@ export async function onCancelDefaultGenerator(existingPayload: any, sessionData
 
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = currentDate;
+
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
+
   return existingPayload;
 }
