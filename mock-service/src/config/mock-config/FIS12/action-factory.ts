@@ -20,7 +20,6 @@ import { MockOnStatusClass } from "./gold-loan/2.0.3/on_status/class";
 import { MockOnStatusUnsolicitedClass } from "./gold-loan/2.0.3/on_status_unsolicited/class";
 
 // Personal Loan imports
-
 import { MockSearchCCClass } from "./credit-card/2.0.3/search/class";
 import { MockOnSearchCCClass } from "./credit-card/2.0.3/on_search/class";
 import { MockOnSelectCCClass } from "./credit-card/2.0.3/on_select/class";
@@ -127,7 +126,7 @@ const registry = {
 	Ekyc_details_form_cc: MockKycVerificationStatusCCClass,
 
 
-	// PERSONAL_LAON-2.0.3
+	// PERSONAL_LOAN-2.0.3
 
 	loan_amount_adjustment_form_pl: MockLoanAdjustmentForm3Class,
 	kyc_verification_status_pl: MockKycVerificationStatus3Class,

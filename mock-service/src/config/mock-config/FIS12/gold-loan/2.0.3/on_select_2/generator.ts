@@ -1,13 +1,3 @@
-/**
- * On Select2 Generator for FIS12 Gold Loan
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update form URL for verification_status (preserve existing structure)
- */
-
 export async function onSelect2Generator(existingPayload: any, sessionData: any) {
   console.log("On Select2 generator - Available session data:", {
     transaction_id: sessionData.transaction_id,
