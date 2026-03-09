@@ -3,6 +3,8 @@ import axios from "axios";
 
 export async function onSelect1Generator(existingPayload: any, sessionData: any) {
   console.log("=== On Select1 Generator Start ===");
+  logger.info("session data for on_select_1+++++++", sessionData)
+  logger.info("form data in session data++++++", sessionData.form_data)
   console.log("Available session data:", {
     transaction_id: sessionData.transaction_id,
     message_id: sessionData.message_id,
@@ -59,6 +61,10 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
   logger.info("sessionData.form_data+++++++++", sessionData.form_data)
   logger.info("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
   logger.info("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
+
+  console.log("sessionData.form_data+++++++++", sessionData.form_data)
+  console.log("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
+  console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
   // Extract customer ID from session data
   const contactNumber = sessionData.form_data?.personal_loan_information_form?.contactNumber;
 
