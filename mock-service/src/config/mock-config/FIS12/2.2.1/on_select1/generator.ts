@@ -1,3 +1,4 @@
+import { injectLoanDetails } from "../settlement-utils";
 
 
 export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -64,5 +65,6 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
     existingPayload.message.order.items[0].xinput.form.url = url;
   }
 
+  injectLoanDetails(existingPayload, sessionData);
   return existingPayload;
 } 

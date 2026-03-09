@@ -1,3 +1,5 @@
+import { injectSettlementAmount } from "../settlement-utils";
+
 export async function onStatusUnsolicitedGenerator(existingPayload: any, sessionData: any) {
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
@@ -93,6 +95,10 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
 
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = currentDate;
+
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
 
   return existingPayload;
 }

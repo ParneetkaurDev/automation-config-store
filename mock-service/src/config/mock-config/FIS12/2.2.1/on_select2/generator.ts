@@ -1,3 +1,5 @@
+import { injectLoanDetails } from "../settlement-utils";
+
 export async function onSelectDefaultGenerator(
   existingPayload: any,
   sessionData: any
@@ -83,6 +85,15 @@ export async function onSelectDefaultGenerator(
       submission_id
     console.log("Updated form_response with status and submission_id");
   }
+
+  // ── Dynamic Loan Details using user-entered down payment ──────────────────────
+  // form_data.down_payment_form.updateDownpayment is the user-entered value.
+  // This recalculates: principal, EMI, total interest, net_disbursed_amount
+  // and injects them into quote.breakup, item INFO tags, and PRE_ORDER payment.
+  const downPaymentEntered = sessionData?.form_data?.down_payment_form?.updateDownpayment;
+  console.log("[on_select2] Down payment from form:", downPaymentEntered);
+  injectLoanDetails(existingPayload, sessionData);
+  // ────────────────────────────────────────────────────────────────────────
 
   return existingPayload;
 }

@@ -13,6 +13,7 @@ function generateTimeRangeFromContext(contextTimestamp: string) {
     end: end.toISOString()
   };
 }
+import { generateInstallmentPayments, injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_init", sessionData);
@@ -93,6 +94,14 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
       return item;
     });
   }
+  // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
+  injectLoanDetails(existingPayload, sessionData);
+
+  // ── Dynamic Installment Payments (POST_FULFILLMENT) ─────────────────────────
+  generateInstallmentPayments(existingPayload, sessionData);
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
 
   return existingPayload;
 }

@@ -9,6 +9,8 @@
  * 5. Set time ranges based on context timestamp for MISSED_EMI_PAYMENT
  */
 
+import { generateInstallmentPayments, injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
+
 export async function onUpdateDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
   if (existingPayload.context) {
@@ -66,5 +68,12 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = currentDate;
 
+  // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
+  injectLoanDetails(existingPayload, sessionData);
+
+  // ── Dynamic Installment Payments (POST_FULFILLMENT) ─────────────────────────
+  generateInstallmentPayments(existingPayload, sessionData);
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
   return existingPayload;
 }

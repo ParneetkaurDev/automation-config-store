@@ -1,4 +1,6 @@
 
+import { injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
+
 export async function confirmDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for confirm", sessionData);
 
@@ -34,6 +36,10 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
     console.log("Updated item.id:", selectedItem.id);
   }
 
+  injectLoanDetails(existingPayload, sessionData);
+  // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
+  injectSettlementAmount(existingPayload, sessionData);
+  // ─────────────────────────────────────────────────────────────────────────
 
   return existingPayload;
 }
