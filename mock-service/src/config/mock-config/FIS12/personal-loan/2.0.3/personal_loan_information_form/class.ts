@@ -56,8 +56,8 @@ export class MockPersonalLoanInformationFormClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		// return { "save-data": { personal_loan_information_form: "personal_loan_information_form" } };
-		return { "save-data": {} };
+		return { "save-data": { personal_loan_information_form: "personal_loan_information_form" } };
+
 	}
 	get defaultData(): any {
 		return {};
