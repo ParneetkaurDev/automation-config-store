@@ -496,3 +496,381 @@ export function generateInstallmentPayments(
         `[settlement-utils] Generated ${instalmentPayments.length} POST_FULFILLMENT instalments (EMI=${emiAmount})`
     );
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Dynamic Update Payments  (Missed EMI / Foreclosure / Pre-Part Payment)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type UpdatePaymentType =
+    | "MISSED_EMI_SOLICITED"
+    | "MISSED_EMI_UNSOLICITED"
+    | "FORECLOSURE_SOLICITED"     // Borrower-initiated: remaining EMIs = NOT-PAID
+    | "FORECLOSURE_UNSOLICITED"   // Lender-initiated: remaining EMIs = DEFERRED
+    | "PRE_PART_SOLICITED"
+    | "PRE_PART_UNSOLICITED";
+
+/**
+ * Builds the completely dynamic payments array for all update generators.
+ *
+ * Strategy:
+ *  - Rebuilds the amortisation schedule from sessionData (principal, rate, term).
+ *  - "Event month" = context.timestamp month.
+ *  - Past instalments                        → PAID
+ *  - MISSED_EMI:          current month       → DELAYED
+ *  - FORECLOSURE_SOLICITED  (borrower-req):  current+future → NOT-PAID
+ *    (loan not yet closed, borrower is requesting closure proactively)
+ *  - FORECLOSURE_UNSOLICITED (lender-push):  current+future → DEFERRED
+ *    (lender signals these EMIs are subsumed into the foreclosure payment)
+ *  - PRE_PART_PAYMENT:  current month+future  → NOT-PAID (loan continues)
+ *  - Dynamic quote breakup: OUTSTANDING_PRINCIPAL, OUTSTANDING_INTEREST, and the
+ *    relevant charge (LATE_FEE_AMOUNT / FORECLOSURE_CHARGES / PRE_PAYMENT_CHARGE)
+ *    are all recalculated and injected.
+ *
+ * Non-POST_FULFILLMENT payments (ON_ORDER, PRE_ORDER) from the default yaml are
+ * preserved unchanged.
+ */
+export function generateUpdatePayments(
+    existingPayload: any,
+    sessionData: any,
+    paymentType: UpdatePaymentType
+): void {
+    const order = existingPayload?.message?.order;
+    if (!order) return;
+
+    // ── Rebuild amortisation schedule ─────────────────────────────────────────
+    let details: LoanDetails;
+    if (
+        sessionData.schedule && Array.isArray(sessionData.schedule) &&
+        sessionData.schedule.length > 0 &&
+        sessionData.emi_amount && sessionData.loan_term_months
+    ) {
+        // Re-use cached schedule
+        details = {
+            downPayment: sessionData.down_payment ?? 0,
+            principalAmount: sessionData.principal_amount ?? 0,
+            netDisbursedAmount: sessionData.net_disbursed_amount ?? 0,
+            emiAmount: sessionData.emi_amount,
+            totalInterest: sessionData.total_interest ?? 0,
+            loanTermMonths: sessionData.loan_term_months,
+            interestRateAnnual: sessionData.interest_rate_annual ?? 12,
+            schedule: sessionData.schedule,
+        };
+    } else {
+        details = calculateLoanDetails(sessionData, existingPayload);
+        sessionData.schedule = details.schedule;
+        sessionData.emi_amount = details.emiAmount;
+        sessionData.loan_term_months = details.loanTermMonths;
+        sessionData.total_interest = details.totalInterest;
+        sessionData.principal_amount = details.principalAmount;
+        sessionData.net_disbursed_amount = details.netDisbursedAmount;
+    }
+
+    const { schedule, emiAmount, loanTermMonths, principalAmount } = details;
+    const monthlyRate = (details.interestRateAnnual / 12 / 100);
+
+    // ── Constants ─────────────────────────────────────────────────────────────
+    const contextTs = existingPayload?.context?.timestamp ?? new Date().toISOString();
+    const eventDate = new Date(contextTs);
+    const baseDate = new Date(contextTs);
+    // Loan starts 1 month after context (i = 0 → next month after disbursal)
+    // But we also support baseDate = sessionData.loan_start_date if set.
+    const loanStartDate = sessionData.loan_start_date
+        ? new Date(sessionData.loan_start_date)
+        : new Date(Date.UTC(eventDate.getUTCFullYear(), eventDate.getUTCMonth() - (loanTermMonths - 1), 1));
+
+    const monthStart = (year: number, month: number) =>
+        new Date(Date.UTC(year, month, 1, 0, 0, 0, 0)).toISOString();
+    const monthEnd = (year: number, month: number) =>
+        new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999)).toISOString();
+
+    // Determine which instalment index corresponds to the event month
+    const eventYear = eventDate.getUTCFullYear();
+    const eventMonth = eventDate.getUTCMonth();
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    const getTagValue = (code: string, defaultVal: number): number => {
+        const tags: any[] = existingPayload?.message?.order?.items?.[0]?.tags ?? [];
+        for (const tag of tags) {
+            if (tag?.descriptor?.code === "INFO") {
+                const entry = (tag.list ?? []).find((i: any) => i?.descriptor?.code === code);
+                if (entry?.value) {
+                    // e.g. "0.5 %" or "5 %"
+                    return parseFloat(String(entry.value).replace(/[^0-9.]/g, "")) || defaultVal;
+                }
+            }
+        }
+        return defaultVal;
+    };
+
+    const upsertBreakup = (title: string, value: number) => {
+        order.quote = order.quote ?? { price: { currency: "INR", value: "0" }, breakup: [] };
+        order.quote.breakup = Array.isArray(order.quote.breakup) ? order.quote.breakup : [];
+        const idx = order.quote.breakup.findIndex(
+            (b: any) => (b?.title ?? "").toUpperCase() === title.toUpperCase()
+        );
+        const row = { title, price: { value: String(Math.round(value)), currency: "INR" } };
+        if (idx >= 0) order.quote.breakup[idx] = row; else order.quote.breakup.push(row);
+    };
+
+    // ── Determine outstanding amounts at event month ───────────────────────────
+    // Walk the schedule up to the event month index
+    let eventIdx = 0;
+    {
+        const startYear = loanStartDate.getUTCFullYear();
+        const startMonth = loanStartDate.getUTCMonth();
+        const diff = (eventYear - startYear) * 12 + (eventMonth - startMonth);
+        // Clamp to valid range [0, loanTermMonths-1]
+        eventIdx = Math.max(0, Math.min(diff, loanTermMonths - 1));
+    }
+
+    // Outstanding principal = sum of principal remaining after eventIdx-1 paid instalments
+    // = principalAmount - sum of principal[0..eventIdx-1]
+    let paidPrincipal = 0;
+    for (let i = 0; i < eventIdx && i < schedule.length; i++) {
+        paidPrincipal += schedule[i].principal;
+    }
+    const outstandingPrincipal = Math.round(principalAmount - paidPrincipal);
+
+    // Outstanding interest = interest on remaining months from eventIdx
+    let outstandingInterest = 0;
+    for (let i = eventIdx; i < schedule.length; i++) {
+        outstandingInterest += schedule[i].interest;
+    }
+    outstandingInterest = Math.round(outstandingInterest);
+
+    // ── Calculate special charges from item INFO tags ─────────────────────────
+    let specialCharge = 0;
+    let chargeTitle = "";
+    let specialPaymentLabel = "";
+    let specialPaymentAmount = 0;
+
+    if (paymentType === "MISSED_EMI_SOLICITED" || paymentType === "MISSED_EMI_UNSOLICITED") {
+        const delayPenaltyPct = getTagValue("DELAY_PENALTY_FEE", 5);
+        specialCharge = Math.round(emiAmount * delayPenaltyPct / 100);
+        chargeTitle = "LATE_FEE_AMOUNT";
+        specialPaymentLabel = "MISSED_EMI_PAYMENT";
+        specialPaymentAmount = emiAmount + specialCharge;
+    } else if (paymentType === "FORECLOSURE_SOLICITED" || paymentType === "FORECLOSURE_UNSOLICITED") {
+        const foreclosurePct = getTagValue("FORECLOSURE_FEE", 0.5);
+        specialCharge = Math.round(outstandingPrincipal * foreclosurePct / 100);
+        chargeTitle = "FORECLOSURE_CHARGES";
+        specialPaymentLabel = "FORECLOSURE";
+        specialPaymentAmount = outstandingPrincipal + outstandingInterest + specialCharge;
+    } else if (paymentType === "PRE_PART_SOLICITED" || paymentType === "PRE_PART_UNSOLICITED") {
+        const prepayPct = getTagValue("FORECLOSURE_FEE", 0.5);
+        specialCharge = Math.round(outstandingPrincipal * prepayPct / 100);
+        chargeTitle = "PRE_PAYMENT_CHARGE";
+        specialPaymentLabel = "PRE_PART_PAYMENT";
+        specialPaymentAmount = outstandingPrincipal + outstandingInterest + specialCharge;
+    }
+
+    // ── Inject dynamic quote breakup ──────────────────────────────────────────
+    upsertBreakup("OUTSTANDING_PRINCIPAL", outstandingPrincipal);
+    upsertBreakup("OUTSTANDING_INTEREST", outstandingInterest);
+    upsertBreakup(chargeTitle, specialCharge);
+
+    // Update quote total price
+    const processingFee = parseFloat((order.quote?.breakup ?? []).find((b: any) => b.title === "PROCESSING_FEE")?.price?.value ?? "0");
+    const insuranceCharges = parseFloat((order.quote?.breakup ?? []).find((b: any) => b.title === "INSURANCE_CHARGES")?.price?.value ?? "0");
+    const totalQuote = details.principalAmount + details.totalInterest + processingFee + insuranceCharges + specialCharge;
+    order.quote.price = { currency: "INR", value: String(Math.round(totalQuote)) };
+
+    // ── Build instalment history array ────────────────────────────────────────
+    const nonPostPayments: any[] = (order.payments ?? []).filter(
+        (p: any) => p?.type !== "POST_FULFILLMENT"
+    );
+
+    const instalments: any[] = [];
+
+    for (let i = 0; i < loanTermMonths; i++) {
+        const instMonth = loanStartDate.getUTCMonth() + i;
+        const year = loanStartDate.getUTCFullYear() + Math.floor(instMonth / 12);
+        const month = instMonth % 12;
+        const schRow = schedule[i] ?? { principal: emiAmount, interest: 0 };
+
+        let status: string;
+        if (i < eventIdx) {
+            status = "PAID";
+        } else if (i === eventIdx) {
+            if (paymentType === "MISSED_EMI_SOLICITED") status = "DELAYED";
+            else if (paymentType === "MISSED_EMI_UNSOLICITED") status = "DEFERRED";
+            else if (paymentType === "FORECLOSURE_SOLICITED") status = "NOT-PAID";
+            else if (paymentType === "FORECLOSURE_UNSOLICITED") status = "DEFERRED";
+            else if (paymentType === "PRE_PART_SOLICITED") status = "NOT-PAID";
+            else if (paymentType === "PRE_PART_UNSOLICITED") status = "DEFERRED";
+            else status = "NOT-PAID";
+        } else {
+            // Future instalments
+            if (paymentType === "FORECLOSURE_SOLICITED") status = "NOT-PAID";
+            else if (paymentType === "FORECLOSURE_UNSOLICITED") status = "DEFERRED";
+            else if (paymentType === "PRE_PART_UNSOLICITED") status = "DEFERRED";
+            else status = "NOT-PAID";
+        }
+        const inst: any = {
+            type: "POST_FULFILLMENT",
+            id: `PID-${5000 + i + 1}`,
+            params: { amount: String(emiAmount), currency: "INR" },
+            status,
+            time: {
+                label: "INSTALLMENT",
+                range: { start: monthStart(year, month), end: monthEnd(year, month) },
+            },
+            tags: [{
+                descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+                list: [
+                    { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${schRow.principal} INR` },
+                    { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${schRow.interest} INR` },
+                ],
+            }],
+        };
+
+        // Add transaction_id for past PAID instalments
+        if (status === "PAID") {
+            inst.params.transaction_id = `txn-auto-${i + 1}-${Date.now()}`;
+        }
+
+        instalments.push(inst);
+    }
+
+    // ── Special payment entry (first — the actual update event) ──────────────
+    const refId = sessionData.message_id ?? order.id ?? "auto-ref";
+    const eventRow = schedule[eventIdx] ?? { principal: outstandingPrincipal, interest: outstandingInterest };
+
+    // ── Build specialEntry differently per payment type ───────────────────────
+    let specialEntry: any;
+
+    if (paymentType === "MISSED_EMI_SOLICITED") {
+        // Borrower missed an EMI: NOT-PAID, with a 15-day payment window (range + duration)
+        specialEntry = {
+            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            type: "POST_FULFILLMENT",
+            params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
+            status: "NOT-PAID",
+            url: `https://pg.icici.com/?amount=${Math.round(specialPaymentAmount)}&ref_id=${encodeURIComponent(refId)}`,
+            time: {
+                duration: "P15D",
+                label: "MISSED_EMI_PAYMENT",
+                range: { start: monthStart(eventYear, eventMonth), end: monthEnd(eventYear, eventMonth) },
+            },
+            tags: [{
+                descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+                list: [
+                    { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
+                    { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+                ],
+            }],
+        };
+
+    } else if (paymentType === "MISSED_EMI_UNSOLICITED") {
+        // Lender pushes missed EMI notice: PAID, timestamp, range, no url, no duration
+        specialEntry = {
+            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            type: "POST_FULFILLMENT",
+            params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
+            status: "PAID",
+            time: {
+                timestamp: monthStart(eventYear, eventMonth),
+                label: "MISSED_EMI_PAYMENT",
+                range: { start: monthStart(eventYear, eventMonth), end: monthEnd(eventYear, eventMonth) },
+            },
+            tags: [{
+                descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+                list: [
+                    { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
+                    { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+                ],
+            }],
+        };
+
+    } else if (paymentType === "FORECLOSURE_SOLICITED") {
+        // Borrower requests foreclosure: NOT-PAID (payment is pending), 90-min payment window
+        specialEntry = {
+            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            type: "POST_FULFILLMENT",
+            params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
+            status: "NOT-PAID",
+            url: `https://pg.icici.com/?amount=${Math.round(specialPaymentAmount)}&ref_id=${encodeURIComponent(refId)}`,
+            time: {
+                duration: "PT90M",
+                label: "FORECLOSURE",
+            },
+            tags: [{
+                descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+                list: [
+                    { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
+                    { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+                ],
+            }],
+        };
+
+    } else if (paymentType === "FORECLOSURE_UNSOLICITED") {
+        // Lender pushes foreclosure notification: PAID, timestamp only, no url
+        specialEntry = {
+            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            type: "POST_FULFILLMENT",
+            params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
+            status: "PAID",
+            time: {
+                timestamp: monthStart(eventYear, eventMonth),
+                label: "FORECLOSURE",
+            },
+            tags: [{
+                descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+                list: [
+                    { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
+                    { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+                ],
+            }],
+        };
+
+    } else if (paymentType === "PRE_PART_SOLICITED") {
+        // PRE_PART_PAYMENT solicited: NOT-PAID, duration 15 days, with url
+        specialEntry = {
+            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            type: "POST_FULFILLMENT",
+            params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
+            status: "NOT-PAID",
+            url: `https://pg.icici.com/?amount=${Math.round(specialPaymentAmount)}&ref_id=${encodeURIComponent(refId)}`,
+            time: {
+                duration: "P15D",
+                label: specialPaymentLabel,
+            },
+            tags: [{
+                descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+                list: [
+                    { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
+                    { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+                ],
+            }],
+        };
+
+    } else if (paymentType === "PRE_PART_UNSOLICITED") {
+        // PRE_PART_PAYMENT unsolicited: PAID, timestamp only, no url
+        specialEntry = {
+            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            type: "POST_FULFILLMENT",
+            params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
+            status: "PAID",
+            time: {
+                timestamp: monthStart(eventYear, eventMonth),
+                label: specialPaymentLabel,
+            },
+            tags: [{
+                descriptor: { code: "BREAKUP", name: "Emi Breakup" },
+                list: [
+                    { descriptor: { code: "PRINCIPAL_AMOUNT", name: "Principal", short_desc: "Loan Principal" }, value: `${eventRow.principal} INR` },
+                    { descriptor: { code: "INTEREST_AMOUNT", name: "Interest", short_desc: "Loan Interest" }, value: `${eventRow.interest} INR` },
+                ],
+            }],
+        };
+    }
+
+    // Order: special event first, then non-POST_FULFILLMENT (ON_ORDER, PRE_ORDER), then all instalment history
+    order.payments = [specialEntry, ...nonPostPayments, ...instalments];
+    console.log(
+        `[settlement-utils] generateUpdatePayments type=${paymentType}: ` +
+        `eventIdx=${eventIdx}, outstandingPrincipal=${outstandingPrincipal}, ` +
+        `outstandingInterest=${outstandingInterest}, specialCharge=${specialCharge}, ` +
+        `specialPaymentAmount=${specialPaymentAmount}`
+    );
+}
