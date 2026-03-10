@@ -119,13 +119,15 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
       };
 
       console.log("Consent request payload:", consentRequest);
-
+      logger.info("ConsentRequest body ", consentRequest);
       const response = await axios.post(consentUrl, consentRequest, {
         headers: {
           'Content-Type': 'application/json'
         },
         timeout: 10000 // 10 second timeout
       });
+
+      logger.info("finvu response ", response);
 
       const consentHandler = response.data.consentHandler;
       logger.info(
