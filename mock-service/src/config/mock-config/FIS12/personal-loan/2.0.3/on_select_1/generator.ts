@@ -98,6 +98,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
       // Call Finvu AA Service to generate consent handler
       const finvuServiceUrl = process.env.FINVU_AA_SERVICE_URL || 'http://localhost:3002';
       const consentUrl = `${finvuServiceUrl}/finvu-aa/consent/generate`;
+      const correctedUrl = "https://automation-mock-service/finvu-aa/consent/generate"
 
       console.log("Calling Finvu AA Service:", consentUrl);
       logger.info(
@@ -108,7 +109,8 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
           domain: sessionData?.domain,
           transaction_id: existingPayload?.context?.transaction_id || sessionData?.transaction_id,
         },
-        { url: consentUrl }
+        { url: consentUrl },
+        {correctedUrl: correctedUrl}
       );
 
       const consentRequest = {
@@ -120,7 +122,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
 
       console.log("Consent request payload:", consentRequest);
       logger.info("ConsentRequest body ", consentRequest);
-      const response = await axios.post(consentUrl, consentRequest, {
+      const response = await axios.post(correctedUrl, consentRequest, {
         headers: {
           'Content-Type': 'application/json'
         },
