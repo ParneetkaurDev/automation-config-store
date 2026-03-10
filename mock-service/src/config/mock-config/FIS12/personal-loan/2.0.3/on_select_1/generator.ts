@@ -68,13 +68,13 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
   // ========== FINVU AA CONSENT INTEGRATION ==========
 
   console.log("--- Finvu AA Integration Start ---");
-  logger.info("sessionData.form_data+++++++++", sessionData.form_data)
-  logger.info("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
-  logger.info("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
+  // logger.info("sessionData.form_data+++++++++", sessionData.form_data)
+  // logger.info("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
+  // logger.info("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
 
-  console.log("sessionData.form_data+++++++++", sessionData.form_data)
-  console.log("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
-  console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
+  // console.log("sessionData.form_data+++++++++", sessionData.form_data)
+  // console.log("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
+  // console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
   // Extract customer ID from session data
   // const contactNumber = sessionData.form_data?.personal_loan_information_form?.contactNumber;
 
@@ -85,15 +85,14 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
 
   const contactNumber =
     dedicatedFormData?.personal_loan_information_form?.contactNumber
-    || sessionData.form_data?.personal_loan_information_form?.contactNumber
-    || sessionData.user_inputs?.contactNumber;
-  logger.info("contactNumber (from dedicated key)+++++++++", dedicatedFormData?.personal_loan_information_form?.contactNumber);
+  
+  logger.info("contactNumber from dedicatedFormData", dedicatedFormData?.personal_loan_information_form?.contactNumber);
   logger.info("contactNumber (final)+++++++++", contactNumber);
 
-  console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber", sessionData.form_data?.personal_loan_information_form?.contactNumber)
+  // console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber", sessionData.form_data?.personal_loan_information_form?.contactNumber)
   if (contactNumber) {
     const custId = `${contactNumber}@finvu`;
-    console.log("Customer ID for consent:", custId);
+    logger.info("custId after form sumbmission: ", custId)
 
     try {
       // Call Finvu AA Service to generate consent handler
