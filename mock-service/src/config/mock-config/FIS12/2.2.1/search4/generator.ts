@@ -23,7 +23,7 @@ export async function searchDefaultGenerator(
 	if (sessionData.user_inputs?.city_code) {
 		existingPayload.context.location.city.code = sessionData.user_inputs.city_code;
 	}
-
+	console.log("sessionData for form data", JSON.stringify(sessionData))
 	// Update form_response with status and submission_id (preserve existing structure)
 	if (existingPayload.message?.intent?.provider?.items?.[0]?.xinput?.form_response) {
 		existingPayload.message.intent.provider = sessionData?.provider
