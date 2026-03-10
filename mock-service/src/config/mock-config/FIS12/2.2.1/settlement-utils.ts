@@ -311,7 +311,9 @@ export function injectLoanDetails(existingPayload: any, sessionData: any, detail
     sessionData.emi_amount = d.emiAmount;
     sessionData.total_interest = d.totalInterest;
     sessionData.loan_term_months = d.loanTermMonths;
-    sessionData.settlement_amount = undefined; // force recalc in init
+    // NOTE: Do NOT clear sessionData.settlement_amount here.
+    // It is calculated once in the `init` generator and must stay consistent
+    // across all downstream generators (on_init, on_confirm, etc.).
 
     // Update quote.breakup
     const quote = existingPayload?.message?.order?.quote;
