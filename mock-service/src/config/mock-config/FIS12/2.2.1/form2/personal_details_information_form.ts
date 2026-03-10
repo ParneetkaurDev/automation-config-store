@@ -40,13 +40,16 @@ export class MockPersonalDetailsInformationFormClass extends MockAction {
 	override async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
-		
+
 		const formLink = sessionData["personal_details_information_form"];
 		if (!formLink) {
 			throw new Error("Form link not found in session data");
 		}
 		const formRaw = await axios.get(formLink);
 		const formData = formRaw.data;
+		console.log("formData in form file with link", formData)
+		console.log("formData in form file with link", JSON.stringify(formData))
+
 		return {
 			...sessionData,
 			personal_details_information_form: resolveFormActions(formLink, formData),

@@ -4,6 +4,9 @@ export async function searchDefaultGenerator(
 	existingPayload: any,
 	sessionData: SessionData
 ) {
+	console.log("sessionData form data for search3 after form:", JSON.stringify(sessionData.form_data))
+	console.log("sessionData form data for search3 after form without strinify:", sessionData.form_data)
+
 	// Remove BPP context fields (not needed in search)
 	delete existingPayload.context.bpp_uri;
 	delete existingPayload.context.bpp_id;

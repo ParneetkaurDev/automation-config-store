@@ -34,11 +34,9 @@ export class MockOnSearchClass3 extends MockAction {
         return onSearchDefaultGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {
-
         return { valid: true };
     }
     async meetRequirements(sessionData: SessionData): Promise<MockOutput> {
-
         return { valid: true };
     }
 }
