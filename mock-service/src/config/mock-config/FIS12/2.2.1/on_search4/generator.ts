@@ -1,5 +1,4 @@
 export async function onSearchDefaultGenerator(existingPayload: any, sessionData: any) {
-  console.log("existingPayload on search", existingPayload);
 
   // Set payment_collected_by if present in session data
   if (sessionData.collected_by && existingPayload.message?.catalog?.providers?.[0]?.payments?.[0]) {
@@ -10,7 +9,9 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   if (sessionData.message_id && existingPayload.context) {
     existingPayload.context.message_id = sessionData.message_id;
   }
-  console.log("sessionData.message_id", sessionData);
+  console.log("sessionData for aggregator search", JSON.stringify(sessionData));
+  console.log("sessionData for aggregator search form_data", JSON.stringify(sessionData.form_data));
+
   existingPayload.message.catalog.providers[0].categories = sessionData.categories;
 
   // Update form URLs for items with session data (preserve existing structure)

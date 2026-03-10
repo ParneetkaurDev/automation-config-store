@@ -16,7 +16,7 @@ export class MockOnSearchClass3 extends MockAction {
             readFileSync(path.resolve(__dirname, "./default.yaml"), "utf8")
         );
     }
-    
+
     get inputs(): any {
         return {
         };
@@ -29,6 +29,8 @@ export class MockOnSearchClass3 extends MockAction {
         return "Mock for on_search_full_pull";
     }
     generator(existingPayload: any, sessionData: SessionData): Promise<any> {
+        console.log("sessionData after form", JSON.stringify(sessionData))
+        console.log("form Data sessionData after form", JSON.stringify(sessionData.form_data))
         return onSearchDefaultGenerator(existingPayload, sessionData);
     }
     async validate(targetPayload: any): Promise<MockOutput> {

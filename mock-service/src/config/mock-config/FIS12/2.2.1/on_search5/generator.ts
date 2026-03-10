@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export async function onSearchDefaultGenerator(existingPayload: any, sessionData: any) {
-  console.log("existingPayload on search", JSON.stringify(sessionData));
+  console.log("existingPayload on search", sessionData.form_data);
+  console.log("existingPayload on searchFROM", JSON.stringify(sessionData.form_data));
 
   // Set payment_collected_by if present in session data
   if (sessionData.collected_by && existingPayload.message?.catalog?.providers?.[0]?.payments?.[0]) {
@@ -12,7 +13,7 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   if (sessionData.message_id && existingPayload.context) {
     existingPayload.context.message_id = sessionData.message_id;
   }
-  console.log("sessionData.message_id", sessionData);
+  console.log("sessionData.message_id", JSON.stringify(sessionData));
   if (sessionData.provider_id) {
     existingPayload.message.catalog.providers[0].id = sessionData.provider_id
   }
