@@ -76,7 +76,11 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
   console.log("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
   console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
   // Extract customer ID from session data
-  const contactNumber = sessionData.form_data?.personal_loan_information_form?.contactNumber;
+  // const contactNumber = sessionData.form_data?.personal_loan_information_form?.contactNumber;
+  logger.info("user.inputs+++++++++", sessionData.user_inputs)
+  const contactNumber = sessionData.form_data?.personal_loan_information_form?.contactNumber
+    || sessionData.user_inputs?.contactNumber;
+  logger.info("contactNumber+++++++++", contactNumber)
 
   console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber", sessionData.form_data?.personal_loan_information_form?.contactNumber)
   if (contactNumber) {
