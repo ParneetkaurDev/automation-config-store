@@ -60,7 +60,45 @@ export async function onSelectDefaultGenerator(
           ...orderItem,
           id: selectedItem.id,
           parent_item_id: selectedItem.parent_item_id,
-          category_ids: selectedItem.category_ids
+          category_ids: selectedItem.category_ids,
+          price: selectedItem.price,
+          tags: [...selectedItem.tags, {
+            "display": true,
+            "descriptor": {
+              "name": "Checklists",
+              "code": "CHECKLISTS"
+            },
+            "list": [
+              {
+                "descriptor": {
+                  "name": "Set Loan Amount",
+                  "code": "SET_DOWN_PAYMENT"
+                },
+                "value": "PENDING"
+              },
+              {
+                "descriptor": {
+                  "name": "KYC",
+                  "code": "KYC"
+                },
+                "value": "PENDING"
+              },
+              {
+                "descriptor": {
+                  "name": "Emandate",
+                  "code": "EMANDATE"
+                },
+                "value": "PENDING"
+              },
+              {
+                "descriptor": {
+                  "name": "Esign",
+                  "code": "ESIGN"
+                },
+                "value": "PENDING"
+              }
+            ]
+          }]
         };
       }
     );

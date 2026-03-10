@@ -26,13 +26,35 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
 
-  // Update item.id if available from session data (carry-forward from init)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData?.items?.[1] ? sessionData?.items?.[1] : sessionData?.items?.[1] : undefined);
+  // Update item.id from the actually selected item (carry-forward from select)
+  // selected_items_1 holds what the user chose from the multiple-offer screen.
+  // We find the matching full item from the on_search catalog (sessionData.items).
+  const selectedItemId = Array.isArray(sessionData.selected_items_1)
+    ? sessionData.selected_items_1?.[0]?.id
+    : undefined;
+  const selectedItem = (selectedItemId && Array.isArray(sessionData.items))
+    ? sessionData.items.find((i: any) => i.id === selectedItemId)
+    : sessionData.item; // fallback to previously saved item
 
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = sessionData.selected_items_id;
-    existingPayload.message.order.items[0].parent_item_id = selectedItem.parent_item_id
-    existingPayload.message.order.items[0].category_ids = selectedItem.category_ids
+    existingPayload.message.order.items[0].id = selectedItem.id;
+    existingPayload.message.order.items[0].parent_item_id = selectedItem.parent_item_id;
+    existingPayload.message.order.items[0].category_ids = selectedItem.category_ids;
+    existingPayload.message.order.items[0].price = selectedItem.price;
+    existingPayload.message.order.items[0].tags = [
+      ...(selectedItem.tags || []),
+      {
+        display: true,
+        descriptor: { name: "Checklists", code: "CHECKLISTS" },
+        list: [
+          { descriptor: { name: "Set Loan Amount", code: "SET_DOWN_PAYMENT" }, value: "PENDING" },
+          { descriptor: { name: "KYC", code: "KYC" }, value: "PENDING" },
+          { descriptor: { name: "Emandate", code: "EMANDATE" }, value: "PENDING" },
+          { descriptor: { name: "Esign", code: "ESIGN" }, value: "PENDING" }
+        ]
+      }
+    ];
+    console.log("[on_init] Set item from selected_items_1:", selectedItem.id);
   }
 
   // Update customer name in fulfillments if available from session data

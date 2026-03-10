@@ -47,8 +47,6 @@ export class MockPersonalDetailsInformationFormClass extends MockAction {
 		}
 		const formRaw = await axios.get(formLink);
 		const formData = formRaw.data;
-		console.log("formData in form file with link", formData)
-		console.log("formData in form file with link", JSON.stringify(formData))
 
 		return {
 			...sessionData,
