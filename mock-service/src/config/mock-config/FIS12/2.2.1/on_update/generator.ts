@@ -51,6 +51,44 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
       existingPayload.message.order.items[0].id = sessionData.selected_items_id;
       existingPayload.message.order.items[0].parent_item_id = selectedItem.parent_item_id
       existingPayload.message.order.items[0].category_ids = selectedItem.category_ids
+      existingPayload.message.order.items[0].price = selectedItem.price,
+        existingPayload.message.order.items[0].tags = [...selectedItem.tags, {
+          "display": true,
+          "descriptor": {
+            "name": "Checklists",
+            "code": "CHECKLISTS"
+          },
+          "list": [
+            {
+              "descriptor": {
+                "name": "Set Loan Amount",
+                "code": "SET_DOWN_PAYMENT"
+              },
+              "value": "PENDING"
+            },
+            {
+              "descriptor": {
+                "name": "KYC",
+                "code": "KYC"
+              },
+              "value": "PENDING"
+            },
+            {
+              "descriptor": {
+                "name": "Emandate",
+                "code": "EMANDATE"
+              },
+              "value": "PENDING"
+            },
+            {
+              "descriptor": {
+                "name": "Esign",
+                "code": "ESIGN"
+              },
+              "value": "PENDING"
+            }
+          ]
+        }]
     }
 
     if (sessionData.payments && order.payments) {
