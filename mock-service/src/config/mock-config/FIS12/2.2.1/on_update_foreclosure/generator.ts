@@ -9,7 +9,7 @@
  * 5. Set time ranges based on context timestamp for MISSED_EMI_PAYMENT
  */
 
-import { injectSettlementAmount, injectLoanDetails, generateUpdatePayments } from "../settlement-utils";
+import { injectSettlementAmount, injectLoanDetails, applyForeclosureInstallmentStatuses } from "../settlement-utils";
 
 export async function onUpdateDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
@@ -104,11 +104,11 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
 
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);
-  // ── Dynamic Foreclosure Payments ──────────────────────────────────────────────
-  // Generates: FORECLOSURE_CHARGES in breakup (FORECLOSURE_FEE % of outstanding principal),
-  // OUTSTANDING_PRINCIPAL, OUTSTANDING_INTEREST, and the special FORECLOSURE payment.
-  // Past instalments are PAID, current+future are DEFERRED.
-  generateUpdatePayments(existingPayload, sessionData, "FORECLOSURE_SOLICITED");
+  // ── Build payments[0] (PID-8000) + installments in one step ────────────────
+  // Solicited: PID-8000 = NOT-PAID + url + PT90M
+  //            Event + future installments = NOT-PAID
+  //            Past installments preserved PAID from sessionData.payments
+  applyForeclosureInstallmentStatuses(existingPayload, sessionData, false);
   // ── Dynamic SETTLEMENT_AMOUNT ──────────────────────────────────────────────
   injectSettlementAmount(existingPayload, sessionData);
 

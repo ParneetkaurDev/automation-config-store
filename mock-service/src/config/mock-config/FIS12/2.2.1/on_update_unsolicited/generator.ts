@@ -257,7 +257,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
   }
   const currentDate = new Date(existingPayload.context.timestamp).toISOString();
-
+  existingPayload.message.order.payments = sessionData.payments
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = currentDate;
 
@@ -265,7 +265,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   injectLoanDetails(existingPayload, sessionData);
 
   // ── Dynamic Installment Payments (POST_FULFILLMENT) ─────────────────────────
-  generateInstallmentPayments(existingPayload, sessionData);
+  // generateInstallmentPayments(existingPayload, sessionData);
   // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
   injectSettlementAmount(existingPayload, sessionData);
   // ─────────────────────────────────────────────────────────────────────────

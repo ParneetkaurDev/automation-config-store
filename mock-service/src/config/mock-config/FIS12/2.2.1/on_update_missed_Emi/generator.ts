@@ -9,7 +9,7 @@
  * 5. Set time ranges based on context timestamp for MISSED_EMI_PAYMENT
  */
 
-import { injectSettlementAmount, injectLoanDetails, generateUpdatePayments } from "../settlement-utils";
+import { injectSettlementAmount, injectLoanDetails, applyMissedEmiInstallmentStatuses } from "../settlement-utils";
 
 export async function onUpdateDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
@@ -103,11 +103,11 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
 
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);
-  // ── Dynamic Missed EMI Payments ──────────────────────────────────────────────
-  // Generates: DELAYED instalment, preceding PAID instalments,
-  // LATE_FEE_AMOUNT in quote.breakup, outstanding amounts, and the
-  // special MISSED_EMI_PAYMENT top-level payment entry.
-  generateUpdatePayments(existingPayload, sessionData, "MISSED_EMI_SOLICITED");
+  // ── Build payments[0] (PID-8000) + installments in one step ────────────────
+  // Solicited: PID-8000 = NOT-PAID + url + P15D + range
+  //            Event month installment = DELAYED, future = NOT-PAID
+  //            Past installments preserved PAID from sessionData.payments
+  applyMissedEmiInstallmentStatuses(existingPayload, sessionData, false);
   // ── Dynamic SETTLEMENT_AMOUNT ──────────────────────────────────────────────
   injectSettlementAmount(existingPayload, sessionData);
 

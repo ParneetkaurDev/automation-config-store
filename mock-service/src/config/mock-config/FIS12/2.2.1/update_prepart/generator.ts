@@ -68,7 +68,7 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
     if (!labelFromSession) {
       labelFromSession = sessionData.user_inputs?.foreclosure_amount ? 'FORECLOSURE'
         : sessionData.user_inputs?.missed_emi_amount ? 'MISSED_EMI_PAYMENT'
-          : sessionData.user_inputs?.part_payment_amount ? 'PRE_PART_PAYMENT'
+          : sessionData.user_inputs?.pre_part_payment ? 'PRE_PART_PAYMENT'
             : payment.time.label;
     }
 
@@ -78,9 +78,9 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
     }
 
     // Amount mapping for part payment (optional for other labels)
-    if (sessionData.user_inputs?.part_payment_amount) {
+    if (sessionData.user_inputs?.pre_part_payment) {
       payment.params = payment.params || {};
-      payment.params.amount = String(sessionData.user_inputs.part_payment_amount);
+      payment.params.amount = String(sessionData.user_inputs.pre_part_payment);
       payment.params.currency = payment.params.currency || sessionData.update_currency || 'INR';
     }
   }
