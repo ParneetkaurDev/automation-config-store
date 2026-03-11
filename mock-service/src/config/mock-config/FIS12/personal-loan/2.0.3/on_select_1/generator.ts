@@ -98,7 +98,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
       // Call Finvu AA Service to generate consent handler
       const finvuServiceUrl = process.env.FINVU_AA_SERVICE_URL || 'http://localhost:3002';
       const consentUrl = `${finvuServiceUrl}/finvu-aa/consent/generate`;
-      const correctedUrl = "https://automation-mock-service/finvu-aa/consent/generate"
+      const correctedUrl = "https://dev-automation.ondc.org/finvu/finvu-aa/consent/generate"
 
       console.log("Calling Finvu AA Service:", consentUrl);
       logger.info(
