@@ -776,7 +776,7 @@ export function generateUpdatePayments(
     if (paymentType === "MISSED_EMI_SOLICITED") {
         // Borrower missed an EMI: NOT-PAID, with a 15-day payment window (range + duration)
         specialEntry = {
-            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            id: "PID-8000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "NOT-PAID",
@@ -798,7 +798,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "MISSED_EMI_UNSOLICITED") {
         // Lender pushes missed EMI notice: PAID, timestamp, range, no url, no duration
         specialEntry = {
-            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            id: "PID-8000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "PAID",
@@ -819,7 +819,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "FORECLOSURE_SOLICITED") {
         // Borrower requests foreclosure: NOT-PAID (payment is pending), 90-min payment window
         specialEntry = {
-            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            id: "PID-8000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "NOT-PAID",
@@ -840,7 +840,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "FORECLOSURE_UNSOLICITED") {
         // Lender pushes foreclosure notification: PAID, timestamp only, no url
         specialEntry = {
-            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            id: "PID-8000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "PAID",
@@ -860,7 +860,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "PRE_PART_SOLICITED") {
         // PRE_PART_PAYMENT solicited: NOT-PAID, duration 15 days, with url
         specialEntry = {
-            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            id: "PID-8000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "NOT-PAID",
@@ -881,7 +881,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "PRE_PART_UNSOLICITED") {
         // PRE_PART_PAYMENT unsolicited: PAID, timestamp only, no url
         specialEntry = {
-            id: "PAYMENT_ID_PURCHASE_FINANCE",
+            id: "PID-8000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "PAID",
