@@ -335,25 +335,8 @@ export function injectLoanDetails(existingPayload: any, sessionData: any, detail
         console.log("[settlement-utils] Updated quote.price:", totalLoan);
     }
 
-    // Update items[0] - price and INFO tags
-    const item0 = existingPayload?.message?.order?.items?.[0];
-    if (item0) {
-        // const bkp: any[] = existingPayload?.message?.order?.quote?.breakup || [];
-        // const processingFee = parseFloat(bkp.find((b: any) => b.title === "PROCESSING_FEE")?.price?.value || "0");
-        // const insuranceCharges = parseFloat(bkp.find((b: any) => b.title === "INSURANCE_CHARGES")?.price?.value || "0");
-        // // const totalLoan = d.principalAmount + d.totalInterest + processingFee + insuranceCharges;
-        // // item0.price = { currency: "INR", value: String(Math.round(totalLoan)) };
-
-        const infoTag = (item0.tags || []).find((t: any) => t?.descriptor?.code === "INFO");
-        if (infoTag && Array.isArray(infoTag.list)) {
-            const setTag = (code: string, value: string) => {
-                const entry = infoTag.list.find((i: any) => i?.descriptor?.code === code);
-                if (entry) { entry.value = value; console.log(`[settlement-utils] Set INFO.${code} = ${value}`); }
-            };
-            setTag("INSTALLMENT_AMOUNT", `${d.emiAmount} INR`);
-            setTag("NUMBER_OF_INSTALLMENTS", String(d.loanTermMonths));
-        }
-    }
+    // Update items INFO tags using the common exported utility
+    injectItemInfoTags(existingPayload, d);
 
     // Update PRE_ORDER payment amount (= down payment)
     if (d.downPayment > 0) {
@@ -368,6 +351,55 @@ export function injectLoanDetails(existingPayload: any, sessionData: any, detail
     }
 
     return d;
+}
+
+/**
+ * Upserts dynamic loan values into the INFO tag of every item in the payload.
+ *
+ * Tags updated/inserted:
+ *   INSTALLMENT_AMOUNT    → "{emiAmount} INR"
+ *   NUMBER_OF_INSTALLMENTS → "{loanTermMonths}"
+ *   PRINCIPAL_AMOUNT       → "{principalAmount} INR"
+ *   INTEREST_AMOUNT        → "{totalInterest} INR"
+ *
+ * Safe to call from any generator — works whether the INFO tag entry already
+ * exists in the YAML (updates it) or not (inserts it).
+ *
+ * @param existingPayload  Full ONDC message payload (mutated in place)
+ * @param details          LoanDetails from calculateLoanDetails / injectLoanDetails
+ */
+export function injectItemInfoTags(existingPayload: any, details: LoanDetails): void {
+    const items: any[] = existingPayload?.message?.order?.items || [];
+
+    items.forEach((item: any) => {
+        if (!Array.isArray(item.tags)) return;
+
+        // Find or create the INFO tag
+        let infoTag = item.tags.find((t: any) => t?.descriptor?.code === "INFO");
+        if (!infoTag) {
+            infoTag = { descriptor: { code: "INFO", name: "Information" }, display: true, list: [] };
+            item.tags.push(infoTag);
+        }
+        if (!Array.isArray(infoTag.list)) infoTag.list = [];
+
+        // Upsert: update value if entry exists, insert if it doesn't
+        const upsert = (code: string, name: string, value: string) => {
+            const entry = infoTag.list.find((i: any) => i?.descriptor?.code === code);
+            if (entry) {
+                entry.value = value;
+            } else {
+                infoTag.list.push({ descriptor: { code, name }, value });
+            }
+            console.log(`[settlement-utils] INFO.${code} = ${value}`);
+        };
+
+        upsert("INSTALLMENT_AMOUNT", "Installment Amount", `${Math.round(details.emiAmount)} INR`);
+        upsert("NUMBER_OF_INSTALLMENTS", "Number of Installments", String(details.loanTermMonths));
+        upsert("PRINCIPAL_AMOUNT", "Principal Amount", `${Math.round(details.principalAmount)} INR`);
+        upsert("INTEREST_AMOUNT", "Interest Amount", `${Math.round(details.totalInterest)} INR`);
+        upsert("NET_DISBURSED_AMOUNT", "Net Disbursed Amount", `${Math.round(details.netDisbursedAmount)} INR`);
+
+    });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

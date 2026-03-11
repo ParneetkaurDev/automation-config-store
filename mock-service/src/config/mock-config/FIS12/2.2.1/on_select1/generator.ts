@@ -1,4 +1,4 @@
-import { injectLoanDetails } from "../settlement-utils";
+import { injectLoanDetails, injectItemInfoTags, calculateLoanDetails } from "../settlement-utils";
 
 
 export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -103,6 +103,9 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
     existingPayload.message.order.items[0].xinput.form.url = url;
   }
 
-  injectLoanDetails(existingPayload, sessionData);
+  // ── Dynamic Loan Details (quote.breakup, PRE_ORDER payment) ─────────────
+  const loanDetails = injectLoanDetails(existingPayload, sessionData);
+  injectItemInfoTags(existingPayload, loanDetails);
+  // ─────────────────────────────────────────────────────────────────────────
   return existingPayload;
 } 
