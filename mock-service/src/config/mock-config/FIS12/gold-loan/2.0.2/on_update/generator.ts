@@ -228,7 +228,7 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     // Set payment URL
     const paymentAmount = firstPayment.params.amount;
     const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
-    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&direct=true`;
+    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}`;
     console.log("Payment URL for MISSED_EMI_PAYMENT:", firstPayment.url);
   }
 
@@ -253,7 +253,7 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     if (firstPayment.time.range) delete firstPayment.time.range;
     
         const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
-        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&direct=true`;
+        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}`;
         firstPayment.url = paymentUrl;
         console.log("Payment URL for FORECLOSURE:", firstPayment.url);
   }
@@ -289,7 +289,7 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
     // Set payment URL
     const paymentAmount = partPaymentAmount;
     const transactionId = existingPayload.context?.transaction_id || sessionData.transaction_id;
-    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}&direct=true`;
+    firstPayment.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${transactionId}`;
     console.log("Payment URL for PRE_PART_PAYMENT:", firstPayment.url);
     console.log(`PRE_PART_PAYMENT amount: ${partPaymentAmount} (includes first installment: ${firstInstallment})`);
     

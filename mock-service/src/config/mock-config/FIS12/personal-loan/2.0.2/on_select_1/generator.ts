@@ -1,10 +1,3 @@
-import axios from 'axios';
-
-/**
- * Generator for on_select_1 response
- * This is called during Gold Loan flow WITH Account Aggregator
- * Generates dynamic consent handler from Finvu AA Service
- */
 export async function onSelect1Generator(existingPayload: any, sessionData: any) {
   console.log("=== On Select1 Generator Start ===");
   console.log("Available session data:", {
