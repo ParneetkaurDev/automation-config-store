@@ -74,14 +74,14 @@ export async function onSelectDefaultGenerator(
                   "name": "Set Loan Amount",
                   "code": "SET_DOWN_PAYMENT"
                 },
-                "value": "PENDING"
+                "value": "COMPLETED"
               },
               {
                 "descriptor": {
                   "name": "KYC",
                   "code": "KYC"
                 },
-                "value": "PENDING"
+                "value": "COMPLETED"
               },
               {
                 "descriptor": {
