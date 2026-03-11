@@ -54,20 +54,12 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
       console.log('Preserved ON_ORDER payment from session with unique ID and updated status to PAID');
     }
 
-    // 3. Add installments (from session, with updated statuses)
+    // 3. Add installments — keep as-is from session (do NOT modify statuses here)
+    //    Status changes happen only in the unsolicited generator after form submission
     if (installmentsFromSession.length > 0) {
-      console.log(`Found ${installmentsFromSession.length} installments from session data for foreclosure`);
-
-
-      const updatedInstallments = installmentsFromSession.map((installment: any, index: number) => {
-        return {
-          ...installment,
-          status: index < 2 ? 'PAID' : 'NOT-PAID'
-        };
-      });
-
-      rebuiltPayments.push(...updatedInstallments);
-      console.log('Merged installments for foreclosure with updated statuses (2 PAID, rest NOT-PAID)');
+      console.log(`Found ${installmentsFromSession.length} installments from session — keeping statuses as-is for foreclosure on_update`);
+      rebuiltPayments.push(...installmentsFromSession);
+      console.log('Pushed installments with their existing session statuses');
     }
 
     // Replace the entire payments array with the correctly ordered one
@@ -131,7 +123,7 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
     const formService = process.env.FORM_SERVICE;
     const txId = existingPayload?.context?.transaction_id || sessionData?.transaction_id;
     if (formService && sessionData?.domain && sessionData?.session_id && sessionData?.flow_id && txId) {
-      firstPayment.url = `${formService}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${txId}&direct=true`;
+      firstPayment.url = `${formService}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${txId}`;
     }
   }
 

@@ -283,7 +283,7 @@ order:
     params:
       amount: '46360'
       currency: INR
-    status: PAID
+    status: DELAYED
     time:
       label: INSTALLMENT
       range:
@@ -294,7 +294,7 @@ order:
     params:
       amount: '46360'
       currency: INR
-    status: PAID
+    status: NOT-PAID
     time:
       label: INSTALLMENT
       range:

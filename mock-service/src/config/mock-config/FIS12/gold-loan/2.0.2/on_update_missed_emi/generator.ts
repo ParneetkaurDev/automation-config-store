@@ -73,7 +73,7 @@ export async function onUpdateMissedEmiDefaultGenerator(existingPayload: any, se
       const formService = process.env.FORM_SERVICE;
       const txId = existingPayload?.context?.transaction_id || sessionData?.transaction_id;
       if (formService && sessionData?.domain && sessionData?.session_id && sessionData?.flow_id && txId) {
-        missedEmiPayment.url = `${formService}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${txId}&direct=true`;
+        missedEmiPayment.url = `${formService}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${txId}`;
       }
 
       rebuiltPayments.push(missedEmiPayment);
@@ -95,13 +95,11 @@ export async function onUpdateMissedEmiDefaultGenerator(existingPayload: any, se
       console.log(`Found ${installmentsFromSession.length} installments from session data for missed EMI`);
 
       // Update installment statuses for missed EMI scenario
-      // First 2: PAID, third: DELAYED (missed EMI), rest: NOT-PAID
+      // First installment: DELAYED (the missed one), rest: NOT-PAID
       const updatedInstallments = installmentsFromSession.map((installment: any, index: number) => {
         let status = 'NOT-PAID';
-        if (index < 2) {
-          status = 'PAID'; // First 2 paid
-        } else if (index === 2) {
-          status = 'DELAYED'; // Third one is delayed (missed EMI)
+        if (index === 0) {
+          status = 'DELAYED'; // First installment is delayed (the missed EMI)
         }
         return {
           ...installment,
@@ -110,7 +108,7 @@ export async function onUpdateMissedEmiDefaultGenerator(existingPayload: any, se
       });
 
       rebuiltPayments.push(...updatedInstallments);
-      console.log('Merged installments with updated statuses (2 PAID, 1 DELAYED, rest NOT-PAID)');
+      console.log('Merged installments with updated statuses (1st DELAYED, rest NOT-PAID)');
     }
 
     // Replace the entire payments array with the correctly ordered one

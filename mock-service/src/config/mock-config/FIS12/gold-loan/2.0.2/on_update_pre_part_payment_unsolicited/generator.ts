@@ -7,6 +7,11 @@ export async function onUpdatePrePartPaymentUnsolicitedDefaultGenerator(existing
   if (sessionData?.transaction_id) existingPayload.context.transaction_id = sessionData.transaction_id;
   if (sessionData?.message_id) existingPayload.context.message_id = sessionData.message_id;
 
+  // Read payment status from payment_url_form submission (same pattern as verification_status in on_status)
+  const paymentStatus = sessionData?.form_data?.payment_url_form?.idType || 'PAID';
+  const paymentSubmissionId = sessionData?.form_data?.payment_url_form?.form_submission_id;
+  console.log('[pre_part_payment unsolicited] paymentStatus from form_data:', paymentStatus, 'submissionId:', paymentSubmissionId);
+
   existingPayload.message = existingPayload.message || {};
   const order = existingPayload.message.order || (existingPayload.message.order = {});
 
@@ -50,14 +55,14 @@ export async function onUpdatePrePartPaymentUnsolicitedDefaultGenerator(existing
     // Rebuild payments array in correct order
     const rebuiltPayments: any[] = [];
 
-    // 1. Add PRE_PART_PAYMENT (from session, mark as PAID for unsolicited)
+    // 1. Add PRE_PART_PAYMENT (from session, use form-submitted status)
     if (prePartPaymentFromSession) {
       const { url, ...prePartWithoutUrl } = prePartPaymentFromSession;
       rebuiltPayments.push({
         ...prePartWithoutUrl,
-        status: 'PAID'  // Pre-part payment is PAID in unsolicited (completed)
+        status: paymentStatus  // Dynamic: PAID or NOT-PAID from payment_url_form
       });
-      console.log('Preserved PRE_PART_PAYMENT from session with unique ID, updated status to PAID, and removed url');
+      console.log(`Preserved PRE_PART_PAYMENT, updated status to ${paymentStatus}, removed url`);
     }
 
     // 2. Add ON_ORDER payment (from session, with updated status)
@@ -70,32 +75,23 @@ export async function onUpdatePrePartPaymentUnsolicitedDefaultGenerator(existing
       console.log('Preserved ON_ORDER payment from session with unique ID and updated status to PAID');
     }
 
-    // 3. Add installments (from session, with updated statuses for pre-part payment deferral)
+    // 3. Add installments — target the FIRST TWO installments (covered by pre-part payment of 92720 = 2 × 46360)
+    //    Both PAID installments from on_update become DEFERRED in the unsolicited callback.
+    //    All other installments keep their existing status from session (NOT-PAID).
     if (installmentsFromSession.length > 0) {
-      console.log(`Found ${installmentsFromSession.length} installments from session data for pre-part payment unsolicited`);
+      console.log(`Found ${installmentsFromSession.length} installments for pre-part payment unsolicited — updating index 0 and 1 to DEFERRED`);
 
-      // Update installment statuses to reflect pre-part payment deferral scenario
-      // First 2: PAID (already paid before pre-part payment)
-      // Next 2 (indices 2-3): DEFERRED (deferred due to pre-part payment)
-      // Remaining: NOT-PAID (still unpaid)
       const updatedInstallments = installmentsFromSession.map((installment: any, index: number) => {
-        let status = 'NOT-PAID'; // default
-
-        if (index < 2) {
-          status = 'PAID'; // First 2 installments are paid
-        } else if (index >= 2 && index < 4) {
-          status = 'DEFERRED'; // Next 2 installments are deferred due to pre-part payment
+        if (index === 0 || index === 1) {
+          // First two installments become DEFERRED (covered by the pre-part payment amount)
+          return { ...installment, status: 'DEFERRED' };
         }
-        // Rest remain NOT-PAID
-
-        return {
-          ...installment,
-          status
-        };
+        // All other installments remain exactly as they are from session (NOT-PAID etc.)
+        return installment;
       });
 
       rebuiltPayments.push(...updatedInstallments);
-      console.log('Merged installments with DEFERRED status for pre-part payment scenario (2 PAID, 2 DEFERRED, rest NOT-PAID)');
+      console.log('Updated installments: index 0 & 1 → DEFERRED, rest kept as-is from session');
     }
 
     // Replace the entire payments array with the correctly ordered one

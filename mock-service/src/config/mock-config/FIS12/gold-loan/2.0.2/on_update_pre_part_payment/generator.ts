@@ -63,7 +63,7 @@ export async function onUpdatePrePartPaymentDefaultGenerator(existingPayload: an
       const formService = process.env.FORM_SERVICE;
       const txId = existingPayload?.context?.transaction_id || sessionData?.transaction_id;
       if (formService && sessionData?.domain && sessionData?.session_id && sessionData?.flow_id && txId) {
-        prePartPayment.url = `${formService}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${txId}&direct=true`;
+        prePartPayment.url = `${formService}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${txId}`;
       }
 
       rebuiltPayments.push(prePartPayment);
@@ -84,17 +84,18 @@ export async function onUpdatePrePartPaymentDefaultGenerator(existingPayload: an
     if (installmentsFromSession.length > 0) {
       console.log(`Found ${installmentsFromSession.length} installments from session data`);
 
-      // Update installment statuses based on pre-part payment logic
-      // First 2 installments should be PAID, rest should be NOT-PAID
-      const updatedInstallments = installmentsFromSession.map((installment: any, index: number) => {
+      // At on_update_pre_part_payment stage, the payment URL is just being issued.
+      // No installments are settled yet — all remain NOT-PAID.
+      // DEFERRED transition happens in the unsolicited callback after payment is confirmed.
+      const updatedInstallments = installmentsFromSession.map((installment: any) => {
         return {
           ...installment,
-          status: index < 2 ? 'PAID' : 'NOT-PAID'
+          status: 'NOT-PAID'
         };
       });
 
       rebuiltPayments.push(...updatedInstallments);
-      console.log('Merged installments with updated statuses (2 PAID, rest NOT-PAID)');
+      console.log('Merged installments — all NOT-PAID (payment not yet confirmed at this stage)');
     }
 
     // Replace the entire payments array with the correctly ordered one

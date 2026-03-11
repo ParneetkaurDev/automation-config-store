@@ -7,6 +7,11 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
     if (sessionData?.transaction_id) existingPayload.context.transaction_id = sessionData.transaction_id;
     if (sessionData?.message_id) existingPayload.context.message_id = sessionData.message_id;
 
+    // Read payment status from payment_url_form submission (same pattern as verification_status in on_status)
+    const paymentStatus = sessionData?.form_data?.payment_url_form?.idType || 'paid';
+    const paymentSubmissionId = sessionData?.form_data?.payment_url_form?.form_submission_id;
+    console.log('[foreclosure unsolicited] paymentStatus from form_data:', paymentStatus, 'submissionId:', paymentSubmissionId);
+
     existingPayload.message = existingPayload.message || {};
     const order = existingPayload.message.order || (existingPayload.message.order = {});
 
@@ -50,14 +55,14 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
         // Rebuild payments array in correct order
         const rebuiltPayments: any[] = [];
 
-        // 1. Add FORECLOSURE payment (from session, mark as PAID for unsolicited)
+        // 1. Add FORECLOSURE payment (from session, use form-submitted status)
         if (foreclosureFromSession) {
             const { url, ...foreclosureWithoutUrl } = foreclosureFromSession;
             rebuiltPayments.push({
                 ...foreclosureWithoutUrl,
-                status: 'PAID'  // Foreclosure payment is PAID in unsolicited (completed)
+                status: paymentStatus  // Dynamic: PAID or NOT-PAID from payment_url_form
             });
-            console.log('Preserved FORECLOSURE payment from session with unique ID, updated status to PAID, and removed url');
+            console.log(`Preserved FORECLOSURE payment, updated status to ${paymentStatus}, removed url`);
         }
 
         // 2. Add ON_ORDER payment (from session, with updated status)
@@ -70,29 +75,18 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
             console.log('Preserved ON_ORDER payment from session with unique ID and updated status to PAID');
         }
 
-        // 3. Add installments (from session, with updated statuses for unsolicited)
+        // 3. Add installments — for FORECLOSURE, ALL installments become DEFERRED
+        //    (the loan is foreclosed, so all remaining installments are deferred)
         if (installmentsFromSession.length > 0) {
-            console.log(`Found ${installmentsFromSession.length} installments from session data for foreclosure unsolicited`);
+            console.log(`Found ${installmentsFromSession.length} installments for foreclosure unsolicited — marking ALL as DEFERRED`);
 
-            // Update installment statuses to reflect foreclosure completion
-            // First 2: PAID (already paid before foreclosure)
-            // Remaining (indices 2+): ALL DEFERRED (loan is foreclosed, all remaining installments deferred)
-            const updatedInstallments = installmentsFromSession.map((installment: any, index: number) => {
-                let status = 'DEFERRED'; // default for foreclosure - all remaining get deferred
-
-                if (index < 2) {
-                    status = 'PAID'; // First 2 installments are paid
-                }
-                // All others are DEFERRED due to foreclosure
-
-                return {
-                    ...installment,
-                    status
-                };
-            });
+            const updatedInstallments = installmentsFromSession.map((installment: any) => ({
+                ...installment,
+                status: 'DEFERRED'  // Foreclosure: ALL installments deferred
+            }));
 
             rebuiltPayments.push(...updatedInstallments);
-            console.log('Merged installments for foreclosure unsolicited (2 PAID, all remaining DEFERRED)');
+            console.log('All installments marked as DEFERRED for foreclosure');
         }
 
         // Replace the entire payments array with the correctly ordered one

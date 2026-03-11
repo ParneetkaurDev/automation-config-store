@@ -279,7 +279,7 @@ order:
     params:
       amount: '46360'
       currency: INR
-    status: PAID
+    status: DEFERRED
     time:
       label: INSTALLMENT
       range:
@@ -290,8 +290,8 @@ order:
     params:
       amount: '46360'
       currency: INR
-    status: PAID
-    time:
+    status: DEFERRED
+    time: 
       label: INSTALLMENT
       range:
         start: '2023-07-01T00:00:00.000Z'

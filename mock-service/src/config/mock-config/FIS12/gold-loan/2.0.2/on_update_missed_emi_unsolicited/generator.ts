@@ -7,6 +7,11 @@ export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPaylo
     if (sessionData?.transaction_id) existingPayload.context.transaction_id = sessionData.transaction_id;
     if (sessionData?.message_id) existingPayload.context.message_id = sessionData.message_id;
 
+    // Read payment status from payment_url_form submission (same pattern as verification_status in on_status)
+    const paymentStatus = sessionData?.form_data?.payment_url_form?.idType || 'PAID';
+    const paymentSubmissionId = sessionData?.form_data?.payment_url_form?.form_submission_id;
+    console.log('[missed_emi unsolicited] paymentStatus from form_data:', paymentStatus, 'submissionId:', paymentSubmissionId);
+
     existingPayload.message = existingPayload.message || {};
     const order = existingPayload.message.order || (existingPayload.message.order = {});
 
@@ -50,14 +55,14 @@ export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPaylo
         // Rebuild payments array in correct order
         const rebuiltPayments: any[] = [];
 
-        // 1. Add MISSED_EMI_PAYMENT (from session, mark as PAID for unsolicited)
+        // 1. Add MISSED_EMI_PAYMENT (from session, use form-submitted status)
         if (missedEmiFromSession) {
             const { url, ...missedEmiWithoutUrl } = missedEmiFromSession;
             rebuiltPayments.push({
                 ...missedEmiWithoutUrl,
-                status: 'PAID'  // Missed EMI payment is PAID in unsolicited (completed)
+                status: paymentStatus  // Dynamic: PAID or NOT-PAID from payment_url_form
             });
-            console.log('Preserved MISSED_EMI_PAYMENT from session with unique ID, updated status to PAID, and removed url');
+            console.log(`Preserved MISSED_EMI_PAYMENT, updated status to ${paymentStatus}, removed url`);
         }
 
         // 2. Add ON_ORDER payment (from session, with updated status)
@@ -70,26 +75,22 @@ export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPaylo
             console.log('Preserved ON_ORDER payment from session with unique ID and updated status to PAID');
         }
 
-        // 3. Add installments (from session, with DELAYED changed to DEFERRED)
+        // 3. Add installments — only target the FIRST installment (the one that was DELAYED/missed)
+        //    All other installments keep their existing status from session
         if (installmentsFromSession.length > 0) {
-            console.log(`Found ${installmentsFromSession.length} installments from session data for missed EMI unsolicited`);
+            console.log(`Found ${installmentsFromSession.length} installments for missed EMI unsolicited — updating index 0 only`);
 
-            // Update installment statuses: Find the DELAYED one and change it to DEFERRED
-            // Keep all other statuses as-is
-            const updatedInstallments = installmentsFromSession.map((installment: any) => {
-                // If this installment was marked as DELAYED, change it to DEFERRED
-                if (installment.status === 'DELAYED') {
-                    return {
-                        ...installment,
-                        status: 'DEFERRED'
-                    };
+            const updatedInstallments = installmentsFromSession.map((installment: any, index: number) => {
+                if (index === 0) {
+                    // Only the first installment (the one that was DELAYED) becomes DEFERRED
+                    return { ...installment, status: 'DEFERRED' };
                 }
-                // Otherwise keep the status as-is (PAID, NOT-PAID, etc.)
+                // All other installments remain exactly as they are from session (NOT-PAID etc.)
                 return installment;
             });
 
             rebuiltPayments.push(...updatedInstallments);
-            console.log('Merged installments for missed EMI unsolicited (DELAYED -> DEFERRED)');
+            console.log('Updated installments: index 0 → DEFERRED, rest kept as-is from session');
         }
 
         // Replace the entire payments array with the correctly ordered one

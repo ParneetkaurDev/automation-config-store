@@ -77,6 +77,7 @@ import { MockIssueOpenGoldLoan_100_Class } from "./gold-loan/2.0.2/issue/issue_1
 import { MockIssueCloseGoldLoan_100_Class } from "./gold-loan/2.0.2/issue/issue_100/issue_close/class";
 import { MockOnIssueResolvedGoldLoan_100_Class } from "./gold-loan/2.0.2/on_issue/on_issue_100/on_issue_resolved/class";
 import { MockOnIssueProcessingGoldLoan_100_Class } from "./gold-loan/2.0.2/on_issue/on_issue_100/on_issue_processing/class";
+import { MockPaymentUrlFormStatusClassGL } from "./gold-loan/2.0.2/payment_url_form/payment_url_form";
 
 type Ctor<T> = new () => T;
 
@@ -128,6 +129,7 @@ const registry = {
 	consumer_information_form_1: MockConsumerInformationFormClass,
 	verification_status: MockVerificationStatusClass,
 	verification_status_pl: MockVerificationPlStatusClass,
+	payment_url_form_gold_loan: MockPaymentUrlFormStatusClassGL,
 	Ekyc_details_form: MockEkycVerificationStatusClass,
 	Ekyc_details_form_pl_202: MockEKycVerificationStatusPl202Class,
 	payment_url_form: MockPaymentUrlFormStatusClass,
