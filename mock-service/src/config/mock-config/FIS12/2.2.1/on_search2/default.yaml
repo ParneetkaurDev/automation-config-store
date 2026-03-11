@@ -31,7 +31,7 @@ catalog:
           xinput:
             head:
               descriptor:
-                name: "Customer Information"
+                name: "Personal Information"
               index:
                 min: 0
                 cur: 1

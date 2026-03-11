@@ -201,7 +201,7 @@ order:
           email: john.doe@example.com
       state:
         descriptor:
-          code: SANCTIONED
+          code: DISBURSED
       type: LOAN
       id: F1
     - customer:
@@ -215,7 +215,7 @@ order:
           email: john.doe@example.com
       state:
         descriptor:
-          code: PLACED
+          code: DELIVERED
       type: BASE_ORDER
       id: F2
   quote:
@@ -280,7 +280,7 @@ order:
       cancellation_fee:
         percentage: 5%
   payments:
-    - id: PAYMENT_ID_PURCHASE_FINANCE
+    - id: PID-8000
       params:
         amount: '29571'
         currency: INR
@@ -305,7 +305,7 @@ order:
                 name: Interest
                 short_desc: Loan Interest
               value: 1713 INR
-    - id: PAYMENT_ID_DOWNPAYMENT
+    - id: PID-5555
       type: PRE_ORDER
       status: PAID
       collected_by: BPP
@@ -313,7 +313,7 @@ order:
         amount: '1000'
         currency: INR
         transaction_id: 3b5a664d-077e-47f0-96d1-06e68d397c78
-    - id: PAYMENT_ID_PURCHASE_FINANCE
+    - id: PID-8000
       type: ON_ORDER
       status: PAID
       collected_by: BPP

@@ -94,7 +94,7 @@ order:
             - descriptor:
                 code: "APPLICATION_FEE"
                 name: "Application Fees"
-              value: "1000 INR"
+              value: "0"
             - descriptor:
                 code: "FORECLOSURE_FEE"
                 name: "Foreclosure Penalty"
@@ -103,7 +103,7 @@ order:
             - descriptor:
                 code: "INTEREST_RATE_CONVERSION_CHARGE"
                 name: "interest rate conversion charges"
-              value: "1000 INR"
+              value: "0"
             - descriptor:
                 code: "DELAY_PENALTY_FEE"
                 name: "Delayed payments penalty"
@@ -181,7 +181,7 @@ order:
       xinput:
         head:
           descriptor:
-            name: "Customer Information"
+            name: "esign"
           index:
             min: 0
             cur: 1

@@ -36,7 +36,7 @@ catalog:
           xinput:
             head:
               descriptor:
-                name: "Customer Information"
+                name: "Merchant & Product Details"
               index:
                 min: 0
                 cur: 0
@@ -61,7 +61,7 @@ catalog:
           xinput:
             head:
               descriptor:
-                name: "Customer Information"
+                name: "Merchant & Product Details"
               index:
                 min: 0
                 cur: 0
