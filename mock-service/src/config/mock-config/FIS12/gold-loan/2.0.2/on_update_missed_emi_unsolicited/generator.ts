@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { injectSettlementAmount } from '../settlement-utils';
 
 export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
     // Unsolicited MISSED EMI on_update generator (sent after main missed EMI on_update)
@@ -133,6 +134,9 @@ export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPaylo
     if (order.fulfillments?.[0]?.state?.descriptor) {
         order.fulfillments[0].state.descriptor.code = "DISBURSED";
     }
+
+    // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
+    injectSettlementAmount(existingPayload, sessionData);
 
     return existingPayload;
 }
