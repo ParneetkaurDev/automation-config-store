@@ -3,25 +3,6 @@ import axios from "axios";
 import { RedisService } from "ondc-automation-cache-lib";
 
 export async function onSelect1Generator(existingPayload: any, sessionData: any) {
-  console.log("=== On Select1 Generator Start ===");
-  logger.info("session data for on_select_1+++++++", sessionData)
-  logger.info("form data in session data++++++", sessionData.form_data)
-  console.log("Available session data:", {
-    transaction_id: sessionData.transaction_id,
-    message_id: sessionData.message_id,
-    selected_provider: !!sessionData.selected_provider,
-    items: !!sessionData.items,
-    bap_id: sessionData.bap_id
-  });
-
-  const rawData = await RedisService.getKey(sessionData.transaction_id);
-      if (!rawData) {
-        logger.error(`No data found for transaction ID: ${sessionData.transaction_id}`);
-        return null;
-      }
-
-  var newSessionData =  JSON.parse(rawData);
-  logger.info("session data on basis of transaction id", newSessionData)
 
   // ========== STANDARD PAYLOAD UPDATES ==========
 
@@ -68,15 +49,6 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
   // ========== FINVU AA CONSENT INTEGRATION ==========
 
   console.log("--- Finvu AA Integration Start ---");
-  // logger.info("sessionData.form_data+++++++++", sessionData.form_data)
-  // logger.info("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
-  // logger.info("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
-
-  // console.log("sessionData.form_data+++++++++", sessionData.form_data)
-  // console.log("sessionData.form_data?.personal_loan_information_form+++++++++++", sessionData.form_data?.personal_loan_information_form)
-  // console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber+++++++++", sessionData.form_data?.personal_loan_information_form?.contactNumber)
-  // Extract customer ID from session data
-  // const contactNumber = sessionData.form_data?.personal_loan_information_form?.contactNumber;
 
   const dedicatedKey = `form_data_${sessionData.transaction_id}`;
   const dedicatedRaw = await RedisService.getKey(dedicatedKey);
@@ -98,7 +70,6 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
       // Call Finvu AA Service to generate consent handler
       const finvuServiceUrl = process.env.FINVU_AA_SERVICE_URL || 'http://localhost:3002';
       const consentUrl = `${finvuServiceUrl}/finvu-aa/consent/generate`;
-      const correctedUrl = "https://dev-automation.ondc.org/finvu/finvu-aa/consent/generate"
 
       console.log("Calling Finvu AA Service:", consentUrl);
       logger.info(
