@@ -55,28 +55,28 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
                 "name": "Set Loan Amount",
                 "code": "SET_DOWN_PAYMENT"
               },
-              "value": "PENDING"
+              "value": "COMPLETED"
             },
             {
               "descriptor": {
                 "name": "KYC",
                 "code": "KYC"
               },
-              "value": "PENDING"
+              "value": "COMPLETED"
             },
             {
               "descriptor": {
                 "name": "Emandate",
                 "code": "EMANDATE"
               },
-              "value": "PENDING"
+              "value": "COMPLETED"
             },
             {
               "descriptor": {
                 "name": "Esign",
                 "code": "ESIGN"
               },
-              "value": "PENDING"
+              "value": "COMPLETED"
             }
           ]
         }]

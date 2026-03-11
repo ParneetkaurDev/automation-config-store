@@ -66,7 +66,7 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
                   "name": "Set Loan Amount",
                   "code": "SET_DOWN_PAYMENT"
                 },
-                "value": "PENDING"
+                "value": "COMPLETED"
               },
               {
                 "descriptor": {
