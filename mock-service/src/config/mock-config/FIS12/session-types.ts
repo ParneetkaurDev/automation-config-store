@@ -86,6 +86,7 @@ export interface SessionData {
 	form_data?: any;
 	categories?: any;
 	selected_category?: any;
+	payment_url_form?: any
 }
 
 export type BecknContext = {

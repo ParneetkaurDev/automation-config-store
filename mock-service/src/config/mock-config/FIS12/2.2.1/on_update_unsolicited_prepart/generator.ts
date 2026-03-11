@@ -1,5 +1,5 @@
 
-import { injectSettlementAmount, injectLoanDetails, generateUpdatePayments } from "../settlement-utils";
+import { injectSettlementAmount, injectLoanDetails, applyPrepartInstallmentStatuses } from "../settlement-utils";
 
 export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
@@ -101,8 +101,11 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
 
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);
-  // ── Dynamic Pre-Part Payment Payments (unsolicited) ─────────────────────────
-  generateUpdatePayments(existingPayload, sessionData, "PRE_PART_UNSOLICITED");
+  // ── Build payments[0] (PID-8000) + all installments in one step ────────────
+  // Unsolicited: PID-8000 = PAID + transaction_id + timestamp
+  //              Event month installment = DEFERRED, future = NOT-PAID
+  //              Past installments preserved PAID from sessionData.payments
+  applyPrepartInstallmentStatuses(existingPayload, sessionData, true);
   // ── Dynamic SETTLEMENT_AMOUNT ──────────────────────────────────────────────
   injectSettlementAmount(existingPayload, sessionData);
 

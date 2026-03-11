@@ -9,7 +9,7 @@
  * 5. Set time ranges based on context timestamp for MISSED_EMI_PAYMENT
  */
 
-import { injectSettlementAmount, injectLoanDetails, generateUpdatePayments } from "../settlement-utils";
+import { injectSettlementAmount, injectLoanDetails, applyPrepartInstallmentStatuses } from "../settlement-utils";
 
 export async function onUpdateDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
@@ -102,11 +102,11 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
 
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);
-  // ── Dynamic Pre-Part Payment Payments ─────────────────────────────────────
-  // Generates: PRE_PAYMENT_CHARGE in breakup (FORECLOSURE_FEE % of outstanding principal),
-  // OUTSTANDING_PRINCIPAL, OUTSTANDING_INTEREST, and the PRE_PART_PAYMENT special entry.
-  // Past instalments are PAID, remaining are NOT-PAID.
-  generateUpdatePayments(existingPayload, sessionData, "PRE_PART_SOLICITED");
+  // ── Build payments[0] (PID-8000) + all installments in one step ────────────
+  // Solicited: PID-8000 = NOT-PAID + url + P15D
+  //            Event month installment = NOT-PAID, future = NOT-PAID
+  //            Past installments preserved PAID from sessionData.payments
+  applyPrepartInstallmentStatuses(existingPayload, sessionData, false);
   // ── Dynamic SETTLEMENT_AMOUNT ──────────────────────────────────────────────
   injectSettlementAmount(existingPayload, sessionData);
 

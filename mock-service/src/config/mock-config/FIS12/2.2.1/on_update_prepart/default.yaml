@@ -197,6 +197,16 @@ order:
         code: DISBURSED
     type: LOAN
     id: F1
+    tags:
+        - descriptor:
+            code: "INFO"
+            name: "Information"
+          list:
+            - descriptor:
+                code: "REFERENCE_NUMBER"
+                name: "Reference Number"
+                short_desc: "Used for identifying a particular transaction."
+              value: "912345678912"
   - customer:
       person:
         name: John Doe

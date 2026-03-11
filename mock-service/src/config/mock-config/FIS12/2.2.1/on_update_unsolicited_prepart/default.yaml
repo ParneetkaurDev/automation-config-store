@@ -204,6 +204,16 @@ order:
           code: DISBURSED
       type: LOAN
       id: F1
+      tags:
+        - descriptor:
+            code: "INFO"
+            name: "Information"
+          list:
+            - descriptor:
+                code: "REFERENCE_NUMBER"
+                name: "Reference Number"
+                short_desc: "Used for identifying a particular transaction."
+              value: "912345678912"
     - customer:
         person:
           name: John Doe
@@ -383,7 +393,7 @@ order:
         amount: '9857'
         currency: INR
         transaction_id: f80a3cb4-9990-4342-b982-9bc9929f1407
-      status: PAID
+      status: DEFERRED
       time:
         label: INSTALLMENT
         timestamp: '2024-06-01T04:00:00.000Z'
@@ -411,7 +421,7 @@ order:
         amount: '9857'
         currency: INR
         transaction_id: d9629d04-c819-48a9-90e0-27b11dc0b177
-      status: PAID
+      status: NOT-PAID
       time:
         label: INSTALLMENT
         timestamp: '2024-07-01T04:00:00.000Z'
@@ -439,7 +449,7 @@ order:
         amount: '9857'
         currency: INR
         transaction_id: 07d6511d-1b0b-4fd5-a786-cb0676b9edb5
-      status: PAID
+      status: NOT-PAID
       time:
         label: INSTALLMENT
         timestamp: '2024-08-01T04:00:00.000Z'
@@ -467,7 +477,7 @@ order:
         amount: '9857'
         currency: INR
         transaction_id: 07d6511d-1b0b-4fd5-a786-cb0676b9edb5
-      status: PAID
+      status: NOT-PAID
       time:
         label: INSTALLMENT
         timestamp: '2024-08-01T04:00:00.000Z'
@@ -494,7 +504,7 @@ order:
       params:
         amount: '9857'
         currency: INR
-      status: DEFERRED
+      status: NOT-PAID
       time:
         label: INSTALLMENT
         range:
@@ -520,7 +530,7 @@ order:
       params:
         amount: '9857'
         currency: INR
-      status: DEFERRED
+      status: NOT-PAID
       time:
         label: INSTALLMENT
         range:
