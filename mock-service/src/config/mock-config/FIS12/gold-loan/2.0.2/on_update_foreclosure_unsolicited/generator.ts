@@ -126,9 +126,9 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
         }
     }
 
-    // Update fulfillment state to COMPLETE for unsolicited callback
+    // Update fulfillment state to COMPLETED for unsolicited callback
     if (order.fulfillments?.[0]?.state?.descriptor) {
-        order.fulfillments[0].state.descriptor.code = "COMPLETE";
+        order.fulfillments[0].state.descriptor.code = "COMPLETED";
     }
 
     // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
