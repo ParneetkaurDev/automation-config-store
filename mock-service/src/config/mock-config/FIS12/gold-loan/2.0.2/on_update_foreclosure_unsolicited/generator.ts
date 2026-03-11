@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { injectSettlementAmount } from '../settlement-utils';
 
 export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
     // Unsolicited FORECLOSURE on_update generator (sent after main foreclosure on_update)
@@ -8,7 +9,7 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
     if (sessionData?.message_id) existingPayload.context.message_id = sessionData.message_id;
 
     // Read payment status from payment_url_form submission (same pattern as verification_status in on_status)
-    const paymentStatus = sessionData?.form_data?.payment_url_form?.idType || 'paid';
+    const paymentStatus = sessionData?.form_data?.payment_url_form?.idType || 'PAID';
     const paymentSubmissionId = sessionData?.form_data?.payment_url_form?.form_submission_id;
     console.log('[foreclosure unsolicited] paymentStatus from form_data:', paymentStatus, 'submissionId:', paymentSubmissionId);
 
@@ -129,6 +130,9 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
     if (order.fulfillments?.[0]?.state?.descriptor) {
         order.fulfillments[0].state.descriptor.code = "COMPLETE";
     }
+
+    // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
+    injectSettlementAmount(existingPayload, sessionData);
 
     return existingPayload;
 }

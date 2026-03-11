@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { injectSettlementAmount } from '../settlement-utils';
 
 export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, sessionData: any) {
   // Standalone FORECLOSURE on_update generator
@@ -126,6 +127,9 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
       firstPayment.url = `${formService}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${txId}`;
     }
   }
+
+  // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }

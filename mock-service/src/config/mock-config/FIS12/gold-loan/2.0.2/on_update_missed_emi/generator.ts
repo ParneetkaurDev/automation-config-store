@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { injectSettlementAmount } from '../settlement-utils';
 
 export async function onUpdateMissedEmiDefaultGenerator(existingPayload: any, sessionData: any) {
   // Standalone MISSED_EMI_PAYMENT on_update generator
@@ -146,6 +147,9 @@ export async function onUpdateMissedEmiDefaultGenerator(existingPayload: any, se
       order.quote.id = `gold_loan_${randomUUID()}`;
     }
   }
+
+  // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }

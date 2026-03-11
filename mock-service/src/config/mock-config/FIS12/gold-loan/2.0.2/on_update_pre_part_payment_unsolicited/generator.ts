@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { injectSettlementAmount } from '../settlement-utils';
 
 export async function onUpdatePrePartPaymentUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
   // Unsolicited PRE_PART_PAYMENT on_update generator (sent after main pre-part payment on_update)
@@ -129,6 +130,9 @@ export async function onUpdatePrePartPaymentUnsolicitedDefaultGenerator(existing
       order.quote.id = `gold_loan_${randomUUID()}`;
     }
   }
+
+  // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }

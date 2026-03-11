@@ -10,6 +10,7 @@
  */
 
 import { randomUUID } from 'crypto';
+import { injectSettlementAmount } from '../settlement-utils';
 
 export async function onConfirmDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_confirm", sessionData);
@@ -179,5 +180,9 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     existingPayload.message.order.fulfillments[0].state.descriptor.name = "Loan Disbursed";
     console.log("Updated fulfillment state to DISBURSED");
   }
+
+  // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
+  injectSettlementAmount(existingPayload, sessionData);
+
   return existingPayload;
 }
