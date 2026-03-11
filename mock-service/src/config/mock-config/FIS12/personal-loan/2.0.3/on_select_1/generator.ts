@@ -80,8 +80,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
           domain: sessionData?.domain,
           transaction_id: existingPayload?.context?.transaction_id || sessionData?.transaction_id,
         },
-        { url: consentUrl },
-        {correctedUrl: correctedUrl}
+        { url: consentUrl }
       );
 
       const consentRequest = {
@@ -93,7 +92,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
 
       console.log("Consent request payload:", consentRequest);
       logger.info("ConsentRequest body ", consentRequest);
-      const response = await axios.post(correctedUrl, consentRequest, {
+      const response = await axios.post(consentUrl, consentRequest, {
         headers: {
           'Content-Type': 'application/json'
         },
