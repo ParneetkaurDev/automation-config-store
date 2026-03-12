@@ -1,4 +1,5 @@
 
+import { loadMockSessionData } from "../../../../../services/data-services";
 import { injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
 
 export async function confirmDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -35,7 +36,9 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
 
     console.log("Updated item.id:", selectedItem.id);
   }
-
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   injectLoanDetails(existingPayload, sessionData);
   // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
   injectSettlementAmount(existingPayload, sessionData);

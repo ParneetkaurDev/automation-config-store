@@ -1,3 +1,4 @@
+import { loadMockSessionData } from "../../../../../services/data-services";
 import { injectLoanDetails } from "../settlement-utils";
 
 export async function onSelectDefaultGenerator(
@@ -130,6 +131,9 @@ export async function onSelectDefaultGenerator(
   // and injects them into quote.breakup, item INFO tags, and PRE_ORDER payment.
   const downPaymentEntered = sessionData?.form_data?.down_payment_form?.updateDownpayment;
   console.log("[on_select2] Down payment from form:", downPaymentEntered);
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   injectLoanDetails(existingPayload, sessionData);
   // ────────────────────────────────────────────────────────────────────────
 

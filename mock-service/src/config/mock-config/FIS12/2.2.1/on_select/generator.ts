@@ -1,4 +1,5 @@
 
+import { loadMockSessionData } from "../../../../../services/data-services";
 import { injectLoanDetails } from "../settlement-utils";
 
 export async function onSelectDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -101,6 +102,9 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
     console.log("Updated xinput form to down_payment form");
   }
 
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   // ── Dynamic Loan Details (down payment, EMI, interest, quote breakup) ────────
   // This runs even if down_payment is 0 so quote/items tags stay consistent.
   injectLoanDetails(existingPayload, sessionData);
