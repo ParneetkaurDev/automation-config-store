@@ -103,8 +103,9 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
     existingPayload.message.order.items[0].xinput.form.id = "Ekyc_details_verification_status";
     existingPayload.message.order.items[0].xinput.form.url = url;
   }
-  const mockSessionData = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
-  console.log("mockSessionDatamockSessionData", JSON.stringify(mockSessionData))
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   // ── Dynamic Loan Details (quote.breakup, PRE_ORDER payment) ─────────────
   const loanDetails = injectLoanDetails(existingPayload, sessionData);
   injectItemInfoTags(existingPayload, loanDetails);

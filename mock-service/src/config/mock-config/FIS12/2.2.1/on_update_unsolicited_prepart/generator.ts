@@ -1,4 +1,5 @@
 
+import { loadMockSessionData } from "../../../../../services/data-services";
 import { injectSettlementAmount, injectLoanDetails, applyPrepartInstallmentStatuses } from "../settlement-utils";
 
 export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -98,7 +99,9 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
 
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = currentDate;
-
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);
   // ── Build payments[0] (PID-8000) + all installments in one step ────────────

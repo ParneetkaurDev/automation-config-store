@@ -184,7 +184,6 @@ export interface LoanDetails {
 export function calculateLoanDetails(sessionData: any, existingPayload?: any): LoanDetails {
     console.log("sessionDataform_dataaaa", JSON.stringify(sessionData?.form_data))
     console.log("sessionDataaaa", JSON.stringify(sessionData))
-
     const downPayment = parseFloat(
         sessionData?.form_data?.down_payment_form?.updateDownpayment
         ?? sessionData?.down_payment

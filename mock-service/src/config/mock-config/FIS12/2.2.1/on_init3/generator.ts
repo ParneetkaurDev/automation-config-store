@@ -1,3 +1,4 @@
+import { loadMockSessionData } from "../../../../../services/data-services";
 import { generateInstallmentPayments, injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
 
 function generateTimeRangeFromContext(contextTimestamp: string) {
@@ -118,6 +119,10 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     }
     console.log("Updated form_response with status and submission_id");
   }
+
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);
   // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
