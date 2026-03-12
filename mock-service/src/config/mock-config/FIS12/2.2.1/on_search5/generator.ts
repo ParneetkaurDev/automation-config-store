@@ -19,6 +19,10 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
   if (sessionData.provider_id) {
     existingPayload.message.catalog.providers[0].id = sessionData.provider_id
   }
+
+  if (sessionData?.categories) {
+    existingPayload.message.catalog.providers[0].categories = sessionData.categories
+  }
   // Extract customer ID from session data
   const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
   console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
@@ -196,6 +200,7 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
       if (sessionData.item_id) {
         item.id = sessionData.item_id
       }
+      item.category_ids = sessionData.item.category_ids
       if (item.xinput?.form) {
         item.xinput.form.id = "personal_details_information_form";
         item.xinput.form_response.status = "SUCCESS";
