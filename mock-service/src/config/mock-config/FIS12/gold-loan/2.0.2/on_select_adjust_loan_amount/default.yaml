@@ -96,7 +96,7 @@ order:
         name: "Gold Loan"
       price:
         currency: INR
-        value: "441800"
+        value: "232800"
       location_ids:
         - L1
         - L2
@@ -176,7 +176,7 @@ order:
                 code: NUMBER_OF_INSTALLMENTS_OF_REPAYMENT
                 name: "Number of installments of repayment"
                 short_desc: "Installments borrower has to make"
-              value: "45"
+              value: "5"
 
             - descriptor:
                 code: TNC_LINK
