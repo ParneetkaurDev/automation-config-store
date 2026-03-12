@@ -1,18 +1,4 @@
-/**
- * Settlement Amount Calculation Utility - FIS12 2.2.1
- *
- * Calculates SETTLEMENT_AMOUNT dynamically based on BUYER_FINDER_FEES_TYPE:
- *
- *  - "amount"             → flat INR amount = BUYER_FINDER_FEES_AMOUNT
- *  - "percent"            → (BUYER_FINDER_FEES_PERCENTAGE / 100) × total_loan_amount
- *  - "percent-annualized" → (BUYER_FINDER_FEES_PERCENTAGE / 100) × (loan_term_months / 12) × net_disbursed_amount
- */
 
-/**
- * Parses an ISO 8601 duration string and returns the value in months.
- * Supports: PnY, PnM, PnD, PnW (including combinations).
- * Examples: "P5M" → 5, "P1Y" → 12, "P180D" → 6
- */
 export function parseISODurationToMonths(isoDuration: string): number {
     if (!isoDuration) return 12; // default to 12 months if not available
 
