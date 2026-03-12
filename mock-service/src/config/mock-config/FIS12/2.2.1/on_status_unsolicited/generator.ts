@@ -1,3 +1,4 @@
+import { loadMockSessionData } from "../../../../../services/data-services";
 import { injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
 
 export async function onStatusUnsolicitedGenerator(
@@ -85,6 +86,9 @@ export async function onStatusUnsolicitedGenerator(
     delete existingPayload.message.order.documents;
   }
 
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   injectLoanDetails(existingPayload, sessionData);
   injectSettlementAmount(existingPayload, sessionData);
 
