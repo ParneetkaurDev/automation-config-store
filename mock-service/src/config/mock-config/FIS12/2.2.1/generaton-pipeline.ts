@@ -106,13 +106,13 @@ export async function createMockResponseFIS12_221(
 	}
 
 	// Check if payment form was submitted with NOT_PAY - return NACK and break flow
-	if (sessionData.form_data?.payment_url_form?.idType === "NOT_PAY") {
+	if (sessionData.form_data?.payment_url_form?.idType === "NOT-PAID") {
 		delete payload.message;
 		payload.error = {
 			code: "50001",
 			message: "Payment not completed by the customer",
 		};
-		logger.info("Payment form submitted with NOT_PAY status - returning NACK");
+		logger.info("Payment form submitted with NOT-PAID status - returning NACK");
 		return payload;
 	}
 	const mockAction = getMockAction(actionID);
