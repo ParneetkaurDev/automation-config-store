@@ -102,10 +102,6 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
 
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);
-  // ── Build payments[0] (PID-8000) + all installments in one step ────────────
-  // Solicited: PID-8000 = NOT-PAID + url + P15D
-  //            Event month installment = NOT-PAID, future = NOT-PAID
-  //            Past installments preserved PAID from sessionData.payments
   applyPrepartInstallmentStatuses(existingPayload, sessionData, false);
   // ── Dynamic SETTLEMENT_AMOUNT ──────────────────────────────────────────────
   injectSettlementAmount(existingPayload, sessionData);

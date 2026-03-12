@@ -289,7 +289,7 @@ order:
       cancellation_fee:
         percentage: 5%
   payments:
-    - id: PID-8000
+    - id: PID-9000
       params:
         amount: '19714'
         currency: INR
