@@ -1,4 +1,5 @@
 
+import { loadMockSessionData } from "../../../../../services/data-services";
 import { calculateSettlementAmount, injectSettlementAmount, injectLoanDetails } from "../settlement-utils";
 
 export async function initDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -60,6 +61,9 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
       }
     }
   }
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
 
   // ── Dynamic Loan Details ──────────────────────────────────────────────────────
   // Must run BEFORE calculateSettlementAmount so net_disbursed_amount is fresh.

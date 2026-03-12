@@ -13,6 +13,7 @@ function generateTimeRangeFromContext(contextTimestamp: string) {
     end: end.toISOString()
   };
 }
+import { loadMockSessionData } from "../../../../../services/data-services";
 import { generateInstallmentPayments, injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -116,6 +117,10 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
       return item;
     });
   }
+
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);
 
