@@ -119,6 +119,19 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
         console.log(`Updated installment #${installmentIndex} range:`, range);
       }
     });
+
+    // Generate unique IDs for all payments (matching on_confirm pattern)
+    let installmentCounter = 1;
+    existingPayload.message.order.payments.forEach((payment: any) => {
+      if (payment.type === 'POST_FULFILLMENT' && payment.time?.label === 'INSTALLMENT') {
+        payment.id = `installment_${installmentCounter}_${randomUUID()}`;
+        console.log(`Generated unique installment ID: ${payment.id}`);
+        installmentCounter++;
+      } else if (payment.type === 'ON_ORDER') {
+        payment.id = `on_order_${randomUUID()}`;
+        console.log(`Generated unique on-order payment ID: ${payment.id}`);
+      }
+    });
   }
 
   console.log("payments in on_init near return", JSON.stringify(existingPayload.message?.order?.payments));

@@ -49,14 +49,14 @@ export function calculateSettlementAmount(sessionData: any): string {
     const feePercentage = parseFloat(sessionData.buyer_finder_fees_percentage || "0");
     const feeAmount = parseFloat(sessionData.buyer_finder_fees_amount || "0");
 
-    const netDisbursedAmount = parseFloat(sessionData.net_disbursed_amount || "0");
+    const principalAmount = parseFloat(sessionData.principal_amount || "0");
     const totalLoanAmount = parseFloat(sessionData.quote_price || "0");
     const loanTermISO = sessionData.loan_term || "P12M";
     const loanTermMonths = parseISODurationToMonths(loanTermISO);
 
     console.log("[settlement-utils] Calculating SETTLEMENT_AMOUNT with:", {
         feeType, feePercentage, feeAmount,
-        netDisbursedAmount, totalLoanAmount, loanTermISO, loanTermMonths,
+        principalAmount, totalLoanAmount, loanTermISO, loanTermMonths,
     });
 
     let settlementAmount = 0;
@@ -74,9 +74,9 @@ export function calculateSettlementAmount(sessionData: any): string {
 
         case "percent-annualized":
         default:
-            settlementAmount = (feePercentage / 100) * (loanTermMonths / 12) * netDisbursedAmount;
+            settlementAmount = (feePercentage / 100) * (loanTermMonths / 12) * principalAmount;
             console.log(
-                `[settlement-utils] percent-annualized type → ${feePercentage}% × (${loanTermMonths}/12) × ${netDisbursedAmount} = ${settlementAmount}`
+                `[settlement-utils] percent-annualized type → ${feePercentage}% × (${loanTermMonths}/12) × ${principalAmount} = ${settlementAmount}`
             );
             break;
     }

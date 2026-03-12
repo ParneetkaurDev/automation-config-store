@@ -143,7 +143,7 @@ order:
           code: NUMBER_OF_INSTALLMENTS_OF_REPAYMENT
           name: Number of installments of repayment
           short_desc: Number of installments borrower has to make to payback the loan
-        value: '45'
+        value: '5'
       - descriptor:
           code: TNC_LINK
           name: Terms & Conditions
@@ -213,7 +213,7 @@ order:
       price:
         value: '15000'
         currency: INR
-    ttl: PT15D
+    ttl: P15D
   fulfillments:
   - type: LOAN
     customer:
