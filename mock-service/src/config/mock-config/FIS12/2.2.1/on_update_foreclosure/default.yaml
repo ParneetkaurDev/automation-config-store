@@ -283,7 +283,7 @@ order:
     cancellation_fee:
       percentage: 5%
   payments:
-  - id: PID-8000
+  - id: PID-9000
     url: https://pg.icici.com/?amount=148616&ref_id=b5487595-42c3-4e20-bd43-ae21400f60f0
     params:
       amount: '29571'

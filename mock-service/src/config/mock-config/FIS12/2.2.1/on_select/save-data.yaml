@@ -6,6 +6,7 @@ save-data:
   item: "$.message.order.items[1]"
   selected_fulfillments: "$.message.order.fulfillments[*]"
   quote: "$.message.quote" 
+  form_id: "$..form.id"
   down_payment_form: "$..form.url"
   # Loan data for dynamic SETTLEMENT_AMOUNT calculation
   quote_price: "$.message.order.quote.price.value"

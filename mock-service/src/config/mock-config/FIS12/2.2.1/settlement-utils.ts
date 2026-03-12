@@ -196,7 +196,7 @@ export interface LoanDetails {
  *   interest_rate                                  → e.g. "12 %" or "12"
  */
 export function calculateLoanDetails(sessionData: any, existingPayload?: any): LoanDetails {
-
+    console.log("sessionDataform_data=>>>>>", JSON.stringify(sessionData?.form_data))
     const downPayment = parseFloat(
         sessionData?.form_data?.down_payment_form?.updateDownpayment
         ?? sessionData?.down_payment
@@ -644,7 +644,7 @@ export function applyPrepartInstallmentStatuses(
     if (unsolicited) {
         // Unsolicited: lender pushes notification back — PAID, has timestamp, no url
         pid8000 = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: {
                 amount: String(Math.round(specialAmount)),
@@ -663,7 +663,7 @@ export function applyPrepartInstallmentStatuses(
 
         // Solicited: borrower-initiated — NOT-PAID, has url + payment window (P15D)
         pid8000 = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: {
                 amount: String(Math.round(specialAmount)),
@@ -853,7 +853,7 @@ export function applyMissedEmiInstallmentStatuses(
     if (unsolicited) {
         // Unsolicited: lender notifies payment was received — PAID, timestamp, range, no url
         pid8000 = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: {
                 amount: String(specialAmount),
@@ -873,7 +873,7 @@ export function applyMissedEmiInstallmentStatuses(
 
         // Solicited: borrower missed EMI — NOT-PAID, url, P15D, range
         pid8000 = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: { amount: String(specialAmount), currency: "INR" },
             status: "NOT-PAID",
@@ -1056,7 +1056,7 @@ export function applyForeclosureInstallmentStatuses(
     if (unsolicited) {
         // Lender-initiated (closed): PAID, timestamp, no url, no range
         pid8000 = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: {
                 amount: String(specialAmount),
@@ -1075,7 +1075,7 @@ export function applyForeclosureInstallmentStatuses(
 
         // Borrower-initiated (requesting closure): NOT-PAID, url, PT90M window, no range
         pid8000 = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: { amount: String(specialAmount), currency: "INR" },
             status: "NOT-PAID",
@@ -1373,7 +1373,7 @@ export function generateUpdatePayments(
     if (paymentType === "MISSED_EMI_SOLICITED") {
         // Borrower missed an EMI: NOT-PAID, with a 15-day payment window (range + duration)
         specialEntry = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "NOT-PAID",
@@ -1395,7 +1395,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "MISSED_EMI_UNSOLICITED") {
         // Lender pushes missed EMI notice: PAID, timestamp, range, no url, no duration
         specialEntry = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "PAID",
@@ -1416,7 +1416,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "FORECLOSURE_SOLICITED") {
         // Borrower requests foreclosure: NOT-PAID (payment is pending), 90-min payment window
         specialEntry = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "NOT-PAID",
@@ -1437,7 +1437,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "FORECLOSURE_UNSOLICITED") {
         // Lender pushes foreclosure notification: PAID, timestamp only, no url
         specialEntry = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "PAID",
@@ -1457,7 +1457,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "PRE_PART_SOLICITED") {
         // PRE_PART_PAYMENT solicited: NOT-PAID, duration 15 days, with url
         specialEntry = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "NOT-PAID",
@@ -1478,7 +1478,7 @@ export function generateUpdatePayments(
     } else if (paymentType === "PRE_PART_UNSOLICITED") {
         // PRE_PART_PAYMENT unsolicited: PAID, timestamp only, no url
         specialEntry = {
-            id: "PID-8000",
+            id: "PID-9000",
             type: "POST_FULFILLMENT",
             params: { amount: String(Math.round(specialPaymentAmount)), currency: "INR" },
             status: "PAID",
