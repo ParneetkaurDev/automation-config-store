@@ -4,6 +4,7 @@ save-data:
   selected_provider: "$.message.order.provider"
   selected_items: "$.message.order.items[*]"
   item: "$.message.order.items[1]"
+  order: "$.message.order"
   selected_fulfillments: "$.message.order.fulfillments[*]"
   quote: "$.message.quote" 
   form_id: "$..form.id"
