@@ -107,7 +107,6 @@ export async function onUpdateDefaultGenerator(existingPayload: any, sessionData
   existingPayload.message.order.created_at = sessionData.created_at;
   existingPayload.message.order.updated_at = currentDate;
   const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
-  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
   sessionData.form_data = form_data
   // ── Dynamic Loan Details: quote breakup + item tags ───────────────────────────
   injectLoanDetails(existingPayload, sessionData);

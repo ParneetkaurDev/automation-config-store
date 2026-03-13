@@ -1,4 +1,3 @@
----
 order:
   id: LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID
   status: ACTIVE
@@ -196,27 +195,17 @@ order:
       descriptor:
         code: DISBURSED
     type: LOAN
-    tags:
-      descriptor:
-        code: INFO
-        name: Information
-        list:
-          descriptor:
-            code: REFERENCE_NUMBER
-            name: Reference Number
-            short_desc: Used for identifying a particular transaction.
-            value: "912345678912"
     id: F1
     tags:
-        - descriptor:
-            code: "INFO"
-            name: "Information"
-          list:
-            - descriptor:
-                code: "REFERENCE_NUMBER"
-                name: "Reference Number"
-                short_desc: "Used for identifying a particular transaction."
-              value: "912345678912"
+    - descriptor:
+        code: INFO
+        name: Information
+      list:
+      - descriptor:
+          code: REFERENCE_NUMBER
+          name: Reference Number
+          short_desc: Used for identifying a particular transaction.
+        value: '912345678912'
   - customer:
       person:
         name: John Doe
