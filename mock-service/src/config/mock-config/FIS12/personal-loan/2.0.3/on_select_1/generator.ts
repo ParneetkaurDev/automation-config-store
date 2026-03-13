@@ -1,6 +1,5 @@
 import logger from "@ondc/automation-logger";
 import axios from "axios";
-import { RedisService } from "ondc-automation-cache-lib";
 
 export async function onSelect1Generator(existingPayload: any, sessionData: any) {
   console.log("=== On Select1 Generator Start ===");
@@ -13,15 +12,6 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     items: !!sessionData.items,
     bap_id: sessionData.bap_id
   });
-
-  const rawData = await RedisService.getKey(sessionData.transaction_id);
-      if (!rawData) {
-        logger.error(`No data found for transaction ID: ${sessionData.transaction_id}`);
-        return null;
-      }
-
-  var newSessionData =  JSON.parse(rawData);
-  logger.info("session data on basis of transaction id", newSessionData)
 
   // ========== STANDARD PAYLOAD UPDATES ==========
 

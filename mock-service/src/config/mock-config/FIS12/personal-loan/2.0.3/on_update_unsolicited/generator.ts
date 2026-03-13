@@ -21,11 +21,17 @@ import {
   updateMissedEMIStatus,
   updatePrePartPaymentStatus
 } from '../generator-utils';
+import { injectSettlementAmount } from '../settlement-utils';
 
 export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
   try {
     console.log("=== On Update Unsolicited Generator Start ===");
     console.log("Session data keys:", Object.keys(sessionData || {}));
+
+    // Read payment status from payment_url_form submission (same pattern as Gold Loan)
+    const paymentStatus = sessionData?.form_data?.payment_url_form?.idType || 'PAID';
+    const paymentSubmissionId = sessionData?.form_data?.payment_url_form?.form_submission_id;
+    console.log('[on_update unsolicited PL] paymentStatus from form_data:', paymentStatus, 'submissionId:', paymentSubmissionId);
 
     // Validate required data
     if (!existingPayload) {
@@ -41,7 +47,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     } else {
       console.warn("⚠️ existingPayload.context is missing");
     }
-    
+
     // Update transaction_id from session data
     if (sessionData.transaction_id && existingPayload.context) {
       existingPayload.context.transaction_id = sessionData.transaction_id;
@@ -49,13 +55,13 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     } else {
       console.warn("⚠️ transaction_id not found in session data");
     }
-    
+
     // Generate new message_id for unsolicited update
     if (existingPayload.context) {
       existingPayload.context.message_id = randomUUID();
       console.log("✓ Generated new UUID for unsolicited update:", existingPayload.context.message_id);
     }
-    
+
     // Load order from session data
     if (existingPayload.message) {
       const order = existingPayload.message.order || (existingPayload.message.order = {});
@@ -117,93 +123,100 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
       console.warn("⚠️ existingPayload.message is missing");
     }
 
-  // Branch by update label
-  const orderRef = existingPayload.message?.order || {};
-  const label = sessionData.update_label
-    || orderRef?.payments?.[0]?.time?.label
-    || sessionData.user_inputs?.foreclosure_amount && 'FORECLOSURE'
-    || sessionData.user_inputs?.missed_emi_amount && 'MISSED_EMI_PAYMENT'
-    || sessionData.user_inputs?.part_payment_amount && 'PRE_PART_PAYMENT'
-    || 'FORECLOSURE';
+    // Branch by update label
+    const orderRef = existingPayload.message?.order || {};
+    const label = sessionData.update_label
+      || orderRef?.payments?.[0]?.time?.label
+      || sessionData.user_inputs?.foreclosure_amount && 'FORECLOSURE'
+      || sessionData.user_inputs?.missed_emi_amount && 'MISSED_EMI_PAYMENT'
+      || sessionData.user_inputs?.part_payment_amount && 'PRE_PART_PAYMENT'
+      || 'FORECLOSURE';
 
-  // Ensure payments structure exists
-  orderRef.payments = orderRef.payments || [{}];
-  const firstPayment = orderRef.payments[0];
-  // firstPayment.time = firstPayment.time || {};
-  // firstPayment.time.label = label;
+    // Ensure payments structure exists
+    orderRef.payments = orderRef.payments || [{}];
+    const firstPayment = orderRef.payments[0];
+    // firstPayment.time = firstPayment.time || {};
+    // firstPayment.time.label = label;
 
-  if (label === 'MISSED_EMI_PAYMENT') {
-    // Set payment params for missed EMI (matching on_confirm installment amount)
-    firstPayment.params = firstPayment.params || {};
-    firstPayment.params.amount = "46360"; // Matches INSTALLMENT_AMOUNT from on_confirm
-    firstPayment.params.currency = "INR";
-    
-    // Set time range based on context timestamp
-    const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
-    
-    // Mark the specific delayed installment as PAID (based on current month)
-    updateMissedEMIStatus(orderRef.payments, contextTimestamp);
-    
-    // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    // firstPayment.url = `https://pg.icici.com/?amount=46360&ref_id=${encodeURIComponent(refId)}`;
-  }
+    if (label === 'MISSED_EMI_PAYMENT') {
+      // Set payment params for missed EMI (matching on_confirm installment amount)
+      firstPayment.params = firstPayment.params || {};
+      firstPayment.params.amount = "46360"; // Matches INSTALLMENT_AMOUNT from on_confirm
+      firstPayment.params.currency = "INR";
+      firstPayment.status = paymentStatus; // Dynamic: from payment_url_form submission
 
-  if (label === 'FORECLOSURE') {
-    // Add foreclosure charges to quote.breakup
-    upsertBreakup(orderRef, 'FORCLOSUER_CHARGES', '9536');
-    
-    // Calculate foreclosure amount: Outstanding Principal + Outstanding Interest + Foreclosure Charges
-    // From on_update_unsolicited default.yaml: OUTSTANDING_PRINCIPAL=139080, OUTSTANDING_INTEREST=0, FORCLOSUER_CHARGES=9536
-    const outstandingPrincipal = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_PRINCIPAL')?.price?.value || '139080';
-    const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
-    const foreclosureCharges = '9536';
-    const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest) + parseInt(foreclosureCharges));
-    
-    // Set payment params for foreclosure
-    firstPayment.params = firstPayment.params || {};
-    firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
-    firstPayment.params.currency = "INR";
-    const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
+      // Set time range based on context timestamp
+      const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
 
-    // Mark unpaid installments as DEFERRED (already paid ones stay PAID)
-    updateForeclosurePaymentStatus(orderRef.payments);
-    orderRef.payments.forEach((payment:any) => {
-      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
-        payment.time.range = generateTimeRangeFromContext(contextTimestamp)
+      // Mark the specific delayed installment as PAID (based on current month)
+      updateMissedEMIStatus(orderRef.payments, contextTimestamp);
 
-       
-      }
-    });
-    // Remove time range for foreclosure
-    
-    // Set payment URL
-    // const refId = sessionData.?message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    // firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
-  }
-  
-  if (label === 'PRE_PART_PAYMENT') {
-    // Add pre payment charge to quote.breakup
-    upsertBreakup(orderRef, 'PRE_PAYMENT_CHARGE', '4500');
-    
-    // Set payment params for pre part payment (installment amount + pre payment charge)
-    firstPayment.params = firstPayment.params || {};
-    firstPayment.params.amount = "50860"; // 46360 (installment) + 4500 (pre payment charge)
-    firstPayment.params.currency = "INR";
-    
-    // Update payment statuses: some PAID, some DEFERRED
-    const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
-    updatePrePartPaymentStatus(orderRef.payments, contextTimestamp);
-    
-    
-    // Set payment URL
-    const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
-    firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
-  }
-  
-  console.log("=== On Update Unsolicited Generator Complete ===");
-  return existingPayload;
-  
+      // Set payment URL
+      const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
+      // firstPayment.url = `https://pg.icici.com/?amount=46360&ref_id=${encodeURIComponent(refId)}`;
+    }
+
+    if (label === 'FORECLOSURE') {
+      // Add foreclosure charges to quote.breakup
+      upsertBreakup(orderRef, 'FORCLOSUER_CHARGES', '9536');
+
+      // Calculate foreclosure amount: Outstanding Principal + Outstanding Interest + Foreclosure Charges
+      // From on_update_unsolicited default.yaml: OUTSTANDING_PRINCIPAL=139080, OUTSTANDING_INTEREST=0, FORCLOSUER_CHARGES=9536
+      const outstandingPrincipal = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_PRINCIPAL')?.price?.value || '139080';
+      const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
+      const foreclosureCharges = '9536';
+      const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest) + parseInt(foreclosureCharges));
+
+      // Set payment params for foreclosure
+      firstPayment.params = firstPayment.params || {};
+      firstPayment.params.amount = foreclosureAmount; // Outstanding principal + interest + charges
+      firstPayment.params.currency = "INR";
+      firstPayment.status = paymentStatus; // Dynamic: from payment_url_form submission
+      const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
+
+      // Mark unpaid installments as DEFERRED (already paid ones stay PAID)
+      updateForeclosurePaymentStatus(orderRef.payments);
+      orderRef.payments.forEach((payment: any) => {
+        if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
+          payment.time.range = generateTimeRangeFromContext(contextTimestamp)
+
+
+        }
+      });
+      // Remove time range for foreclosure
+
+      // Set payment URL
+      // const refId = sessionData.?message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
+      // firstPayment.url = `https://pg.icici.com/?amount=${foreclosureAmount}&ref_id=${encodeURIComponent(refId)}`;
+    }
+
+    if (label === 'PRE_PART_PAYMENT') {
+      // Add pre payment charge to quote.breakup
+      upsertBreakup(orderRef, 'PRE_PAYMENT_CHARGE', '4500');
+
+      // Set payment params for pre part payment (installment amount + pre payment charge)
+      firstPayment.params = firstPayment.params || {};
+      firstPayment.params.amount = "50860"; // 46360 (installment) + 4500 (pre payment charge)
+      firstPayment.params.currency = "INR";
+      firstPayment.status = paymentStatus; // Dynamic: from payment_url_form submission
+
+      // Update payment statuses: some PAID, some DEFERRED
+      const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
+      updatePrePartPaymentStatus(orderRef.payments, contextTimestamp);
+
+
+      // Set payment URL
+      const refId = sessionData.message_id || orderRef.id || 'b5487595-42c3-4e20-bd43-ae21400f60f0';
+      firstPayment.url = `https://pg.icici.com/?amount=50860&ref_id=${encodeURIComponent(refId)}`;
+    }
+
+    console.log("=== On Update Unsolicited Generator Complete ===");
+
+    // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
+    injectSettlementAmount(existingPayload, sessionData);
+
+    return existingPayload;
+
   } catch (error: any) {
     console.error("❌ Error in on_update_unsolicited generator:", error.message);
     console.error("Stack trace:", error.stack);

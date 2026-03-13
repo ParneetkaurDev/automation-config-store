@@ -8,18 +8,25 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
   console.log("sessionData for on_status", sessionData);
 
   const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
-  
+
   const form_status = sessionData?.form_data?.kyc_verification_status?.idType;
-  
+
   // Update transaction_id and message_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
-  
+
   if (sessionData.message_id && existingPayload.context) {
     existingPayload.context.message_id = sessionData.message_id;
   }
-  
+
+  // Update order ID from session data
+  if (sessionData.order_id) {
+    existingPayload.message = existingPayload.message || {};
+    existingPayload.message.order = existingPayload.message.order || {};
+    existingPayload.message.order.id = sessionData.order_id;
+  }
+
   // Update provider information from session data (carry-forward from previous flows)
   if (sessionData.provider_id) {
     existingPayload.message = existingPayload.message || {};
@@ -31,21 +38,24 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
   // Fix items: ensure ID consistency and form status
   if (existingPayload.message?.order?.items?.[0]) {
     const item = existingPayload.message.order.items[0];
-    
-    // Ensure item ID matches previous calls (carry-forward from previous flows)
-    if (sessionData.item_id) {
+
+    // Update item.id from session data (carry-forward from previous flows)
+    const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+    if (selectedItem?.id) {
+      item.id = selectedItem.id;
+      console.log("Updated item.id:", selectedItem.id);
+    } else if (sessionData.item_id) {
       item.id = sessionData.item_id;
-    } else {
-      item.id = "ITEM_ID_GOLD_LOAN_2"; // Consistent ID
+      console.log("Updated item.id from item_id:", sessionData.item_id);
     }
-    
+
     // Update location_ids from session data (carry-forward from previous flows)
     const selectedLocationId = sessionData.selected_location_id;
     if (selectedLocationId) {
       item.location_ids = [selectedLocationId];
       console.log("Updated location_ids:", selectedLocationId);
     }
-    
+
     // Update form ID from session data (carry-forward from previous flows)
     if (item.xinput?.form) {
       // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
@@ -53,7 +63,7 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
       item.xinput.form.id = formId;
       console.log("Updated form ID:", formId);
     }
-    
+
     // Set form status to OFFLINE_PENDING
     if (item.xinput?.form_response) {
       item.xinput.form_response.status = form_status;
@@ -62,15 +72,23 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
       }
     }
   }
+
+  // Carry forward payments from session data (preserves dynamically generated installment IDs)
+  const savedPayments = sessionData.order?.payments || sessionData.payments;
+  if (Array.isArray(savedPayments) && savedPayments.length > 0 && existingPayload.message?.order) {
+    existingPayload.message.order.payments = savedPayments;
+    console.log("Carried forward payments from session (installment IDs preserved)");
+  }
+
   const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
 
-  existingPayload.message.order.payments.forEach((payment:any) => {
-        if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
-          payment.time.range = generateTimeRangeFromContext(contextTimestamp)
-  
-         
-        }
-      });
+  if (existingPayload.message?.order?.payments) {
+    existingPayload.message.order.payments.forEach((payment: any) => {
+      if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
+        payment.time.range = generateTimeRangeFromContext(contextTimestamp);
+      }
+    });
+  }
   // Fix fulfillments: remove customer details and state
   // if (existingPayload.message?.order?.fulfillments) {
   //   existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
@@ -85,6 +103,14 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
   // if (existingPayload.message?.order?.documents) {
   //   delete existingPayload.message.order.documents;
   // }
+
+  // Update quote.id from session data
+  if (existingPayload.message?.order?.quote) {
+    if (sessionData.quote_id) {
+      existingPayload.message.order.quote.id = sessionData.quote_id;
+      console.log("Updated quote.id from session:", sessionData.quote_id);
+    }
+  }
 
   // Update quote information if provided
   if (sessionData.quote_amount && existingPayload.message?.order?.quote) {

@@ -144,7 +144,7 @@ order:
             - descriptor:
                 code: "COOL_OFF_PERIOD"
                 name: "cool off period"
-              value: "PT30D"
+              value: "P30D"
             - descriptor:
                 code: "INSTALLMENT_AMOUNT"
                 name: "Installment amount"
