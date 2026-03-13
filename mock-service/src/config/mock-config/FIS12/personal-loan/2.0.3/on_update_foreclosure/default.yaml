@@ -1,4 +1,5 @@
 order:
+  id: LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID
   provider:
     id: PROVIDER_ID
     descriptor:
@@ -45,7 +46,6 @@ order:
               code: CUSTOMER_SUPPORT_EMAIL
               name: Customer support email
             value: customer.care@icicibank.com
-
       - descriptor:
           code: LSP_INFO
           name: Lsp Info
@@ -105,7 +105,7 @@ order:
                 code: FORECLOSURE_FEE
                 name: Foreclosure Penalty
                 short_desc: Loan Foreclosure Penalty
-              value: 0.5%
+              value: "0.5%"
             - descriptor:
                 code: INTEREST_RATE_CONVERSION_CHARGE
                 name: interest rate conversion charges
@@ -115,17 +115,17 @@ order:
                 code: DELAY_PENALTY_FEE
                 name: Delayed payments penalty
                 short_desc: Delayed payments penalty
-              value: 5%
+              value: "5%"
             - descriptor:
                 code: OTHER_PENALTY_FEE
                 name: Other Penal Charges
                 short_desc: Other Penal Charges
-              value: 1%
+              value: "1%"
             - descriptor:
                 code: ANNUAL_PERCENTAGE_RATE
                 name: Annual Percentage Rate
-                short_desc: Effective annualized interest rate
-              value: 5%
+                short_desc: Effective annualized interest rate in percentage computed on net disbursed amount using IRR approach and reducing balance method
+              value: "5%"
             - descriptor:
                 code: REPAYMENT_FREQUENCY
                 name: Repayment Frequency
@@ -133,8 +133,8 @@ order:
               value: MONTHLY
             - descriptor:
                 code: NUMBER_OF_INSTALLMENTS_OF_REPAYMENT
-                name: Number of installments
-                short_desc: Number of installments borrower must pay
+                name: Number of installments of repayment
+                short_desc: Number of installments borrower has to make to payback the loan
               value: "45"
             - descriptor:
                 code: TNC_LINK
@@ -144,63 +144,40 @@ order:
             - descriptor:
                 code: COOL_OFF_PERIOD
                 name: cool off period
-                short_desc: Cooling off/look-up period
-              value: P30D
+                short_desc: Cooling off/look-up period during which borrower shall not be TAGS m jayega charged any penalty
+              value: PT30D
             - descriptor:
                 code: INSTALLMENT_AMOUNT
                 name: Installment amount
-                short_desc: Each installment amount
+                short_desc: Each installment amount of repayment
               value: "46360"
             - descriptor:
                 code: KFS_LINK
                 name: Key Facts Statement Link
-                short_desc: Link to KFS document
+                short_desc: A link provided by the BPP points to a Key Fact Statement (KFS) document related to a loan.
               value: https://icicibank.com/loan/kfs-terms
-      xinput:
-        head:
-          descriptor:
-            name: Emandate
-          index:
-            min: 0
-            cur: 1
-            max: 2
-          headings:
-            - ACCOUNT_INFORMATION
-            - EMANDATE
-            - LOAN_AGREEMENT
-        form:
-          id: F05
-          mime_type: application/html
-          url: https://bpp.credit.becknprotocol.org/xinput/emandate/F05
-          resubmit: false
-          multiple_sumbissions: false
-        required: true
 
   quote:
     id: LOAN_LEAD_ID_OR_SIMILAR
     price:
       currency: INR
-      value: "233900"
+      value: "223836"
     breakup:
       - title: PRINCIPAL
         price:
-          value: "200000"
-          currency: INR
-      - title: INTEREST
-        price:
-          value: "30000"
-          currency: INR
-      - title: PROCESSING_FEE
-        price:
-          value: "1800"
-          currency: INR
-      - title: OTHER_UPFRONT_CHARGES
-        price:
-          value: "0"
+          value: "60920"
           currency: INR
       - title: INSURANCE_CHARGES
         price:
           value: "500"
+          currency: INR
+      - title: INTEREST
+        price:
+          value: "12000"
+          currency: INR
+      - title: PROCESSING_FEE
+        price:
+          value: "1800"
           currency: INR
       - title: NET_DISBURSED_AMOUNT
         price:
@@ -209,6 +186,30 @@ order:
       - title: OTHER_CHARGES
         price:
           value: "0"
+          currency: INR
+      - title: OUTSTANDING_PRINCIPAL
+        price:
+          value: "139080"
+          currency: INR
+      - title: FORCLOSUER_CHARGES
+        price:
+          value: "9536"
+          currency: INR
+      - title: OUTSTANDING_INTEREST
+        price:
+          value: "0"
+          currency: INR
+      - title: INSURANCE_PRODUCT_FEE
+        price:
+          value: "1000"
+          currency: INR
+      - title: TAX
+        price:
+          value: "100"
+          currency: INR
+      - title: INSURANCE_TOTAL_FEE
+        price:
+          value: "1100"
           currency: INR
     ttl: P15D
 
@@ -221,62 +222,7 @@ order:
           email: john.doe@example.com
       state:
         descriptor:
-          code: INITIATED
-
-  payments:
-    - id: PAYMENT_ID_PERSONAL_LOAN
-      type: ON_ORDER
-      status: NOT-PAID
-      collected_by: BPP
-      tags:
-        - descriptor:
-            code: BUYER_FINDER_FEES
-          display: false
-          list:
-            - descriptor:
-                code: BUYER_FINDER_FEES_TYPE
-              value: percent-annualized
-            - descriptor:
-                code: BUYER_FINDER_FEES_PERCENTAGE
-              value: "1"
-
-        - descriptor:
-            code: SETTLEMENT_TERMS
-          display: false
-          list:
-            - descriptor:
-                code: SETTLEMENT_WINDOW
-              value: PT60M
-            - descriptor:
-                code: SETTLEMENT_BASIS
-              value: INVOICE_RECEIPT
-            - descriptor:
-                code: MANDATORY_ARBITRATION
-              value: "TRUE"
-            - descriptor:
-                code: COURT_JURISDICTION
-              value: New Delhi
-            - descriptor:
-                code: STATIC_TERMS
-              value: https://bpp.credit.becknprotocol.org/personal-banking/loans/personal-loan
-            - descriptor:
-                code: SETTLEMENT_AMOUNT
-              value: "1159"
-            - descriptor:
-                code: OFFLINE_CONTRACT
-              value: "true"
-
-  cancellation_terms:
-    - fulfillment_state:
-        descriptor:
-          code: SANCTIONED
-      cancellation_fee:
-        percentage: 3%
-    - external_ref:
-        mimetype: text/html
-        url: https://bpp.credit.becknprotocol.org/tnc.html
-    - fulfillment_state:
-        descriptor:
           code: DISBURSED
-      cancellation_fee:
-        percentage: 5%
+
+  created_at: "2023-05-25T05:23:03.443Z"
+  updated_at: "2023-05-25T05:23:03.443Z"
