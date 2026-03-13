@@ -81,7 +81,7 @@ order:
             - descriptor: { code: REPAYMENT_FREQUENCY, name: Repayment Frequency }
               value: MONTHLY
             - descriptor: { code: NUMBER_OF_INSTALLMENTS_OF_REPAYMENT, name: Number of installments of repayment }
-              value: "45"
+              value: "5"
             - descriptor: { code: TNC_LINK, name: Terms & Conditions }
               value: https://icicibank.com/loan/tnc.html
             - descriptor: { code: COOL_OFF_PERIOD, name: cool off period }

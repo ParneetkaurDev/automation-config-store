@@ -135,7 +135,7 @@ order:
                 code: "NUMBER_OF_INSTALLMENTS_OF_REPAYMENT"
                 name: "Number of installments"
                 short_desc: "Total installments"
-              value: "45"
+              value: "5"
             - descriptor:
                 code: "TNC_LINK"
                 name: "Terms & Conditions"

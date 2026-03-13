@@ -135,7 +135,7 @@ order:
                 code: NUMBER_OF_INSTALLMENTS_OF_REPAYMENT
                 name: Number of installments of repayment
                 short_desc: Number of installments borrower has to make
-              value: "45"
+              value: "5"
             - descriptor:
                 code: TNC_LINK
                 name: Terms & Conditions
