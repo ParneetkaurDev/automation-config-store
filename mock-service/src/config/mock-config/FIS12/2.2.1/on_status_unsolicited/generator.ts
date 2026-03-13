@@ -1,5 +1,3 @@
-import { loadMockSessionData } from "../../../../../services/data-services";
-import { injectLoanDetails, injectSettlementAmount } from "../settlement-utils";
 
 export async function onStatusUnsolicitedGenerator(
   existingPayload: any,
@@ -21,76 +19,45 @@ export async function onStatusUnsolicitedGenerator(
   }
 
   // Update provider information from session data (carry-forward from previous flows)
-  if (sessionData.provider_id) {
-    existingPayload.message = existingPayload.message || {};
-    existingPayload.message.order = existingPayload.message.order || {};
-    existingPayload.message.order.provider =
-      existingPayload.message.order.provider || {};
-    existingPayload.message.order.provider.id = sessionData.provider_id;
-  }
-
-  sessionData.selected_items[0].xinput = existingPayload.message.order.items[0].xinput
-  existingPayload.message.order.items = sessionData.selected_items
-  // Fix items: ensure ID consistency and form status
-  if (existingPayload.message?.order?.items?.[0]) {
-    const item = existingPayload.message.order.items[0];
-
-
-    // Update location_ids from session data (carry-forward from previous flows)
-    const selectedLocationId = sessionData.selected_location_id;
-    if (selectedLocationId) {
-      item.location_ids = [selectedLocationId];
-      console.log("Updated location_ids:", selectedLocationId);
-    }
-
-    // Update form ID from session data (carry-forward from previous flows)
-    if (item.xinput?.form) {
-      // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-      const formId = sessionData.form_id || "E_sign_verification_status";
-      item.xinput.form.id = formId;
-      console.log("Updated form ID:", formId);
-
-      const submission_id =
-        formId === "Ekyc_details_verification_status"
-          ? sessionData.Ekyc_details_verification_status : formId === "Emanadate_verification_status" ? sessionData.Emanadate_verification_status
-            : sessionData.E_sign_verification_status;
-
-      const form_status =
-        formId === "E_sign_verification_status"
-          ? sessionData?.form_data?.E_sign_verification_status?.idType
-          : formId === "Emanadate_verification_status" ? sessionData?.form_data?.Emanadate_verification_status?.idType
-            : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
-      // Set form status to OFFLINE_PENDING
-      if (item.xinput?.form_response) {
-        item.xinput.form_response.status = form_status//"OFFLINE_PENDING";
-        if (submission_id) {
-          item.xinput.form_response.submission_id = submission_id;
+  if (sessionData?.order) {
+    existingPayload.message.order = sessionData?.order || {};
+    if (existingPayload.message?.order?.items?.[0]) {
+      const item = existingPayload.message.order.items[0];
+      item.xinput = {
+        "form": {
+          "id": "F04"
+        },
+        "form_response": {
+          "status": "SUCCESS",
+          "submission_id": "F04_SUBMISSION_ID"
         }
       }
+      if (item.xinput?.form) {
+        // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
+        const formId = sessionData.form_id || "E_sign_verification_status";
+        item.xinput.form.id = formId;
+        console.log("Updated form ID:", formId);
 
+        const submission_id =
+          formId === "Ekyc_details_verification_status"
+            ? sessionData.Ekyc_details_verification_status : formId === "Emanadate_verification_status" ? sessionData.Emanadate_verification_status
+              : sessionData.E_sign_verification_status;
+
+        const form_status =
+          formId === "E_sign_verification_status"
+            ? sessionData?.form_data?.E_sign_verification_status?.idType
+            : formId === "Emanadate_verification_status" ? sessionData?.form_data?.Emanadate_verification_status?.idType
+              : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
+        // Set form status to OFFLINE_PENDING
+        if (item.xinput?.form_response) {
+          item.xinput.form_response.status = form_status || "APPROVED"//form_status//"OFFLINE_PENDING";
+          if (submission_id) {
+            item.xinput.form_response.submission_id = submission_id;
+          }
+        }
+
+      }
     }
   }
-
-  // Fix fulfillments: remove customer details and state
-  if (existingPayload.message?.order?.fulfillments) {
-    existingPayload.message.order.fulfillments.forEach((fulfillment: any) => {
-      // Remove customer details
-      delete fulfillment.customer;
-      // Remove state
-      delete fulfillment.state;
-    });
-  }
-
-  // Remove documents section completely
-  if (existingPayload.message?.order?.documents) {
-    delete existingPayload.message.order.documents;
-  }
-
-  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
-  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
-  sessionData.form_data = form_data
-  injectLoanDetails(existingPayload, sessionData);
-  injectSettlementAmount(existingPayload, sessionData);
-
   return existingPayload;
 }
