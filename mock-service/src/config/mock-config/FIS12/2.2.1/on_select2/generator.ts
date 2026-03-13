@@ -69,36 +69,55 @@ export async function onSelectDefaultGenerator(
               "name": "Checklists",
               "code": "CHECKLISTS"
             },
-            "list": [
-              {
-                "descriptor": {
-                  "name": "Set Loan Amount",
-                  "code": "SET_DOWN_PAYMENT"
-                },
-                "value": "COMPLETED"
-              },
-              {
-                "descriptor": {
-                  "name": "KYC",
-                  "code": "KYC"
-                },
-                "value": "COMPLETED"
-              },
-              {
-                "descriptor": {
-                  "name": "Emandate",
-                  "code": "EMANDATE"
-                },
-                "value": "PENDING"
-              },
-              {
-                "descriptor": {
-                  "name": "Esign",
-                  "code": "ESIGN"
-                },
-                "value": "PENDING"
-              }
-            ]
+            "list":
+              sessionData?.flow_id?.includes("Single_Redirection") ?
+                [
+                  {
+                    "descriptor": {
+                      "name": "Set Loan Amount",
+                      "code": "SET_DOWN_PAYMENT"
+                    },
+                    "value": "COMPLETED"
+                  },
+                  {
+                    "descriptor": {
+                      "name": "KYC, enach, esign",
+                      "code": "KYC_ENACH_ESIGN"
+                    },
+                    "value": "COMPLETED"
+                  }
+                ] :
+
+                [
+                  {
+                    "descriptor": {
+                      "name": "Set Loan Amount",
+                      "code": "SET_DOWN_PAYMENT"
+                    },
+                    "value": "COMPLETED"
+                  },
+                  {
+                    "descriptor": {
+                      "name": "KYC",
+                      "code": "KYC"
+                    },
+                    "value": "COMPLETED"
+                  },
+                  {
+                    "descriptor": {
+                      "name": "Emandate",
+                      "code": "EMANDATE"
+                    },
+                    "value": "PENDING"
+                  },
+                  {
+                    "descriptor": {
+                      "name": "Esign",
+                      "code": "ESIGN"
+                    },
+                    "value": "PENDING"
+                  }
+                ]
           }]
         };
       }

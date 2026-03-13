@@ -47,12 +47,30 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
       {
         display: true,
         descriptor: { name: "Checklists", code: "CHECKLISTS" },
-        list: [
-          { descriptor: { name: "Set Loan Amount", code: "SET_DOWN_PAYMENT" }, value: "COMPLETED" },
-          { descriptor: { name: "KYC", code: "KYC" }, value: "COMPLETED" },
-          { descriptor: { name: "Emandate", code: "EMANDATE" }, value: "PENDING" },
-          { descriptor: { name: "Esign", code: "ESIGN" }, value: "PENDING" }
-        ]
+        list:
+          sessionData?.flow_id?.includes("Single_Redirection") ?
+            [
+              {
+                "descriptor": {
+                  "name": "Set Loan Amount",
+                  "code": "SET_DOWN_PAYMENT"
+                },
+                "value": "COMPLETED"
+              },
+              {
+                "descriptor": {
+                  "name": "KYC, enach, esign",
+                  "code": "KYC_ENACH_ESIGN"
+                },
+                "value": "COMPLETED"
+              }
+            ] :
+            [
+              { descriptor: { name: "Set Loan Amount", code: "SET_DOWN_PAYMENT" }, value: "COMPLETED" },
+              { descriptor: { name: "KYC", code: "KYC" }, value: "COMPLETED" },
+              { descriptor: { name: "Emandate", code: "EMANDATE" }, value: "PENDING" },
+              { descriptor: { name: "Esign", code: "ESIGN" }, value: "PENDING" }
+            ]
       }
     ];
     console.log("[on_init] Set item from selected_items_1:", selectedItem.id);
@@ -86,6 +104,10 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
         item.xinput.form.id = "Emanadate_verification_status";
         item.xinput.form.url = url;
       }
+
+      if (sessionData?.flow_id?.includes("Single_Redirection")) {
+        delete item.xinput
+      }
       return item;
     });
   }
@@ -100,6 +122,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
   // ── Dynamic SETTLEMENT_AMOUNT: inject pre-calculated value from session ──
   injectSettlementAmount(existingPayload, sessionData);
   // ─────────────────────────────────────────────────────────────────────────
+
 
   return existingPayload;
 }
