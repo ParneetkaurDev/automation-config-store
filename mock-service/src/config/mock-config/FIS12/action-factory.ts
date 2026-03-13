@@ -76,7 +76,12 @@ import { MockMandateDetails3Form } from "./personal-loan/2.0.3/mandate-details-f
 import { MockVerificationStatusEmandate } from "./personal-loan/2.0.3/verification_status_Emandate/verification_Emandate"
 import { MockLoanAgreementEsignForm } from "./personal-loan/2.0.3/loan_agreement_esign_form/loan_agreement_esign_form"
 import { MockPaymentUrlFormStatusClassPL } from "./personal-loan/2.0.3/payment_url_form/payment_url_form";
-
+import { MockOnUpdatePrePartPaymentClass } from "./personal-loan/2.0.3/on_update_pre_part_payment/class";
+import { MockOnUpdatePrePartPaymentUnsolicitedClass } from "./personal-loan/2.0.3/on_update_pre_part_payment_unsolicited/class"
+import { MockOnUpdateForeclosureClass } from "./personal-loan/2.0.3/on_update_foreclosure/class";
+import { MockOnUpdateForeclosureUnsolicitedClass } from "./personal-loan/2.0.3/on_update_foreclosure_unsolicited/class";
+import { MockOnUpdateMissedEmiClass } from "./personal-loan/2.0.3/on_update_missed_emi/class";
+import { MockOnUpdateMissedEmiUnsolicitedClass } from "./personal-loan/2.0.3/on_update_missed_emi_unsolicited/class";
 type Ctor<T> = new () => T;
 
 const registry = {
@@ -175,6 +180,12 @@ const registry = {
 	on_init_3_personal_loan_3: MockOnInit3PersonalLoan3Class,
 	status_1_personal_loan_3: MockStatus1PersonalLoan3Class,
 	on_status_1_personal_loan_3: MockOnStatus1PersonalLoan3Class,
+	on_update_pre_part_payment: MockOnUpdatePrePartPaymentClass,
+	on_update_unsolicited_pre_part_payment: MockOnUpdatePrePartPaymentUnsolicitedClass,
+	on_update_foreclosure_unsolicitated: MockOnUpdateForeclosureUnsolicitedClass,
+	on_update_foreclosure_pl: MockOnUpdateForeclosureClass,
+	on_update_missed_emi_pl: MockOnUpdateMissedEmiClass,
+	on_update_unsolicited_missed_emi_pl: MockOnUpdateMissedEmiUnsolicitedClass,
 	update_personal_loan_fulfillment_3: MockUpdatePersonalLoanFulfillment3Class,
 	on_update_personal_loan_fulfillment_3: MockOnUpdatePersonalLoanFulfillment3Class,
 

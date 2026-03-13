@@ -431,3 +431,39 @@ codes:
     action: on_status
     default: FIS12/personal-loan/2.0.3/on_status_unsolicited_esign/default.yaml
     message_id: true
+
+  - code: 140
+    action_id: on_update_foreclosure_pl
+    action: on_update
+    default: FIS12/personal-loan/2.0.3/on_update_foreclosure/default.yaml
+    message_id: false
+
+  - code: 141
+    action_id: on_update_foreclosure_unsolicitated
+    action: on_update
+    default: FIS12/personal-loan/2.0.3/on_update_foreclosure_unsolicited/default.yaml
+    message_id: true
+
+  - code: 142
+    action_id: on_update_missed_emi_pl
+    action: on_update
+    default: FIS12/personal-loan/2.0.3/on_update_missed_emi/default.yaml
+    message_id: false
+
+  - code: 143
+    action_id: on_update_unsolicited_missed_emi_pl
+    action: on_update
+    default: FIS12/personal-loan/2.0.3/on_update_missed_emi_unsolicited/default.yaml
+    message_id: true
+
+  - code: 144
+    action_id: on_update_pre_part_payment
+    action: on_update
+    default: FIS12/personal-loan/2.0.3/on_update_pre_part_payment/default.yaml
+    message_id: false
+
+  - code: 145
+    action_id: on_update_unsolicited_pre_part_payment
+    action: on_update
+    default: FIS12/personal-loan/2.0.3/on_update_pre_part_payment_unsolicited/default.yaml
+    message_id: true
