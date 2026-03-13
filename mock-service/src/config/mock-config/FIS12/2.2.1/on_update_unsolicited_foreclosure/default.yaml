@@ -1,6 +1,6 @@
 order:
   id: LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID
-  status: COMPLETE
+  status: COMPLETED
   provider:
     id: P1
     descriptor:
