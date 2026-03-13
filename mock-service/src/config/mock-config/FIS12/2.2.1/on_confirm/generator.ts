@@ -76,10 +76,10 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
         display: true,
         descriptor: { name: "Checklists", code: "CHECKLISTS" },
         list: [
-          { descriptor: { name: "Set Loan Amount", code: "SET_DOWN_PAYMENT" }, value: "PENDING" },
-          { descriptor: { name: "KYC", code: "KYC" }, value: "PENDING" },
-          { descriptor: { name: "Emandate", code: "EMANDATE" }, value: "PENDING" },
-          { descriptor: { name: "Esign", code: "ESIGN" }, value: "PENDING" }
+          { descriptor: { name: "Set Loan Amount", code: "SET_DOWN_PAYMENT" }, value: "COMPLETED" },
+          { descriptor: { name: "KYC", code: "KYC" }, value: "COMPLETED" },
+          { descriptor: { name: "Emandate", code: "EMANDATE" }, value: "COMPLETED" },
+          { descriptor: { name: "Esign", code: "ESIGN" }, value: "COMPLETED" }
         ]
       }
     ];
