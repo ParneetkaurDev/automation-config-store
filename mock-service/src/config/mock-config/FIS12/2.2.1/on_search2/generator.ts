@@ -56,12 +56,28 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
         : [];
       existingPayload.message.catalog.providers[0].categories = matchingCategories;
 
-      if (matchedItem.xinput?.form) {
-        // Generate dynamic form URL with session data
-        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/personal_details_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-        console.log("Form URL generated:", url);
-        matchedItem.xinput.form.id = "personal_details_information_form";
-        matchedItem.xinput.form.url = url;
+      if (matchedItem.xinput) {
+        matchedItem.xinput.head = {
+          "descriptor": {
+            "name": "Personal Information"
+          },
+          "index": {
+            "min": 0,
+            "cur": 1,
+            "max": 1
+          },
+          "headings": [
+            "MERCHANT_AND_PRDOUCT_DEATILS",
+            "PERSONAL_INFORMATION"
+          ]
+        }
+        if (matchedItem.xinput?.form) {
+          // Generate dynamic form URL with session data
+          const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/personal_details_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+          console.log("Form URL generated:", url);
+          matchedItem.xinput.form.id = "personal_details_information_form";
+          matchedItem.xinput.form.url = url;
+        }
       }
 
       // Return only the matched item in the items array
