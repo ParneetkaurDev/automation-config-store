@@ -201,24 +201,8 @@ order:
         price:
           value: "197700"
           currency: INR
-      - title: OTHER_UPFRONT_CHARGES
-        price:
-          value: "0"
-          currency: INR
       - title: OTHER_CHARGES
         price:
           value: "0"
-          currency: INR
-      - title: INSURANCE_PRODUCT_FEE
-        price:
-          value: "1000"
-          currency: INR
-      - title: TAX
-        price:
-          value: "100"
-          currency: INR
-      - title: INSURANCE_TOTAL_FEE
-        price:
-          value: "1100"
           currency: INR
     ttl: PT15D

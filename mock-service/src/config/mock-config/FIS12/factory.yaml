@@ -401,3 +401,33 @@ codes:
     action: on_status
     default: FIS12/personal-loan/2.0.3/on_status/default.yaml
     message_id: false
+
+  - code: 135
+    action_id: on_status_unsolicited_emandate_pl_3
+    action: on_status
+    default: FIS12/personal-loan/2.0.3/on_status_unsolicited_emandate/default.yaml
+    message_id: true
+
+  - code: 136
+    action_id: on_status_unsolicited_esign_pl_3
+    action: on_status
+    default: FIS12/personal-loan/2.0.3/on_status_unsolicited_esign/default.yaml
+    message_id: true
+
+  - code: 137
+    action_id: on_status_kyc_verification
+    action: on_status
+    default: FIS12/personal-loan/2.0.3/on_status_unsolicited/default.yaml
+    message_id: true
+
+  - code: 138
+    action_id: on_status_emandate_verification
+    action: on_status
+    default: FIS12/personal-loan/2.0.3/on_status_unsolicited_emandate/default.yaml
+    message_id: true
+
+  - code: 139
+    action_id: on_status_esign_verification
+    action: on_status
+    default: FIS12/personal-loan/2.0.3/on_status_unsolicited_esign/default.yaml
+    message_id: true

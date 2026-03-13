@@ -147,7 +147,7 @@ order:
                 code: COOL_OFF_PERIOD
                 name: cool off period
                 short_desc: Cooling off/look-up period
-              value: PT30D
+              value: P30D
             - descriptor:
                 code: INSTALLMENT_AMOUNT
                 name: Installment amount
@@ -202,18 +202,6 @@ order:
       - title: OTHER_CHARGES
         price:
           value: "0"
-          currency: INR
-      - title: INSURANCE_PRODUCT_FEE
-        price:
-          value: "1000"
-          currency: INR
-      - title: TAX
-        price:
-          value: "100"
-          currency: INR
-      - title: INSURANCE_TOTAL_FEE
-        price:
-          value: "1100"
           currency: INR
     ttl: PT15D
 

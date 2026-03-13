@@ -8,3 +8,7 @@ save-data:
   city_code: "$.context.location.city.code"
   vehicle_category: "$.message.intent.fulfillment.vehicle.category"
   bap_id: "$.context.bap_id"
+  # BAP_TERMS fee parameters for dynamic SETTLEMENT_AMOUNT calculation
+  buyer_finder_fees_type: "$.message.intent.payment.tags[?(@.descriptor.code=='BAP_TERMS')].list[?(@.descriptor.code=='BUYER_FINDER_FEES_TYPE')].value"
+  buyer_finder_fees_percentage: "$.message.intent.payment.tags[?(@.descriptor.code=='BAP_TERMS')].list[?(@.descriptor.code=='BUYER_FINDER_FEES_PERCENTAGE')].value"
+  buyer_finder_fees_amount: "$.message.intent.payment.tags[?(@.descriptor.code=='BAP_TERMS')].list[?(@.descriptor.code=='BUYER_FINDER_FEES_AMOUNT')].value"

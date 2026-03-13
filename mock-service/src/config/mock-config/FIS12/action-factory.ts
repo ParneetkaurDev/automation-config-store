@@ -53,6 +53,8 @@ import { MockOnUpdateUnsolicitedPersonalLoan3Class } from "./personal-loan/2.0.3
 import { MockStatusPersonalLoan3Class } from "./personal-loan/2.0.3/status/class";
 import { MockOnStatusPersonalLoan3Class } from "./personal-loan/2.0.3/on_status/class";
 import { MockOnStatusUnsolicitedPersonalLoan3Class } from "./personal-loan/2.0.3/on_status_unsolicited/class";
+import { MockOnStatusUnsolicitedEmandatePL3Class } from "./personal-loan/2.0.3/on_status_unsolicited_emandate/class";
+import { MockOnStatusUnsolicitedEsignPL3Class } from "./personal-loan/2.0.3/on_status_unsolicited_esign/class";
 import { MockInitOfflinePersonalLoan3Class } from "./personal-loan/2.0.3/init_offline/class";
 import { MockOnInitOfflinePersonalLoan3Class } from "./personal-loan/2.0.3/on_init_offline_personal_loan/class";
 import { MockInitOfflineAndOnlinePersonalLoan3Class } from "./personal-loan/2.0.3/init_offline_and_online_personal_loan/class";
@@ -73,6 +75,7 @@ import { MockLoanAdjustmentForm3Class } from "./personal-loan/2.0.3/loan-adjustm
 import { MockMandateDetails3Form } from "./personal-loan/2.0.3/mandate-details-form/manadate-details-form";
 import { MockVerificationStatusEmandate } from "./personal-loan/2.0.3/verification_status_Emandate/verification_Emandate"
 import { MockLoanAgreementEsignForm } from "./personal-loan/2.0.3/loan_agreement_esign_form/loan_agreement_esign_form"
+import { MockPaymentUrlFormStatusClassPL } from "./personal-loan/2.0.3/payment_url_form/payment_url_form";
 
 type Ctor<T> = new () => T;
 
@@ -135,6 +138,7 @@ const registry = {
 	loan_agreement_esign_form: MockLoanAgreementEsignForm,
 	personal_loan_information_form: MockPersonalLoanInformationFormClass,
 	consumer_information_form_1: MockPersonalLoanInformationFormClass,
+	payment_url_form_personal_loan: MockPaymentUrlFormStatusClassPL,
 	search_personal_loan_3: MockSearchPersonalLoan3Class,
 	on_search_personal_loan_3: MockOnSearchPersonalLoan3Class,
 	select_bureau_consent_personal_loan_3: MockSelectBureauConsentPersonalLoan3Class,
@@ -154,6 +158,11 @@ const registry = {
 	on_status_personal_loan_3: MockOnStatusPersonalLoan3Class,
 	on_status_personal_loan_soft_3: MockOnStatusPersonalLoan3Class,
 	on_status_unsolicited_personal_loan_3: MockOnStatusUnsolicitedPersonalLoan3Class,
+	on_status_unsolicited_emandate_pl_3: MockOnStatusUnsolicitedEmandatePL3Class,
+	on_status_unsolicited_esign_pl_3: MockOnStatusUnsolicitedEsignPL3Class,
+	on_status_kyc_verification: MockOnStatusUnsolicitedPersonalLoan3Class,
+	on_status_emandate_verification: MockOnStatusUnsolicitedEmandatePL3Class,
+	on_status_esign_verification: MockOnStatusUnsolicitedEsignPL3Class,
 	init_offline_personal_loan_3: MockInitOfflinePersonalLoan3Class,
 	on_init_offline_personal_loan_3: MockOnInitOfflinePersonalLoan3Class,
 	init_offline_and_online_personal_loan_3: MockInitOfflineAndOnlinePersonalLoan3Class,

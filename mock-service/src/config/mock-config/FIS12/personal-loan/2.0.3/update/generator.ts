@@ -1,13 +1,3 @@
-/**
- * Update Generator for FIS12 Gold Loans
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data
- * 3. Load order_id and update_target from session data
- * 4. Handle Gold Loan specific update scenarios (foreclosure, missed EMI, part payment)
- */
-
 export async function updateDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("Gold Loan Update generator - Available session data:", {
     transaction_id: sessionData.transaction_id,

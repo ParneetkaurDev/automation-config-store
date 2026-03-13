@@ -144,7 +144,7 @@ order:
                 code: COOL_OFF_PERIOD
                 name: cool off period
                 short_desc: Cooling off/look-up period during which borrower shall not be charged any penalty
-              value: PT30D
+              value: P30D
             - descriptor:
                 code: INSTALLMENT_AMOUNT
                 name: Installment amount

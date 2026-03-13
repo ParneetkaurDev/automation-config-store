@@ -1,8 +1,17 @@
 import logger from "@ondc/automation-logger";
 import axios from "axios";
-import { RedisService } from "ondc-automation-cache-lib";
 
 export async function onSelect1Generator(existingPayload: any, sessionData: any) {
+  console.log("=== On Select1 Generator Start ===");
+  logger.info("session data for on_select_1+++++++", sessionData)
+  logger.info("form data in session data++++++", sessionData.form_data)
+  console.log("Available session data:", {
+    transaction_id: sessionData.transaction_id,
+    message_id: sessionData.message_id,
+    selected_provider: !!sessionData.selected_provider,
+    items: !!sessionData.items,
+    bap_id: sessionData.bap_id
+  });
 
   // ========== STANDARD PAYLOAD UPDATES ==========
 
