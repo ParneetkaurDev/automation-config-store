@@ -21,4 +21,5 @@ export async function onCancelDefaultGenerator(existingPayload: any, sessionData
     order.status = "CANCELLED"
     existingPayload.message.order = order
   }
+  return existingPayload;
 }
