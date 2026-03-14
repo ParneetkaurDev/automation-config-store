@@ -77,7 +77,9 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   }
   injectSettlementAmount(existingPayload, sessionData);
   // ─────────────────────────────────────────────────────────────────────────────
-
+  if (sessionData?.flow_id?.includes("Single_Redirection")) {
+    delete item?.xinput
+  }
   return existingPayload;
 }
 

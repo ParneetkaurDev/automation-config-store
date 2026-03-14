@@ -114,6 +114,11 @@ export async function onSelectDefaultGenerator(existingPayload: any, sessionData
       }
     );
   }
+
+  if (sessionData?.flow_id?.includes("Single_Redirection") && existingPayload.message?.order?.items?.[0]?.xinput) {
+    existingPayload.message.order.items[0].xinput.head.descriptor.name = "Kyc, enach & esign"
+    existingPayload.message.order.items[0].xinput.head.headings[1] = "KYC_ENACH_ESIGN"
+  }
   // redirection to be done
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/Ekyc_details_verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
