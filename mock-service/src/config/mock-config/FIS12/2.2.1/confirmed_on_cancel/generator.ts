@@ -1,4 +1,6 @@
 
+import { injectSettlementAmount } from "../settlement-utils";
+
 export async function onCancelDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
   if (existingPayload.context) {
@@ -20,6 +22,8 @@ export async function onCancelDefaultGenerator(existingPayload: any, sessionData
     const order = sessionData.order || existingPayload.message.order;
     order.status = "CANCELLED"
     existingPayload.message.order = order
+
   }
-  return existingPayload;
+
+  return existingPayload
 }

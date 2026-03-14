@@ -70,7 +70,36 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     existingPayload.message.order.items[0].parent_item_id = selectedItem.parent_item_id;
     existingPayload.message.order.items[0].category_ids = selectedItem.category_ids;
     existingPayload.message.order.items[0].price = selectedItem.price;
-    existingPayload.message.order.items[0].tags = selectedItem.tags
+    existingPayload.message.order.items[0].tags = [
+      {
+        display: true,
+        descriptor: { name: "Checklists", code: "CHECKLISTS" },
+        list:
+          sessionData?.flow_id?.includes("Single_Redirection") ?
+            [
+              {
+                "descriptor": {
+                  "name": "Set Loan Amount",
+                  "code": "SET_DOWN_PAYMENT"
+                },
+                "value": "COMPLETED"
+              },
+              {
+                "descriptor": {
+                  "name": "KYC, enach, esign",
+                  "code": "KYC_ENACH_ESIGN"
+                },
+                "value": "COMPLETED"
+              }
+            ] :
+            [
+              { descriptor: { name: "Set Loan Amount", code: "SET_DOWN_PAYMENT" }, value: "COMPLETED" },
+              { descriptor: { name: "KYC", code: "KYC" }, value: "COMPLETED" },
+              { descriptor: { name: "Emandate", code: "EMANDATE" }, value: "COMPLETED" },
+              { descriptor: { name: "Esign", code: "ESIGN" }, value: "COMPLETED" }
+            ]
+      }
+    ];
     console.log("[on_confirm] Set item from selected_items_1:", selectedItem.id);
   }
 
