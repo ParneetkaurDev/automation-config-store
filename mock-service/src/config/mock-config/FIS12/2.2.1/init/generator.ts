@@ -33,34 +33,34 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   // Update item.id if available from session data (carry-forward from previous flows)
   existingPayload.message.order.items = sessionData?.selected_items_1;
   const item = existingPayload.message.order.items[0];
-  if (item.xinput?.form) {
-    // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-    const formId = sessionData.form_id || "E_sign_verification_status";
-    item.xinput.form.id = formId;
-    console.log("Updated form ID:", formId);
+  // if (item.xinput?.form) {
+  //   // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
+  //   const formId = sessionData.form_id || "E_sign_verification_status";
+  //   item.xinput.form.id = formId;
+  //   console.log("Updated form ID:", formId);
 
-    const submission_id =
-      formId === "Ekyc_details_verification_status"
-        ? sessionData.Ekyc_details_verification_status
-        : formId === "Emanadate_verification_status"
-          ? sessionData.Emanadate_verification_status
-          : sessionData.E_sign_verification_status;
+  //   const submission_id =
+  //     formId === "Ekyc_details_verification_status"
+  //       ? sessionData.Ekyc_details_verification_status
+  //       : formId === "Emanadate_verification_status"
+  //         ? sessionData.Emanadate_verification_status
+  //         : sessionData.E_sign_verification_status;
 
-    const form_status =
-      formId === "E_sign_verification_status"
-        ? sessionData?.form_data?.E_sign_verification_status?.idType
-        : formId === "Emanadate_verification_status"
-          ? sessionData?.form_data?.Emanadate_verification_status?.idType
-          : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
+  //   const form_status =
+  //     formId === "E_sign_verification_status"
+  //       ? sessionData?.form_data?.E_sign_verification_status?.idType
+  //       : formId === "Emanadate_verification_status"
+  //         ? sessionData?.form_data?.Emanadate_verification_status?.idType
+  //         : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
 
-    // Set form status
-    if (item.xinput?.form_response) {
-      item.xinput.form_response.status = form_status;
-      if (submission_id) {
-        item.xinput.form_response.submission_id = submission_id;
-      }
-    }
-  }
+  //   // Set form status
+  //   if (item.xinput?.form_response) {
+  //     item.xinput.form_response.status = form_status;
+  //     if (submission_id) {
+  //       item.xinput.form_response.submission_id = submission_id;
+  //     }
+  //   }
+  // }
   const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
   console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
   sessionData.form_data = form_data
@@ -77,9 +77,9 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   }
   injectSettlementAmount(existingPayload, sessionData);
   // ─────────────────────────────────────────────────────────────────────────────
-  if (sessionData?.flow_id?.includes("Single_Redirection")) {
-    delete item?.xinput
-  }
+  // if (sessionData?.flow_id?.includes("Single_Redirection")) {
+  delete item?.xinput
+  // }
   return existingPayload;
 }
 
