@@ -71,6 +71,7 @@ export interface SessionData {
 	loan_agreement_esign_form?: string;
 	manadate_details_form?: string;
 	loan_amount_adjustment_form?: string;
+	personal_loan_information_form?: string;
 	credit_card_information_form?: string;
 }
 
