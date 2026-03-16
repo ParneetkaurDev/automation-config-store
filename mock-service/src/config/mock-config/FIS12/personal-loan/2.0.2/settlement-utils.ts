@@ -6,15 +6,38 @@
  */
 
 /**
- * Converts an ISO 8601 duration string (e.g. "P12M", "P1Y6M") to months.
+ * Converts a loan term string to months.
+ * Handles:
+ *   - ISO 8601: "P12M", "P1Y6M"
+ *   - Plain English: "5 months", "1 year", "18 months"
+ *   - Numeric strings: "12" (treated as months)
  */
-function parseISODurationToMonths(iso: string): number {
-    if (!iso) return 12;
-    const yearMatch = iso.match(/(\d+)Y/);
-    const monthMatch = iso.match(/(\d+)M/);
-    const years = yearMatch ? parseInt(yearMatch[1], 10) : 0;
-    const months = monthMatch ? parseInt(monthMatch[1], 10) : 0;
-    return years * 12 + months || 12;
+function parseISODurationToMonths(term: string): number {
+    if (!term) return 12;
+
+    const s = term.trim();
+
+    // Plain English: "5 months", "1 year 6 months", "18 months", "1 year"
+    const yearWordMatch = s.match(/(\d+)\s*year/i);
+    const monthWordMatch = s.match(/(\d+)\s*month/i);
+    if (yearWordMatch || monthWordMatch) {
+        const years = yearWordMatch ? parseInt(yearWordMatch[1], 10) : 0;
+        const months = monthWordMatch ? parseInt(monthWordMatch[1], 10) : 0;
+        return years * 12 + months || 12;
+    }
+
+    // ISO 8601: P1Y6M, P12M, P1Y
+    if (s.startsWith('P')) {
+        const yearMatch = s.match(/(\d+)Y/);
+        const monthMatch = s.match(/(\d+)M/);
+        const years = yearMatch ? parseInt(yearMatch[1], 10) : 0;
+        const months = monthMatch ? parseInt(monthMatch[1], 10) : 0;
+        return years * 12 + months || 12;
+    }
+
+    // Pure numeric: treat as months
+    const numeric = parseInt(s, 10);
+    return isNaN(numeric) ? 12 : numeric;
 }
 
 /**
@@ -26,14 +49,14 @@ export function calculateSettlementAmount(sessionData: any): string {
     const feePercentage = parseFloat(sessionData.buyer_finder_fees_percentage || "0");
     const feeAmount = parseFloat(sessionData.buyer_finder_fees_amount || "0");
 
-    const netDisbursedAmount = parseFloat(sessionData.net_disbursed_amount || "0");
+    const principalAmount = parseFloat(sessionData.principal_amount || "0");
     const totalLoanAmount = parseFloat(sessionData.quote_price || "0");
     const loanTermISO = sessionData.loan_term || "P12M";
     const loanTermMonths = parseISODurationToMonths(loanTermISO);
 
     console.log("[settlement-utils] Calculating SETTLEMENT_AMOUNT with:", {
         feeType, feePercentage, feeAmount,
-        netDisbursedAmount, totalLoanAmount, loanTermISO, loanTermMonths,
+        principalAmount, totalLoanAmount, loanTermISO, loanTermMonths,
     });
 
     let settlementAmount = 0;
@@ -51,9 +74,9 @@ export function calculateSettlementAmount(sessionData: any): string {
 
         case "percent-annualized":
         default:
-            settlementAmount = (feePercentage / 100) * (loanTermMonths / 12) * netDisbursedAmount;
+            settlementAmount = (feePercentage / 100) * (loanTermMonths / 12) * principalAmount;
             console.log(
-                `[settlement-utils] percent-annualized type → ${feePercentage}% × (${loanTermMonths}/12) × ${netDisbursedAmount} = ${settlementAmount}`
+                `[settlement-utils] percent-annualized type → ${feePercentage}% × (${loanTermMonths}/12) × ${principalAmount} = ${settlementAmount}`
             );
             break;
     }
