@@ -11,7 +11,7 @@ order:
           status: "SUCCESS"
           submission_id: "F05_SUBMISSION_ID"
   payments:
-    - id: "PAYMENT_ID_PERSONAL_LOAN"
+    - id: "PID-8000"
       collected_by: "BPP"
       type: "ON_ORDER"
       status: "NOT-PAID"
