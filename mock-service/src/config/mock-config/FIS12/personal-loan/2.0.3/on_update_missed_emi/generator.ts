@@ -148,6 +148,14 @@ export async function onUpdateMissedEmiDefaultGenerator(existingPayload: any, se
     }
   }
 
+  // Set created_at and updated_at to current timestamp
+  if (existingPayload.message?.order) {
+    const now = new Date().toISOString();
+    existingPayload.message.order.created_at = now;
+    existingPayload.message.order.updated_at = now;
+    console.log("Set order.created_at and order.updated_at to:", now);
+  }
+
   // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
   injectSettlementAmount(existingPayload, sessionData);
 
