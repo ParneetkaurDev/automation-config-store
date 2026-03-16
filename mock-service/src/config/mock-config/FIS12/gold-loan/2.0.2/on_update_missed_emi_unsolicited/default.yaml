@@ -229,7 +229,7 @@ order:
   - id: PAYMENT_ID_GOLD_LOAN
     type: POST_FULFILLMENT
     params:
-      amount: '47360'
+      amount: '47860'
       currency: INR
     status: PAID
     time:
