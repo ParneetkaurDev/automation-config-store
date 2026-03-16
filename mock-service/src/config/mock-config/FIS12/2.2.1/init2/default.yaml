@@ -46,11 +46,4 @@ order:
             - descriptor:
                 code: "OFFLINE_CONTRACT"
               value: "true"
-    - id: "PID-5555"
-      type: "PRE_ORDER"
-      status: "PAID"
-      collected_by: "BPP"
-      params:
-        amount: "1000"
-        currency: "INR"
-        transaction_id: "3b5a664d-077e-47f0-96d1-06e68d397c78"
+
