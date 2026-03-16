@@ -21,12 +21,7 @@ export function parseISODurationToMonths(isoDuration: string): number {
     return totalMonths > 0 ? totalMonths : 12;
 }
 
-/**
- * Extracts a tag value from a ONDC-style tags array.
- * @param tags  - Array of tag objects with descriptor.code and list[]
- * @param groupCode - The tag group descriptor code (e.g. "BAP_TERMS")
- * @param itemCode  - The list item descriptor code (e.g. "BUYER_FINDER_FEES_TYPE")
- */
+
 export function extractTagValue(tags: any[], groupCode: string, itemCode: string): string | undefined {
     if (!Array.isArray(tags)) return undefined;
 
@@ -39,23 +34,13 @@ export function extractTagValue(tags: any[], groupCode: string, itemCode: string
     return undefined;
 }
 
-/**
- * Extracts a breakup value from ONDC-style quote.breakup array.
- * @param breakup - Array of breakup objects with title and price.value
- * @param title   - The title to look for (e.g. "NET_DISBURSED_AMOUNT")
- */
 export function extractBreakupValue(breakup: any[], title: string): number {
     if (!Array.isArray(breakup)) return 0;
     const entry = breakup.find((b: any) => (b?.title || "").toUpperCase() === title.toUpperCase());
     return parseFloat(entry?.price?.value || "0");
 }
 
-/**
- * Calculates the SETTLEMENT_AMOUNT based on ONDC FIS12 BAP_TERMS specification.
- *
- * @param sessionData - The full session data object
- * @returns Calculated settlement amount as a rounded string (e.g. "267")
- */
+
 export function calculateSettlementAmount(sessionData: any): string {
     // --- Read fee parameters saved from search ---
     const feeType = sessionData.buyer_finder_fees_type || "percent-annualized";
@@ -108,14 +93,7 @@ export function calculateSettlementAmount(sessionData: any): string {
     return result;
 }
 
-/**
- * Injects the settlement amount into all BAP_TERMS payment tags in the payload.
- * Uses sessionData.settlement_amount if available, otherwise calculates it.
- *
- * @param existingPayload - The payload to mutate
- * @param sessionData     - Session data containing fee parameters and loan data
- * @returns The settlement amount string that was injected
- */
+
 export function injectSettlementAmount(existingPayload: any, sessionData: any): string {
     // Use pre-calculated value from session if available, otherwise calculate
     const settlementAmount =
@@ -142,13 +120,6 @@ export function injectSettlementAmount(existingPayload: any, sessionData: any): 
     return settlementAmount;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Loan Calculation Helpers
-// ─────────────────────────────────────────────────────────────────────────────
-
-/**
- * Extracts a value from items[0].tags[INFO].list[code] in a standard ONDC payload.
- */
 export function extractInfoTagValue(existingPayload: any, code: string): string | undefined {
     const tags: any[] = existingPayload?.message?.order?.items?.[0]?.tags || [];
     for (const tag of tags) {
@@ -172,15 +143,7 @@ export interface LoanDetails {
     schedule: Array<{ principal: number; interest: number; outstanding: number }>;
 }
 
-/**
- * Calculates full loan details from sessionData.
- *
- * Key inputs from sessionData:
- *   form_data.down_payment_form.updateDownpayment  → user-entered down payment
- *   loan_amount  (or quote_price)                  → total product price
- *   loan_term                                      → ISO 8601 e.g. "P5M"
- *   interest_rate                                  → e.g. "12 %" or "12"
- */
+
 export function calculateLoanDetails(sessionData: any, existingPayload?: any): LoanDetails {
     console.log("sessionDataform_dataaaa", JSON.stringify(sessionData?.form_data))
     console.log("sessionDataaaa", JSON.stringify(sessionData))
@@ -283,11 +246,6 @@ export function calculateLoanDetails(sessionData: any, existingPayload?: any): L
 }
 
 
-/**
- * Injects computed loan values into the payload AND saves them to sessionData.
- * Updates: quote.breakup, items[0] INFO tags, PRE_ORDER payment amount.
- * Clears sessionData.settlement_amount so init recalculates with fresh net_disbursed_amount.
- */
 export function injectLoanDetails(existingPayload: any, sessionData: any, details?: LoanDetails): LoanDetails {
     const d = details ?? calculateLoanDetails(sessionData, existingPayload);
 
@@ -340,21 +298,7 @@ export function injectLoanDetails(existingPayload: any, sessionData: any, detail
     return d;
 }
 
-/**
- * Upserts dynamic loan values into the INFO tag of every item in the payload.
- *
- * Tags updated/inserted:
- *   INSTALLMENT_AMOUNT    → "{emiAmount} INR"
- *   NUMBER_OF_INSTALLMENTS → "{loanTermMonths}"
- *   PRINCIPAL_AMOUNT       → "{principalAmount} INR"
- *   INTEREST_AMOUNT        → "{totalInterest} INR"
- *
- * Safe to call from any generator — works whether the INFO tag entry already
- * exists in the YAML (updates it) or not (inserts it).
- *
- * @param existingPayload  Full ONDC message payload (mutated in place)
- * @param details          LoanDetails from calculateLoanDetails / injectLoanDetails
- */
+
 export function injectItemInfoTags(existingPayload: any, details: LoanDetails): void {
     const items: any[] = existingPayload?.message?.order?.items || [];
 
@@ -389,29 +333,8 @@ export function injectItemInfoTags(existingPayload: any, details: LoanDetails): 
     });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Dynamic Installment Generation
-// ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * Replaces all POST_FULFILLMENT (type="POST_FULFILLMENT") payments in the payload
- * with dynamically generated ones based on the loan amortisation schedule.
- *
- * Each instalment gets:
- *  - id:      PID-5001, PID-5002, …
- *  - params.amount: rounded EMI amount
- *  - time.range.start: 1st of month N
- *  - time.range.end:   last moment of month N
- *  - tags[BREAKUP]: PRINCIPAL_AMOUNT and INTEREST_AMOUNT for that month
- *
- * Non-POST_FULFILLMENT payments (ON_ORDER, PRE_ORDER, etc.) are preserved as-is.
- *
- * @param existingPayload  - The full ONDC message payload (mutated in place)
- * @param sessionData      - Must have emi_amount, loan_term_months, schedule[]
- *                           (set by injectLoanDetails / calculateLoanDetails)
- * @param startFromContext - If true, derive start month from context.timestamp;
- *                           otherwise uses current date. Default = true.
- */
+
 export function generateInstallmentPayments(
     existingPayload: any,
     sessionData: any,
@@ -711,26 +634,6 @@ export function applyPrepartInstallmentStatuses(
     );
 }
 
-/**
- * Builds the full payments array for missed EMI responses.
- *
- * Does two things in one function:
- *  1. payments[0] = PID-8000 (special MISSED_EMI_PAYMENT entry):
- *       Solicited   → status: NOT-PAID, url, duration P15D, range (event month)
- *       Unsolicited → status: PAID, transaction_id, timestamp, range (event month)
- *     Amount = emiAmount + LATE_FEE (DELAY_PENALTY_FEE % of emiAmount)
- *
- *  2. INSTALLMENT payments (from sessionData.payments):
- *       Past months          → PAID (preserved as-is)
- *       Event month          → solicited: DELAYED | unsolicited: DEFERRED
- *       Future months        → NOT-PAID
- *
- * Falls back to generateInstallmentPayments if sessionData.payments is empty.
- *
- * @param existingPayload  Full ONDC message payload (mutated in place)
- * @param sessionData      Must have sessionData.payments from on_update save-data
- * @param unsolicited      true = unsolicited (PAID + DEFERRED) | false = solicited (NOT-PAID + DELAYED)
- */
 export function applyMissedEmiInstallmentStatuses(
     existingPayload: any,
     sessionData: any,
@@ -916,27 +819,6 @@ export function applyMissedEmiInstallmentStatuses(
     );
 }
 
-/**
- * Builds the full payments array for foreclosure responses.
- *
- * Does two things in one function:
- *  1. payments[0] = PID-8000 (special FORECLOSURE entry):
- *       Solicited   → status: NOT-PAID, url, duration: PT90M (90 min window), label: FORECLOSURE
- *       Unsolicited → status: PAID, transaction_id, timestamp, label: FORECLOSURE
- *     Amount = outstandingPrincipal + outstandingInterest + FORECLOSURE_CHARGES (FORECLOSURE_FEE%)
- *
- *  2. INSTALLMENT payments (from sessionData.payments):
- *       Past months (before event)  → PAID (preserved as-is)
- *       Solicited   event+future    → NOT-PAID
- *       Unsolicited event+future    → DEFERRED  ← ALL remaining are DEFERRED (key difference!)
- *
- * Falls back to generateInstallmentPayments if sessionData.payments is empty.
- *
- * @param existingPayload  Full ONDC message payload (mutated in place)
- * @param sessionData      Must have sessionData.payments from on_update save-data
- * @param unsolicited      true = lender-initiated (PAID + all future DEFERRED)
- *                         false = borrower-initiated (NOT-PAID + all future NOT-PAID)
- */
 export function applyForeclosureInstallmentStatuses(
     existingPayload: any,
     sessionData: any,
@@ -1115,38 +997,15 @@ export function applyForeclosureInstallmentStatuses(
 }
 
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Dynamic Update Payments  (Missed EMI / Foreclosure / Pre-Part Payment)
-// ─────────────────────────────────────────────────────────────────────────────
-
 export type UpdatePaymentType =
     | "MISSED_EMI_SOLICITED"
     | "MISSED_EMI_UNSOLICITED"
-    | "FORECLOSURE_SOLICITED"     // Borrower-initiated: remaining EMIs = NOT-PAID
-    | "FORECLOSURE_UNSOLICITED"   // Lender-initiated: remaining EMIs = DEFERRED
+    | "FORECLOSURE_SOLICITED"
+    | "FORECLOSURE_UNSOLICITED"
     | "PRE_PART_SOLICITED"
     | "PRE_PART_UNSOLICITED";
 
-/**
- * Builds the completely dynamic payments array for all update generators.
- *
- * Strategy:
- *  - Rebuilds the amortisation schedule from sessionData (principal, rate, term).
- *  - "Event month" = context.timestamp month.
- *  - Past instalments                        → PAID
- *  - MISSED_EMI:          current month       → DELAYED
- *  - FORECLOSURE_SOLICITED  (borrower-req):  current+future → NOT-PAID
- *    (loan not yet closed, borrower is requesting closure proactively)
- *  - FORECLOSURE_UNSOLICITED (lender-push):  current+future → DEFERRED
- *    (lender signals these EMIs are subsumed into the foreclosure payment)
- *  - PRE_PART_PAYMENT:  current month+future  → NOT-PAID (loan continues)
- *  - Dynamic quote breakup: OUTSTANDING_PRINCIPAL, OUTSTANDING_INTEREST, and the
- *    relevant charge (LATE_FEE_AMOUNT / FORECLOSURE_CHARGES / PRE_PAYMENT_CHARGE)
- *    are all recalculated and injected.
- *
- * Non-POST_FULFILLMENT payments (ON_ORDER, PRE_ORDER) from the default yaml are
- * preserved unchanged.
- */
+
 export function generateUpdatePayments(
     existingPayload: any,
     sessionData: any,

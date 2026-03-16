@@ -1,4 +1,5 @@
 
+import { randomUUID } from "node:crypto";
 import { loadMockSessionData } from "../../../../../services/data-services";
 import { injectSettlementAmount, injectLoanDetails, generateInstallmentPayments } from "../settlement-utils";
 
@@ -123,6 +124,9 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
   injectSettlementAmount(existingPayload, sessionData);
   // ─────────────────────────────────────────────────────────────────────────
 
-
+  if (sessionData?.flow_id?.includes("Single_Redirection")) {
+    existingPayload.message.order.payments[1].status = "PAID"
+    existingPayload.message.order.payments[1].params.transaction_id = "3b5a664d-077e-47f0-96d1-06e68d397c78"
+  }
   return existingPayload;
 }
