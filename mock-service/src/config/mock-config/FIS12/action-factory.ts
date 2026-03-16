@@ -82,6 +82,7 @@ import { MockOnUpdateForeclosureClass } from "./personal-loan/2.0.3/on_update_fo
 import { MockOnUpdateForeclosureUnsolicitedClass } from "./personal-loan/2.0.3/on_update_foreclosure_unsolicited/class";
 import { MockOnUpdateMissedEmiClass } from "./personal-loan/2.0.3/on_update_missed_emi/class";
 import { MockOnUpdateMissedEmiUnsolicitedClass } from "./personal-loan/2.0.3/on_update_missed_emi_unsolicited/class";
+import { MockCreditcardInformationClass } from "./credit-card/2.0.3/credit_card_information_form/class";
 type Ctor<T> = new () => T;
 
 const registry = {
@@ -188,6 +189,9 @@ const registry = {
 	on_update_unsolicited_missed_emi_pl: MockOnUpdateMissedEmiUnsolicitedClass,
 	update_personal_loan_fulfillment_3: MockUpdatePersonalLoanFulfillment3Class,
 	on_update_personal_loan_fulfillment_3: MockOnUpdatePersonalLoanFulfillment3Class,
+
+	//Credit Card Forms
+	credit_card_information_form: MockCreditcardInformationClass
 
 
 } as const satisfies Record<string, Ctor<MockAction>>;
