@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export async function onStatusUnsolicitedGenerator(existingPayload: any, sessionData: any) {
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
@@ -9,57 +11,64 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
   console.log("form_data ------->", sessionData?.form_data?.kyc_verification_status);
 
   const form_status = sessionData?.form_data?.kyc_verification_status?.idType;
-  
-  // Update transaction_id and message_id from session data (carry-forward mapping)
+
+  // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
-  
-  if (sessionData.message_id && existingPayload.context) {
-    existingPayload.context.message_id = sessionData.message_id;
+
+  // Generate UNIQUE message_id for unsolicited response (must NOT reuse previous message_id)
+  if (existingPayload.context) {
+    existingPayload.context.message_id = randomUUID();
+    console.log("Generated unique message_id for unsolicited:", existingPayload.context.message_id);
   }
-  
+
   // Update order ID from session data if available
   if (sessionData.order_id) {
     existingPayload.message = existingPayload.message || {};
     existingPayload.message.order = existingPayload.message.order || {};
     existingPayload.message.order.id = sessionData.order_id;
+    console.log("Updated order.id from session:", sessionData.order_id);
   }
 
-  // Update provider information from session data (carry-forward from on_select_2)
+  // Update provider information from session data (carry-forward)
   if (sessionData.provider_id) {
     existingPayload.message = existingPayload.message || {};
     existingPayload.message.order = existingPayload.message.order || {};
     existingPayload.message.order.provider = existingPayload.message.order.provider || {};
     existingPayload.message.order.provider.id = sessionData.provider_id;
+  } else if (sessionData.selected_provider?.id) {
+    existingPayload.message.order.provider.id = sessionData.selected_provider.id;
   }
-  
-  // Update item.id from session data (carry-forward from on_select_2)
+
+  // Update item.id from session data (carry-forward)
   const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     console.log("Updated item.id:", selectedItem.id);
   }
-  
-  
-  // Update form ID to FO3 (carry-forward from on_select_2)
+
+  // Update form ID from session data (carry-forward, not hardcoded)
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    existingPayload.message.order.items[0].xinput.form.id = "FO3";
-    console.log("Updated form ID to FO3");
+    const formId = sessionData.form_id || selectedItem?.xinput?.form?.id || "FO3";
+    existingPayload.message.order.items[0].xinput.form.id = formId;
+    console.log("Updated form ID from session:", formId);
   }
 
-  // Update form response status - on_status_unsolicited uses APPROVED status
+  // Update form response with submission_id and status
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
     const formResponse = existingPayload.message.order.items[0].xinput.form_response;
-    // if (sessionData.form_status) {
-    //   formResponse.status = sessionData.form_status;
-    // } else {
-    //   formResponse.status = "APPROVED";
-    // }
-    
-    // Update submission ID if provided
-    if (sessionData.submission_id) {
-      formResponse.submission_id = sessionData.submission_id;
+
+    // Set form_response status from form submission
+    if (form_status) {
+      formResponse.status = form_status;
+      console.log("Updated form_response.status:", form_status);
+    }
+
+    // Set submission_id from form submission
+    if (submission_id) {
+      formResponse.submission_id = submission_id;
+      console.log("Updated form_response.submission_id:", submission_id);
     }
   }
 
@@ -69,21 +78,21 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     console.log("Updated customer name:", sessionData.customer_name);
   }
 
-  // Note: Gold loans don't have payments in status responses
-  // Payments are handled separately during loan servicing (EMIs, foreclosure, etc.)
-
-  // Update quote information if provided
-  if (sessionData.quote_amount && existingPayload.message?.order?.quote) {
-    existingPayload.message.order.quote.price.value = sessionData.quote_amount;
+  // Update quote.id from session data
+  if (existingPayload.message?.order?.quote) {
+    const quoteId = sessionData?.quote_id || sessionData?.order?.quote?.id;
+    if (quoteId) {
+      existingPayload.message.order.quote.id = quoteId;
+      console.log("Updated quote.id from session:", quoteId);
+    }
   }
 
-  // Update loan amount in items if provided
-  if (sessionData.loan_amount && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].price.value = sessionData.loan_amount;
-  }
-
-  if(existingPayload.message?.order?.items?.[0]?.xinput?.form_response){
-    existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+  // Set created_at and updated_at to current timestamp
+  if (existingPayload.message?.order) {
+    const now = new Date().toISOString();
+    existingPayload.message.order.created_at = now;
+    existingPayload.message.order.updated_at = now;
+    console.log("Set order.created_at and order.updated_at to:", now);
   }
 
   return existingPayload;
