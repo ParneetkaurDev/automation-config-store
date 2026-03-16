@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 
 export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
@@ -30,9 +31,15 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     if (sessionData.order) {
       existingPayload.message.order = sessionData?.order || existingPayload.message.order;
     }
+    const currentDate = new Date(existingPayload.context.timestamp).toISOString();
+
     //Extract payment installments payload from order
     existingPayload.message.order.payments[0].status = "PAID",
-      existingPayload.message.order.payments[1].status = "PAID"
+      existingPayload.message.order.payments[0].params.transaction_id = randomUUID()
+    existingPayload.message.order.payments[1].status = "PAID"
+    existingPayload.message.order.payments[1].params.transaction_id = randomUUID()
+    existingPayload.message.order.updated_at = currentDate;
+
   }
   return existingPayload;
 }
