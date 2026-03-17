@@ -22,7 +22,7 @@ export async function selectDefaultGenerator(
     (fulfillment: any) => {
       return fulfillment?.id;
     },
-  );
+  ) ?? [];
   existingPayload.message.order.provider =
     userInput?.message?.order?.provider ?? {};
   existingPayload.message.order.items =
