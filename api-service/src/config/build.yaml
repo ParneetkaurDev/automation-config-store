@@ -79286,6 +79286,7 @@ x-validations:
           - _NAME_: REQUIRED_THRESHOLDS_TAG_GROUP
             validTags: &THRESHOLDS_TAG
               - THRESHOLDS
+              - SIP_DETAILS
             tagPath: $.message.catalog.providers[*].fulfillments[*].tags[*].descriptor.code
             _RETURN_: tagPath any in validTags
 
