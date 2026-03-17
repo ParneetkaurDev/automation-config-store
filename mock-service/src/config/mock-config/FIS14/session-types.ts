@@ -132,5 +132,6 @@ export interface Input {
 	part_payment_amount?: number;
 	payment_date?: string;
 	resolution_accept: any
-	rating: string
+	rating: string,
+	data: any
 }
