@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import { SessionData } from "../../../session-types";
 
 export async function selectDefaultGenerator(
@@ -19,9 +18,20 @@ export async function selectDefaultGenerator(
   } else {
     userInput = rawData;
   }
+  const fulfillment_ids = userInput?.message?.order?.fulfillments?.map(
+    (fulfillment: any) => {
+      return fulfillment?.id;
+    },
+  ) ?? [];
   existingPayload.message.order.provider =
     userInput?.message?.order?.provider ?? {};
-  existingPayload.message.order.items = userInput?.message?.order?.items ?? [];
+  existingPayload.message.order.items =
+    userInput?.message?.order?.items?.map((item: any) => {
+      return {
+        ...item,
+        fulfillment_ids,
+      };
+    }) ?? [];
   existingPayload.message.order.fulfillments =
     userInput?.message?.order?.fulfillments ?? [];
 
