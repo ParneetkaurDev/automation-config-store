@@ -92,7 +92,7 @@ order:
         name: "Gold Loan"
       price:
         currency: "INR"
-        value: "441800"
+        value: "232800"
       location_ids:
         - "L1"
         - "L2"
@@ -161,7 +161,7 @@ order:
                 code: "NUMBER_OF_INSTALLMENTS_OF_REPAYMENT"
                 name: "Number of installments of repayment"
                 short_desc: "Number of installments borrower has to make to payback the loan"
-              value: "45"
+              value: "5"
             - descriptor:
                 code: "TNC_LINK"
                 name: "Terms & Conditions"
@@ -170,7 +170,7 @@ order:
             - descriptor:
                 code: "COOL_OFF_PERIOD"
                 name: "cool off period"
-                short_desc: "Cooling off/look-up period during which borrower shall not be\tTAGS m jayega charged any penalty"
+                short_desc: "Cooling off/look-up period during which borrower shall not be charged any penalty"
               value: "P30D"
             - descriptor:
                 code: "INSTALLMENT_AMOUNT"

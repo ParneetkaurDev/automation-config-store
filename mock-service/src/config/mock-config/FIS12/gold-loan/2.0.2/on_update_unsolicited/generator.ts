@@ -1,14 +1,16 @@
+import { injectSettlementAmount } from '../settlement-utils';
+
 export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
   // Update context timestamp
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
   }
-  
+
   // Update transaction_id from session data
   if (sessionData.transaction_id && existingPayload.context) {
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
-  
+
   // Generate new message_id for unsolicited update
   if (existingPayload.context) {
     existingPayload.context.message_id = generateUUID();
@@ -17,13 +19,13 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   console.log("sessionData onUpdateUnsolicitedDefaultGenerator", JSON.stringify(sessionData.payments));
   // Helper function to generate UUID v4
   function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       const r = Math.random() * 16 | 0;
       const v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }
-  
+
   // Load order from session data
   if (existingPayload.message) {
     const order = existingPayload.message.order || (existingPayload.message.order = {});
@@ -68,7 +70,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   // Helper to remove a breakup line
   function removeBreakup(order: any, title: string) {
     if (!order.quote || !Array.isArray(order.quote.breakup)) return;
-    order.quote.breakup = order.quote.breakup.filter((b: any) => 
+    order.quote.breakup = order.quote.breakup.filter((b: any) =>
       (b.title || '').toUpperCase() !== title.toUpperCase()
     );
   }
@@ -78,12 +80,12 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     const contextDate = new Date(contextTimestamp);
     const year = contextDate.getUTCFullYear();
     const month = contextDate.getUTCMonth();
-    
+
     // Create start of month
     const start = new Date(Date.UTC(year, month, 1, 0, 0, 0, 0));
     // Create end of month
     const end = new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999));
-    
+
     return {
       start: start.toISOString(),
       end: end.toISOString()
@@ -93,7 +95,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   // Helper to update payment status for specific installments
   function updatePaymentStatus(payments: any[], status: string, count?: number) {
     if (!Array.isArray(payments)) return;
-    
+
     let updatedCount = 0;
     payments.forEach(payment => {
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
@@ -109,10 +111,10 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   // Based on installment index: First 2 installments → PAID, Next 3 installments → DEFERRED
   function updateForeclosurePaymentStatus(payments: any[]) {
     if (!Array.isArray(payments)) return;
-    
+
     // Track installment index separately (only counting POST_FULFILLMENT installments)
     let installmentIndex = 0;
-    
+
     payments.forEach(payment => {
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
         if (installmentIndex < 2) {
@@ -132,10 +134,10 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   // Based on installment index: First 2 installments → PAID, Next 3 installments → DEFERRED
   function updateMissedEMIStatus(payments: any[], contextTimestamp: string) {
     if (!Array.isArray(payments)) return;
-    
+
     // Track installment index separately (only counting POST_FULFILLMENT installments)
     let installmentIndex = 0;
-    
+
     payments.forEach(payment => {
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
         if (installmentIndex < 2) {
@@ -155,10 +157,10 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   // Based on installment index: First 2 installments → PAID, Next 2 installments → DEFERRED, Rest → NOT-PAID
   function updatePrePartPaymentStatus(payments: any[]) {
     if (!Array.isArray(payments)) return;
-    
+
     // Track installment index separately (only counting POST_FULFILLMENT installments)
     let installmentIndex = 0;
-    
+
     payments.forEach(payment => {
       if (payment.time?.label === 'INSTALLMENT' && payment.type === 'POST_FULFILLMENT') {
         if (installmentIndex < 2) {
@@ -201,21 +203,21 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     orderRef.payments = sessionData.payments;
     console.log("Loaded payments from sessionData.payments");
   }
-  
+
   orderRef.payments = orderRef.payments || [{}];
-  
+
   // For foreclosure, ensure the first payment is the foreclosure payment
   if (label === 'FORECLOSURE') {
     // Check if first payment is already a foreclosure payment
-    const isFirstPaymentForeclosure = orderRef.payments[0]?.time?.label === 'FORECLOSURE' && 
-                                      orderRef.payments[0]?.type === 'POST_FULFILLMENT';
-    
+    const isFirstPaymentForeclosure = orderRef.payments[0]?.time?.label === 'FORECLOSURE' &&
+      orderRef.payments[0]?.type === 'POST_FULFILLMENT';
+
     if (!isFirstPaymentForeclosure) {
       // Remove any existing foreclosure payment from the array
-      orderRef.payments = orderRef.payments.filter((p: any) => 
+      orderRef.payments = orderRef.payments.filter((p: any) =>
         !(p.time?.label === 'FORECLOSURE' && p.type === 'POST_FULFILLMENT')
       );
-      
+
       // Create foreclosure payment and insert at the beginning
       const foreclosurePayment = {
         id: "PAYMENT_ID_GOLD_LOAN",
@@ -233,7 +235,7 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
       console.log("Created foreclosure payment at index 0");
     }
   }
-  
+
   const firstPayment = orderRef.payments[0];
   firstPayment.time = firstPayment.time || {};
   firstPayment.time.label = label;
@@ -241,16 +243,16 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   if (label === 'MISSED_EMI_PAYMENT') {
     // Remove FORCLOSUER_CHARGES from quote breakup (should not be present for missed EMI)
     removeBreakup(orderRef, 'FORCLOSUER_CHARGES');
-    
+
     // Set payment params for missed EMI (matching on_confirm installment amount)
     firstPayment.params = firstPayment.params || {};
     firstPayment.params.amount = "46360"; // Matches INSTALLMENT_AMOUNT from on_confirm
     firstPayment.params.currency = "INR";
-    
+
     // Set time range based on context timestamp
     const contextTimestamp = existingPayload.context?.timestamp || new Date().toISOString();
     firstPayment.time.range = generateTimeRangeFromContext(contextTimestamp);
-    
+
     // Update installment statuses: mark past installments as PAID, current and future as DEFERRED
     updateMissedEMIStatus(orderRef.payments, contextTimestamp);
   }
@@ -258,14 +260,14 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   if (label === 'FORECLOSURE') {
     // Add foreclosure charges to quote.breakup
     upsertBreakup(orderRef, 'FORCLOSUER_CHARGES', '9536');
-    
+
     // Calculate foreclosure amount: Outstanding Principal + Outstanding Interest + Foreclosure Charges
     // From on_update_unsolicited default.yaml: OUTSTANDING_PRINCIPAL=139080, OUTSTANDING_INTEREST=0, FORCLOSUER_CHARGES=9536
     const outstandingPrincipal = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_PRINCIPAL')?.price?.value || '139080';
     const outstandingInterest = orderRef.quote?.breakup?.find((b: any) => b.title === 'OUTSTANDING_INTEREST')?.price?.value || '0';
     const foreclosureCharges = '9536';
     const foreclosureAmount = String(parseInt(outstandingPrincipal) + parseInt(outstandingInterest) + parseInt(foreclosureCharges));
-    
+
     // Ensure first payment is POST_FULFILLMENT with FORECLOSURE label
     firstPayment.id = firstPayment.id || "PAYMENT_ID_GOLD_LOAN";
     firstPayment.type = "POST_FULFILLMENT";
@@ -275,32 +277,32 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
     firstPayment.params.currency = "INR";
     firstPayment.time = firstPayment.time || {};
     firstPayment.time.label = "FORECLOSURE";
-    
+
     // Remove time range for foreclosure
     if (firstPayment.time.range) delete firstPayment.time.range;
-    
+
     // Update installment statuses: first 2 installments → PAID, next 3 → DEFERRED
     // Note: This only updates POST_FULFILLMENT installments, skipping the first POST_FULFILLMENT payment
     updateForeclosurePaymentStatus(orderRef.payments);
   }
-  
+
   if (label === 'PRE_PART_PAYMENT') {
     // Remove FORCLOSUER_CHARGES from quote breakup (should not be present for pre part payment)
     removeBreakup(orderRef, 'FORCLOSUER_CHARGES');
-    
+
     // Add pre payment charge to quote.breakup
     upsertBreakup(orderRef, 'PRE_PAYMENT_CHARGE', '4500');
-    
+
     // Check if first payment is already a PRE_PART_PAYMENT payment
-    const isFirstPaymentPrePart = orderRef.payments[0]?.time?.label === 'PRE_PART_PAYMENT' && 
-                                   orderRef.payments[0]?.type === 'POST_FULFILLMENT';
-    
+    const isFirstPaymentPrePart = orderRef.payments[0]?.time?.label === 'PRE_PART_PAYMENT' &&
+      orderRef.payments[0]?.type === 'POST_FULFILLMENT';
+
     if (!isFirstPaymentPrePart) {
       // Remove any existing PRE_PART_PAYMENT payment from the array
-      orderRef.payments = orderRef.payments.filter((p: any) => 
+      orderRef.payments = orderRef.payments.filter((p: any) =>
         !(p.time?.label === 'PRE_PART_PAYMENT' && p.type === 'POST_FULFILLMENT')
       );
-      
+
       // Create PRE_PART_PAYMENT payment and insert at the beginning
       const prePartPayment = {
         id: "PAYMENT_ID_GOLD_LOAN",
@@ -328,13 +330,13 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
       firstPayment.time.label = "PRE_PART_PAYMENT";
       if (firstPayment.time.range) delete firstPayment.time.range;
     }
-    
+
     // Ensure ON_ORDER payment has status PAID (should be at index 1)
     const onOrderPayment = orderRef.payments.find((p: any) => p.type === 'ON_ORDER');
     if (onOrderPayment) {
       onOrderPayment.status = "PAID";
     }
-    
+
     // Update installment statuses: first 2 → PAID, next 2 → DEFERRED, rest → NOT-PAID
     updatePrePartPaymentStatus(orderRef.payments);
   }
@@ -345,6 +347,9 @@ export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, 
   }
 
   console.log("existingPayload onUpdateUnsolicitedDefaultGenerator", JSON.stringify(existingPayload, null, 2));
-  
+
+  // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
+  injectSettlementAmount(existingPayload, sessionData);
+
   return existingPayload;
 }
