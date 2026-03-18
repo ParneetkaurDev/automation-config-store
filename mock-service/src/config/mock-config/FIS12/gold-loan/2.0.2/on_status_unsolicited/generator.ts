@@ -43,13 +43,16 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     console.log("Updated item.id:", selectedItem.id);
   }
   
-  
+  // Update form ID from session data (carry-forward from selected item) or generate new one
+  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
+    const formId = sessionData.form_id || selectedItem?.xinput?.form?.id || `form_${randomUUID()}`;
+    existingPayload.message.order.items[0].xinput.form.id = formId;
+    console.log("Updated form ID:", formId);
+  }
 
 
   // Update form response status - on_status_unsolicited uses APPROVED/OFFLINE_PENDING status
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-
-    
     if (sessionData.submission_id) {
       existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
     }
@@ -60,9 +63,6 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     existingPayload.message.order.fulfillments[0].customer.person.name = sessionData.customer_name;
     console.log("Updated customer name:", sessionData.customer_name);
   }
-
-  // Note: Gold loans don't have payments in status responses
-  // Payments are handled separately during loan servicing (EMIs, foreclosure, etc.)
 
   // Update quote.id from session data (carry-forward from previous flows)
   if (existingPayload.message?.order?.quote) {
@@ -87,14 +87,6 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
   if (sessionData.loan_amount && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].price.value = sessionData.loan_amount;
   }
-
-
-  // if(existingPayload.message?.order?.items?.[0]?.xinput?.form_response && submission_id){
-  //   existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
-  //   if (!existingPayload.message.order.items[0].xinput.form_response.status) {
-  //     existingPayload.message.order.items[0].xinput.form_response.status = "COMPLETED";
-  //   }
-  // }
 
   return existingPayload;
 }

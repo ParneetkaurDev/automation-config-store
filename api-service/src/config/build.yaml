@@ -2,7 +2,8 @@ openapi: 3.0.0
 info:
   title: ONDC Specification
   description: ONDC Specification
-  version: 2.0.0
+  version: 2.0.2
+  domain: ONDC:FIS12
 security:
   - SubscriberAuth: []
 paths:
@@ -42261,8 +42262,9 @@ x-validations:
               - SANCTIONED
               - DISBURSED
               - PENDING
-              - REJECTED
+              # - REJECTED
               - COMPLETED
+              - COMPLETE
               - CONSENT_REQUIRED
               - APPROVED
             _RETURN_: attr all in enumList
@@ -42422,6 +42424,18 @@ x-validations:
           - _NAME_: VALID_FULFILLMENT_STATE_CODE
             attr: $.message.order.fulfillments[*].state.descriptor.code
             enumList: *FULFILLMENT_STATE_UPDATE
+            _RETURN_: attr all in enumList
+
+      # If KYC/validation result is REJECTED in on_status, treat it as a terminal state and fail validation
+      - _NAME_: ON_STATUS_XINPUT_FORM_RESPONSE_STATUS_NOT_REJECTED
+        statuspath: $.message.order.items[*].xinput.form_response.status
+        _CONTINUE_: '!(statuspath are present)'
+        _RETURN_:
+          - _NAME_: If_KYC_Validation_Result_is_REJECTED_flow_cant_move_forward
+            attr: $.message.order.items[*].xinput.form_response.status
+            enumList: &FORM_RESPONSE_STATUS_ON_STATUS
+              - COMPLETED
+              - OFFLINE_PENDING
             _RETURN_: attr all in enumList
 
       # Conditional: Payments (only present in post-confirm status)

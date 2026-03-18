@@ -48,7 +48,7 @@ export class MockPaymentUrlFormStatusClass extends MockAction {
 		const formData = formRaw.data;
 		return {
 			...sessionData,
-			personal_loan_information_form: resolveFormActions(formLink, formData),
+			payment_url_form: resolveFormActions(formLink, formData),
 		};
 	}
 
