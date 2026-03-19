@@ -87,7 +87,9 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
   
   // Extract customer ID from session data
   const contactNumber = sessionData.form_data?.consumer_information_form?.contactNumber;
-  
+  console.log("sessionDataOfForm", JSON.stringify(sessionData))
+  console.log("contactNumberrrrrrr=>>>>>>>>>>", contactNumber);
+
   // Only proceed with AA consent if it's an AA item
   if (contactNumber && isAAItem) {
     const custId = `${contactNumber}@finvu`;
