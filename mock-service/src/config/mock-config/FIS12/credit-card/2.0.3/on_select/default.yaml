@@ -116,7 +116,7 @@ order:
                 code: "TRAVEL_BENEFITS"
                 name: "Travel Benefits"
                 short_desc: "Travel Benefits"
-              value: "- 2 Points per ₹150 spent on MMT,\n - 2 Points per ₹150 spent on others"
+              value: "2 Points per ₹150 spent"
             - descriptor:
                 code: "LIFESTYLE_BENEFITS"
                 name: "Lifestyle Benefits"
