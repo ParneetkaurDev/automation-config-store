@@ -121,17 +121,23 @@ order:
                 code: "LIFESTYLE_BENEFITS"
                 name: "Lifestyle Benefits"
                 short_desc: "Lifestyle Benefits"
-              value: "Enjoy the exclusive 24/7 Concierge Services on your HDFC Bank Regalia Gold Credit Card. Simply call 1860 425 1188"
+              value: "Enjoy the exclusive 24/7 Concierge Services on your HDFC Bank Regalia Gold Credit Card."
             - descriptor:
                 code: "EVERYDAY_BENEFITS"
                 name: "Everyday Benefits"
                 short_desc: "1% fuel surcharge waiver on transactions"
               value: "Up to ₹250 per billing cycle"
+            - descriptor:
+                code: "TNC_LINK"
+                name: "Terms & Conditions"
+                short_desc: "Terms and Conditions"
+              value: "https://hdfcbank.com/cc/tnc.html"
 
+      matched: true
+      recommended: true
       xinput:
         form:
           id: "c0e857f6-15b6-4b4d-a7da-ad63b4b2e52b"
-
         form_response:
           status: "COMPLETED"
-          submission_id: "79850933-4e41-4c76-bbe6-c5a392481226"
+          submission_id: "F03_SUBMISSION_ID"
