@@ -91,7 +91,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
   logger.info("contactNumber (final)+++++++++", contactNumber);
 
   // console.log("sessionData.form_data?.personal_loan_information_form?.contactNumber", sessionData.form_data?.personal_loan_information_form?.contactNumber)
-  if (contactNumber && isAAItem) {
+  if (contactNumber) {
     const custId = `${contactNumber}@finvu`;
     logger.info("custId after form sumbmission: ", custId)
 
