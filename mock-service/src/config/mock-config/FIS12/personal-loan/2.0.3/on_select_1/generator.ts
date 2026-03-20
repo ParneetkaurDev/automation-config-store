@@ -31,15 +31,36 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
 
-  // Update item.id if available from session data (carry-forward from select_1)
-  const selectedItem = sessionData.item ||
-    (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  // Update item.id if available from session data — prioritize AA item (aa_personal_loan_ prefix)
+  // This must match what select_1 selected — don't fall back to items[0] blindly
+  let selectedItem = sessionData.item;
+  if (Array.isArray(sessionData.items) && sessionData.items.length > 0) {
+    const aaItem = sessionData.items.find((item: any) =>
+      item?.id && item.id.startsWith("aa_personal_loan_")
+    );
+    if (aaItem) {
+      selectedItem = aaItem;
+      console.log("✅ on_select_1: Selected AA item (aa_personal_loan_):", aaItem.id);
+    } else {
+      selectedItem = selectedItem || sessionData.items[0];
+      console.log("⚠️ on_select_1: No AA item found, using:", selectedItem?.id || "first item");
+    }
+  } else if (!selectedItem) {
+    selectedItem = undefined;
+  }
+
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     sessionData.selected_items_xinput.form_response.status = "PENDING"
     existingPayload.message.order.items[0].xinput = sessionData.selected_items_xinput
     console.log("Updated item.id:", selectedItem.id);
   }
+
+  // Determine item type based on ID prefix for conditional logic
+  const currentItemId = existingPayload.message?.order?.items?.[0]?.id || "";
+  const isAAItem = currentItemId.startsWith("aa_personal_loan_");
+  const isBureauItem = currentItemId.startsWith("bureau_personal_loan_");
+  console.log("Item type detection - isAAItem:", isAAItem, "isBureauItem:", isBureauItem, "itemId:", currentItemId);
 
   // Update location_ids if available from session data
   const selectedLocationId = sessionData.selected_location_id;
@@ -52,6 +73,12 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
 
   console.log("--- Finvu AA Integration Start ---");
 
+  // Only call Finvu AA service for AA items (items with aa_personal_loan_ prefix)
+  if (!isAAItem) {
+    console.log("⚠️ Skipping Finvu AA integration - Item is not an AA loan (Bureau loan or other type)");
+    console.log("Item ID:", currentItemId, "does not start with 'aa_personal_loan_'");
+  }
+
   const dedicatedKey = `form_data_${sessionData.transaction_id}`;
   const dedicatedRaw = await RedisService.getKey(dedicatedKey);
   const dedicatedFormData = dedicatedRaw ? JSON.parse(dedicatedRaw) : null;
@@ -59,7 +86,7 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
 
   const contactNumber =
     dedicatedFormData?.personal_loan_information_form?.contactNumber
-  
+
   logger.info("contactNumber from dedicatedFormData", dedicatedFormData?.personal_loan_information_form?.contactNumber);
   logger.info("contactNumber (final)+++++++++", contactNumber);
 
