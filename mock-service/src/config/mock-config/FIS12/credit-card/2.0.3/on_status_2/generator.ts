@@ -15,8 +15,11 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
   }
 
   // Update order.id from session data (carry-forward from on_confirm — maintain trail)
-  if (sessionData?.order?.id) {
-    existingPayload.message.order.id = sessionData.order.id || sessionData.order_id;
+  if (sessionData.order_id) {
+    existingPayload.message = existingPayload.message || {};
+    existingPayload.message.order = existingPayload.message.order || {};
+    existingPayload.message.order.id = sessionData.order_id;
+    console.log("Updated order.id from session:", sessionData.order_id);
   }
 
   // Update provider.id from session data
@@ -39,6 +42,26 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
     if (selectedItem?.id) {
       item.id = selectedItem.id;
       console.log("Updated item.id from session:", selectedItem.id);
+    }
+
+    // Update form ID from session data (carry-forward from on_select/on_init)
+    if (item.xinput?.form) {
+      const formId = sessionData.form_id || selectedItem?.xinput?.form?.id || crypto.randomUUID();
+      item.xinput.form.id = formId;
+      console.log("Updated form ID from session:", formId);
+    }
+
+    // Set form_response status and submission_id from manadate_details_form submission
+    const submission_id = sessionData?.form_data?.verification_status?.form_submission_id;
+    const form_status = sessionData?.form_data?.verification_status?.idType;
+    if (item.xinput?.form_response) {
+      if (form_status) {
+        item.xinput.form_response.status = form_status;
+      }
+      if (submission_id) {
+        item.xinput.form_response.submission_id = submission_id;
+      }
+      console.log("Updated form_response:", { form_status, submission_id });
     }
   }
 
