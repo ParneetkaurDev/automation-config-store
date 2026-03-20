@@ -35,9 +35,15 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   }
 
   // Update provider.id if available from session data (carry-forward from confirm)
-  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
+  if (sessionData.provider_id) {
+    existingPayload.message = existingPayload.message || {};
+    existingPayload.message.order = existingPayload.message.order || {};
+    existingPayload.message.order.provider = existingPayload.message.order.provider || {};
+    existingPayload.message.order.provider.id = sessionData.provider_id;
+    console.log("Updated provider.id from provider_id:", sessionData.provider_id);
+  } else if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-    console.log("Updated provider.id:", sessionData.selected_provider.id);
+    console.log("Updated provider.id from selected_provider:", sessionData.selected_provider.id);
   }
 
   // Update item.id if available from session data (carry-forward from confirm)

@@ -34,7 +34,7 @@ import { MockStatus1CCClass } from "./credit-card/2.0.3/status_1/class";
 import { MockStatus2CCClass } from "./credit-card/2.0.3/status_2/class";
 import { MockOnStatus2CCClass } from "./credit-card/2.0.3/on_status_2/class";
 import { MockConsumerInformationFormCCClass } from "./credit-card/2.0.3/form/consumer_information_form";
-import { MockKycVerificationStatusCCClass } from "./credit-card/2.0.3/form_2/kyc_verification_status";
+import { MockKycVerificationStatusCCClass } from "./credit-card/2.0.3/verification_status/kyc_verification_status";
 import { MockSearchPersonalLoan3Class } from "./personal-loan/2.0.3/search/class";
 import { MockOnSearchPersonalLoan3Class } from "./personal-loan/2.0.3/on_search/class";
 import { MockSelectBureauConsentPersonalLoan3Class } from "./personal-loan/2.0.3/select_bureau_consent_personal_loan/class";
