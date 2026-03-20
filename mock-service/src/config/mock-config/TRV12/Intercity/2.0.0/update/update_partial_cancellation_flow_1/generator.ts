@@ -9,7 +9,7 @@ export async function updateGenerator(
   existingPayload.message.order.id = sessionData.order_id;
   existingPayload.message.order.fulfillments = [
     {
-      id: "FT1",
+      id: sessionData.fulfillment_id_on_confirm,
       type: "TICKET",
       state: {
         descriptor: {
