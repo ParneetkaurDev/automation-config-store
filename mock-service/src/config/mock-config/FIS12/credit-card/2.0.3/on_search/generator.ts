@@ -24,11 +24,9 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
         ? sessionData.form_id
         : `form_${randomUUID()}`);
 
-    // Generate provider ID if it's a placeholder
-    if (!provider.id || provider.id === "PROVIDER_ID" || provider.id.startsWith("PROVIDER_ID")) {
-      provider.id = `credit_card_provider_${randomUUID()}`;
-      console.log("Generated provider.id:", provider.id);
-    }
+    // Always generate a unique provider ID
+    provider.id = `credit_card_provider_${randomUUID()}`;
+    console.log("Generated provider.id:", provider.id);
 
     // Generate unique category IDs
     if (provider.categories && Array.isArray(provider.categories)) {

@@ -10,27 +10,33 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
   }
-  
+
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
-  
+
   // Update message_id from session data
   if (sessionData.message_id && existingPayload.context) {
     existingPayload.context.message_id = sessionData.message_id;
   }
-  
+
   // Ensure provider is an object (not an array)
   if (Array.isArray(existingPayload.message?.order?.provider)) {
     // Convert array to object (take first element)
     existingPayload.message.order.provider = existingPayload.message.order.provider[0] || {};
   }
 
-  // Update provider.id if available from session data (carry-forward from select_2)
-  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
+  // Update provider.id if available from session data (carry-forward from select)
+  if (sessionData.provider_id) {
+    existingPayload.message = existingPayload.message || {};
+    existingPayload.message.order = existingPayload.message.order || {};
+    existingPayload.message.order.provider = existingPayload.message.order.provider || {};
+    existingPayload.message.order.provider.id = sessionData.provider_id;
+    console.log("Updated provider.id from provider_id:", sessionData.provider_id);
+  } else if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-    console.log("Updated provider.id:", sessionData.selected_provider.id);
+    console.log("Updated provider.id from selected_provider:", sessionData.selected_provider.id);
   }
 
   // Update item.id if available from session data (carry-forward from select_2)
@@ -49,16 +55,21 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
 
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/Ekyc_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-    console.log("✅ URL for loan_amount_adjustment_form in on_select_2:", url);
+    console.log("✅ URL for Ekyc_details_form in on_select:", url);
     existingPayload.message.order.items[0].xinput.form.url = url;
-    console.log("✅ Form URL successfully set in payload");
+
+    // Generate unique form ID so downstream generators can use it
+    const formId = crypto.randomUUID();
+    existingPayload.message.order.items[0].xinput.form.id = formId;
+    console.log("✅ Generated form.id:", formId);
+    console.log("✅ Form URL and ID successfully set in payload");
   } else {
     console.error("❌ FAILED: Payload structure doesn't match expected path for form URL!");
     console.log("Actual payload structure:", JSON.stringify(existingPayload.message?.order, null, 2));
   }
 
-  console.log("session data on_select_2-->",sessionData)
-  
+  console.log("session data on_select_2-->", sessionData)
+
   return existingPayload;
 }
 
