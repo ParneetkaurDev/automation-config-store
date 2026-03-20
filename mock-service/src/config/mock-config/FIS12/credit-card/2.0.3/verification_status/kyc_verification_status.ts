@@ -56,7 +56,7 @@ export class MockKycVerificationStatusCCClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		return { "save-data": { verification_status: "verification_status" } };
+		return { "save-data": { consumer : "verification_status" } };
 	}
 	get defaultData(): any {
 		return {};

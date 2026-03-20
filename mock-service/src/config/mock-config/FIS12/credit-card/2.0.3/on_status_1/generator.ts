@@ -5,9 +5,9 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
 
   console.log("sessionData for on_status_1", sessionData);
 
-  const submission_id = sessionData?.form_data?.Ekyc_details_form?.form_submission_id;
+  const submission_id = sessionData?.form_data?.verification_status?.form_submission_id;
 
-  const form_status = sessionData?.form_data?.Ekyc_details_form?.idType;
+  const form_status = sessionData?.form_data?.verification_status?.idType;
   console.log("Ekyc form submission_id:", submission_id);
   console.log("Ekyc form status:", form_status);
 
