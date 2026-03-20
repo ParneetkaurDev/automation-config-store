@@ -34,7 +34,7 @@ import { MockStatus1CCClass } from "./credit-card/2.0.3/status_1/class";
 import { MockStatus2CCClass } from "./credit-card/2.0.3/status_2/class";
 import { MockOnStatus2CCClass } from "./credit-card/2.0.3/on_status_2/class";
 import { MockConsumerInformationFormCCClass } from "./credit-card/2.0.3/form/consumer_information_form";
-import { MockKycVerificationStatusCCClass } from "./credit-card/2.0.3/Ekyc_details_form_cc/Ekyc_details_form_cc";
+import { MockKycVerificationStatusCCClass } from "./credit-card/2.0.3/verification_status/kyc_verification_status";
 import { MockSearchPersonalLoan3Class } from "./personal-loan/2.0.3/search/class";
 import { MockOnSearchPersonalLoan3Class } from "./personal-loan/2.0.3/on_search/class";
 import { MockSelectBureauConsentPersonalLoan3Class } from "./personal-loan/2.0.3/select_bureau_consent_personal_loan/class";
@@ -132,7 +132,7 @@ const registry = {
 	status_cc_2: MockStatus2CCClass,
 	on_status_cc_2: MockOnStatus2CCClass,
 	consumer_information_form_cc: MockConsumerInformationFormCCClass,
-	Ekyc_details_form: MockKycVerificationStatusCCClass,
+	Ekyc_details_form_cc: MockKycVerificationStatusCCClass,
 
 
 	// PERSONAL_LOAN-2.0.3
@@ -191,8 +191,8 @@ const registry = {
 	on_update_personal_loan_fulfillment_3: MockOnUpdatePersonalLoanFulfillment3Class,
 
 	//Credit Card Forms
-	credit_card_information_form: MockCreditcardInformationClass,
-	Ekyc_details_form_cc: MockKycVerificationStatusCCClass
+	credit_card_information_form: MockCreditcardInformationClass
+
 
 } as const satisfies Record<string, Ctor<MockAction>>;
 
