@@ -1,4 +1,5 @@
 import logger from "@ondc/automation-logger";
+import { getSelectedItem } from "../utils/getSelectedItem";
 
 export async function onSelect2Generator(existingPayload: any, sessionData: any) {
   logger.info(
@@ -64,8 +65,8 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
     );
   }
 
-  // Update item.id if available from session data (carry-forward from select_2)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  // Update item.id if available from session data — prioritize AA item (aa_personal_loan_ prefix)
+  const selectedItem = getSelectedItem(sessionData);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     logger.info(

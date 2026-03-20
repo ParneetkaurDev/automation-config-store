@@ -12,6 +12,7 @@
 
 import { randomUUID } from 'crypto';
 import { injectSettlementAmount } from '../settlement-utils';
+import { getSelectedItem } from "../utils/getSelectedItem";
 
 export async function onConfirmDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_confirm", sessionData);
@@ -44,8 +45,8 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
 
-  // Update item.id if available from session data (carry-forward from confirm)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  // Update item.id — prioritize AA item (aa_personal_loan_ prefix)
+  const selectedItem = getSelectedItem(sessionData);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     console.log("Updated item.id:", selectedItem.id);
