@@ -270,8 +270,6 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
         {}
       );
     }
-  } else if (!isAAItem) {
-    console.log("✅ Skipping Finvu AA integration - Item is Bureau loan type, AA consent not required");
   } else {
     console.warn("⚠️ No contact number found in session data - skipping Finvu AA integration");
     console.log("Available form data:", sessionData.form_data);
