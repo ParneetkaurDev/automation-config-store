@@ -7,9 +7,9 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
 
   console.log("sessionData for on_status", sessionData);
 
-  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
-
-  const form_status = sessionData?.form_data?.kyc_verification_status?.idType;
+  // on_status comes after confirm which used loan_agreement_esign_form (on_init_3)
+  const submission_id = (sessionData as any)?.form_data?.loan_agreement_esign_form?.form_submission_id;
+  const form_status = (sessionData as any)?.form_data?.loan_agreement_esign_form?.idType;
 
   // Update transaction_id and message_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -60,12 +60,11 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
       console.log("Updated location_ids:", selectedLocationId);
     }
 
-    // Update form ID from session data (carry-forward from previous flows)
-    if (item.xinput?.form) {
-      // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-      const formId = sessionData.form_id || "FO3";
+    // Use form ID from session data (saved by on_init_3 for esign form)
+    const formId = sessionData.form_id;
+    if (formId) {
       item.xinput.form.id = formId;
-      console.log("Updated form ID:", formId);
+      console.log("[on_status] Carried forward form.id:", formId);
     }
 
     // Only override status/submission_id if we have real values from session

@@ -9,8 +9,6 @@
  * 5. Update form URL for manadate_details_form
  */
 
-import { injectSettlementAmount } from "../utils/settlement-utils";
-
 export async function onInitOfflineOnlineDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_init", sessionData);
 
@@ -82,7 +80,24 @@ export async function onInitOfflineOnlineDefaultGenerator(existingPayload: any, 
     console.error("❌ FAILED: Payload structure doesn't match expected path for form URL!");
     console.log("Actual payload structure:", JSON.stringify(existingPayload.message?.order, null, 2));
   }
-  injectSettlementAmount(existingPayload, sessionData);
+
+  // ========== CARRY FORWARD PAYMENT IDs FROM on_init_1 ==========
+  const sessionPayments: any[] = (sessionData as any).payments || sessionData.order?.payments || [];
+  if (Array.isArray(existingPayload.message?.order?.payments) && sessionPayments.length > 0) {
+    const sessionIdMap = new Map<string, string>();
+    sessionPayments.forEach((p: any) => {
+      if (p?.id && p.id.includes('-')) {
+        sessionIdMap.set(`${p.type}::${p.time?.label || ''}`, p.id);
+      }
+    });
+    existingPayload.message.order.payments.forEach((payment: any) => {
+      const key = `${payment.type}::${payment.time?.label || ''}`;
+      if (sessionIdMap.has(key) && (!payment.id || !payment.id.includes('-'))) {
+        payment.id = sessionIdMap.get(key)!;
+        console.log(`[on_init_online_offline_personal_loan_3] Stamped session payment ID: ${payment.id}`);
+      }
+    });
+  }
 
   return existingPayload;
 }

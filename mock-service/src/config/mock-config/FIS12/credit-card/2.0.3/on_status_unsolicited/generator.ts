@@ -7,10 +7,10 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
 
   console.log("sessionData for on_status_unsolicited", sessionData);
 
-  const submission_id = sessionData?.form_data?.Ekyc_details_form_cc?.form_submission_id;
-  console.log("form_data ------->", sessionData?.form_data?.Ekyc_details_form_cc);
-  // 
-  // const form_status = sessionData?.form_data?.Ekyc_details_form_cc?.idType;
+  const submission_id = sessionData?.form_data?.verification_status?.form_submission_id;
+  console.log("form_data ------->", sessionData?.form_data?.verification_status);
+
+  const form_status = sessionData?.form_data?.verification_status?.idType;
 
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -60,10 +60,10 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     const formResponse = existingPayload.message.order.items[0].xinput.form_response;
 
     // Set form_response status from form submission
-    // if (form_status) {
-    //   formResponse.status = form_status;
-    //   console.log("Updated form_response.status:", form_status);
-    // }
+    if (form_status) {
+      formResponse.status = form_status;
+      console.log("Updated form_response.status:", form_status);
+    }
 
     // Set submission_id from form submission
     if (submission_id) {
@@ -87,13 +87,13 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     }
   }
 
-  // // Set created_at and updated_at to current timestamp
-  // if (existingPayload.message?.order) {
-  //   const now = new Date().toISOString();
-  //   existingPayload.message.order.created_at = now;
-  //   existingPayload.message.order.updated_at = now;
-  //   console.log("Set order.created_at and order.updated_at to:", now);
-  // }
+  // Set created_at and updated_at to current timestamp
+  if (existingPayload.message?.order) {
+    const now = new Date().toISOString();
+    existingPayload.message.order.created_at = now;
+    existingPayload.message.order.updated_at = now;
+    console.log("Set order.created_at and order.updated_at to:", now);
+  }
 
   return existingPayload;
 }

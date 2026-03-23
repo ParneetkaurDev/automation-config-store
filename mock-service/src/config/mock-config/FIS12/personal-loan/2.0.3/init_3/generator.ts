@@ -8,8 +8,6 @@
  * 4. Update form_response with status and submission_id (preserve existing structure)
  */
 
-import { injectSettlementAmount } from "../utils/settlement-utils";
-
 export async function initDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for init", sessionData);
 
@@ -63,8 +61,6 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     }
     console.log("Updated form_response with status and submission_id");
   }
-
-  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }

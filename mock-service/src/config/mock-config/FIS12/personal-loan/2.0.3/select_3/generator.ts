@@ -56,19 +56,28 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
     console.log("Updated location_ids:", selectedLocationId);
   }
 
-  // Update form_response with status and submission_id (preserve existing structure)
-  const submission_id = sessionData?.form_data?.loan_amount_adjustment_form?.form_submission_id;
+  // Carry forward form_id from on_select_2 (loan_amount_adjustment_<uuid>)
+  // on_select_2 generates this UUID and saves it as sessionData.form_id
+  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
+    const savedFormId = sessionData.form_id;
+    if (savedFormId) {
+      existingPayload.message.order.items[0].xinput.form.id = savedFormId;
+      console.log("[select_3] Carried forward form.id from on_select_2:", savedFormId);
+    }
+  }
 
-  console.log("checking form data", sessionData?.form_data?.consumer_information_form)
+  // Update form_response with status and submission_id from loan_amount_adjustment_form submission
+  const submission_id = (sessionData as any)?.form_data?.loan_amount_adjustment_form?.form_submission_id;
+  console.log("[select_3] form_data.loan_amount_adjustment_form:", (sessionData as any)?.form_data?.loan_amount_adjustment_form);
 
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-    existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
     if (submission_id) {
       existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+      existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
+      console.log("[select_3] Carried forward submission_id:", submission_id);
     } else {
-      existingPayload.message.order.items[0].xinput.form_response.submission_id = `F01_SUBMISSION_ID_${Date.now()}`;
+      console.warn("[select_3] No submission_id found — form may not have been submitted yet");
     }
-    console.log("Updated form_response with status and submission_id");
   }
 
   return existingPayload;

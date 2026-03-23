@@ -6,10 +6,10 @@ import { resolveFormActions } from "./resolve-action";
 
 export class MockKycVerificationStatusCCClass extends MockAction {
 	name(): string {
-		return "Ekyc_details_form_cc";
+		return "verification_status";
 	}
 	get description(): string {
-		return "Ekyc_details_form_cc";
+		return "verification_status";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
 		throw new Error("Method not implemented.");
@@ -24,7 +24,7 @@ export class MockKycVerificationStatusCCClass extends MockAction {
 				message: "Session data is required for validation",
 			};
 		}
-		const formLink = sessionData["Ekyc_details_form_cc"];
+		const formLink = sessionData["verification_status"];
 		if (!formLink) {
 			return { valid: false, message: "Form link not found in session data" };
 		}
@@ -40,7 +40,7 @@ export class MockKycVerificationStatusCCClass extends MockAction {
 	override async __forceSaveData(
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
-		const formLink = sessionData["Ekyc_details_form_cc"];
+		const formLink = sessionData["verification_status"];
 		if (!formLink) {
 			throw new Error("Form link not found in session data");
 		}
@@ -48,7 +48,7 @@ export class MockKycVerificationStatusCCClass extends MockAction {
 		const formData = formRaw.data;
 		return {
 			...sessionData,
-			Ekyc_details_form_cc: resolveFormActions(formLink, formData),
+			verification_status: resolveFormActions(formLink, formData),
 		};
 	}
 
@@ -56,7 +56,7 @@ export class MockKycVerificationStatusCCClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		return { "save-data": { consumer: "Ekyc_details_form_cc" } };
+		return { "save-data": { consumer : "verification_status" } };
 	}
 	get defaultData(): any {
 		return {};

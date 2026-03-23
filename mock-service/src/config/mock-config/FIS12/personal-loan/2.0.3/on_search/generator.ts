@@ -76,6 +76,7 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
     // Different prefixes based on category: AA_PERSONAL_LOAN (101125) vs BUREAU_LOAN (101124)
     if (provider.items && Array.isArray(provider.items)) {
       provider.items = provider.items.map((item: any) => {
+
         if (!item.id || item.id.startsWith("ITEM_ID_")) {
           // Determine prefix based on original category codes (check descriptor codes in categories)
           const categoryIds = item.category_ids || [];
@@ -116,6 +117,9 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
       });
     }
   }
+  
+ existingPayload.message.catalog.providers[0].items[0].xinput.form.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/multiple_bureau_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+
 
   console.log("session data of on_search", sessionData);
   return existingPayload;

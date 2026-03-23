@@ -2,7 +2,6 @@
  * On Init_1 Generator for FIS12 Personal Loan
  */
 import { randomUUID } from 'crypto';
-import { injectSettlementAmount } from '../utils/settlement-utils';
 
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -76,7 +75,31 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
   } else {
     console.error("❌ [on_init_1] FAILED: no xinput.form in payload");
   }
-  injectSettlementAmount(existingPayload, sessionData);
+
+  // ========== GENERATE UNIQUE PAYMENT IDs (first time in flow) ==========
+  // on_init_1 is where the payment plan is first established.
+  // Generate unique IDs now so they propagate consistently through on_init_2, on_init_3,
+  // confirm, on_confirm, on_status, and all on_update flows.
+  if (Array.isArray(existingPayload.message?.order?.payments)) {
+    let installCounter = 1;
+    existingPayload.message.order.payments.forEach((payment: any) => {
+      // Only generate if it has a static placeholder ID
+      if (!payment.id || payment.id === 'PAYMENT_ID_PERSONAL_LOAN' || payment.id === 'PAYMENT_ID_GOLD_LOAN' || !payment.id.includes('-')) {
+        if (payment.type === 'POST_FULFILLMENT' && payment.time?.label === 'INSTALLMENT') {
+          payment.id = `installment_${installCounter}_${randomUUID()}`;
+          console.log(`[on_init_1] Generated installment payment ID: ${payment.id}`);
+          installCounter++;
+        } else if (payment.type === 'ON_ORDER') {
+          payment.id = `on_order_${randomUUID()}`;
+          console.log(`[on_init_1] Generated ON_ORDER payment ID: ${payment.id}`);
+        } else if (payment.type === 'POST_FULFILLMENT') {
+          payment.id = `payment_${randomUUID()}`;
+          console.log(`[on_init_1] Generated payment ID: ${payment.id}`);
+        }
+      }
+    });
+    console.log(`[on_init_1] ✅ Payment IDs generated for ${existingPayload.message.order.payments.length} payments`);
+  }
 
   return existingPayload;
 }
