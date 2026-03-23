@@ -155,9 +155,11 @@ order:
               value: "https://icicibank.com/loan/kfs-terms"
 
       xinput:
+        form:
+          id: "F03"
         form_response:
           status: "COMPLETED"
-          submission_id: "79850933-4e41-4c76-bbe6-c5a392481226"
+          submission_id: "F03_SUBMISSION_ID"
 
   quote:
     id: "LOAN_LEAD_ID_OR_SIMILAR"

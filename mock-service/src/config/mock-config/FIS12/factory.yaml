@@ -354,10 +354,16 @@ codes:
     default: FIS12/personal-loan/2.0.3/init_offline/default.yaml
     message_id: true
 
-  - code: 127
+  - code: 149
     action_id: on_init_offline_personal_loan_3
     action: on_init
     default: FIS12/personal-loan/2.0.3/on_init_offline_personal_loan/default.yaml
+    message_id: false
+
+  - code: 127
+    action_id: on_init_online_offline_personal_loan_3
+    action: on_init
+    default: FIS12/personal-loan/2.0.3/on_init_online_offline_personal_loan_3/default.yaml
     message_id: false
 
   - code: 128

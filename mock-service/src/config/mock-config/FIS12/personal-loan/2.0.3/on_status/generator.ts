@@ -20,19 +20,23 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
     existingPayload.context.message_id = sessionData.message_id;
   }
 
-  // Update order ID from session data
-  if (sessionData.order_id) {
+  // Update order ID from session data (carry-forward from on_confirm)
+  const resolvedOrderId = sessionData.order_id || sessionData.order?.id;
+  if (resolvedOrderId) {
     existingPayload.message = existingPayload.message || {};
     existingPayload.message.order = existingPayload.message.order || {};
-    existingPayload.message.order.id = sessionData.order_id;
+    existingPayload.message.order.id = resolvedOrderId;
+    console.log("Updated order.id:", resolvedOrderId);
   }
 
   // Update provider information from session data (carry-forward from previous flows)
-  if (sessionData.provider_id) {
+  const resolvedProviderId = sessionData.provider_id || sessionData.selected_provider?.id;
+  if (resolvedProviderId) {
     existingPayload.message = existingPayload.message || {};
     existingPayload.message.order = existingPayload.message.order || {};
     existingPayload.message.order.provider = existingPayload.message.order.provider || {};
-    existingPayload.message.order.provider.id = sessionData.provider_id;
+    existingPayload.message.order.provider.id = resolvedProviderId;
+    console.log("Updated provider.id:", resolvedProviderId);
   }
 
   // Fix items: ensure ID consistency and form status
@@ -64,9 +68,11 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
       console.log("Updated form ID:", formId);
     }
 
-    // Set form status to OFFLINE_PENDING
+    // Only override status/submission_id if we have real values from session
     if (item.xinput?.form_response) {
-      item.xinput.form_response.status = form_status;
+      if (form_status) {
+        item.xinput.form_response.status = form_status;
+      }
       if (submission_id) {
         item.xinput.form_response.submission_id = submission_id;
       }

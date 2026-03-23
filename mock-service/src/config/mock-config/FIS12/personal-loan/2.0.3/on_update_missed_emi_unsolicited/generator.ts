@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { injectSettlementAmount } from '../settlement-utils';
+import { injectSettlementAmount } from '../utils/settlement-utils';
 
 export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
     // Unsolicited MISSED EMI on_update generator (sent after main missed EMI on_update)
@@ -101,14 +101,14 @@ export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPaylo
     // order.id
     if (sessionData?.order_id) order.id = sessionData.order_id;
     else if (!order.id || order.id === "LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID" || String(order.id).startsWith("LOAN_LEAD_ID")) {
-        order.id = `gold_loan_${randomUUID()}`;
+        order.id = `personal_loan_${randomUUID()}`;
     }
 
     // provider.id
     if (order.provider) {
         if (sessionData?.selected_provider?.id) order.provider.id = sessionData.selected_provider.id;
         else if (!order.provider.id || order.provider.id === "PROVIDER_ID" || String(order.provider.id).startsWith("PROVIDER_ID")) {
-            order.provider.id = `gold_loan_${randomUUID()}`;
+            order.provider.id = `personal_loan_provider_${randomUUID()}`;
         }
     }
 
@@ -116,8 +116,8 @@ export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPaylo
     const selectedItem = sessionData?.item || (Array.isArray(sessionData?.items) ? sessionData.items[0] : undefined);
     if (order.items?.[0]) {
         if (selectedItem?.id) order.items[0].id = selectedItem.id;
-        else if (!order.items[0].id || String(order.items[0].id).startsWith("ITEM_ID_GOLD_LOAN")) {
-            order.items[0].id = `gold_loan_${randomUUID()}`;
+        else if (!order.items[0].id || String(order.items[0].id).startsWith("ITEM_ID_PERSONAL_LOAN") || String(order.items[0].id).startsWith("ITEM_ID_GOLD_LOAN")) {
+            order.items[0].id = `personal_loan_item_${randomUUID()}`;
         }
     }
 
@@ -126,7 +126,7 @@ export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPaylo
         const quoteId = sessionData?.quote_id || sessionData?.order?.quote?.id || sessionData?.quote?.id;
         if (quoteId) order.quote.id = quoteId;
         else if (!order.quote.id || order.quote.id === "LOAN_LEAD_ID_OR_SIMILAR" || String(order.quote.id).startsWith("LOAN_LEAD_ID")) {
-            order.quote.id = `gold_loan_${randomUUID()}`;
+            order.quote.id = `personal_loan_quote_${randomUUID()}`;
         }
     }
 

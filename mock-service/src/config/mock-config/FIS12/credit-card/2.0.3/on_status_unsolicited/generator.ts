@@ -7,10 +7,10 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
 
   console.log("sessionData for on_status_unsolicited", sessionData);
 
-  const submission_id = sessionData?.form_data?.Ekyc_details_form_cc?.form_submission_id;
+  const submission_id = sessionData?.form_data?.verification_status?.form_submission_id;
   console.log("form_data ------->", sessionData?.form_data?.verification_status);
 
-  const form_status = sessionData?.form_data?.Ekyc_details_form_cc?.idType;
+  const form_status = sessionData?.form_data?.verification_status?.idType;
 
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {

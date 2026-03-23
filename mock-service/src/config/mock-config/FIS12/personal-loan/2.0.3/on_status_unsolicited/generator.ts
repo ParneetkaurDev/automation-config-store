@@ -5,10 +5,20 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
 
   console.log("sessionData for on_status_unsolicited", sessionData);
 
-  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
-  console.log("form_data ------->", sessionData?.form_data?.kyc_verification_status);
+  const submission_id = sessionData?.form_data?.Ekyc_details_form?.form_submission_id;
+  console.log("form_data ------->", sessionData?.form_data?.Ekyc_details_form);
 
-  const form_status = sessionData?.form_data?.kyc_verification_status?.idType;
+  const form_status = sessionData?.form_data?.Ekyc_details_form?.idType;
+  const item = existingPayload.message.order.items[0];
+  console.log("form_status", form_status);
+  console.log("submission_id", submission_id);
+  if (item.xinput?.form_response) {
+      item.xinput.form_response.status = form_status;
+      if (submission_id) {
+
+        item.xinput.form_response.submission_id = submission_id;
+      }
+    }
 
   // Update transaction_id and message_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -26,12 +36,14 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     existingPayload.message.order.id = sessionData.order_id;
   }
 
-  // Update provider information from session data (carry-forward from on_select_2)
-  if (sessionData.provider_id) {
+  // Update provider information from session data
+  const resolvedProviderId = sessionData.provider_id || sessionData.selected_provider?.id;
+  if (resolvedProviderId) {
     existingPayload.message = existingPayload.message || {};
     existingPayload.message.order = existingPayload.message.order || {};
     existingPayload.message.order.provider = existingPayload.message.order.provider || {};
-    existingPayload.message.order.provider.id = sessionData.provider_id;
+    existingPayload.message.order.provider.id = resolvedProviderId;
+    console.log("Updated provider.id:", resolvedProviderId);
   }
 
   // Update item.id from session data (carry-forward from on_select_2)
@@ -94,9 +106,11 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     existingPayload.message.order.items[0].price.value = sessionData.loan_amount;
   }
 
-  // Set submission_id from form_data
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+  // Note: submission_id and form_response.status come from default.yaml.
+  // Only override if we have a real submission_id from session form data.
+  if (submission_id && existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
     existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+    console.log("Updated submission_id from kyc_verification_status:", submission_id);
   }
 
   return existingPayload;

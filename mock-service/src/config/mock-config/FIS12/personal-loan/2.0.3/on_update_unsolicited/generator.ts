@@ -21,7 +21,7 @@ import {
   updateMissedEMIStatus,
   updatePrePartPaymentStatus
 } from '../generator-utils';
-import { injectSettlementAmount } from '../settlement-utils';
+import { injectSettlementAmount } from '../utils/settlement-utils';
 
 export async function onUpdateUnsolicitedDefaultGenerator(existingPayload: any, sessionData: any) {
   try {

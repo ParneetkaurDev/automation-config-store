@@ -10,7 +10,18 @@ export async function onStatusUnsolicitedEsignGenerator(existingPayload: any, se
     // Read submission_id from the loan agreement e-sign DYNAMIC_FORM
     const submission_id = sessionData?.form_data?.loan_agreement_esign_form?.form_submission_id;
     console.log("form_data loan_agreement_esign_form ------->", sessionData?.form_data?.loan_agreement_esign_form);
-
+    const form_status = sessionData?.form_data?.loan_agreement_esign_form?.idType;
+    const item = existingPayload.message.order.items[0];
+    console.log("form_status", form_status);
+    console.log("submission_id", submission_id);
+    if (item.xinput?.form_response) {
+        if (form_status) {
+            item.xinput.form_response.status = form_status;
+        }
+        if (submission_id) {
+            item.xinput.form_response.submission_id = submission_id;
+        }
+    }
     // Update transaction_id from session data (carry-forward mapping)
     if (sessionData.transaction_id && existingPayload.context) {
         existingPayload.context.transaction_id = sessionData.transaction_id;
@@ -44,15 +55,17 @@ export async function onStatusUnsolicitedEsignGenerator(existingPayload: any, se
         console.log("Updated item.id:", selectedItem.id);
     }
 
-    // Set form ID to F06 (loan agreement e-sign form from on_init_3)
+    // Set form ID from session — on_init_3 generates esign_form_<uuid> and saves it as form_id
     if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-        existingPayload.message.order.items[0].xinput.form.id = "F06";
-        console.log("Updated form ID to F06 (esign)");
+        const esignFormId = sessionData.form_id || "F06"; // fallback to F06 if not saved
+        existingPayload.message.order.items[0].xinput.form.id = esignFormId;
+        console.log("[on_status_unsolicited_esign] Updated form.id:", esignFormId);
     }
 
-    // Update form response submission_id
-    if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+    // Only override submission_id if we have a real value from the esign form submission
+    if (submission_id && existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
         existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+        console.log("[on_status_unsolicited_esign] Updated submission_id:", submission_id);
     }
 
     // Update customer name in fulfillments if available

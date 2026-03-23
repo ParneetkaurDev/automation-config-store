@@ -62,9 +62,11 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
       console.log("Updated form ID:", formId);
     }
 
-    // Set form status to OFFLINE_PENDING
+    // Only override status/submission_id if we have real values from session
     if (item.xinput?.form_response) {
-      item.xinput.form_response.status = form_status;
+      if (form_status) {
+        item.xinput.form_response.status = form_status;
+      }
       if (submission_id) {
         item.xinput.form_response.submission_id = submission_id;
       }

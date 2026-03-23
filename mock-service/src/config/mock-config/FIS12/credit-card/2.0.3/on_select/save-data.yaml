@@ -4,5 +4,5 @@ save-data:
   items: "$.message.order.providers[*].items[*]"
   item: "$.message.order.providers[0].items[0]"
   selected_provider: "$.message.order.provider"
-  Ekyc_details_form_cc: "$..form.url"
+  Ekyc_details_form: "$..form.url"
   form_id: "$..form.id"

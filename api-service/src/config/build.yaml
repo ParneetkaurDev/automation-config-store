@@ -42695,7 +42695,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -42855,7 +42855,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -43255,7 +43255,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -43413,7 +43413,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -43873,7 +43873,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -44088,7 +44088,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -44939,7 +44939,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -45154,7 +45154,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -45657,7 +45657,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -45789,7 +45789,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -46358,7 +46358,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -46605,7 +46605,7 @@ x-attributes:
             required: Mandatory
             type: integer
             owner: BAP
-            usage: 2.0.2
+            usage: 2.0.3
             description: >-
               It explains the transaction protocol version utilized by the
               sender.
@@ -51706,6 +51706,18 @@ x-validations:
             attr: $.message.order.fulfillments[*].state.descriptor.code
             enumList: *FULFILLMENT_STATE_UPDATE
             _RETURN_: attr any in enumList
+
+      # If KYC/validation result is REJECTED in on_status, treat it as a terminal state and fail validation
+      - _NAME_: ON_STATUS_XINPUT_FORM_RESPONSE_STATUS_NOT_REJECTED
+        statuspath: $.message.order.items[*].xinput.form_response.status
+        _CONTINUE_: '!(statuspath are present)'
+        _RETURN_:
+          - _NAME_: If_KYC_Validation_Result_is_REJECTED_flow_cant_move_forward
+            attr: $.message.order.items[*].xinput.form_response.status
+            enumList: &FORM_RESPONSE_STATUS_ON_STATUS
+              - COMPLETED
+              - OFFLINE_PENDING
+            _RETURN_: attr all in enumList
 
       # Conditional: Payments (only present in post-confirm status)
       - _NAME_: ON_STATUS_PAYMENTS

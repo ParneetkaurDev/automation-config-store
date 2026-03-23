@@ -1,4 +1,3 @@
-import { getSelectedItem } from "../utils/getSelectedItem";
 
 /**
  * Init Generator for FIS12 Personal Loan
@@ -19,7 +18,7 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     existingPayload.context.action = "init";
   }
 
-  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
+  const submission_id = sessionData?.form_data?.Ekyc_details_form?.form_submission_id;
 
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
@@ -38,8 +37,8 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
 
-  // Update item.id — prioritize AA item (aa_personal_loan_ prefix)
-  const selectedItem = getSelectedItem(sessionData);
+  // Update item.id if available from session data (carry-forward from previous flows)
+  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     console.log("Updated item.id:", selectedItem.id);

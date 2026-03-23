@@ -10,7 +10,17 @@ export async function onStatusUnsolicitedEmandateGenerator(existingPayload: any,
     // Read submission_id from the e-mandate verification DYNAMIC_FORM
     const submission_id = sessionData?.form_data?.verification_status?.form_submission_id;
     console.log("form_data verification_status ------->", sessionData?.form_data?.verification_status);
+    const form_status = sessionData?.form_data?.verification_status?.idType;
+    const item = existingPayload.message.order.items[0];
+    console.log("form_status", form_status);
+    console.log("submission_id", submission_id);
+    if (item.xinput?.form_response) {
+        item.xinput.form_response.status = form_status;
+        if (submission_id) {
 
+            item.xinput.form_response.submission_id = submission_id;
+        }
+        }
     // Update transaction_id from session data (carry-forward mapping)
     if (sessionData.transaction_id && existingPayload.context) {
         existingPayload.context.transaction_id = sessionData.transaction_id;
@@ -50,9 +60,10 @@ export async function onStatusUnsolicitedEmandateGenerator(existingPayload: any,
         console.log("Updated form ID to F05 (emandate)");
     }
 
-    // Update form response submission_id
-    if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+    // Only override submission_id if we have a real value from the emandate form
+    if (submission_id && existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
         existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+        console.log("Updated submission_id from verification_status:", submission_id);
     }
 
     // Update customer name in fulfillments if available

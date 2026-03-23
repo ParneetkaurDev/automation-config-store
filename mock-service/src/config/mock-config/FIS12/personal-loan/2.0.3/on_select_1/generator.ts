@@ -31,32 +31,17 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
 
-  // Update item.id if available from session data — prioritize AA item (aa_personal_loan_ prefix)
-  // This must match what select_1 selected — don't fall back to items[0] blindly
-  let selectedItem = sessionData.item;
-  if (Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const aaItem = sessionData.items.find((item: any) =>
-      item?.id && item.id.startsWith("aa_personal_loan_")
-    );
-    if (aaItem) {
-      selectedItem = aaItem;
-      console.log("✅ on_select_1: Selected AA item (aa_personal_loan_):", aaItem.id);
-    } else {
-      selectedItem = selectedItem || sessionData.items[0];
-      console.log("⚠️ on_select_1: No AA item found, using:", selectedItem?.id || "first item");
-    }
-  } else if (!selectedItem) {
-    selectedItem = undefined;
-  }
-
+  // Update item.id if available from session data (carry-forward from select_1)
+  const selectedItem = sessionData.item ||
+    (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
-    sessionData.selected_items_xinput.form_response.status = "PENDING"
-    existingPayload.message.order.items[0].xinput = sessionData.selected_items_xinput
+    sessionData.selected_items_xinput.form_response.status = "PENDING";
+    existingPayload.message.order.items[0].xinput = sessionData.selected_items_xinput;
     console.log("Updated item.id:", selectedItem.id);
   }
 
-  // Determine item type based on ID prefix for conditional logic
+  // Determine item type based on ID prefix — used to guard Finvu AA integration below
   const currentItemId = existingPayload.message?.order?.items?.[0]?.id || "";
   const isAAItem = currentItemId.startsWith("aa_personal_loan_");
   const isBureauItem = currentItemId.startsWith("bureau_personal_loan_");
