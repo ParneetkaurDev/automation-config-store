@@ -57,7 +57,7 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
 
     if (item.xinput?.form_response) {
       if (form_status) {
-        item.xinput.form_response.status = form_status;
+        item.xinput.form_response.status = "OFFLINE_PENDING";
       }
       if (submission_id) {
         item.xinput.form_response.submission_id = submission_id;
