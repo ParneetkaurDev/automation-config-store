@@ -108,11 +108,18 @@ export async function onUpdatePersonalLoanFulfillmentGenerator(existingPayload: 
         console.warn("⚠️ quote_id not found in session data (tried quote_id and order.quote.id)");
       }
 
-      // Map payment.id from session data if available
-      const paymentId = sessionData.payment_id || sessionData.order?.payments?.[0]?.id;
-      if (paymentId && order.payments?.[0]) {
-        order.payments[0].id = paymentId;
-        console.log("✓ Updated payment.id:", paymentId);
+      // Carry forward all payments from session (preserves installment IDs from on_init_1)
+      const savedPayments = sessionData.payments || sessionData.order?.payments;
+      if (Array.isArray(savedPayments) && savedPayments.length > 0) {
+        order.payments = savedPayments.map((p: any) => ({ ...p })); // clone to avoid mutation
+        console.log(`[on_update_personal_loan_fulfillment] ✅ Carried forward ${order.payments.length} payments from session`);
+      } else {
+        // Fallback: at minimum stamp payments[0].id from session if available
+        const paymentId = sessionData.payment_id || sessionData.order?.payments?.[0]?.id;
+        if (paymentId && order.payments?.[0]) {
+          order.payments[0].id = paymentId;
+          console.log('✓ Updated payment.id (fallback):', paymentId);
+        }
       }
     } else {
       console.warn("⚠️ existingPayload.message is missing");

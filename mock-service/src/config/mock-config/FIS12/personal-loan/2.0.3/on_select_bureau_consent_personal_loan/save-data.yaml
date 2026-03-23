@@ -5,4 +5,4 @@ save-data:
   selected_items: "$.message.order.items[*]"
   selected_fulfillments: "$.message.order.fulfillments[*]"
   quote: "$.message.quote"
-  consumer_information_form: "$..form.url" 
+  multiple_bureau_information_form: "$..form.url"

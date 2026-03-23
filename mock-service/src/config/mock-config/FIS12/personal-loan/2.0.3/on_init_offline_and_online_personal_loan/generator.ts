@@ -83,7 +83,24 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     console.log("Actual payload structure:", JSON.stringify(existingPayload.message?.order, null, 2));
   }
 
-  injectSettlementAmount(existingPayload, sessionData);
+  // ========== CARRY FORWARD PAYMENT IDs FROM on_init_1 ==========
+  const sessionPayments: any[] = (sessionData as any).payments || sessionData.order?.payments || [];
+  if (Array.isArray(existingPayload.message?.order?.payments) && sessionPayments.length > 0) {
+    const sessionIdMap = new Map<string, string>();
+    sessionPayments.forEach((p: any) => {
+      if (p?.id && p.id.includes('-')) {
+        sessionIdMap.set(`${p.type}::${p.time?.label || ''}`, p.id);
+      }
+    });
+    existingPayload.message.order.payments.forEach((payment: any) => {
+      const key = `${payment.type}::${payment.time?.label || ''}`;
+      if (sessionIdMap.has(key) && (!payment.id || !payment.id.includes('-'))) {
+        payment.id = sessionIdMap.get(key)!;
+        console.log(`[on_init_offline_and_online] Stamped session payment ID: ${payment.id}`);
+      }
+    });
+  }
+    injectSettlementAmount(existingPayload, sessionData); 
 
   return existingPayload;
 }

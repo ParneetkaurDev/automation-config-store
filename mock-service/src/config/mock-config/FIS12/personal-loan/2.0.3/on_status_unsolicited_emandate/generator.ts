@@ -15,12 +15,14 @@ export async function onStatusUnsolicitedEmandateGenerator(existingPayload: any,
     console.log("form_status", form_status);
     console.log("submission_id", submission_id);
     if (item.xinput?.form_response) {
-        item.xinput.form_response.status = form_status;
+        if (form_status) {
+            item.xinput.form_response.status = form_status;
+        }
         if (submission_id) {
-
             item.xinput.form_response.submission_id = submission_id;
         }
-        }
+    }
+
     // Update transaction_id from session data (carry-forward mapping)
     if (sessionData.transaction_id && existingPayload.context) {
         existingPayload.context.transaction_id = sessionData.transaction_id;
@@ -54,16 +56,17 @@ export async function onStatusUnsolicitedEmandateGenerator(existingPayload: any,
         console.log("Updated item.id:", selectedItem.id);
     }
 
-    // Set form ID to F05 (e-mandate form from on_init_2)
+    // Set form ID from session — on_init_2 generates verification_status_<uuid> and saves it as form_id
     if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-        existingPayload.message.order.items[0].xinput.form.id = "F05";
-        console.log("Updated form ID to F05 (emandate)");
+        const emandateFormId = sessionData.form_id || "F05"; // fallback to F05 if not saved
+        existingPayload.message.order.items[0].xinput.form.id = emandateFormId;
+        console.log("[on_status_unsolicited_emandate] Updated form.id:", emandateFormId);
     }
 
     // Only override submission_id if we have a real value from the emandate form
     if (submission_id && existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
         existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
-        console.log("Updated submission_id from verification_status:", submission_id);
+        console.log("[on_status_unsolicited_emandate] Updated submission_id:", submission_id);
     }
 
     // Update customer name in fulfillments if available

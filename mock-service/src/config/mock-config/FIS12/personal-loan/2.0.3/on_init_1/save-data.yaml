@@ -9,3 +9,4 @@ save-data:
   tags: "$.message.order.tags[*]"
   manadate_details_form: "$..form.url"
   form_id: "$.message.order.items[0].xinput.form.id"
+  payments: "$.message.order.payments[*]"

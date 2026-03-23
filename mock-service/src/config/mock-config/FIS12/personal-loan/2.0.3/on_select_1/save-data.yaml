@@ -11,4 +11,3 @@ save-data:
   quote_price: "$.message.order.quote.price.value"
   principal_amount: "$.message.order.quote.breakup[?(@.title=='PRINCIPAL')].price.value"
   loan_term: "$.message.order.items[0].tags[?(@.descriptor.code=='INFO')].list[?(@.descriptor.code=='TERM')].value"
-

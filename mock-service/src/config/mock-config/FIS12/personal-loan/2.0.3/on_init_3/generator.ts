@@ -143,7 +143,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
 
     console.log("✅ on_init_3: Payment/installment IDs generated — carried forward via session payments key");
   }
-  injectSettlementAmount(existingPayload, sessionData);
+    injectSettlementAmount(existingPayload, sessionData); 
 
   return existingPayload;
 }

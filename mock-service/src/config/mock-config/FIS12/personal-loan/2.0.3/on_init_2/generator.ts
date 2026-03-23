@@ -74,8 +74,28 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     console.log("✅ [on_init_2] form_id:", uniqueFormId, "URL:", url);
     existingPayload.message.order.items[0].xinput.form.url = url;
   }
-  injectSettlementAmount(existingPayload, sessionData);
 
+  // ========== CARRY FORWARD PAYMENT IDs FROM on_init_1 ==========
+  // on_init_1 generated unique IDs for installments + ON_ORDER payment.
+  // Stamp those session IDs onto this response's payments to keep them consistent.
+  const sessionPayments: any[] = sessionData.payments || sessionData.order?.payments || [];
+  if (Array.isArray(existingPayload.message?.order?.payments) && sessionPayments.length > 0) {
+    const sessionIdMap = new Map<string, string>();
+    sessionPayments.forEach((p: any) => {
+      if (p?.id && p.id.includes('-')) {
+        const key = `${p.type}::${p.time?.label || ''}`;
+        sessionIdMap.set(key, p.id);
+      }
+    });
+    existingPayload.message.order.payments.forEach((payment: any) => {
+      const key = `${payment.type}::${payment.time?.label || ''}`;
+      if (sessionIdMap.has(key) && (!payment.id || !payment.id.includes('-'))) {
+        payment.id = sessionIdMap.get(key)!;
+        console.log(`[on_init_2] Stamped session payment ID: ${payment.id}`);
+      }
+    });
+  }
+    injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }
