@@ -1,6 +1,9 @@
+/**
+ * On Select3 Generator for FIS12 Personal Loan
+ */
 import { randomUUID } from "crypto";
 
-export async function onSelect2Generator(existingPayload: any, sessionData: any) {
+export async function onSelectOfflineJourneyGenerator(existingPayload: any, sessionData: any) {
   console.log("On Select2 generator - Available session data:", {
     transaction_id: sessionData.transaction_id,
     message_id: sessionData.message_id,
@@ -52,14 +55,6 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
     existingPayload.message.order.items[0].xinput.form.url = url;
   }
 
-  // Update quote.id from session data
-  if (existingPayload.message?.order?.quote) {
-    if (sessionData.quote_id) {
-      existingPayload.message.order.quote.id = sessionData.quote_id;
-    } else if (sessionData.order?.quote?.id) {
-      existingPayload.message.order.quote.id = sessionData.order.quote.id;
-    }
-  }
   console.log("session data on_select_3-->", sessionData)
 
   return existingPayload;

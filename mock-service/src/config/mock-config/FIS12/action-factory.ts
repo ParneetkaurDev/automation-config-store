@@ -85,6 +85,7 @@ import { MockOnUpdateMissedEmiUnsolicitedClass } from "./personal-loan/2.0.3/on_
 import { MockCreditcardInformationClass } from "./credit-card/2.0.3/credit_card_information_form/class";
 import { MockOnInitOfflineOnlinePersonalLoan3Class } from "./personal-loan/2.0.3/on_init_online_offline_personal_loan_3/class";
 import { MockMultiBureauInfoFormClass } from "./personal-loan/2.0.3/multiple_bureau_information_form/multiple_bureau_information_form";
+import { MockOnSelectOfflinePersonalLoan3Class } from "./personal-loan/2.0.3/on_select_3_journey_offline_3/class";
 type Ctor<T> = new () => T;
 
 const registry = {
@@ -155,6 +156,7 @@ const registry = {
 	select_2_personal_loan_3: MockSelect2PersonalLoan3Class,
 	on_select_1_personal_loan_3: MockOnSelect1PersonalLoan3Class,
 	on_select_2_personal_loan_3: MockOnSelect2PersonalLoan3Class,
+	on_select_3_journey_offline_3: MockOnSelectOfflinePersonalLoan3Class,
 	select_3_personal_loan_3: MockSelect3PersonalLoan3Class,
 	on_select_3_personal_loan_3: MockOnSelect3PersonalLoan3Class,
 	confirm_personal_loan_3: MockConfirmPersonalLoan3Class,
