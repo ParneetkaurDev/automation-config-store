@@ -49,6 +49,12 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
     console.log("[confirm] Carried forward submission_id from esign form:", submission_id);
   }
 
+  // Set form_response.status = APPROVED (confirm comes after esign approval)
+  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+    existingPayload.message.order.items[0].xinput.form_response.status = "APPROVED";
+    console.log("[confirm] Set form_response.status = APPROVED");
+  }
+
   // Update item.id if available from session data (carry-forward from previous flows)
   const selectedItem = Array.isArray(sessionData.selected_items) ? sessionData.selected_items[0] : undefined;
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {

@@ -1,6 +1,9 @@
+/**
+ * On Select3 Generator for FIS12 Personal Loan
+ */
 import { randomUUID } from "crypto";
 
-export async function onSelect2Generator(existingPayload: any, sessionData: any) {
+export async function onSelectOfflineJourneyGenerator(existingPayload: any, sessionData: any) {
   console.log("On Select2 generator - Available session data:", {
     transaction_id: sessionData.transaction_id,
     message_id: sessionData.message_id,

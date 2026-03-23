@@ -240,6 +240,12 @@ codes:
     default: FIS12/personal-loan/2.0.3/on_select_2/default.yaml
     message_id: false
 
+  - code: 150
+    action_id: on_select_3_journey_offline_3
+    action: on_select
+    default: FIS12/personal-loan/2.0.3/on_select_3_journey_offline_3/default.yaml
+    message_id: false
+
   - code: 108
     action_id: init_personal_loan_3
     action: init

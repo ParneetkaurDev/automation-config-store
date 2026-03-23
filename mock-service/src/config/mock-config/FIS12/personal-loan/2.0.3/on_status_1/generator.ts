@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export async function onStatusGenerator(existingPayload: any, sessionData: any) {
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
@@ -14,8 +16,10 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
 
-  if (sessionData.message_id && existingPayload.context) {
-    existingPayload.context.message_id = sessionData.message_id;
+  // Generate NEW message_id for unsolicited on_status_1 (must be unique per response)
+  if (existingPayload.context) {
+    existingPayload.context.message_id = randomUUID();
+    console.log("[on_status_1] Generated new message_id:", existingPayload.context.message_id);
   }
 
   // Update order ID from session data
