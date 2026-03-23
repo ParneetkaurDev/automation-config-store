@@ -1,15 +1,8 @@
 /**
- * On Init Generator for FIS12 Personal Loan
- *
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update customer name in fulfillments from session data
- * 5. Update form URL for manadate_details_form
+ * On Init_1 Generator for FIS12 Personal Loan
  */
+import { randomUUID } from 'crypto';
 
-import { getSelectedItem } from "../utils/getSelectedItem";
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_init", sessionData);
@@ -36,8 +29,8 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
 
-  // Update item.id — prioritize AA item (aa_personal_loan_ prefix)
-  const selectedItem = getSelectedItem(sessionData);
+  // Update item.id if available from session data (carry-forward from init)
+  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
   if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
     console.log("Updated item.id:", selectedItem.id);
@@ -74,13 +67,13 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
   console.log("  - Has xinput.form?", !!existingPayload.message?.order?.items?.[0]?.xinput?.form);
 
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
+    const uniqueFormId = `manadate_details_${randomUUID()}`;
+    existingPayload.message.order.items[0].xinput.form.id = uniqueFormId;
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/manadate_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-    console.log("✅ URL for manadate_details_form in on_init_1:", url);
+    console.log("✅ [on_init_1] form_id:", uniqueFormId, "URL:", url);
     existingPayload.message.order.items[0].xinput.form.url = url;
-    console.log("✅ Form URL successfully set in payload");
   } else {
-    console.error("❌ FAILED: Payload structure doesn't match expected path for form URL!");
-    console.log("Actual payload structure:", JSON.stringify(existingPayload.message?.order, null, 2));
+    console.error("❌ [on_init_1] FAILED: no xinput.form in payload");
   }
 
   return existingPayload;

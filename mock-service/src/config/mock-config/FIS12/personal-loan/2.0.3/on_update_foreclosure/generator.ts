@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { injectSettlementAmount } from '../settlement-utils';
+import { injectSettlementAmount } from '../utils/settlement-utils';
 
 export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, sessionData: any) {
   // Standalone FORECLOSURE on_update generator
@@ -11,14 +11,10 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
   existingPayload.message = existingPayload.message || {};
   const order = existingPayload.message.order || (existingPayload.message.order = {});
 
-  // If default.yaml doesn't have payments, try carrying forward from session
   if ((!Array.isArray(order.payments) || order.payments.length === 0) && sessionData?.order?.payments?.length) {
     order.payments = sessionData.order.payments;
   }
 
-  // CRITICAL: Merge installments AND ON_ORDER payment from session data
-  // IMPORTANT: Maintain the correct payment order from default.yaml
-  // Expected order: FORECLOSURE payment, ON_ORDER payment, then installments
   if (sessionData?.order?.payments?.length > 0) {
     const sessionPayments = sessionData.order.payments;
 
@@ -70,14 +66,14 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
   // order.id
   if (sessionData?.order_id) order.id = sessionData.order_id;
   else if (!order.id || order.id === "LOAN_LEAD_ID_OR_SIMILAR_ORDER_ID" || String(order.id).startsWith("LOAN_LEAD_ID")) {
-    order.id = `gold_loan_${randomUUID()}`;
+    order.id = `personal_loan_${randomUUID()}`;
   }
 
   // provider.id
   if (order.provider) {
     if (sessionData?.selected_provider?.id) order.provider.id = sessionData.selected_provider.id;
     else if (!order.provider.id || order.provider.id === "PROVIDER_ID" || String(order.provider.id).startsWith("PROVIDER_ID")) {
-      order.provider.id = `gold_loan_${randomUUID()}`;
+      order.provider.id = `personal_loan_provider_${randomUUID()}`;
     }
   }
 
@@ -85,8 +81,8 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
   const selectedItem = sessionData?.item || (Array.isArray(sessionData?.items) ? sessionData.items[0] : undefined);
   if (order.items?.[0]) {
     if (selectedItem?.id) order.items[0].id = selectedItem.id;
-    else if (!order.items[0].id || String(order.items[0].id).startsWith("ITEM_ID_GOLD_LOAN")) {
-      order.items[0].id = `gold_loan_${randomUUID()}`;
+    else if (!order.items[0].id || String(order.items[0].id).startsWith("ITEM_ID_PERSONAL_LOAN") || String(order.items[0].id).startsWith("ITEM_ID_GOLD_LOAN")) {
+      order.items[0].id = `personal_loan_item_${randomUUID()}`;
     }
   }
 
@@ -95,7 +91,7 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
     const quoteId = sessionData?.quote_id || sessionData?.order?.quote?.id || sessionData?.quote?.id;
     if (quoteId) order.quote.id = quoteId;
     else if (!order.quote.id || order.quote.id === "LOAN_LEAD_ID_OR_SIMILAR" || String(order.quote.id).startsWith("LOAN_LEAD_ID")) {
-      order.quote.id = `gold_loan_${randomUUID()}`;
+      order.quote.id = `personal_loan_quote_${randomUUID()}`;
     }
   }
 
@@ -108,8 +104,7 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
     if (firstPayment.time.range) delete firstPayment.time.range;
 
     // Generate unique ID for this NEW foreclosure payment
-    // Format: foreclosure_<uuid> to identify it as a foreclosure payment
-    if (!firstPayment.id || firstPayment.id === 'PAYMENT_ID_GOLD_LOAN') {
+    if (!firstPayment.id || firstPayment.id === 'PAYMENT_ID_GOLD_LOAN' || firstPayment.id === 'PAYMENT_ID_PERSONAL_LOAN') {
       firstPayment.id = `foreclosure_${randomUUID()}`;
       console.log(`Generated unique foreclosure payment ID: ${firstPayment.id}`);
     }
@@ -123,8 +118,12 @@ export async function onUpdateForeclosureDefaultGenerator(existingPayload: any, 
     // Payment URL generation (FORM_SERVICE)
     const formService = process.env.FORM_SERVICE;
     const txId = existingPayload?.context?.transaction_id || sessionData?.transaction_id;
-    if (formService && sessionData?.domain && sessionData?.session_id && sessionData?.flow_id && txId) {
+    console.log("[on_update_foreclosure] URL check:", { formService: !!formService, domain: sessionData?.domain, session_id: !!sessionData?.session_id, flow_id: !!sessionData?.flow_id, txId: !!txId });
+    if (formService && txId) {
       firstPayment.url = `${formService}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${txId}`;
+      console.log(`[on_update_foreclosure] ✅ Payment URL set: ${firstPayment.url}`);
+    } else {
+      console.warn(`[on_update_foreclosure] ⚠️ Could not set payment URL — FORM_SERVICE=${formService}, txId=${txId}`);
     }
   }
 

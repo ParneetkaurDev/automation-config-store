@@ -15,7 +15,7 @@ import {
   addDelayedInstallment,
   markPreviousInstallmentsAsPaid
 } from '../generator-utils';
-import { injectSettlementAmount } from '../settlement-utils';
+import { injectSettlementAmount } from '../utils/settlement-utils';
 
 export async function onUpdateDefaultGenerator(existingPayload: any, sessionData: any) {
   try {

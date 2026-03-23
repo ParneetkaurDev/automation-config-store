@@ -28,10 +28,15 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     console.log("Using matching message_id from confirm:", sessionData.message_id);
   }
 
-  // Generate order.id (first time order ID is created in the flow)
+  // Generate order.id only once — reuse if already set in session (carry-forward from on_confirm)
   if (existingPayload.message?.order) {
-    existingPayload.message.order.id = `LOAN_ORDER_${Date.now()}_${sessionData.transaction_id?.slice(-8) || 'DEFAULT'}`;
-    console.log("Generated order.id:", existingPayload.message.order.id);
+    if (sessionData.order_id) {
+      existingPayload.message.order.id = sessionData.order_id;
+      console.log("Reusing order.id from session:", sessionData.order_id);
+    } else {
+      existingPayload.message.order.id = `CC_ORDER_${Date.now()}_${sessionData.transaction_id?.slice(-8) || 'DEFAULT'}`;
+      console.log("Generated new order.id:", existingPayload.message.order.id);
+    }
   }
 
   // Update provider.id if available from session data (carry-forward from confirm)
