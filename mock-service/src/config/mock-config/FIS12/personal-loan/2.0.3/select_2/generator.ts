@@ -1,90 +1,89 @@
-/**
- * Select2 Generator for FIS12 Gold Loan
- * 
- * Logic:
- * 1. Update context with current timestamp
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update form_response with status and submission_id (preserve existing structure)
- */
-
-import { randomUUID } from 'crypto';
 
 export async function select2Generator(existingPayload: any, sessionData: any) {
-  console.log("Select2 generator - Available session data:", {
-    selected_provider: !!sessionData.selected_provider,
-    selected_items: !!sessionData.selected_items,
-    items: !!sessionData.items,
-    transaction_id: sessionData.transaction_id,
-    message_id: sessionData.message_id
-  });
+  if (existingPayload.context) existingPayload.context.timestamp = new Date().toISOString();
+  console.log("sessionData-->", sessionData.session_id)
+  // const data = await RedisService.getKey(sessionData.session_id)
+  // console.log("data--> " + data)
 
-  // Update context timestamp
-  if (existingPayload.context) {
-    existingPayload.context.timestamp = new Date().toISOString();
-  }
+  console.log("existingPayload-->", existingPayload)
+  const submission_id = sessionData?.form_data?.personal_loan_information_form?.form_submission_id;
 
-  console.log("existing payloa-->", JSON.stringify(existingPayload))
+  // Map provider.id and item.id from on_search saved session if available
+  const selectedProvider = sessionData.selected_provider;
 
-  // Update transaction_id from session data (carry-forward mapping)
-  if (sessionData.transaction_id && existingPayload.context) {
-    existingPayload.context.transaction_id = sessionData.transaction_id;
-  }
+  // Check if incoming payload has a specific item ID (from select request)
+  const incomingItemId = existingPayload.message?.order?.items?.[0]?.id;
+  console.log("incomingItemId-->", incomingItemId)
 
-  // Generate a new message_id as UUID
-  if (existingPayload.context) {
-    existingPayload.context.message_id = randomUUID();
-  }
+  // Prioritize selecting item with AA prefix (aa_personal_loan_)
+  let selectedItem = sessionData.item;
 
-  // Update provider.id if available from session data (carry-forward from on_search)
-  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
-    existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-    console.log("Updated provider.id:", sessionData.selected_provider.id);
-  }
+  console.log("selectedItem-->", sessionData.items)
 
-  // Determine item based on which flow we're in:
-  //   AA flow (select_1 ran)      → selected_items is set → use selected_items[0]
-  //   Without_AA (no select_1)    → selected_items undefined → pick bureau_personal_loan_ item
-  let selectedItem: any;
-  if (Array.isArray(sessionData.selected_items) && sessionData.selected_items.length > 0) {
-    // AA flow — use the item select_1 already chose
-    selectedItem = sessionData.selected_items[0];
-    console.log("select_2: AA flow — using selected_items[0]:", selectedItem?.id);
-  } else if (Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    // Without_AA flow — select_1 was skipped, pick bureau item from on_search items
-    const bureauItem = sessionData.items.find(
-      (it: any) => it?.id && it.id.startsWith("bureau_personal_loan_")
-    );
-    if (bureauItem) {
-      selectedItem = bureauItem;
-      console.log("✅ select_2: Without_AA flow — selected bureau item:", bureauItem.id);
+  // If we have multiple items, look for the AA item first
+  if (Array.isArray(sessionData.items) && sessionData.items.length > 0) {
+    // If incoming payload has an item ID, check if it's an AA item
+    if (incomingItemId && incomingItemId.startsWith("aa_personal_loan_")) {
+      // Find the matching AA item from session data
+      selectedItem = sessionData.items.find((item: any) => item?.id === incomingItemId) ||
+        sessionData.items.find((item: any) => item?.id?.startsWith("aa_personal_loan_"));
+      console.log("✅ Incoming request has AA item ID, using:", selectedItem?.id || incomingItemId);
     } else {
-      selectedItem = sessionData.item || sessionData.items[0];
-      console.log("⚠️ select_2: No bureau item found, falling back to:", selectedItem?.id);
+      // First, try to find item with aa_personal_loan_ prefix (prioritize AA items)
+      const aaItem = sessionData.items.find((item: any) =>
+        item?.id && item.id.startsWith("aa_personal_loan_")
+      );
+
+      if (aaItem) {
+        selectedItem = aaItem;
+        console.log("✅ Selected AA item (aa_personal_loan_):", aaItem.id);
+      } else {
+        // If incoming payload has a specific item ID, use that
+        if (incomingItemId) {
+          selectedItem = sessionData.items.find((item: any) => item?.id === incomingItemId) ||
+            sessionData.items[0];
+          console.log("⚠️ Using item from incoming request:", selectedItem?.id || incomingItemId);
+        } else {
+          // Fallback to first item if no AA item found
+          selectedItem = selectedItem || sessionData.items[0];
+          console.log("⚠️ No AA item found, using:", selectedItem?.id || "first available item");
+        }
+      }
     }
-  } else {
-    selectedItem = sessionData.item;
-    console.log("select_2: fallback to sessionData.item:", selectedItem?.id);
+  } else if (!selectedItem) {
+    // Fallback if items array is not available
+    selectedItem = undefined;
   }
 
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    if (sessionData.selected_items_xinput) {
-      sessionData.selected_items_xinput.form_response = sessionData.selected_items_xinput.form_response || {};
-      sessionData.selected_items_xinput.form_response.status = "APPROVED";
-      existingPayload.message.order.items[0].xinput = sessionData.selected_items_xinput;
+  if (selectedProvider?.id) {
+    existingPayload.message = existingPayload.message || {};
+    existingPayload.message.order = existingPayload.message.order || {};
+    existingPayload.message.order.provider = existingPayload.message.order.provider || {};
+    existingPayload.message.order.provider.id = selectedProvider.id;
+  }
+
+  if (selectedItem?.id) {
+    const item0 = existingPayload.message?.order?.items?.[0];
+    if (item0) item0.id = selectedItem.id;
+  }
+
+  // Ensure xinput.form.id matches the one from on_search (avoid hardcoding F01)
+  const formId = selectedItem?.xinput?.form?.id || sessionData?.form_id;
+  if (formId && existingPayload.message?.order?.items?.[0]?.xinput?.form) {
+    existingPayload.message.order.items[0].xinput.form.id = formId;
+  }
+
+  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+    if (submission_id) {
+      // Use the actual UUID submission_id from form service (not a static placeholder)
+      existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+      console.log("Updated form_response with submission_id from form service:", submission_id);
+    } else {
+      console.warn("⚠️ No submission_id found for personal_loan_information_form - form may not have been submitted yet");
     }
-    console.log("Updated item.id:", selectedItem.id);
   }
-
-  // Update location_ids if available from session data
-  const selectedLocationId = sessionData.selected_location_id;
-  if (selectedLocationId && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].location_ids = [selectedLocationId];
-    console.log("Updated location_ids:", selectedLocationId);
-  }
-
-
+  console.log("selectedItem-->", JSON.stringify(selectedItem))
+  console.log("existingPayload-->", JSON.stringify(existingPayload))
 
   return existingPayload;
 }
