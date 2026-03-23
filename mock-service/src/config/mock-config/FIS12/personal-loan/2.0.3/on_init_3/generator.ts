@@ -12,6 +12,7 @@
  */
 
 import { randomUUID } from 'crypto';
+import { injectSettlementAmount } from '../utils/settlement-utils';
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_init_3", sessionData);
@@ -142,6 +143,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
 
     console.log("✅ on_init_3: Payment/installment IDs generated — carried forward via session payments key");
   }
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }
