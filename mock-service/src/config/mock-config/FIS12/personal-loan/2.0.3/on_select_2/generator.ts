@@ -83,12 +83,14 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
 
 
   // Generate unique quote.id for this session
+  // Update quote.id from session data
   if (existingPayload.message?.order?.quote) {
-    const quoteId = `quote_${randomUUID()}`;
-    existingPayload.message.order.quote.id = quoteId;
-    console.log("[on_select_2] Generated unique quote_id:", quoteId);
+    if (sessionData.quote_id) {
+      existingPayload.message.order.quote.id = sessionData.quote_id;
+    } else if (sessionData.order?.quote?.id) {
+      existingPayload.message.order.quote.id = sessionData.order.quote.id;
+    }
   }
-
   // ========== FORM URL + UNIQUE FORM ID ==========
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
     // Generate a unique form ID per session so downstream form submission tracking is accurate

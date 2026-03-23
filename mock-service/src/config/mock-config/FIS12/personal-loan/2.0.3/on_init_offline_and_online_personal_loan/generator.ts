@@ -100,7 +100,16 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
       }
     });
   }
-    injectSettlementAmount(existingPayload, sessionData); 
+
+  // Update quote.id from session data
+  if (existingPayload.message?.order?.quote) {
+    if (sessionData.quote_id) {
+      existingPayload.message.order.quote.id = sessionData.quote_id;
+    } else if (sessionData.order?.quote?.id) {
+      existingPayload.message.order.quote.id = sessionData.order.quote.id;
+    }
+  }
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }

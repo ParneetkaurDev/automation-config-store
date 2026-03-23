@@ -75,6 +75,15 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     existingPayload.message.order.items[0].xinput.form.url = url;
   }
 
+
+  // Update quote.id from session data
+  if (existingPayload.message?.order?.quote) {
+    if (sessionData.quote_id) {
+      existingPayload.message.order.quote.id = sessionData.quote_id;
+    } else if (sessionData.order?.quote?.id) {
+      existingPayload.message.order.quote.id = sessionData.order.quote.id;
+    }
+  }
   // ========== CARRY FORWARD PAYMENT IDs FROM on_init_1 ==========
   // on_init_1 generated unique IDs for installments + ON_ORDER payment.
   // Stamp those session IDs onto this response's payments to keep them consistent.
@@ -95,7 +104,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
       }
     });
   }
-    injectSettlementAmount(existingPayload, sessionData);
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }
