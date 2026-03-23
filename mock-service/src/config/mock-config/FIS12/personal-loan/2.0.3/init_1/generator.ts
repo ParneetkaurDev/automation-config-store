@@ -1,13 +1,4 @@
-
-/**
- * Init Generator for FIS12 Personal Loan
- *
- * Logic:
- * 1. Update context with current timestamp and correct action
- * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Update form_response with status and submission_id (preserve existing structure)
- */
+import { injectSettlementAmount } from "../utils/settlement-utils";
 
 export async function initDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for init", sessionData);
@@ -62,6 +53,8 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     }
     console.log("Updated form_response with status and submission_id");
   }
+
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }

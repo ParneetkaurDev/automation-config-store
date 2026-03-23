@@ -74,6 +74,7 @@ export interface SessionData {
 	personal_loan_information_form?: string;
 	credit_card_information_form?: string;
 	multiple_bureau_information_form?: string;
+	Ekyc_details_form_cc?: string;
 }
 
 export type BecknContext = {

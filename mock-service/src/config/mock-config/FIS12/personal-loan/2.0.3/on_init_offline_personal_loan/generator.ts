@@ -9,6 +9,8 @@
  * 5. Update form URL for manadate_details_form
  */
 
+import { injectSettlementAmount } from "../utils/settlement-utils";
+
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for on_init", sessionData);
 
@@ -99,5 +101,6 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     });
   }
 
+    injectSettlementAmount(existingPayload, sessionData);
   return existingPayload;
 }

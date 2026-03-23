@@ -2,6 +2,7 @@
  * On Init_1 Generator for FIS12 Personal Loan
  */
 import { randomUUID } from 'crypto';
+import { injectSettlementAmount } from '../utils/settlement-utils';
 
 
 export async function onInitDefaultGenerator(existingPayload: any, sessionData: any) {
@@ -100,6 +101,8 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     });
     console.log(`[on_init_1] ✅ Payment IDs generated for ${existingPayload.message.order.payments.length} payments`);
   }
+
+  injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;
 }

@@ -54,7 +54,7 @@ export async function onSelect2Generator(existingPayload: any, sessionData: any)
   }
 
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/Ekyc_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+    const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/Ekyc_details_form_cc?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
     console.log("✅ URL for Ekyc_details_form in on_select:", url);
     existingPayload.message.order.items[0].xinput.form.url = url;
 
