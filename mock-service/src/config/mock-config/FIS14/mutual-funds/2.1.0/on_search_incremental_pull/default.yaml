@@ -48,49 +48,27 @@ catalog:
                 name: Scheme Information
                 code: SCHEME_INFORMATION
               list:
-                - descriptor:
-                    name: Status
-                    code: STATUS
+                - descriptor: { name: Status, code: STATUS }
                   value: active
-                - descriptor:
-                    name: Lockin Period (days)
-                    code: LOCKIN_PERIOD_IN_DAYS
+                - descriptor: { name: Lockin Period (days), code: LOCKIN_PERIOD_IN_DAYS }
                   value: "365"
-                - descriptor:
-                    name: NFO Start
-                    code: NFO_START_DATE
+                - descriptor: { name: NFO Start, code: NFO_START_DATE }
                   value: "2024-07-25"
-                - descriptor:
-                    name: NFO End
-                    code: NFO_END_DATE
+                - descriptor: { name: NFO End, code: NFO_END_DATE }
                   value: "2024-08-10"
-                - descriptor:
-                    name: NFO Allotment Date
-                    code: NFO_ALLOTMENT_DATE
+                - descriptor: { name: NFO Allotment Date, code: NFO_ALLOTMENT_DATE }
                   value: "2024-08-15"
-                - descriptor:
-                    name: NFO Reopen Date
-                    code: NFO_REOPEN_DATE
+                - descriptor: { name: NFO Reopen Date, code: NFO_REOPEN_DATE }
                   value: "2024-08-16"
-                - descriptor:
-                    name: Entry Load
-                    code: ENTRY_LOAD
+                - descriptor: { name: Entry Load, code: ENTRY_LOAD }
                   value: no entry load
-                - descriptor:
-                    name: Exit Load
-                    code: EXIT_LOAD
-                  value: 1% on exit
-                - descriptor:
-                    name: Scheme Offer Documents
-                    code: OFFER_DOCUMENTS
+                - descriptor: { name: Exit Load, code: EXIT_LOAD }
+                  value: "1% on exit"
+                - descriptor: { name: Scheme Offer Documents, code: OFFER_DOCUMENTS }
                   value: https://sellerapp.com/docs/scheme-offer.pdf
-                - descriptor:
-                    name: Investor Allow List
-                    code: INVESTOR_ALLOW_LIST
+                - descriptor: { name: Investor Allow List, code: INVESTOR_ALLOW_LIST }
                   value: ""
-                - descriptor:
-                    name: Investor Black List
-                    code: INVESTOR_BLACK_LIST
+                - descriptor: { name: Investor Black List, code: INVESTOR_BLACK_LIST }
                   value: ""
 
         - id: "12391"
@@ -115,9 +93,7 @@ catalog:
                 name: Plan Information
                 code: PLAN_INFORMATION
               list:
-                - descriptor:
-                    name: Consumer Terms & Conditions
-                    code: CONSUMER_TNC
+                - descriptor: { name: Consumer Terms & Conditions, code: CONSUMER_TNC }
                   value: https://sellerapp.com/legal/ondc:fis14/consumer_tnc.html
 
             - display: true
@@ -125,17 +101,11 @@ catalog:
                 name: Plan Identifiers
                 code: PLAN_IDENTIFIERS
               list:
-                - descriptor:
-                    name: ISIN
-                    code: ISIN
+                - descriptor: { name: ISIN, code: ISIN }
                   value: IN123214324
-                - descriptor:
-                    name: RTA Identifier
-                    code: RTA_IDENTIFIER
+                - descriptor: { name: RTA Identifier, code: RTA_IDENTIFIER }
                   value: 02BZ
-                - descriptor:
-                    name: AMFI Identifier
-                    code: AMFI_IDENTIFIER
+                - descriptor: { name: AMFI Identifier, code: AMFI_IDENTIFIER }
                   value: "125487"
 
             - display: true
@@ -143,17 +113,11 @@ catalog:
                 name: Plan Options
                 code: PLAN_OPTIONS
               list:
-                - descriptor:
-                    name: Plan
-                    code: PLAN
+                - descriptor: { name: Plan, code: PLAN }
                   value: REGULAR
-                - descriptor:
-                    name: Option
-                    code: OPTION
+                - descriptor: { name: Option, code: OPTION }
                   value: IDCW
-                - descriptor:
-                    name: IDCW Option
-                    code: IDCW_OPTION
+                - descriptor: { name: IDCW Option, code: IDCW_OPTION }
                   value: PAYOUT
 
       fulfillments:
@@ -287,11 +251,7 @@ catalog:
         name: BPP Terms of Engagement
         code: BPP_TERMS
       list:
-        - descriptor:
-            name: Static Terms (Transaction Level)
-            code: STATIC_TERMS
+        - descriptor: { name: Static Terms (Transaction Level), code: STATIC_TERMS }
           value: https://sellerapp.com/legal/ondc:fis14/static_terms?v=0.1
-        - descriptor:
-            name: Offline Contract
-            code: OFFLINE_CONTRACT
+        - descriptor: { name: Offline Contract, code: OFFLINE_CONTRACT }
           value: "true"

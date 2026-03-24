@@ -10,6 +10,18 @@ codes:
     action: on_search
     default: FIS14/mutual-funds/2.1.0/on_search/default.yaml
     message_id: false
+
+  # Search incremental flow
+  - code: 512
+    action_id: search_incremental_pull
+    action: search
+    default: FIS14/mutual-funds/2.1.0/search_incremental_pull/default.yaml
+    message_id: true
+  - code: 513
+    action_id: on_search_incremental_pull
+    action: on_search
+    default: FIS14/mutual-funds/2.1.0/on_search_incremental_pull/default.yaml
+    message_id: false
     
   # SIP Creation flows (502-513)
   - code: 502
@@ -22,6 +34,13 @@ codes:
     action: on_select
     default: FIS14/mutual-funds/2.1.0/on_select/default.yaml
     message_id: false
+    
+  - code: 515
+    action_id: on_select_existing_folio
+    action: on_select
+    default: FIS14/mutual-funds/2.1.0/on_select_existing_folio/default.yaml
+    message_id: false
+
   - code: 5021
     action_id: select_2
     action: select

@@ -16,6 +16,8 @@ import { MockOnStatusClass } from "./mutual-funds/2.1.0/on_status/class";
 import { MockOnUpdateClass } from "./mutual-funds/2.1.0/on_update/class";
 import { MockInvestorDetailsFormClass } from "./mutual-funds/2.1.0/investor_details_form/investor_details_form"
 import type { MockAction } from "../FIS14/classes/mock-action";
+import { MockOnSearchIncrementClass } from "./mutual-funds/2.1.0/on_search_incremental_pull/class";
+import { MockSearchIncrementClass } from "./mutual-funds/2.1.0/search_incremental_pull/class";
 
 type Ctor<T> = new () => T;
 
@@ -23,8 +25,11 @@ const registry = {
     // Mutual Funds 2.1.0 actions
     // search
     search: MockSearchClass,
+    search_incremental_pull: MockSearchIncrementClass,
+
     // on_search
     on_search: MockOnSearchClass,
+    on_search_incremental_pull: MockOnSearchIncrementClass,
 
     // select
     select: MockSelectClass,
