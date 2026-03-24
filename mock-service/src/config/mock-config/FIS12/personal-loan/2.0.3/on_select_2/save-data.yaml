@@ -1,5 +1,6 @@
 save-data:
   transaction_id: "$.context.transaction_id"
+  order: "$.message.order"
   message_id: "$.context.message_id"
   loan_amount_adjustment_form: "$..form.url"
   items: "$.message.order.items[*]"

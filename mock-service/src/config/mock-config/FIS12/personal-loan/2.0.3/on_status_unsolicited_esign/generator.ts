@@ -57,19 +57,9 @@ export async function onStatusUnsolicitedEsignGenerator(existingPayload: any, se
 
     // Set form ID from session — on_init_3 generates esign_form_<uuid> and saves it as form_id
     if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-        const esignFormId = sessionData.form_id; // set by on_init_3 save-data
-        if (esignFormId) {
-            existingPayload.message.order.items[0].xinput.form.id = esignFormId;
-            console.log("[on_status_unsolicited_esign] Carried forward form.id:", esignFormId);
-        } else {
-            console.warn("[on_status_unsolicited_esign] ⚠️ sessionData.form_id not found — form.id NOT updated");
-        }
-    }
-
-    // Set form_response.status = APPROVED (esign unsolicited means the document was approved)
-    if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-        existingPayload.message.order.items[0].xinput.form_response.status = "APPROVED";
-        console.log("[on_status_unsolicited_esign] Set form_response.status = APPROVED");
+        const esignFormId = sessionData.form_id || "F06"; // fallback to F06 if not saved
+        existingPayload.message.order.items[0].xinput.form.id = esignFormId;
+        console.log("[on_status_unsolicited_esign] Updated form.id:", esignFormId);
     }
 
     // Only override submission_id if we have a real value from the esign form submission
