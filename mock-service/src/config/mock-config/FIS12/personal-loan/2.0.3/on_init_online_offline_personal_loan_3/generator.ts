@@ -83,14 +83,6 @@ export async function onInitOfflineOnlineDefaultGenerator(existingPayload: any, 
     console.log("Actual payload structure:", JSON.stringify(existingPayload.message?.order, null, 2));
   }
 
-  // Update quote.id from session data
-  if (existingPayload.message?.order?.quote) {
-    if (sessionData.quote_id) {
-      existingPayload.message.order.quote.id = sessionData.quote_id;
-    } else if (sessionData.order?.quote?.id) {
-      existingPayload.message.order.quote.id = sessionData.order.quote.id;
-    }
-  }
   // ========== CARRY FORWARD PAYMENT IDs FROM on_init_1 ==========
   const sessionPayments: any[] = (sessionData as any).payments || sessionData.order?.payments || [];
   if (Array.isArray(existingPayload.message?.order?.payments) && sessionPayments.length > 0) {
@@ -109,7 +101,7 @@ export async function onInitOfflineOnlineDefaultGenerator(existingPayload: any, 
     });
   }
 
-  injectSettlementAmount(existingPayload, sessionData);
+    injectSettlementAmount(existingPayload, sessionData); 
 
   return existingPayload;
 }

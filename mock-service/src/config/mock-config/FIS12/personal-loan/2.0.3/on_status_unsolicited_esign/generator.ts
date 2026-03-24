@@ -16,7 +16,7 @@ export async function onStatusUnsolicitedEsignGenerator(existingPayload: any, se
     console.log("submission_id", submission_id);
     if (item.xinput?.form_response) {
         if (form_status) {
-            item.xinput.form_response.status = "APPROVED";
+            item.xinput.form_response.status = form_status;
         }
         if (submission_id) {
             item.xinput.form_response.submission_id = submission_id;

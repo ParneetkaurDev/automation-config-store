@@ -118,8 +118,5 @@ export async function onStatusGenerator(existingPayload: any, sessionData: any) 
     existingPayload.message.order.items[0].price.value = sessionData.loan_amount;
   }
 
-  //update payment for all init 
-  const sessionPayments: any[] = sessionData.payments || sessionData.order?.payments || [];
-  existingPayload.message.order.payments[0].id = sessionPayments[0].id
   return existingPayload;
 }
