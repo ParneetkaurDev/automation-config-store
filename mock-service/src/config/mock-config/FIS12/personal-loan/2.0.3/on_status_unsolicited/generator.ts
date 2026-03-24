@@ -1,23 +1,8 @@
+import { randomUUID } from "crypto";
+
 export async function onStatusUnsolicitedGenerator(existingPayload: any, sessionData: any) {
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
-  }
-
-  console.log("sessionData for on_status_unsolicited", sessionData);
-
-  const submission_id = sessionData?.form_data?.Ekyc_details_form?.form_submission_id;
-  console.log("form_data ------->", sessionData?.form_data?.Ekyc_details_form);
-
-  const form_status = sessionData?.form_data?.Ekyc_details_form?.idType;
-  const item = existingPayload.message.order.items[0];
-  console.log("form_status", form_status);
-  console.log("submission_id", submission_id);
-  if (item.xinput?.form_response) {
-    item.xinput.form_response.status = "APPROVED";
-    if (submission_id) {
-
-      item.xinput.form_response.submission_id = submission_id;
-    }
   }
 
   // Update transaction_id and message_id from session data (carry-forward mapping)
@@ -26,7 +11,7 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
   }
 
   if (sessionData.message_id && existingPayload.context) {
-    existingPayload.context.message_id = sessionData.message_id;
+    existingPayload.context.message_id = randomUUID();
   }
 
   // Update order ID from session data if available
@@ -47,34 +32,10 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
   }
 
   // Update item.id from session data (carry-forward from on_select_2)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
+
+  if (existingPayload.message.order.items) {
+    existingPayload.message.order.items = sessionData.order.items || existingPayload.message.order.items
   }
-
-  // Update form ID from session data (carry-forward from previous flows)
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    const formId = sessionData.form_id || selectedItem?.xinput?.form?.id || "FO3";
-    existingPayload.message.order.items[0].xinput.form.id = formId;
-    console.log("Updated form ID:", formId);
-  }
-
-  // Update form response status - on_status_unsolicited uses APPROVED status
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-    const formResponse = existingPayload.message.order.items[0].xinput.form_response;
-    // if (sessionData.form_status) {
-    //   formResponse.status = sessionData.form_status;
-    // } else {
-    //   formResponse.status = "APPROVED";
-    // }
-
-    // Update submission ID if provided
-    if (sessionData.submission_id) {
-      formResponse.submission_id = sessionData.submission_id;
-    }
-  }
-
   // Update customer name in fulfillments if available from session data
   if (sessionData.customer_name && existingPayload.message?.order?.fulfillments?.[0]?.customer?.person) {
     existingPayload.message.order.fulfillments[0].customer.person.name = sessionData.customer_name;
@@ -90,27 +51,21 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
 
   // Update quote.id from session data
   if (existingPayload.message?.order?.quote) {
-    if (sessionData.quote_id) {
-      existingPayload.message.order.quote.id = sessionData.quote_id;
-      console.log("Updated quote.id from session:", sessionData.quote_id);
-    }
+    existingPayload.message.order.quote = sessionData?.quote || existingPayload.message.order.quote
   }
 
-  // Update quote information if provided
-  if (sessionData.quote_amount && existingPayload.message?.order?.quote) {
-    existingPayload.message.order.quote.price.value = sessionData.quote_amount;
-  }
 
   // Update loan amount in items if provided
   if (sessionData.loan_amount && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].price.value = sessionData.loan_amount;
   }
 
-  // Note: submission_id and form_response.status come from default.yaml.
-  // Only override if we have a real submission_id from session form data.
-  if (submission_id && existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-    existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
-    console.log("Updated submission_id from kyc_verification_status:", submission_id);
+  // Set created_at and updated_at to current timestamp
+  if (existingPayload.message?.order) {
+    const now = new Date().toISOString();
+    existingPayload.message.order.created_at = sessionData.order.created_at;
+    existingPayload.message.order.updated_at = now;
+    console.log("Set order.created_at and order.updated_at to:", now);
   }
 
   return existingPayload;
