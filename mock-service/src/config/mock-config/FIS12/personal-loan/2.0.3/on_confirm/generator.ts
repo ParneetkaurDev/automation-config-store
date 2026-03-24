@@ -45,19 +45,22 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   }
 
   // Update item.id if available from session data (carry-forward from confirm)
-  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].id = selectedItem.id;
-    console.log("Updated item.id:", selectedItem.id);
-  }
+  // const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+  // if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
+  //   existingPayload.message.order.items[0].id = selectedItem.id;
+  //   console.log("Updated item.id:", selectedItem.id);
+  // }
 
-  // Update location_ids from session data (carry-forward from previous flows)
-  const selectedLocationId = sessionData.selected_location_id;
-  if (selectedLocationId && existingPayload.message?.order?.items?.[0]) {
-    existingPayload.message.order.items[0].location_ids = [selectedLocationId];
-    console.log("Updated location_ids:", selectedLocationId);
-  }
+  // // Update location_ids from session data (carry-forward from previous flows)
+  // const selectedLocationId = sessionData.selected_location_id;
+  // if (selectedLocationId && existingPayload.message?.order?.items?.[0]) {
+  //   existingPayload.message.order.items[0].location_ids = [selectedLocationId];
+  //   console.log("Updated location_ids:", selectedLocationId);
+  // }
 
+  if (sessionData?.order?.items) {
+    existingPayload.message.order.items = sessionData?.order?.items || existingPayload.message.order.items
+  }
   // Update customer name in fulfillments if available from session data
   if (sessionData.customer_name && existingPayload.message?.order?.fulfillments?.[0]?.customer?.person) {
     existingPayload.message.order.fulfillments[0].customer.person.name = sessionData.customer_name;
@@ -95,54 +98,6 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   // on_init_3 only saves ON_ORDER payment (its own default), so session.payments
   // may be missing the installments that on_confirm/default.yaml defines.
   // Strategy: use the LONGER payments array as base, then stamp any pre-generated IDs from session.
-  if (existingPayload.message?.order) {
-    const sessionPayments: any[] = sessionData.payments || sessionData.order?.payments || [];
-    const payloadPayments: any[] = existingPayload.message.order.payments || [];
-
-    // Build a lookup of pre-generated IDs from session keyed by payment type+label
-    const sessionIdMap = new Map<string, string>();
-    sessionPayments.forEach((p: any) => {
-      if (p?.id && p.id.includes('_') && p.id.includes('-')) {
-        const key = `${p.type}::${p.time?.label || ''}`;
-        sessionIdMap.set(key, p.id);
-      }
-    });
-
-    // Use whichever array is longer (payload default.yaml has all installments)
-    const basePayments = payloadPayments.length >= sessionPayments.length
-      ? payloadPayments
-      : sessionPayments;
-
-    existingPayload.message.order.payments = basePayments;
-
-    if (sessionIdMap.size > 0) {
-      // Stamp pre-generated IDs from on_init_3 onto matching payments to keep consistency
-      let installCounter = 1;
-      basePayments.forEach((payment: any) => {
-        const key = `${payment.type}::${payment.time?.label || ''}`;
-        if (sessionIdMap.has(key) && !payment.id?.includes('-')) {
-          payment.id = sessionIdMap.get(key)!;
-        }
-        // For installments not yet ID-stamped via map, generate fresh IDs
-        if (!payment.id || (!payment.id.includes('_') && !payment.id.includes('-'))) {
-          if (payment.type === 'POST_FULFILLMENT' && payment.time?.label === 'INSTALLMENT') {
-            payment.id = `installment_${installCounter}_${randomUUID()}`;
-            installCounter++;
-          } else if (payment.type === 'ON_ORDER') {
-            payment.id = `on_order_${randomUUID()}`;
-          } else if (!payment.id) {
-            payment.id = `payment_${randomUUID()}`;
-          }
-        }
-        if (payment.type === 'POST_FULFILLMENT' && payment.time?.label === 'INSTALLMENT') {
-          installCounter++;
-        }
-      });
-    }
-
-    console.log(`✅ on_confirm: Using ${existingPayload.message.order.payments.length} payments (installments preserved)`);
-  }
-
 
   // Set created_at and updated_at to current timestamp
   if (existingPayload.message?.order) {
@@ -153,7 +108,7 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   }
   //update payment for all init 
   const sessionPayments: any[] = sessionData.payments || sessionData.order?.payments || [];
-  existingPayload.message.order.payments[0].id = sessionPayments[0].id
+  existingPayload.message.order.payments = sessionPayments
   // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
   injectSettlementAmount(existingPayload, sessionData);
 
