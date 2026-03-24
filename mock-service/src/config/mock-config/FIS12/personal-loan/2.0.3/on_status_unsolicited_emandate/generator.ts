@@ -16,7 +16,7 @@ export async function onStatusUnsolicitedEmandateGenerator(existingPayload: any,
     console.log("submission_id", submission_id);
     if (item.xinput?.form_response) {
         if (form_status) {
-            item.xinput.form_response.status = form_status;
+            item.xinput.form_response.status = "APPROVED";
         }
         if (submission_id) {
             item.xinput.form_response.submission_id = submission_id;

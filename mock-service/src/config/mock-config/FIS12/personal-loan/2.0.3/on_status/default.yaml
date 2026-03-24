@@ -162,7 +162,7 @@ order:
           submission_id: "F03_SUBMISSION_ID"
 
   quote:
-    id: "LOAN_LEAD_ID_OR_SIMILAR"
+    id: "bcaa0931-47d7-42c9-aa83-3fb2b5048551"
     price:
       currency: "INR"
       value: "233900"

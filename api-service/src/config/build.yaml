@@ -4449,7 +4449,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -4800,7 +4800,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -5215,7 +5215,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -5686,7 +5686,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -6159,7 +6159,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -6669,7 +6669,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -7079,7 +7079,7 @@ x-flows:
                             value: d28e3a3c-1185-443a-b71e-cc1e03bb5d54
                         display: false
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -7539,7 +7539,7 @@ x-flows:
                             value: d28e3a3c-1185-443a-b71e-cc1e03bb5d54
                         display: false
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -8001,7 +8001,7 @@ x-flows:
                         status: REJECTED
                         submission_id: 79850933-4e41-4c76-bbe6-c5a392481226
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -9363,7 +9363,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -9724,7 +9724,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -10137,7 +10137,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -10606,7 +10606,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -11077,7 +11077,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -11589,7 +11589,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -11994,7 +11994,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -12427,7 +12427,7 @@ x-flows:
                         status: REJECTED
                         submission_id: 79850933-4e41-4c76-bbe6-c5a392481226
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -13462,7 +13462,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -14253,7 +14253,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '542300'
@@ -14824,7 +14824,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -15118,7 +15118,7 @@ x-flows:
                         status: OFFLINE_PENDING
                         submission_id: 79850933-4e41-4c76-bbe6-c5a392481226
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -15402,7 +15402,7 @@ x-flows:
                         status: COMPLETED
                         submission_id: 79850933-4e41-4c76-bbe6-c5a392481226
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -15687,7 +15687,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -16161,7 +16161,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -16908,7 +16908,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -17293,7 +17293,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -17734,7 +17734,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -18410,7 +18410,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233900'
@@ -18706,7 +18706,7 @@ x-flows:
                         status: APPROVED
                         submission_id: 79850933-4e41-4c76-bbe6-c5a392481226
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -18996,7 +18996,7 @@ x-flows:
                         status: PENDING
                         submission_id: 79850933-4e41-4c76-bbe6-c5a392481226
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -19287,7 +19287,7 @@ x-flows:
                         status: APPROVED
                         submission_id: 79850933-4e41-4c76-bbe6-c5a392481226
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -19652,7 +19652,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '223836'
@@ -20080,7 +20080,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '223836'
@@ -20588,7 +20588,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '224800'
@@ -21015,7 +21015,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '224800'
@@ -21521,7 +21521,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233800'
@@ -21953,7 +21953,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233800'
@@ -23231,7 +23231,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -23624,7 +23624,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -23927,7 +23927,7 @@ x-flows:
                         status: OFFLINE_PENDING
                         submission_id: F03_SUBMISSION_ID
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -24239,7 +24239,7 @@ x-flows:
                         status: COMPLETED
                         submission_id: F03_SUBMISSION_ID
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -24612,7 +24612,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '232800'
@@ -25079,7 +25079,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '232800'
@@ -25820,7 +25820,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -26182,7 +26182,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -26637,7 +26637,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '232800'
@@ -27104,7 +27104,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '232800'
@@ -27826,7 +27826,7 @@ x-flows:
                         multiple_sumbissions: false
                       required: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '442300'
@@ -28385,7 +28385,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '223836'
@@ -28809,7 +28809,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '223836'
@@ -29310,7 +29310,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233800'
@@ -29738,7 +29738,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '233800'
@@ -30245,7 +30245,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '224800'
@@ -30670,7 +30670,7 @@ x-flows:
                             value: https://icicibank.com/loan/kfs-terms
                         display: true
                 quote:
-                  id: LOAN_LEAD_ID_OR_SIMILAR
+                  id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                   price:
                     currency: INR
                     value: '224800'
@@ -33445,7 +33445,7 @@ x-examples:
                               value: https://icicibank.com/loan/kfs-terms
                           display: true
                   quote:
-                    id: LOAN_LEAD_ID_OR_SIMILAR
+                    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                     price:
                       currency: INR
                       value: '233900'
@@ -33819,7 +33819,7 @@ x-examples:
                               value: https://icicibank.com/loan/kfs-terms
                           display: true
                   quote:
-                    id: LOAN_LEAD_ID_OR_SIMILAR
+                    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                     price:
                       currency: INR
                       value: '233900'
@@ -34205,7 +34205,7 @@ x-examples:
                               value: https://icicibank.com/loan/kfs-terms
                           display: true
                   quote:
-                    id: LOAN_LEAD_ID_OR_SIMILAR
+                    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                     price:
                       currency: INR
                       value: '233900'
@@ -34601,7 +34601,7 @@ x-examples:
                               value: https://icicibank.com/loan/kfs-terms
                           display: true
                   quote:
-                    id: LOAN_LEAD_ID_OR_SIMILAR
+                    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                     price:
                       currency: INR
                       value: '233900'
@@ -34998,7 +34998,7 @@ x-examples:
                               value: https://icicibank.com/loan/kfs-terms
                           display: true
                   quote:
-                    id: LOAN_LEAD_ID_OR_SIMILAR
+                    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                     price:
                       currency: INR
                       value: '233900'
@@ -35384,7 +35384,7 @@ x-examples:
                               value: https://icicibank.com/loan/kfs-terms
                           display: true
                   quote:
-                    id: LOAN_LEAD_ID_OR_SIMILAR
+                    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                     price:
                       currency: INR
                       value: '211800'
@@ -35935,7 +35935,7 @@ x-examples:
                               value: PT30D
                           display: true
                   quote:
-                    id: LOAN_LEAD_ID_OR_SIMILAR
+                    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
                     price:
                       currency: INR
                       value: '232800'
@@ -51717,6 +51717,8 @@ x-validations:
             enumList: &FORM_RESPONSE_STATUS_ON_STATUS
               - COMPLETED
               - OFFLINE_PENDING
+              - APPROVED
+              - SUCCESS
             _RETURN_: attr all in enumList
 
       # Conditional: Payments (only present in post-confirm status)
