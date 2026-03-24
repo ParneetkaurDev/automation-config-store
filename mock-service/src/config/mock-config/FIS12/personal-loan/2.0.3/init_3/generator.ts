@@ -64,9 +64,6 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     console.log("Updated form_response with status and submission_id");
   }
 
-  //update payment for all init 
-  const sessionPayments: any[] = sessionData.payments || sessionData.order?.payments || [];
-  existingPayload.message.order.payments[0].id = sessionPayments[0].id
   injectSettlementAmount(existingPayload, sessionData);
 
   return existingPayload;

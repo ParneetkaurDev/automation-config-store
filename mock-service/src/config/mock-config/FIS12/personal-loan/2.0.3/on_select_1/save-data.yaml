@@ -7,7 +7,6 @@ save-data:
   item: "$.message.order.items[0]"
   selected_provider: "$.message.order.provider"
   consent_handler: "$.message.order.items[0].tags[0].list[0].value"
-  quote_id: "$.message.order.quote.id"
   # Loan data for dynamic SETTLEMENT_AMOUNT calculation
   quote_price: "$.message.order.quote.price.value"
   principal_amount: "$.message.order.quote.breakup[?(@.title=='PRINCIPAL')].price.value"

@@ -127,7 +127,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
         console.log(`Generated installment ID: ${payment.id}`);
         installmentCounter++;
       } else if (payment.type === 'ON_ORDER') {
-        payment.id = sessionData.payments[0].id;
+        payment.id = `on_order_${randomUUID()}`;
         console.log(`Generated on-order payment ID: ${payment.id}`);
       } else if (payment.time?.label === 'MISSED_EMI_PAYMENT') {
         payment.id = `missed_emi_${randomUUID()}`;
@@ -143,16 +143,7 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
 
     console.log("✅ on_init_3: Payment/installment IDs generated — carried forward via session payments key");
   }
-
-  // Update quote.id from session data
-  if (existingPayload.message?.order?.quote) {
-    if (sessionData.quote_id) {
-      existingPayload.message.order.quote.id = sessionData.quote_id;
-    } else if (sessionData.order?.quote?.id) {
-      existingPayload.message.order.quote.id = sessionData.order.quote.id;
-    }
-  }
-  injectSettlementAmount(existingPayload, sessionData);
+    injectSettlementAmount(existingPayload, sessionData); 
 
   return existingPayload;
 }

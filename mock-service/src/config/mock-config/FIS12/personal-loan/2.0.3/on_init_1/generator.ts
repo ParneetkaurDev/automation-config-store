@@ -77,14 +77,6 @@ export async function onInitDefaultGenerator(existingPayload: any, sessionData: 
     console.error("❌ [on_init_1] FAILED: no xinput.form in payload");
   }
 
-  // Update quote.id from session data
-  if (existingPayload.message?.order?.quote) {
-    if (sessionData.quote_id) {
-      existingPayload.message.order.quote.id = sessionData.quote_id;
-    } else if (sessionData.order?.quote?.id) {
-      existingPayload.message.order.quote.id = sessionData.order.quote.id;
-    }
-  }
   // ========== GENERATE UNIQUE PAYMENT IDs (first time in flow) ==========
   // on_init_1 is where the payment plan is first established.
   // Generate unique IDs now so they propagate consistently through on_init_2, on_init_3,

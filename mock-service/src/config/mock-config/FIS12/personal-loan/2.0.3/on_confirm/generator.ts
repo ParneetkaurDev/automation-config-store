@@ -82,12 +82,15 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   }
 
   // Update quote.id from session data
-  // Update quote.id from session data
   if (existingPayload.message?.order?.quote) {
-    if (sessionData.quote_id) {
-      existingPayload.message.order.quote.id = sessionData.quote_id;
-    } else if (sessionData.order?.quote?.id) {
-      existingPayload.message.order.quote.id = sessionData.order.quote.id;
+    const sessionQuoteId =
+      sessionData?.quote_id ||
+      sessionData?.quote?.id ||
+      sessionData?.order?.quote?.id;
+
+    if (sessionQuoteId) {
+      existingPayload.message.order.quote.id = sessionQuoteId;
+      console.log("Updated quote.id from session:", sessionQuoteId);
     }
   }
 
@@ -151,9 +154,7 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
     existingPayload.message.order.updated_at = now;
     console.log("Set order.created_at and order.updated_at to:", now);
   }
-  //update payment for all init 
-  const sessionPayments: any[] = sessionData.payments || sessionData.order?.payments || [];
-  existingPayload.message.order.payments[0].id = sessionPayments[0].id
+
   // Dynamically inject SETTLEMENT_AMOUNT derived from BAP_TERMS fee data
   injectSettlementAmount(existingPayload, sessionData);
 

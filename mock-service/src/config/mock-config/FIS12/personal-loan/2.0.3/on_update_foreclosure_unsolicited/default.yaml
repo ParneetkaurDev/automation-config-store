@@ -158,7 +158,7 @@ order:
               value: https://icicibank.com/loan/kfs-terms
 
   quote:
-    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
+    id: LOAN_LEAD_ID_OR_SIMILAR
     price:
       currency: INR
       value: "223836"

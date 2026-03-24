@@ -170,7 +170,7 @@ order:
               value: d28e3a3c-1185-443a-b71e-cc1e03bb5d54
 
   quote:
-    id: bcaa0931-47d7-42c9-aa83-3fb2b5048551
+    id: LOAN_LEAD_ID_OR_SIMILAR
     price:
       currency: INR
       value: "233900"

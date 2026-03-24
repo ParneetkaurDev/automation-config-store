@@ -13,12 +13,12 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
   console.log("form_status", form_status);
   console.log("submission_id", submission_id);
   if (item.xinput?.form_response) {
-    item.xinput.form_response.status = "APPROVED";
-    if (submission_id) {
+      item.xinput.form_response.status = form_status;
+      if (submission_id) {
 
-      item.xinput.form_response.submission_id = submission_id;
+        item.xinput.form_response.submission_id = submission_id;
+      }
     }
-  }
 
   // Update transaction_id and message_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
