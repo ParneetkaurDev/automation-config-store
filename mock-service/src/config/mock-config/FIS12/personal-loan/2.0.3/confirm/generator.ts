@@ -8,6 +8,8 @@
  * 4. Preserve existing structure from default.yaml
  */
 
+import { injectSettlementAmount } from "../utils/settlement-utils";
+
 export async function confirmDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for confirm0008080", sessionData);
 
@@ -60,5 +62,8 @@ export async function confirmDefaultGenerator(existingPayload: any, sessionData:
   //update payment for all init 
   const sessionPayments: any[] = sessionData.payments || sessionData.order?.payments || [];
   existingPayload.message.order.payments[0].id = sessionPayments[0].id
+
+  injectSettlementAmount(existingPayload, sessionData);
+
   return existingPayload;
 }
