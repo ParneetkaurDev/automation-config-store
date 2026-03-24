@@ -123,11 +123,7 @@ export async function onUpdateMissedEmiUnsolicitedDefaultGenerator(existingPaylo
 
     // quote.id
     if (order.quote) {
-        const quoteId = sessionData?.quote_id || sessionData?.order?.quote?.id || sessionData?.quote?.id;
-        if (quoteId) order.quote.id = quoteId;
-        else if (!order.quote.id || order.quote.id === "LOAN_LEAD_ID_OR_SIMILAR" || String(order.quote.id).startsWith("LOAN_LEAD_ID")) {
-            order.quote.id = `personal_loan_quote_${randomUUID()}`;
-        }
+        order.quote.id = sessionData?.quote_id || sessionData?.order?.quote?.id || sessionData?.quote?.id;
     }
 
     // Update fulfillment state to DISBURSED for unsolicited callback
