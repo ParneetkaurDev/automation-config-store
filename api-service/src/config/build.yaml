@@ -51712,7 +51712,7 @@ x-validations:
         statuspath: $.message.order.items[*].xinput.form_response.status
         _CONTINUE_: '!(statuspath are present)'
         _RETURN_:
-          - _NAME_: If_KYC_Validation_Result_is_REJECTED_flow_cant_move_forward
+          - _NAME_: If_Validation_Result_is_REJECTED_flow_cant_move_forward
             attr: $.message.order.items[*].xinput.form_response.status
             enumList: &FORM_RESPONSE_STATUS_ON_STATUS
               - COMPLETED
