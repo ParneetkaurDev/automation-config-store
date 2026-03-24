@@ -12,13 +12,13 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
   }
-  
+
   // Update transaction_id from session data
   if (sessionData.transaction_id && existingPayload.context) {
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
-  
-  
+
+
   // Load update_target from session data
   if (sessionData.update_target && existingPayload.message) {
     existingPayload.message.update_target = sessionData.update_target;
@@ -37,7 +37,7 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
     let labelFromSession = sessionData.update_label;
     console.log("labelFromSession", labelFromSession);
     console.log("sessionData.flow_id", sessionData.flow_id);
-    
+
     // Map flow IDs to specific payment labels
     if (sessionData.flow_id) {
       if (sessionData.flow_id.includes('Missed_EMI')) {
@@ -48,7 +48,7 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
         labelFromSession = 'PRE_PART_PAYMENT';
       }
     }
-    
+
     // Fallback to existing label if no flow-based mapping found
     const existingPayment = existingPayload.message.order.payments[0];
     if (!labelFromSession && existingPayment?.time?.label) {
@@ -63,11 +63,10 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
           label: labelFromSession
         },
         params: {
-          amount: "92720",
+          amount: String(sessionData?.user_inputs?.pre_part_payment) || "92232",
           currency: sessionData.update_currency || 'INR'
         }
       };
-      console.log(`PRE_PART_PAYMENT - params.amount set to: 92720`);
     } else if (labelFromSession === 'FORECLOSURE' || labelFromSession === 'MISSED_EMI_PAYMENT') {
       // For FORECLOSURE and MISSED_EMI_PAYMENT: only time.label (minimal payload)
       existingPayload.message.order.payments[0] = {
@@ -85,7 +84,7 @@ export async function updateDefaultGenerator(existingPayload: any, sessionData: 
       };
     }
   }
-  
+
   console.log(" update payload generated successfully");
   return existingPayload;
 } 

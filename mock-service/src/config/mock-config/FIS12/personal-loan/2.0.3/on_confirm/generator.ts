@@ -48,9 +48,22 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   // const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
   // if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
   //   existingPayload.message.order.items[0].id = selectedItem.id;
+  //   existingPayload.message.order.items[0].price = selectedItem.price;
+
   //   console.log("Updated item.id:", selectedItem.id);
   // }
 
+  const selectedItemId = Array.isArray(sessionData.selected_items_1)
+    ? sessionData.selected_items_1?.[0]?.id
+    : undefined;
+  const selectedItem = (selectedItemId && Array.isArray(sessionData.items))
+    ? sessionData.items.find((i: any) => i.id === selectedItemId)
+    : sessionData.item || (Array.isArray(sessionData.items) ? (sessionData.items?.[1] ?? sessionData.items?.[0]) : undefined);
+
+  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
+    existingPayload.message.order.items[0].id = selectedItem.id;
+    existingPayload.message.order.items[0].price = selectedItem.price;
+  }
   // // Update location_ids from session data (carry-forward from previous flows)
   // const selectedLocationId = sessionData.selected_location_id;
   // if (selectedLocationId && existingPayload.message?.order?.items?.[0]) {
@@ -58,9 +71,9 @@ export async function onConfirmDefaultGenerator(existingPayload: any, sessionDat
   //   console.log("Updated location_ids:", selectedLocationId);
   // }
 
-  if (sessionData?.order?.items) {
-    existingPayload.message.order.items = sessionData?.order?.items || existingPayload.message.order.items
-  }
+  // if (sessionData?.order?.items) {
+  //   existingPayload.message.order.items = sessionData?.order?.items || existingPayload.message.order.items
+  // }
   // Update customer name in fulfillments if available from session data
   if (sessionData.customer_name && existingPayload.message?.order?.fulfillments?.[0]?.customer?.person) {
     existingPayload.message.order.fulfillments[0].customer.person.name = sessionData.customer_name;
