@@ -23,7 +23,6 @@ type Ctor<T> = new () => T;
 
 const registry = {
     // Mutual Funds 2.1.0 actions
-    // search
     search: MockSearchClass,
     search_incremental_pull: MockSearchIncrementClass,
 

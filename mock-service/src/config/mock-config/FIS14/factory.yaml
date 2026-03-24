@@ -34,13 +34,13 @@ codes:
     action: on_select
     default: FIS14/mutual-funds/2.1.0/on_select/default.yaml
     message_id: false
-    
+
   - code: 515
     action_id: on_select_existing_folio
     action: on_select
     default: FIS14/mutual-funds/2.1.0/on_select_existing_folio/default.yaml
     message_id: false
-
+        
   - code: 5021
     action_id: select_2
     action: select
