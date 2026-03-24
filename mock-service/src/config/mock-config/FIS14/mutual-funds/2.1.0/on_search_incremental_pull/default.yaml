@@ -67,9 +67,9 @@ catalog:
                 - descriptor: { name: Scheme Offer Documents, code: OFFER_DOCUMENTS }
                   value: https://sellerapp.com/docs/scheme-offer.pdf
                 - descriptor: { name: Investor Allow List, code: INVESTOR_ALLOW_LIST }
-                  value: ""
+                  value: "empty"
                 - descriptor: { name: Investor Black List, code: INVESTOR_BLACK_LIST }
-                  value: ""
+                  value: "empty"
 
         - id: "12391"
           descriptor:

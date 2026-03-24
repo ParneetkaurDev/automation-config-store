@@ -79287,27 +79287,35 @@ x-validations:
             validTags: &THRESHOLDS_TAG
               - THRESHOLDS
               - SIP_DETAILS
+              - LUMPSUM_DETAILS
+              - REDEMPTION_DETAILS
+              - SWP_DETAILS
+              - STP_DETAILS
             tagPath: $.message.catalog.providers[*].fulfillments[*].tags[*].descriptor.code
+            _CONTINUE_: '!(tagPath are present)'
             _RETURN_: tagPath any in validTags
 
       - _NAME_: ON_SEARCH_FULFILLMENTS_LUMPSUM
         _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='LUMPSUM')]
         _RETURN_:
-          - _NAME_: REQUIRED_LUMPSUM_THRESHOLDS_LIST
-            _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='LUMPSUM')].tags[?(@.descriptor.code=='THRESHOLDS')]
+          - _NAME_: OPTIONAL_LUMPSUM_THRESHOLDS_LIST
+            _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='LUMPSUM')].tags[?(@.descriptor.code=='THRESHOLDS' || @.descriptor.code=='LUMPSUM_DETAILS')]
             subTags: $.list[*].descriptor.code
             validValues: &LUMPSUM_THRESHOLDS_VALUES
               - AMOUNT_MIN
               - AMOUNT_MAX
               - AMOUNT_MULTIPLES
+              - MIN_INVESTMENT
+              - MAX_INVESTMENT
+              - INVESTMENT_MULTIPLE
             _CONTINUE_: '!(subTags are present)'
             _RETURN_: subTags any in validValues
 
       - _NAME_: ON_SEARCH_FULFILLMENTS_SIP
         _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='SIP')]
         _RETURN_:
-          - _NAME_: REQUIRED_SIP_THRESHOLDS_LIST
-            _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='SIP')].tags[?(@.descriptor.code=='THRESHOLDS')]
+          - _NAME_: OPTIONAL_SIP_THRESHOLDS_LIST
+            _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='SIP')].tags[?(@.descriptor.code=='THRESHOLDS' || @.descriptor.code=='SIP_DETAILS')]
             subTags: $.list[*].descriptor.code
             validValues: &SIP_THRESHOLDS_VALUES
               - FREQUENCY
@@ -79318,6 +79326,65 @@ x-validations:
               - INSTALMENTS_COUNT_MIN
               - INSTALMENTS_COUNT_MAX
               - CUMULATIVE_AMOUNT_MIN
+              - MIN_INSTALLMENT_AMOUNT
+              - MAX_INSTALLMENT_AMOUNT
+              - FREQUENCIES
+              - ALLOWED_FREQUENCIES
+              - MIN_INSTALMENTS_COUNT
+              - MAX_INSTALMENTS_COUNT
+            _CONTINUE_: '!(subTags are present)'
+            _RETURN_: subTags any in validValues
+
+      - _NAME_: ON_SEARCH_FULFILLMENTS_REDEMPTION
+        _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='REDEMPTION')]
+        _RETURN_:
+          - _NAME_: OPTIONAL_REDEMPTION_THRESHOLDS_LIST
+            _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='REDEMPTION')].tags[?(@.descriptor.code=='THRESHOLDS' || @.descriptor.code=='REDEMPTION_DETAILS')]
+            subTags: $.list[*].descriptor.code
+            validValues: &REDEMPTION_THRESHOLDS_VALUES
+              - AMOUNT_MIN
+              - AMOUNT_MAX
+              - QUANTITY_MIN
+              - QUANTITY_MAX
+              - MIN_REDEMPTION_AMOUNT
+              - MIN_REDEMPTION_QUANTITY
+              - REDEMPTION_QUANTITY_MULTIPLE
+            _CONTINUE_: '!(subTags are present)'
+            _RETURN_: subTags any in validValues
+
+      - _NAME_: ON_SEARCH_FULFILLMENTS_SWP
+        _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='SWP')]
+        _RETURN_:
+          - _NAME_: OPTIONAL_SWP_THRESHOLDS_LIST
+            _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='SWP')].tags[?(@.descriptor.code=='THRESHOLDS' || @.descriptor.code=='SWP_DETAILS')]
+            subTags: $.list[*].descriptor.code
+            validValues: &SWP_THRESHOLDS_VALUES
+              - FREQUENCY
+              - FREQUENCY_DATES
+              - AMOUNT_MIN
+              - AMOUNT_MAX
+              - INSTALMENTS_COUNT_MIN
+              - INSTALMENTS_COUNT_MAX
+              - MIN_WITHDRAWAL_AMOUNT
+              - MAX_WITHDRAWAL_AMOUNT
+            _CONTINUE_: '!(subTags are present)'
+            _RETURN_: subTags any in validValues
+
+      - _NAME_: ON_SEARCH_FULFILLMENTS_STP
+        _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='STP')]
+        _RETURN_:
+          - _NAME_: OPTIONAL_STP_THRESHOLDS_LIST
+            _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='STP')].tags[?(@.descriptor.code=='THRESHOLDS' || @.descriptor.code=='STP_DETAILS')]
+            subTags: $.list[*].descriptor.code
+            validValues: &STP_THRESHOLDS_VALUES
+              - FREQUENCY
+              - FREQUENCY_DATES
+              - AMOUNT_MIN
+              - AMOUNT_MAX
+              - INSTALMENTS_COUNT_MIN
+              - INSTALMENTS_COUNT_MAX
+              - MIN_TRANSFER_AMOUNT
+              - MAX_TRANSFER_AMOUNT
             _CONTINUE_: '!(subTags are present)'
             _RETURN_: subTags any in validValues
 
@@ -79508,6 +79575,7 @@ x-validations:
           - _NAME_: REQUIRED_THRESHOLDS_TAG_GROUP
             validTags: *THRESHOLDS_TAG
             tagPath: $.message.order.fulfillments[*].tags[*].descriptor.code
+            _CONTINUE_: '!(tagPath are present)'
             _RETURN_: tagPath any in validTags
 
       - _NAME_: ON_SELECT_XINPUT

@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import yaml from "js-yaml";
 import path from "path";
-import { MockAction, saveType } from "../../../classes/mock-action";
+import { MockAction, saveType } from "../../../../FIS14/classes/mock-action";
 import { on_searchDefaultGenerator } from "./generator";
 
 export class MockOnSearchIncrementClass extends MockAction {
