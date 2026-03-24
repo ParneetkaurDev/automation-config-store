@@ -117,10 +117,8 @@ export async function onSearchDefaultGenerator(existingPayload: any, sessionData
       });
     }
   }
-  
- existingPayload.message.catalog.providers[0].items[0].xinput.form.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/multiple_bureau_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
 
+  //existingPayload.message.catalog.providers[0].items[0].xinput.form.url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/multiple_bureau_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
 
-  console.log("session data of on_search", sessionData);
   return existingPayload;
 }
