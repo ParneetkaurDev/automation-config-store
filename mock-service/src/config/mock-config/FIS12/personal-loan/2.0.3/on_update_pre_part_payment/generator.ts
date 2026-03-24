@@ -120,7 +120,10 @@ export async function onUpdatePrePartPaymentDefaultGenerator(existingPayload: an
   // item.id
   const selectedItem = sessionData?.item || (Array.isArray(sessionData?.items) ? sessionData.items[0] : undefined);
   if (order.items?.[0]) {
-    if (selectedItem?.id) order.items[0].id = selectedItem.id;
+    if (selectedItem?.id) {
+      order.items[0].id = selectedItem.id
+      order.items[0].price = sessionData.order.items[0].price
+    }
     else if (!order.items[0].id || String(order.items[0].id).startsWith("ITEM_ID_PERSONAL_LOAN") || String(order.items[0].id).startsWith("ITEM_ID_GOLD_LOAN")) {
       order.items[0].id = `personal_loan_item_${randomUUID()}`;
     }
@@ -129,6 +132,7 @@ export async function onUpdatePrePartPaymentDefaultGenerator(existingPayload: an
   // quote.id
   if (order.quote) {
     const quoteId = sessionData?.quote_id || sessionData?.order?.quote?.id || sessionData?.quote?.id;
+    order.quote.price = sessionData.order.quote.price;
     if (quoteId) order.quote.id = quoteId;
     else if (!order.quote.id || order.quote.id === "bcaa0931-47d7-42c9-aa83-3fb2b5048551" || String(order.quote.id).startsWith("LOAN_LEAD_ID")) {
       order.quote.id = `personal_loan_quote_${randomUUID()}`;
@@ -138,7 +142,7 @@ export async function onUpdatePrePartPaymentDefaultGenerator(existingPayload: an
   // Set created_at and updated_at to current timestamp
   if (existingPayload.message?.order) {
     const now = new Date().toISOString();
-    existingPayload.message.order.created_at = now;
+    existingPayload.message.order.created_at = sessionData.order.created_at;
     existingPayload.message.order.updated_at = now;
     console.log("Set order.created_at and order.updated_at to:", now);
   }

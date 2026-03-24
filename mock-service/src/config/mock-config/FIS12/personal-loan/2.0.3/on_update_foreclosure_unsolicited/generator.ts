@@ -111,6 +111,7 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
     // item.id
     const selectedItem = sessionData?.item || (Array.isArray(sessionData?.items) ? sessionData.items[0] : undefined);
     if (order.items?.[0]) {
+        order.items[0].price = sessionData.order.items[0].price
         if (selectedItem?.id) order.items[0].id = selectedItem.id;
         else if (!order.items[0].id || String(order.items[0].id).startsWith("ITEM_ID_PERSONAL_LOAN") || String(order.items[0].id).startsWith("ITEM_ID_GOLD_LOAN")) {
             order.items[0].id = `personal_loan_item_${randomUUID()}`;
@@ -119,6 +120,8 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
 
     // Update quote.id from session data
     if (existingPayload.message?.order?.quote) {
+        order.quote.price = sessionData.order.quote.price;
+
         if (sessionData.quote_id) {
             existingPayload.message.order.quote.id = sessionData.quote_id;
         } else if (sessionData.order?.quote?.id) {
@@ -134,7 +137,7 @@ export async function onUpdateForeclosureUnsolicitedDefaultGenerator(existingPay
     // Set created_at and updated_at to current timestamp
     if (existingPayload.message?.order) {
         const now = new Date().toISOString();
-        existingPayload.message.order.created_at = now;
+        existingPayload.message.order.created_at = sessionData.order.created_at;
         existingPayload.message.order.updated_at = now;
         console.log("Set order.created_at and order.updated_at to:", now);
     }
