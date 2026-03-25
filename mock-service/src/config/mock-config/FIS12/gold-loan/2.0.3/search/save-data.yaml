@@ -7,4 +7,7 @@ save-data:
   start_time: "$.message.intent.fulfillment.stops[?(@.type=='START')].time.range.start"
   end_time: "$.message.intent.fulfillment.stops[?(@.type=='START')].time.range.end"
   city_code: "$.context.location.city.code"
-  vehicle_category: "$.message.intent.fulfillment.vehicle.category"
+  # BUYER_FINDER_FEES parameters for dynamic SETTLEMENT_AMOUNT calculation
+  buyer_finder_fees_type: "$.message.intent.payment.tags[?(@.descriptor.code=='BUYER_FINDER_FEES')].list[?(@.descriptor.code=='BUYER_FINDER_FEES_TYPE')].value"
+  buyer_finder_fees_percentage: "$.message.intent.payment.tags[?(@.descriptor.code=='BUYER_FINDER_FEES')].list[?(@.descriptor.code=='BUYER_FINDER_FEES_PERCENTAGE')].value"
+  buyer_finder_fees_amount: "$.message.intent.payment.tags[?(@.descriptor.code=='BUYER_FINDER_FEES')].list[?(@.descriptor.code=='BUYER_FINDER_FEES_AMOUNT')].value"

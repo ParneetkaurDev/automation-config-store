@@ -29,51 +29,43 @@ codes:
     action_id: on_init_cc
     action: on_init
     default: FIS12/credit-card/2.0.3/on_init/default.yaml
-    message_id: false
-  
+    message_id: false  
   - code: 306
     action_id: confirm_cc
     action: confirm
     default: FIS12/credit-card/2.0.3/confirm/default.yaml
     message_id: true
-
   - code: 307
     action_id: on_confirm_cc
     action: on_confirm
     default: FIS12/credit-card/2.0.3/on_confirm/default.yaml
-    message_id: false
-  
+    message_id: false 
   - code: 308
     action_id: on_status_unsolicited_cc
     action: on_status
     default: FIS12/credit-card/2.0.3/on_status_unsolicited/default.yaml
     message_id: true
-
   - code: 309
     action_id: status_cc_1
     action: status
     default: FIS12/credit-card/2.0.3/status_1/default.yaml
     message_id: true
-
   - code: 310
     action_id: on_status_cc_1
     action: on_status
     default: FIS12/credit-card/2.0.3/on_status_1/default.yaml
     message_id: false
-  
   - code: 311
     action_id: status_cc_2
     action: status
     default: FIS12/credit-card/2.0.3/status_1/default.yaml
     message_id: true
-
   - code: 312
     action_id: on_status_cc_2
     action: on_status
     default: FIS12/credit-card/2.0.3/on_status_2/default.yaml
     message_id: false
 
- 
  
   #  GOLD_LOAN-2.0.3
   - code: 200
@@ -101,7 +93,6 @@ codes:
     action: select
     default: FIS12/gold-loan/2.0.3/select_multiple_offer_1/default.yaml
     message_id: true
-    
   - code: 2022
     action_id: select_2
     action: select
@@ -167,10 +158,40 @@ codes:
     action: on_update
     default: FIS12/gold-loan/2.0.3/on_update/default.yaml
     message_id: false 
+  - code: 2091
+    action_id: on_update_foreclosure
+    action: on_update
+    default: FIS12/gold-loan/2.0.3/on_update_foreclosure/default.yaml
+    message_id: false
+  - code: 2092
+    action_id: on_update_missed_emi
+    action: on_update
+    default: FIS12/gold-loan/2.0.3/on_update_missed_emi/default.yaml
+    message_id: false
+  - code: 2093
+    action_id: on_update_pre_part_payment
+    action: on_update
+    default: FIS12/gold-loan/2.0.3/on_update_pre_part_payment/default.yaml
+    message_id: false
   - code: 210
     action_id: on_update_unsolicited
     action: on_update
     default: FIS12/gold-loan/2.0.3/on_update_unsolicited/default.yaml
+    message_id: true
+  - code: 2101
+    action_id: on_update_foreclosure_unsolicited
+    action: on_update
+    default: FIS12/gold-loan/2.0.3/on_update_foreclosure_unsolicited/default.yaml
+    message_id: true
+  - code: 2102
+    action_id: on_update_missed_emi_unsolicited
+    action: on_update
+    default: FIS12/gold-loan/2.0.3/on_update_missed_emi_unsolicited/default.yaml
+    message_id: true
+  - code: 2103
+    action_id: on_update_pre_part_payment_unsolicited
+    action: on_update
+    default: FIS12/gold-loan/2.0.3/on_update_pre_part_payment_unsolicited/default.yaml
     message_id: true
   - code: 211
     action_id: status
@@ -187,6 +208,13 @@ codes:
     action: on_status
     default: FIS12/gold-loan/2.0.3/on_status_unsolicited/default.yaml
     message_id: true
+
+  - code: 2124
+    action_id: select_bureau_loan
+    action: select
+    default: FIS12/gold-loan/2.0.3/select_bureau_loan/default.yaml
+    message_id: true
+  #  GOLD_LOAN-2.0.3
 
   
 
@@ -472,4 +500,27 @@ codes:
     action_id: on_update_unsolicited_pre_part_payment
     action: on_update
     default: FIS12/personal-loan/2.0.3/on_update_pre_part_payment_unsolicited/default.yaml
+    message_id: true
+
+
+    # __________________IGM 1.0.0 METRO___________________________
+  - code: 340
+    action_id: issue_open_GD_100
+    action: issue
+    default: FIS12/gold-loan/2.0.3/issue/issue_100/issue_open/default.yaml
+    message_id: true
+  - code: 341
+    action_id: on_issue_processing_GD_100
+    action: on_issue
+    default: FIS12/gold-loan/2.0.3/on_issue/on_issue_100/on_issue_processing/default.yaml
+    message_id: false  
+  - code: 342
+    action_id: on_issue_resolved_GD_100
+    action: on_issue_status
+    default: FIS12/gold-loan/2.0.3/on_issue/on_issue_100/on_issue_resolved/default.yaml
+    message_id: true  
+  - code: 343
+    action_id: issue_close_GD_100
+    action: issue
+    default: FIS12/gold-loan/2.0.3/issue/issue_100/issue_close/default.yaml
     message_id: true

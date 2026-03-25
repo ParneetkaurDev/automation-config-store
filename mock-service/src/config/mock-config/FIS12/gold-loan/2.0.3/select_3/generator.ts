@@ -57,16 +57,21 @@ export async function select3Generator(existingPayload: any, sessionData: any) {
   }
   
   // Update form_response with status and submission_id (preserve existing structure)
-  const submission_id = sessionData?.form_data?.consumer_information_form?.form_submission_id;
+  // Use submission_id from Ekyc_details_form (the form that was just submitted in select_3)
+  const submission_id = sessionData?.form_data?.Ekyc_details_form?.form_submission_id;
 
-  console.log("checking form data", sessionData.form_data.consumer_information_form)
+  console.log("checking form data for Ekyc_details_form submission_id:", submission_id);
 
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
     existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
     if (submission_id) {
+      // Use the actual UUID submission_id from form service (not a static placeholder)
       existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+      console.log("Updated form_response with submission_id from form service:", submission_id);
     } else {
-      existingPayload.message.order.items[0].xinput.form_response.submission_id = `F01_SUBMISSION_ID_${Date.now()}`;
+      console.warn("⚠️ No submission_id found for Ekyc_details_form - form may not have been submitted yet");
+      // Only generate fallback if absolutely necessary
+      existingPayload.message.order.items[0].xinput.form_response.submission_id = `F02_SUBMISSION_ID_${Date.now()}`;
     }
     console.log("Updated form_response with status and submission_id");
   }
