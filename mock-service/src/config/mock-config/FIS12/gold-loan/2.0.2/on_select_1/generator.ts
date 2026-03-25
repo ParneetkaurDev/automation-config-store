@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { randomUUID } from 'crypto';
 import logger from '@ondc/automation-logger';
+import { loadMockSessionData } from '../../../../../../services/data-services';
 
 export async function onSelect1Generator(existingPayload: any, sessionData: any) {
   console.log("=== On Select1 Generator Start ===");
@@ -84,10 +85,15 @@ export async function onSelect1Generator(existingPayload: any, sessionData: any)
     console.log("⚠️ Skipping Finvu AA integration - Item is not an AA loan (Bureau loan or other type)");
     console.log("Item ID:", currentItemId, "does not start with 'aa_gold_loan_'");
   }
-  
+
+  const form_data = await loadMockSessionData(`form_data_${sessionData.transaction_id}`, "");
+  console.log("mockSessionDatamockSessionData", JSON.stringify(form_data))
+  sessionData.form_data = form_data
   // Extract customer ID from session data
   const contactNumber = sessionData.form_data?.consumer_information_form?.contactNumber;
-  
+  console.log("sessionDataOfForm", JSON.stringify(sessionData))
+  console.log("contactNumberrrrrrr=>>>>>>>>>>", contactNumber);
+
   // Only proceed with AA consent if it's an AA item
   if (contactNumber && isAAItem) {
     const custId = `${contactNumber}@finvu`;
