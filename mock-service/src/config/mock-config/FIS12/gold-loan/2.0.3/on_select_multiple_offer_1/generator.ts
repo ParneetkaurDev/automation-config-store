@@ -1,12 +1,14 @@
 /**
- * On Select Generator for FIS12 Gold Loan - Adjust Loan Amount
+ * On Select Generator for FIS12 Gold Loan - Multiple Offer
  * 
  * Logic:
  * 1. Update context with current timestamp
  * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Update provider.id and item.id from session data (carry-forward mapping)
+ * 3. Generate or update provider.id, item.id, and quote.id with gold_loan_ prefix
  * 4. Update xinput form URL for loan_amount_adjustment_form
  */
+
+import { randomUUID } from 'crypto';
 
 export async function onSelectAdjustLoanAmountDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("On Select generator - Available session data:", {
@@ -31,25 +33,56 @@ export async function onSelectAdjustLoanAmountDefaultGenerator(existingPayload: 
     existingPayload.context.message_id = sessionData.message_id;
   }
   
-  // Update provider.id if available from session data (carry-forward from select)
-  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
+  // Generate or update provider.id with gold_loan_ prefix
+  if (existingPayload.message?.order?.provider) {
+    if (sessionData.selected_provider?.id) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-    console.log("Updated provider.id:", sessionData.selected_provider.id);
-  }
-  
-  // Update item.id if available from session data (carry-forward from select)
-  if (sessionData.items && Array.isArray(sessionData.items) && sessionData.items.length > 0) {
-    const selectedItem = sessionData.items[0];
-    if (existingPayload.message?.order?.items?.[0]) {
-      existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id:", selectedItem.id);
+      console.log("Updated provider.id from session:", sessionData.selected_provider.id);
+    } else if (!existingPayload.message.order.provider.id || 
+               existingPayload.message.order.provider.id === "PROVIDER_ID" ||
+               existingPayload.message.order.provider.id.startsWith("PROVIDER_ID")) {
+      existingPayload.message.order.provider.id = `gold_loan_${randomUUID()}`;
+      console.log("Generated provider.id:", existingPayload.message.order.provider.id);
     }
   }
   
-  // Update xinput form URL for loan_amount_adjustment_form
+  // Generate or update item.id with gold_loan_ prefix
+  const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
+    if (existingPayload.message?.order?.items?.[0]) {
+    if (selectedItem?.id) {
+      existingPayload.message.order.items[0].id = selectedItem.id;
+      console.log("Updated item.id from session:", selectedItem.id);
+    } else if (!existingPayload.message.order.items[0].id || 
+               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_1" ||
+               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_2" ||
+               existingPayload.message.order.items[0].id.startsWith("ITEM_ID_GOLD_LOAN")) {
+      existingPayload.message.order.items[0].id = `gold_loan_${randomUUID()}`;
+      console.log("Generated item.id:", existingPayload.message.order.items[0].id);
+    }
+  }
+  
+  // Generate or update quote.id with gold_loan_ prefix
+  if (existingPayload.message?.order?.quote) {
+    if (sessionData.quote_id) {
+      existingPayload.message.order.quote.id = sessionData.quote_id;
+      console.log("Updated quote.id from session:", sessionData.quote_id);
+    } else if (!existingPayload.message.order.quote.id || 
+               existingPayload.message.order.quote.id === "LOAN_LEAD_ID_OR_SIMILAR" ||
+               existingPayload.message.order.quote.id.startsWith("LOAN_LEAD_ID")) {
+      existingPayload.message.order.quote.id = `gold_loan_${randomUUID()}`;
+      console.log("Generated quote.id:", existingPayload.message.order.quote.id);
+    }
+  }
+  
+  // Update xinput form ID and URL for consumer_information_form
  if (existingPayload.message?.order?.items?.[0]?.xinput?.form ) {
+    // Update form ID from session data (carry-forward from selected item) or generate new one
+    const formId = sessionData.form_id || selectedItem?.xinput?.form?.id || `form_${randomUUID()}`;
+    existingPayload.message.order.items[0].xinput.form.id = formId;
+    console.log("Updated form ID:", formId);
+    
     const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/consumer_information_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
-    console.log("✅ URL for loan_amount_adjustment_form in on_select_adjust_loan_amount:", url);
+    console.log("✅ URL for consumer_information_form in on_select_multiple_offer_1:", url);
     existingPayload.message.order.items[0].xinput.form.url = url;
     console.log("✅ Form URL successfully set in payload");
   } else{
