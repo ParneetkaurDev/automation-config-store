@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 export async function onStatusUnsolicitedGenerator(existingPayload: any, sessionData: any) {
   if (existingPayload.context) {
     existingPayload.context.timestamp = new Date().toISOString();
@@ -5,17 +7,18 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
 
   console.log("sessionData for on_status_unsolicited", sessionData);
 
-  const submission_id = sessionData?.form_data?.Ekyc_details_form?.form_submission_id;
+  const submission_id = sessionData?.form_data?.verification_status?.form_submission_id;
 
-  const form_status = sessionData?.form_data?.kyc_verification_status?.idType;
   
-  // Update transaction_id and message_id from session data (carry-forward mapping)
+  // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
   
-  if (sessionData.message_id && existingPayload.context) {
-    existingPayload.context.message_id = sessionData.message_id;
+  // Generate NEW message_id for unsolicited response (must be unique, cannot reuse)
+  if (existingPayload.context) {
+    existingPayload.context.message_id = randomUUID();
+    console.log("Generated new message_id for unsolicited on_status:", existingPayload.context.message_id);
   }
   
   // Update order ID from session data if available
@@ -40,20 +43,18 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     console.log("Updated item.id:", selectedItem.id);
   }
   
-  
-  // Update form ID to FO3 (carry-forward from on_select_2)
+  // Update form ID from session data (carry-forward from selected item) or generate new one
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    existingPayload.message.order.items[0].xinput.form.id = "FO3";
-    console.log("Updated form ID to FO3");
+    const formId = sessionData.form_id || selectedItem?.xinput?.form?.id || `form_${randomUUID()}`;
+    existingPayload.message.order.items[0].xinput.form.id = formId;
+    console.log("Updated form ID:", formId);
   }
 
-  // Update form response status - on_status_unsolicited uses APPROVED status
+
+  // Update form response status - on_status_unsolicited uses APPROVED/OFFLINE_PENDING status
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
-    const formResponse = existingPayload.message.order.items[0].xinput.form_response;
-    
-    // Update submission ID if provided
     if (sessionData.submission_id) {
-      formResponse.submission_id = sessionData.submission_id;
+      existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
     }
   }
 
@@ -63,8 +64,19 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
     console.log("Updated customer name:", sessionData.customer_name);
   }
 
-  // Note: Gold loans don't have payments in status responses
-  // Payments are handled separately during loan servicing (EMIs, foreclosure, etc.)
+  // Update quote.id from session data (carry-forward from previous flows)
+  if (existingPayload.message?.order?.quote) {
+    if (sessionData.quote_id) {
+      existingPayload.message.order.quote.id = sessionData.quote_id;
+      console.log("Updated quote.id from session:", sessionData.quote_id);
+    } else if (sessionData.order?.quote?.id) {
+      existingPayload.message.order.quote.id = sessionData.order.quote.id;
+      console.log("Updated quote.id from order.quote.id:", sessionData.order.quote.id);
+    } else if (sessionData.quote?.id) {
+      existingPayload.message.order.quote.id = sessionData.quote.id;
+      console.log("Updated quote.id from quote.id:", sessionData.quote.id);
+    }
+  }
 
   // Update quote information if provided
   if (sessionData.quote_amount && existingPayload.message?.order?.quote) {
@@ -74,10 +86,6 @@ export async function onStatusUnsolicitedGenerator(existingPayload: any, session
   // Update loan amount in items if provided
   if (sessionData.loan_amount && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].price.value = sessionData.loan_amount;
-  }
-
-  if(existingPayload.message?.order?.items?.[0]?.xinput?.form_response){
-    existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
   }
 
   return existingPayload;
