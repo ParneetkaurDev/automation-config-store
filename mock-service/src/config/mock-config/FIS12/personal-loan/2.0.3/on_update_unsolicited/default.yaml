@@ -214,7 +214,7 @@ order:
           email: john.doe@example.com
       state:
         descriptor:
-          code: DISBURSED
+          code: CONSENT_REQUIRED
 
   payments:
     - id: PAYMENT_ID_PERSONAL_LOAN
