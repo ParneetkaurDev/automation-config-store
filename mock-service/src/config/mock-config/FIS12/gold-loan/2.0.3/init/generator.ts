@@ -5,11 +5,8 @@
  * 1. Update context with current timestamp and correct action
  * 2. Update transaction_id and message_id from session data (carry-forward mapping)
  * 3. Update provider.id and item.id from session data (carry-forward mapping)
- * 4. Generate quote.id with gold_loan_ prefix if placeholder
- * 5. Update form_response with status and submission_id (preserve existing structure)
+ * 4. Update form_response with status and submission_id (preserve existing structure)
  */
-
-import { randomUUID } from 'crypto';
 
 export async function initDefaultGenerator(existingPayload: any, sessionData: any) {
   console.log("sessionData for init", sessionData);
@@ -20,14 +17,8 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
     existingPayload.context.action = "init";
   }
 
-  // Get submission_id from verification_status (the form submitted before init in on_select_2)
-  // This maintains form trail continuity - use the actual submission_id from form service
-  // Check multiple possible form names for submission_id
-  const submission_id = sessionData?.form_data?.verification_status?.form_submission_id ||
-                       sessionData?.form_data?.kyc_verification_status?.form_submission_id ||
-                       sessionData?.form_data?.Ekyc_details_form?.form_submission_id;
+  const submission_id = sessionData?.form_data?.kyc_verification_status?.form_submission_id;
   
-
   // Update transaction_id from session data (carry-forward mapping)
   if (sessionData.transaction_id && existingPayload.context) {
     existingPayload.context.transaction_id = sessionData.transaction_id;
@@ -35,69 +26,40 @@ export async function initDefaultGenerator(existingPayload: any, sessionData: an
   
   // Generate new UUID message_id for init (new API call)
   if (existingPayload.context) {
-    existingPayload.context.message_id = randomUUID();
+    existingPayload.context.message_id = crypto.randomUUID();
     console.log("Generated new UUID message_id for init:", existingPayload.context.message_id);
   }
   
-  // Generate or update provider.id with gold_loan_ prefix
-  if (existingPayload.message?.order?.provider) {
-    if (sessionData.selected_provider?.id) {
+  // Update provider.id if available from session data (carry-forward from previous flows)
+  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-      console.log("Updated provider.id from session:", sessionData.selected_provider.id);
-    } else if (!existingPayload.message.order.provider.id || 
-               existingPayload.message.order.provider.id === "PROVIDER_ID" ||
-               existingPayload.message.order.provider.id.startsWith("PROVIDER_ID")) {
-      existingPayload.message.order.provider.id = `gold_loan_${randomUUID()}`;
-      console.log("Generated provider.id:", existingPayload.message.order.provider.id);
-    }
+    console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
   
-  // Generate or update item.id with gold_loan_ prefix
+  // Update item.id if available from session data (carry-forward from previous flows)
   const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (existingPayload.message?.order?.items?.[0]) {
-    if (selectedItem?.id) {
+  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id from session:", selectedItem.id);
-    } else if (!existingPayload.message.order.items[0].id || 
-               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_1" ||
-               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_2" ||
-               existingPayload.message.order.items[0].id.startsWith("ITEM_ID_GOLD_LOAN")) {
-      existingPayload.message.order.items[0].id = `gold_loan_${randomUUID()}`;
-      console.log("Generated item.id:", existingPayload.message.order.items[0].id);
-    }
+    console.log("Updated item.id:", selectedItem.id);
   }
   
-  console.log("Updated quote.id from session:", sessionData.quote_id);
   // Update form ID from session data (carry-forward from previous flows)
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    // Carry-forward form ID from on_select_2/on_status (verification_status)
-    const formId = sessionData.form_id || `form_${randomUUID()}`;
+    // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
+    const formId = sessionData.form_id || "FO3";
     existingPayload.message.order.items[0].xinput.form.id = formId;
     console.log("Updated form ID:", formId);
   }
   
   // Update form_response with status and submission_id (preserve existing structure)
-  // Use the actual submission_id from form service to maintain form trail continuity
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
     existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
     if (submission_id) {
-      // Use the actual submission_id from form service (UUID generated by form service)
       existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
-      console.log("✅ Updated form_response with submission_id from form service:", submission_id);
-      console.log("Verification - submission_id in payload:", 
-        existingPayload.message.order.items[0].xinput.form_response.submission_id);
     } else {
-      console.warn("⚠️ No submission_id found in session data - form may not have been submitted yet");
-      console.warn("Available form_data:", JSON.stringify(sessionData?.form_data, null, 2));
-      // Only generate fallback if absolutely necessary
-      const fallbackId = `F03_SUBMISSION_ID_${Date.now()}`;
-      existingPayload.message.order.items[0].xinput.form_response.submission_id = fallbackId;
-      console.warn("Using fallback submission_id:", fallbackId);
+      existingPayload.message.order.items[0].xinput.form_response.submission_id = `F03_SUBMISSION_ID_${Date.now()}`;
     }
-    console.log("Updated form_response with status:", existingPayload.message.order.items[0].xinput.form_response.status);
-  } else {
-    console.warn("⚠️ form_response structure not found in payload - cannot update submission_id");
-    console.log("Payload structure:", JSON.stringify(existingPayload.message?.order?.items?.[0]?.xinput, null, 2));
+    console.log("Updated form_response with status and submission_id");
   }
 
   return existingPayload;

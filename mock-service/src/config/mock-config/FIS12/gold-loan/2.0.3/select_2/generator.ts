@@ -36,32 +36,17 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
     existingPayload.context.message_id = randomUUID();
   }
   
-  // Generate or update provider.id with gold_loan_ prefix
-  if (existingPayload.message?.order?.provider) {
-    if (sessionData.selected_provider?.id) {
+  // Update provider.id if available from session data (carry-forward from on_search)
+  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-      console.log("Updated provider.id from session:", sessionData.selected_provider.id);
-    } else if (!existingPayload.message.order.provider.id || 
-               existingPayload.message.order.provider.id === "PROVIDER_ID" ||
-               existingPayload.message.order.provider.id.startsWith("PROVIDER_ID")) {
-      existingPayload.message.order.provider.id = `gold_loan_${randomUUID()}`;
-      console.log("Generated provider.id:", existingPayload.message.order.provider.id);
-    }
+    console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
   
-  // Generate or update item.id with gold_loan_ prefix
+  // Update item.id if available from session data (carry-forward from on_search)
   const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (existingPayload.message?.order?.items?.[0]) {
-    if (selectedItem?.id) {
+  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id from session:", selectedItem.id);
-    } else if (!existingPayload.message.order.items[0].id || 
-               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_1" ||
-               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_2" ||
-               existingPayload.message.order.items[0].id.startsWith("ITEM_ID_GOLD_LOAN")) {
-      existingPayload.message.order.items[0].id = `gold_loan_${randomUUID()}`;
-      console.log("Generated item.id:", existingPayload.message.order.items[0].id);
-    }
+    console.log("Updated item.id:", selectedItem.id);
   }
   
   // Update location_ids if available from session data
@@ -71,39 +56,17 @@ export async function select2Generator(existingPayload: any, sessionData: any) {
     console.log("Updated location_ids:", selectedLocationId);
   }
   
-  // Carry-forward form.id from on_select_adjust_loan_amount (loan_amount_adjustment_form)
-  if (existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-    const formIdFromSession =
-      sessionData?.form_id ||
-      selectedItem?.xinput?.form?.id ||
-      existingPayload.message.order.items[0].xinput.form.id;
-    if (formIdFromSession) {
-      existingPayload.message.order.items[0].xinput.form.id = formIdFromSession;
-      console.log("Set form.id from session (carry-forward):", formIdFromSession);
-    }
-  }
-  
   // Update form_response with status and submission_id (preserve existing structure)
-  // Use the submission_id from the form submitted before select_2
-  // (loan_amount_adjustment_form is returned by on_select_adjust_loan_amount)
-  const submission_id =
-    sessionData?.form_data?.loan_amount_adjustment_form?.form_submission_id ||
-    sessionData?.form_data?.loan_amount_adjustment?.form_submission_id ||
-    sessionData?.submission_id;
+  const submission_id = sessionData?.form_data?.consumer_information_form?.form_submission_id;
 
-  console.log("checking form data for loan_amount_adjustment_form submission_id:", submission_id);
+  console.log("checking form data", sessionData.form_data.consumer_information_form)
 
   if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+    // existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
     if (submission_id) {
-      // Use the actual UUID submission_id from form service
       existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
-      existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
-      console.log("Updated form_response with submission_id from form service:", submission_id);
     } else {
-      console.warn("⚠️ No submission_id found for consumer_information_form - form may not have been submitted yet");
-      // Only generate fallback if absolutely necessary
       existingPayload.message.order.items[0].xinput.form_response.submission_id = `F01_SUBMISSION_ID_${Date.now()}`;
-      existingPayload.message.order.items[0].xinput.form_response.status = "SUCCESS";
     }
     console.log("Updated form_response with status and submission_id");
   }

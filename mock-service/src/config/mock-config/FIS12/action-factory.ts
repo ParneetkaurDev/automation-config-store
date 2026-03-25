@@ -1,11 +1,9 @@
-//GOLD LOAN FORM 2.0.3 START
 // Gold Loan imports
 import { MockSearchClass } from "./gold-loan/2.0.3/search/class";
 import { MockOnSearchClass } from "./gold-loan/2.0.3/on_search/class";
 import { MockSelectAdjustLoanAmountClass } from "./gold-loan/2.0.3/select_adjust_loan_amount/class";
 import { MockSelect1Class } from "./gold-loan/2.0.3/select_1/class";
 import { MockSelect2Class } from "./gold-loan/2.0.3/select_2/class";
-import { MockSelectBureauLoanClass } from "./gold-loan/2.0.3/select_bureau_loan/class";
 import { MockOnSelectAdjustLoanAmountClass } from "./gold-loan/2.0.3/on_select_adjust_loan_amount/class";
 import { MockOnSelect1Class } from "./gold-loan/2.0.3/on_select_1/class";
 import { MockOnSelect2Class } from "./gold-loan/2.0.3/on_select_2/class";
@@ -15,31 +13,11 @@ import { MockConfirmClass } from "./gold-loan/2.0.3/confirm/class";
 import { MockOnConfirmClass } from "./gold-loan/2.0.3/on_confirm/class";
 import { MockUpdateClass } from "./gold-loan/2.0.3/update/class";
 import { MockOnUpdateClass } from "./gold-loan/2.0.3/on_update/class";
-import { MockOnUpdateForeclosureClassGD } from "./gold-loan/2.0.3/on_update_foreclosure/class";
-import { MockOnUpdateMissedEmiClassGD } from "./gold-loan/2.0.3/on_update_missed_emi/class";
-import { MockOnUpdatePrePartPaymentClassGD } from "./gold-loan/2.0.3/on_update_pre_part_payment/class";
-import { MockOnUpdateUnsolicitedClassGD } from "./gold-loan/2.0.3/on_update_unsolicited/class";
-import { MockOnUpdateForeclosureUnsolicitedClassGD } from "./gold-loan/2.0.3/on_update_foreclosure_unsolicited/class";
-import { MockOnUpdateMissedEmiUnsolicitedClassGD } from "./gold-loan/2.0.3/on_update_missed_emi_unsolicited/class";
-import { MockOnUpdatePrePartPaymentUnsolicitedClassGD } from "./gold-loan/2.0.3/on_update_pre_part_payment_unsolicited/class";
+import { MockOnUpdateUnsolicitedClass } from "./gold-loan/2.0.3/on_update_unsolicited/class";
 import type { MockAction } from "./classes/mock-action";
-import { MockConsumerInformationFormClass } from "./gold-loan/2.0.3/form/consumer_information_form";
-import { MockVerificationStatusClass } from "./gold-loan/2.0.3/form_2/verification_status";
 import { MockStatusClass } from "./gold-loan/2.0.3/status/class";
 import { MockOnStatusClass } from "./gold-loan/2.0.3/on_status/class";
 import { MockOnStatusUnsolicitedClass } from "./gold-loan/2.0.3/on_status_unsolicited/class";
-import { MockIssueOpenGoldLoan_100_Class } from "./gold-loan/2.0.3/issue/issue_100/issue_open/class";
-import { MockIssueCloseGoldLoan_100_Class } from "./gold-loan/2.0.3/issue/issue_100/issue_close/class";
-import { MockOnIssueResolvedGoldLoan_100_Class } from "./gold-loan/2.0.3/on_issue/on_issue_100/on_issue_resolved/class";
-import { MockOnIssueProcessingGoldLoan_100_Class } from "./gold-loan/2.0.3/on_issue/on_issue_100/on_issue_processing/class";
-import { MockPaymentUrlFormStatusClassGL } from "./gold-loan/2.0.3/payment_url_form/payment_url_form";
-import { MockSelect3Class } from "./gold-loan/2.0.3/select_3/class";
-import { MockOnSelect3Class } from "./gold-loan/2.0.3/on_select_3/class";
-import { MockEkycVerificationStatusClass } from "./gold-loan/2.0.3/form_3/ekyc_details_form";
-import { MockSelectMultipleOfferClass } from "./gold-loan/2.0.3/select_multiple_offer_1/class";
-import { MockOnSelectMultipleOfferClass } from "./gold-loan/2.0.3/on_select_multiple_offer_1/class";
-
-//GOLD LOAN FROM 2.0.3 END
 
 // Personal Loan imports
 import { MockSearchCCClass } from "./credit-card/2.0.3/search/class";
@@ -112,24 +90,19 @@ type Ctor<T> = new () => T;
 
 const registry = {
 
-	// Gold Loan actions start
-	// on_search
+	// Gold Loan actions
+	// search
 	search: MockSearchClass,
+	// on_search
 	on_search: MockOnSearchClass,
 
 	// select
 	select_1: MockSelect1Class,
 	select_2: MockSelect2Class,
-	select_multiple_offer: MockSelectMultipleOfferClass,
-	on_select_multiple_offer: MockOnSelectMultipleOfferClass,
-	select_gold_3: MockSelect3Class,
 	on_select_1: MockOnSelect1Class,
 	on_select_2: MockOnSelect2Class,
-	on_select_gold_3: MockOnSelect3Class,
-	select_bureau_loan: MockSelectBureauLoanClass,
 	select_adjust_loan_amount: MockSelectAdjustLoanAmountClass,
 	on_select_adjust_loan_amount: MockOnSelectAdjustLoanAmountClass,
-
 	// init / on_init
 	init: MockInitClass,
 	on_init: MockOnInitClass,
@@ -146,34 +119,7 @@ const registry = {
 	// update / on_update
 	update: MockUpdateClass,
 	on_update: MockOnUpdateClass,
-	on_update_foreclosure: MockOnUpdateForeclosureClassGD,
-	on_update_missed_emi: MockOnUpdateMissedEmiClassGD,
-	on_update_pre_part_payment: MockOnUpdatePrePartPaymentClassGD,
-	on_update_unsolicited: MockOnUpdateUnsolicitedClassGD,
-	on_update_foreclosure_unsolicited: MockOnUpdateForeclosureUnsolicitedClassGD,
-	on_update_missed_emi_unsolicited: MockOnUpdateMissedEmiUnsolicitedClassGD,
-	on_update_pre_part_payment_unsolicited: MockOnUpdatePrePartPaymentUnsolicitedClassGD,
-	consumer_information_form: MockConsumerInformationFormClass,
-	consumer_information_form_1: MockConsumerInformationFormClass,
-	verification_status: MockVerificationStatusClass,
-	payment_url_form_gold_loan: MockPaymentUrlFormStatusClassGL,
-	Ekyc_details_form: MockEkycVerificationStatusClass,
-	loan_amount_adjustment_form: MockLoanAdjustmentForm3Class,
-	manadate_details_form: MockMandateDetails3Form,
-	// personal_loan_information_form: MockPersonalLoanInformationFormClass,
-
-
-	// Gold Loan actions end
-
-
-	// _____________IGM_1.0.0 for Gold Loan (2.0.2)______________
-	issue_open_GD_100: MockIssueOpenGoldLoan_100_Class,
-	issue_close_GD_100: MockIssueCloseGoldLoan_100_Class,
-	on_issue_processing_GD_100: MockOnIssueProcessingGoldLoan_100_Class,
-	on_issue_resolved_GD_100: MockOnIssueResolvedGoldLoan_100_Class,
-
-
-
+	on_update_unsolicited: MockOnUpdateUnsolicitedClass,
 	// credit-card
 	search_cc: MockSearchCCClass,
 	on_search_cc: MockOnSearchCCClass,
@@ -190,7 +136,6 @@ const registry = {
 	on_status_cc_2: MockOnStatus2CCClass,
 	consumer_information_form_cc: MockConsumerInformationFormCCClass,
 	Ekyc_details_form_cc: MockKycVerificationStatusCCClass,
-	credit_card_information_form: MockCreditcardInformationClass,
 
 
 	// PERSONAL_LOAN-2.0.3
@@ -240,7 +185,7 @@ const registry = {
 	on_init_3_personal_loan_3: MockOnInit3PersonalLoan3Class,
 	status_1_personal_loan_3: MockStatus1PersonalLoan3Class,
 	on_status_1_personal_loan_3: MockOnStatus1PersonalLoan3Class,
-	on_update_pre_part_payment_pl: MockOnUpdatePrePartPaymentClass,
+	on_update_pre_part_payment: MockOnUpdatePrePartPaymentClass,
 	on_update_unsolicited_pre_part_payment: MockOnUpdatePrePartPaymentUnsolicitedClass,
 	on_update_foreclosure_unsolicitated: MockOnUpdateForeclosureUnsolicitedClass,
 	on_update_foreclosure_pl: MockOnUpdateForeclosureClass,
@@ -248,6 +193,9 @@ const registry = {
 	on_update_unsolicited_missed_emi_pl: MockOnUpdateMissedEmiUnsolicitedClass,
 	update_personal_loan_fulfillment_3: MockUpdatePersonalLoanFulfillment3Class,
 	on_update_personal_loan_fulfillment_3: MockOnUpdatePersonalLoanFulfillment3Class,
+
+	//Credit Card Forms
+	credit_card_information_form: MockCreditcardInformationClass
 
 
 } as const satisfies Record<string, Ctor<MockAction>>;
