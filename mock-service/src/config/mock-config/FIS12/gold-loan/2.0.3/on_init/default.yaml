@@ -144,7 +144,7 @@ order:
                 code: "NUMBER_OF_INSTALLMENTS_OF_REPAYMENT"
                 name: "Number of installments of repayment"
                 short_desc: "Number of installments borrower has to make to payback the loan"
-              value: "5"
+              value: "45"
             - descriptor:
                 code: "TNC_LINK"
                 name: "Terms & Conditions"
@@ -154,7 +154,7 @@ order:
                 code: "COOL_OFF_PERIOD"
                 name: "cool off period"
                 short_desc: "Cooling off/look-up period during which borrower shall not be charged any penalty"
-              value: "P30D"
+              value: "PT30D"
             - descriptor:
                 code: "INSTALLMENT_AMOUNT"
                 name: "Installment amount"
@@ -167,46 +167,39 @@ order:
               value: "https://icicibank.com/loan/kfs-terms"
           display: true
   quote:
-    id: LOAN_LEAD_ID_OR_SIMILAR
+    id: "LOAN_LEAD_ID_OR_SIMILAR"
     price:
-      currency: INR
+      currency: "INR"
       value: "232800"
     breakup:
-      - title: PRINCIPAL
+      - title: "PRINCIPAL"
         price:
           value: "200000"
-          currency: INR
-
-      - title: INTEREST
+          currency: "INR"
+      - title: "INTEREST"
         price:
           value: "30000"
-          currency: INR
-
-      - title: PROCESSING_FEE
+          currency: "INR"
+      - title: "PROCESSING_FEE"
         price:
           value: "1800"
-          currency: INR
-
-      - title: OTHER_UPFRONT_CHARGES
+          currency: "INR"
+      - title: "OTHER_UPFRONT_CHARGES"
         price:
           value: "0"
-          currency: INR
-
-      - title: INSURANCE_CHARGES
+          currency: "INR"
+      - title: "INSURANCE_CHARGES"
         price:
           value: "500"
-          currency: INR
-
-      - title: NET_DISBURSED_AMOUNT
+          currency: "INR"
+      - title: "NET_DISBURSED_AMOUNT"
         price:
           value: "197700"
-          currency: INR
-
-      - title: OTHER_CHARGES
+          currency: "INR"
+      - title: "OTHER_CHARGES"
         price:
           value: "0"
-          currency: INR
-
+          currency: "INR"
     ttl: "P15D"
   fulfillments:
     - type: "LOAN"

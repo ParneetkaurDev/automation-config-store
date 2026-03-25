@@ -96,7 +96,7 @@ order:
         name: "Gold Loan"
       price:
         currency: INR
-        value: "232800"
+        value: "441800"
       location_ids:
         - L1
         - L2
@@ -176,7 +176,7 @@ order:
                 code: NUMBER_OF_INSTALLMENTS_OF_REPAYMENT
                 name: "Number of installments of repayment"
                 short_desc: "Installments borrower has to make"
-              value: "5"
+              value: "45"
 
             - descriptor:
                 code: TNC_LINK
@@ -187,8 +187,8 @@ order:
             - descriptor:
                 code: COOL_OFF_PERIOD
                 name: "cool off period"
-                short_desc: "Cooling off/look-up period during which borrower shall not be charged any penalty"
-              value: "P30D"
+                short_desc: "Cooling off/look-up period"
+              value: "PT30D"
 
             - descriptor:
                 code: INSTALLMENT_AMOUNT
@@ -216,7 +216,7 @@ order:
         form:
           id: FO2
           mime_type: text/html
-          url: "https://bpp.credit.becknprotocol.org/loans-details/xinput?formid=FO2"
+          url: "https://https://bpp.credit.becknprotocol.org/loans-details/xinput?formid=FO2"
           resubmit: false
           multiple_sumbissions: false
         required: true

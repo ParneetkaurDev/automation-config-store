@@ -80,7 +80,7 @@ order:
         name: "Gold Loan"
       price:
         currency: "INR"
-        value: "232800"
+        value: "441800"
       location_ids:
         - "L2"
       tags:
@@ -147,7 +147,7 @@ order:
                 code: "NUMBER_OF_INSTALLMENTS_OF_REPAYMENT"
                 name: "Number of installments of repayment"
                 short_desc: "Number of installments borrower has to make to payback the loan"
-              value: "5"
+              value: "45"
             - descriptor:
                 code: "TNC_LINK"
                 name: "Terms & Conditions"
@@ -157,7 +157,7 @@ order:
                 code: "COOL_OFF_PERIOD"
                 name: "cool off period"
                 short_desc: "Cooling off/look-up period during which borrower shall not be charged any penalty"
-              value: "P30D"
+              value: "PT30D"
             - descriptor:
                 code: "INSTALLMENT_AMOUNT"
                 name: "Installment amount"
@@ -179,15 +179,15 @@ order:
     id: "LOAN_LEAD_ID_OR_SIMILAR"
     price:
       currency: "INR"
-      value: "232800"
+      value: "442300"
     breakup:
       - title: "PRINCIPAL"
         price:
-          value: "200000"
+          value: "400000"
           currency: "INR"
       - title: "INTEREST"
         price:
-          value: "30000"
+          value: "40000"
           currency: "INR"
       - title: "PROCESSING_FEE"
         price:
@@ -203,7 +203,7 @@ order:
           currency: "INR"
       - title: "NET_DISBURSED_AMOUNT"
         price:
-          value: "197700"
+          value: "397700"
           currency: "INR"
       - title: "OTHER_CHARGES"
         price:

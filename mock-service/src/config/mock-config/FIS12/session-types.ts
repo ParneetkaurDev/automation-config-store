@@ -58,15 +58,6 @@ export interface SessionData {
 	updated_at: string | undefined;
 	order_status: string | undefined;
 	domain: string | undefined;
-	igm_action: string,
-	issue_action: any
-	issue_level: any
-	issue_resolution: any
-	issue_id: any
-	issue_actions: any
-	issue_created_at: any
-	on_issue_actions: any
-	rating: any
 	// Gold Loan select/on_select state
 	last_select_status?: string;
 	selected_location_id?: string;
@@ -109,7 +100,6 @@ export type BecknContext = {
 };
 
 export interface Input {
-	rating?: string;
 	category?: string;
 	paymentType?: string;
 	city_code?: string;

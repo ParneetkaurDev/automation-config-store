@@ -1,17 +1,14 @@
 /**
- * Select Generator for FIS12 Gold Loan - Multiple Offer
+ * Select Generator for FIS12 Gold Loan
  * 
  * Logic:
  * 1. Update context with current timestamp
  * 2. Update transaction_id and message_id from session data (carry-forward mapping)
- * 3. Generate or update provider.id and item.id with gold_loan_ prefix
- * 4. Update form_response with status and submission_id (preserve existing structure)
+ * 3. Update form_response with status and submission_id (preserve existing structure)
  */
 
-import { randomUUID } from 'crypto';
-
 export async function selectAdjustLoanAmountDefaultGenerator(existingPayload: any, sessionData: any) {
-  console.log("Select generator - Available session data:", {
+  console.log("Select2 generator - Available session data:", {
     selected_provider: !!sessionData.selected_provider,
     selected_items: !!sessionData.selected_items,
     items: !!sessionData.items,
@@ -31,37 +28,19 @@ export async function selectAdjustLoanAmountDefaultGenerator(existingPayload: an
     existingPayload.context.transaction_id = sessionData.transaction_id;
   }
   
-  // Generate a new message_id as UUID
-  if (existingPayload.context) {
-    existingPayload.context.message_id = randomUUID();
-  }
+
   
-  // Generate or update provider.id with gold_loan_ prefix
-  if (existingPayload.message?.order?.provider) {
-    if (sessionData.selected_provider?.id) {
+  // Update provider.id if available from session data (carry-forward from on_search)
+  if (sessionData.selected_provider?.id && existingPayload.message?.order?.provider) {
     existingPayload.message.order.provider.id = sessionData.selected_provider.id;
-      console.log("Updated provider.id from session:", sessionData.selected_provider.id);
-    } else if (!existingPayload.message.order.provider.id || 
-               existingPayload.message.order.provider.id === "PROVIDER_ID" ||
-               existingPayload.message.order.provider.id.startsWith("PROVIDER_ID")) {
-      existingPayload.message.order.provider.id = `gold_loan_${randomUUID()}`;
-      console.log("Generated provider.id:", existingPayload.message.order.provider.id);
-    }
+    console.log("Updated provider.id:", sessionData.selected_provider.id);
   }
   
-  // Generate or update item.id with gold_loan_ prefix
+  // Update item.id if available from session data (carry-forward from on_search)
   const selectedItem = sessionData.item || (Array.isArray(sessionData.items) ? sessionData.items[0] : undefined);
-  if (existingPayload.message?.order?.items?.[0]) {
-    if (selectedItem?.id) {
+  if (selectedItem?.id && existingPayload.message?.order?.items?.[0]) {
     existingPayload.message.order.items[0].id = selectedItem.id;
-      console.log("Updated item.id from session:", selectedItem.id);
-    } else if (!existingPayload.message.order.items[0].id || 
-               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_1" ||
-               existingPayload.message.order.items[0].id === "ITEM_ID_GOLD_LOAN_2" ||
-               existingPayload.message.order.items[0].id.startsWith("ITEM_ID_GOLD_LOAN")) {
-      existingPayload.message.order.items[0].id = `gold_loan_${randomUUID()}`;
-      console.log("Generated item.id:", existingPayload.message.order.items[0].id);
-    }
+    console.log("Updated item.id:", selectedItem.id);
   }
   
   // Update location_ids if available from session data
