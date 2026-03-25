@@ -48,14 +48,13 @@ export function calculateSettlementAmount(sessionData: any): string {
     const feeType = sessionData.buyer_finder_fees_type || "percent-annualized";
     const feePercentage = parseFloat(sessionData.buyer_finder_fees_percentage || "0");
     const feeAmount = parseFloat(sessionData.buyer_finder_fees_amount || "0");
+
+    const principalAmount = parseFloat(sessionData.principal_amount || "0");
     const totalLoanAmount = parseFloat(sessionData.quote_price || "0");
+
     const loanTermISO = sessionData.loan_term || "P12M";
     const loanTermMonths = parseISODurationToMonths(loanTermISO);
 
-
-    const baseAmount =
-        parseFloat(sessionData.net_disbursed_amount || "0") ||
-        parseFloat(sessionData.principal_amount || "0");
     let settlementAmount = 0;
 
     switch (feeType) {
@@ -65,19 +64,26 @@ export function calculateSettlementAmount(sessionData: any): string {
             break;
 
         case "percent":
-            settlementAmount = (feePercentage / 100) * totalLoanAmount;
-            console.log(`[settlement-utils] percent type → ${feePercentage}% × ${totalLoanAmount} = ${settlementAmount}`);
+            // ⚠️ confirm with spec: using principal here
+            settlementAmount = (feePercentage / 100) * principalAmount;
+            console.log(`[settlement-utils] percent type → ${feePercentage}% × ${principalAmount} = ${settlementAmount}`);
             break;
 
         case "percent-annualized":
         default:
-            settlementAmount = (feePercentage / 100) * (loanTermMonths / 12) * baseAmount;
+            // ✅ Correct ONDC logic
+            settlementAmount =
+                (feePercentage / 100) *
+                (loanTermMonths / 12) *
+                principalAmount;
+
             console.log(
-                `[settlement-utils] percent-annualized type → ${feePercentage}% × (${loanTermMonths}/12) × ${baseAmount} = ${settlementAmount}`
+                `[settlement-utils] percent-annualized type → ${feePercentage}% × (${loanTermMonths}/12) × ${principalAmount} = ${settlementAmount}`
             );
             break;
     }
 
+    // ✅ safer rounding (2 decimal then round)
     const result = String(Math.round(settlementAmount));
     console.log(`[settlement-utils] Final SETTLEMENT_AMOUNT = ${result}`);
     return result;
