@@ -201,6 +201,18 @@ order:
         price:
           value: "197700"
           currency: INR
+      - title: OUTSTANDING_PRINCIPAL
+        price:
+          value: '119280'
+          currency: INR
+      - title: OUTSTANDING_INTEREST
+        price:
+          value: '6000'
+          currency: INR
+      - title: PRE_PAYMENT_CHARGE
+        price:
+          value: '4500'
+          currency: INR
       - title: OTHER_CHARGES
         price:
           value: "0"
