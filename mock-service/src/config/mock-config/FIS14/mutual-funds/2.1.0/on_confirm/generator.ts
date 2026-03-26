@@ -90,6 +90,9 @@ export async function on_confirmDefaultGenerator(
     // Update payment collected_by from session
     if (sessionData.payment_collected_by && existingPayload.message?.order?.payments?.[0]) {
         existingPayload.message.order.payments[0].collected_by = sessionData.payment_collected_by;
+        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+        existingPayload.message.order.payments[0].url = paymentUrl;
+
     }
 
     console.log("=== on_confirm Generator End ===");

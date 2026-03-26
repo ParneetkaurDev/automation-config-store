@@ -5,7 +5,7 @@ order:
     - id: '12391'
       quantity:
         selected:
-          measure:a
+          measure:
             value: '3000'
             unit: INR
       fulfillment_ids:
@@ -29,7 +29,6 @@ order:
     form:
       id: form_3
     form_response:
-      status: "SUBMITTED"
       submission_id: 5e77885e-fd6a-440b-bbd9-3795eed6e43f
   tags:
     - display: false

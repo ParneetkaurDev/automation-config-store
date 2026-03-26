@@ -97,8 +97,46 @@ codes:
     action: on_status
     default: FIS14/mutual-funds/2.1.0/on_status_unsolicited/default.yaml
     message_id: true
+
   - code: 509
     action_id: on_update_unsolicited
     action: on_update
     default: FIS14/mutual-funds/2.1.0/on_update_unsolicited/default.yaml
     message_id: false
+
+  - code: 510
+    action_id: on_update
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update/default.yaml
+    message_id: false
+
+  - code: 511
+    action_id: on_status_unsolicited_payment
+    action: on_status
+    default: FIS14/mutual-funds/2.1.0/on_status_unsolicited_payment/default.yaml
+    message_id: true
+
+  - code: 511
+    action_id: on_update_unsolicited_failed
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_unsolicited_failed/default.yaml
+    message_id: true
+
+  - code: 512
+    action_id: update_payment_retry
+    action: update
+    default: FIS14/mutual-funds/2.1.0/update_payment_retry/default.yaml
+    message_id: true
+
+  - code: 513
+    action_id: on_update_payment_retry
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_payment_retry/default.yaml
+    message_id: true
+
+  - code: 514
+    action_id: on_status_unsolicited_esign
+    action: on_status
+    default: FIS14/mutual-funds/2.1.0/on_status_unsolicited_esign/default.yaml
+    message_id: true
+

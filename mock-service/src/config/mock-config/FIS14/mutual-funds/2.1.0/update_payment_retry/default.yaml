@@ -1,0 +1,31 @@
+update_target: order.payments
+order:
+  id: mfp_213adf123af
+  payments:
+    - collected_by: BPP
+      params:
+        amount: '3000'
+        currency: INR
+        source_bank_code: icic0000047
+        source_bank_account_number: '004701563111'
+        source_bank_account_name: harish gupta
+      type: PRE_FULFILLMENT
+      tags:
+        - descriptor:
+            name: Source bank account
+            code: SOURCE_BANK_ACCOUNT
+          list:
+            - descriptor:
+                name: Account Type
+                code: ACCOUNT_TYPE
+              value: SAVINGS
+        - descriptor:
+            name: Payment Method
+            code: PAYMENT_METHOD
+          list:
+            - descriptor:
+                code: MODE
+              value: UPI
+            - descriptor:
+                code: AUTH
+              value: URI
