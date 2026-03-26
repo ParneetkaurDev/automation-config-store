@@ -24,6 +24,11 @@ import { MockSelectEsignClass } from "./mutual-funds/2.1.0/select_esign/class";
 import { MockOnSelectFinalClass } from "./mutual-funds/2.1.0/on_select_final/class";
 import { MockVerificationStatusFormClass } from "./mutual-funds/2.1.0/verification_status/verification_status";
 import { MockESignVerificationStatusFormClass } from "./mutual-funds/2.1.0/E_sign_verification_status/E_sign_verification_status";
+import { MockPaymentFormClass } from "./mutual-funds/2.1.0/payment_url_form/payment_url_form";
+import { MockOnStatusUnsolicitedPaymentClass } from "./mutual-funds/2.1.0/on_status_unsolicited_payment/class";
+import { MockUpdatePaymentClass } from "./mutual-funds/2.1.0/update_payment_retry/class";
+import { MockOnUpdatePaymentUnsolicitedClass } from "./mutual-funds/2.1.0/on_update_payment_retry/class";
+import { MockOnStatusUnsolicitedEsignClass } from "./mutual-funds/2.1.0/on_status_unsolicited_esign/class";
 
 type Ctor<T> = new () => T;
 
@@ -44,10 +49,10 @@ const registry = {
     on_select_2: MockOnSelect_2Class,
     select_esign: MockOnSelectEsignClass,
     select_final: MockSelectFinalClass,
-    on_select_esign: MockSelectEsignClass,
+    on_select_esign: MockOnSelectEsignClass,
     on_select_final: MockOnSelectFinalClass,
     verification_status: MockVerificationStatusFormClass,
-    E_sign_verification_status: MockESignVerificationStatusFormClass,
+    Ekyc_details_form: MockESignVerificationStatusFormClass,
     // init / on_init
     init: MockInitClass,
     on_init: MockOnInitClass,
@@ -55,16 +60,21 @@ const registry = {
     // confirm / on_confirm
     confirm: MockConfirmClass,
     on_confirm: MockOnConfirmClass,
+    payment_url_form: MockPaymentFormClass,
 
     // solicited status/update
     on_status: MockOnStatusClass,
-    on_update: MockOnUpdateClass,
+    update_payment_retry: MockUpdatePaymentClass,
+    on_update_payment_retry: MockOnUpdatePaymentUnsolicitedClass,
+    on_update: MockUpdatePaymentClass,
 
     // unsolicited callbacks
+    on_status_unsolicited_payment: MockOnStatusUnsolicitedPaymentClass,
+    on_status_unsolicited_esign: MockOnStatusUnsolicitedEsignClass,
     on_status_unsolicited: MockOnStatusUnsolicitedClass,
     on_status_esign_unsolicited: MockOnStatusUnsolicitedClass,
     on_update_unsolicited: MockOnUpdateUnsolicitedClass,
-
+    on_update_unsolicited_failed: MockOnUpdateUnsolicitedClass,
     // forms
     investor_details_form: MockInvestorDetailsFormClass,
 

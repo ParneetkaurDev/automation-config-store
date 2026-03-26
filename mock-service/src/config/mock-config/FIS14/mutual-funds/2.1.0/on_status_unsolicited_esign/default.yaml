@@ -1,6 +1,4 @@
 order:
-  id: mfpp_213adf123af
-  status: CREATED
   provider:
     id: sellerapp_id
     descriptor:
@@ -14,15 +12,13 @@ order:
       creator:
         descriptor:
           name: ABC Mutual Fund
+      fulfillment_ids:
+        - ff_123
       quantity:
         selected:
           measure:
             value: '3000'
             unit: INR
-      fulfillment_ids:
-        - ff_789
-      payment_ids:
-        - pmt_123
       tags:
         - display: true
           descriptor:
@@ -67,19 +63,35 @@ order:
                 name: IDCW Option
                 code: IDCW_OPTION
               value: PAYOUT
+        - display: true
+          descriptor:
+            name: Checklists
+            code: CHECKLISTS
+          list:
+            - descriptor:
+                name: Application Form
+                code: APPLICATION_FORM_WITH_KYC
+              value: 4e6d19d3-f8b5-43d5-9d89-ab5b95af3d92
+            - descriptor:
+                name: KYC
+                code: KYC
+              value: 20d1fd2a-827d-460e-bd72-b21064d23002
+            - descriptor:
+                name: ESIGN
+                code: ESIGN
+              value: PENDING
+  xinput:
+    form:
+      id: form_2
+    form_response:
+      status: SUBMITTED
+      submission_id: 20d1fd2a-827d-460e-bd72-b21064d23002
   fulfillments:
-    - id: ff_789
+    - id: ff_123
       type: LUMPSUM
       customer:
         person:
           id: 'pan:arrpp7771n'
-          creds:
-            - id: 78953432/32
-              type: FOLIO
-            - id: 115.245.207.90
-              type: IP_ADDRESS
-        contact:
-          phone: '9916599123'
       agent:
         person:
           id: 'euin:E52432'
@@ -90,35 +102,6 @@ order:
             - id: ARN-123456
               type: SUB_BROKER_ARN
       tags:
-        - display: true
-          descriptor:
-            name: Folio
-            code: FOLIO_INFORMATION
-          list:
-            - descriptor:
-                name: Folio Number
-                code: FOLIO_NUMBER
-              value: 123213432/32
-            - descriptor:
-                name: Holding Pattern
-                code: HOLDING_PATTERN
-              value: SINGLE
-            - descriptor:
-                name: Holder Name
-                code: HOLDER_NAME
-              value: Satish K Perala
-            - descriptor:
-                name: Created On
-                code: CREATED_ON
-              value: 25/11/2019
-            - descriptor:
-                name: Email Address for 2FA
-                code: 2FA_EMAIL_ADDRESS_MASKED
-              value: '****sha@gmail.com'
-            - descriptor:
-                name: Mobile Number for 2FA
-                code: 2FA_MOBILE_NUMBER_MASKED
-              value: '***9345'
         - display: true
           descriptor:
             name: Thresholds
@@ -136,33 +119,6 @@ order:
                 name: Amount Multiples
                 code: AMOUNT_MULTIPLES
               value: '1'
-  payments:
-    - id: pmt_123
-      collected_by: BPP
-      status: NOT-PAID
-      params:
-        amount: '3000'
-        currency: INR
-        source_bank_code: icic0000047
-        source_bank_account_number: '004701563111'
-        source_bank_account_name: harish gupta
-      type: PRE_FULFILLMENT
-      tags:
-        - descriptor:
-            name: Source bank account
-            code: SOURCE_BANK_ACCOUNT
-          list:
-            - descriptor:
-                name: Account Type
-                code: ACCOUNT_TYPE
-              value: SAVINGS
-        - descriptor:
-            name: Payment Method
-            code: PAYMENT_METHOD
-          list:
-            - descriptor:
-                code: MODE
-              value: NETBANKING
   tags:
     - display: false
       descriptor:
@@ -177,27 +133,3 @@ order:
             name: Offline Contract
             code: OFFLINE_CONTRACT
           value: 'true'
-  quote:
-    id: q1
-    price:
-      currency: INR
-      value: '3000'
-    breakup:
-      - item:
-          id: '12391'
-          fulfillment_ids:
-            - ff_789
-        title: INVESTMENT
-        price:
-          currency: INR
-          value: '2999.85'
-      - item:
-          id: '12391'
-          fulfillment_ids:
-            - ff_789
-        title: STAMP_DUTY
-        price:
-          currency: INR
-          value: '0.15'
-  created_at: '2023-05-25T05:23:03.443Z'
-  updated_at: '2023-05-25T05:23:03.443Z'
