@@ -75,8 +75,8 @@ export async function on_selectDefaultGenerator(
                 };
 
                 const baseUrl = process.env.FORM_SERVICE || 'http://localhost:3001';
-                const formUrlKey = formUrlMap[nextStage] || 'account_opening_kyc_form';
-                xinput.form.url = `${baseUrl}/forms/${sessionData.domain}/${formUrlKey}?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+                const formUrlKey = formUrlMap[nextStage] || 'investor_details_form';
+                xinput.form.url = `${baseUrl}/forms/${sessionData.domain}/investor_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
 
                 console.log(`KYC Stage ${nextStage}: ${xinput.head.headings?.[nextStage] || 'Stage ' + nextStage} - Form URL generated`);
             }

@@ -49,9 +49,9 @@ export async function on_select_2DefaultGenerator(
 
     // redirection to be done
     if (existingPayload.message?.order?.xinput?.form) {
-        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+        const url = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/E_sign_verification_status?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
         console.log("URL for product_details_form in on_select", url);
-        existingPayload.message.order.xinput.form.id = "verification_status";
+        existingPayload.message.order.xinput.form.id = "E_sign_verification_status";
         existingPayload.message.order.xinput.form.url = url;
     }
 

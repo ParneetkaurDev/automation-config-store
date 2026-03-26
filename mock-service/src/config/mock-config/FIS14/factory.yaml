@@ -51,6 +51,27 @@ codes:
     action: on_select
     default: FIS14/mutual-funds/2.1.0/on_select_2/default.yaml
     message_id: false
+  - code: 5022
+    action_id: select_esign
+    action: select
+    default: FIS14/mutual-funds/2.1.0/select_esign/default.yaml
+    message_id: true
+  - code: 5032
+    action_id: on_select_esign
+    action: on_select
+    default: FIS14/mutual-funds/2.1.0/on_select_esign/default.yaml
+    message_id: false
+  - code: 5023
+    action_id: select_final
+    action: select
+    default: FIS14/mutual-funds/2.1.0/select_final/default.yaml
+    message_id: true
+  - code: 5033
+    action_id: on_select_final
+    action: on_select
+    default: FIS14/mutual-funds/2.1.0/on_select_final/default.yaml
+    message_id: false
+
   - code: 504
     action_id: init
     action: init

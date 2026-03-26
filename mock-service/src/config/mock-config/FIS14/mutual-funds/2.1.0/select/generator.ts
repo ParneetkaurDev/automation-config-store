@@ -1,9 +1,21 @@
+import { randomUUID } from "crypto";
 import { SessionData } from "../../../session-types";
 
 export async function selectDefaultGenerator(
   existingPayload: any,
   sessionData: SessionData,
 ) {
+
+  if (existingPayload.context) {
+    existingPayload.context.timestamp = new Date().toISOString();
+  }
+
+  if (sessionData.transaction_id && existingPayload.context) {
+    existingPayload.context.transaction_id = sessionData.transaction_id;
+  }
+  if (sessionData.message_id && existingPayload.context) {
+    existingPayload.context.message_id = randomUUID();
+  }
   const rawData = sessionData?.user_inputs?.data;
 
   let userInput;

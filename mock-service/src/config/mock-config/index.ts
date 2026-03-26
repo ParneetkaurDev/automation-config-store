@@ -55,7 +55,7 @@ export async function generateMockResponse(
 				action_id,
 				input
 			);
-		} 
+		}
 		response.context.timestamp = new Date().toISOString();
 		return response;
 	} catch (e) {
@@ -111,5 +111,5 @@ export function getSaveDataContent(version: string, action: string, domain: stri
 }
 
 export function getUiMetaKeys(): (keyof MockSessionData)[] {
-	return ["investor_details_form", "payment_mandate_form"];
+	return ["investor_details_form", "verification_status", "E_sign_verification_status", "payment_mandate_form"];
 }

@@ -1,32 +1,135 @@
 order:
-  id: "o1"
   provider:
-    id: "sellerapp_id"
+    id: sellerapp_id
+    descriptor:
+      name: Seller App Name
   items:
-    - id: "12391"
-      fulfillment_ids:
-        - "ff_123"
-  fulfillments:
-    - id: "ff_123"
-      type: "SIP"
-      state:
+    - id: '12391'
+      parent_item_id: '138'
+      descriptor:
+        name: ABC Mid Cap Fund - Regular - Growth
+        code: SCHEME_PLAN
+      creator:
         descriptor:
-          name: "SIP Payment Success"
-          code: "PAYMENT_SUCCESS"
+          name: ABC Mutual Fund
+      fulfillment_ids:
+        - ff_123
+      quantity:
+        selected:
+          measure:
+            value: '3000'
+            unit: INR
       tags:
-        - descriptor:
-            name: "Account Details"
-            code: "ACCOUNT_DETAILS"
+        - display: true
+          descriptor:
+            name: Plan Information
+            code: PLAN_INFORMATION
           list:
             - descriptor:
-                name: "Folio Number"
-                code: "FOLIO_NUMBER"
-              value: "FN1234567890"
-  payments:
-    - type: "PRE_FULFILLMENT"
-      collected_by: "BPP"
-      status: "PAID"
-      params:
-        currency: "INR"
-        amount: "3000"
-        transaction_id: "TXN123456789"
+                name: Consumer Terms & Conditions
+                code: CONSUMER_TNC
+              value: 'https://sellerapp.com/legal/ondc:fis14/consumer_tnc.html'
+        - display: true
+          descriptor:
+            name: Plan Identifiers
+            code: PLAN_IDENTIFIERS
+          list:
+            - descriptor:
+                name: ISIN
+                code: ISIN
+              value: IN123214324
+            - descriptor:
+                name: RTA Identifier
+                code: RTA_IDENTIFIER
+              value: 02BZ
+            - descriptor:
+                name: AMFI Identifier
+                code: AMFI_IDENTIFIER
+              value: '125487'
+        - display: true
+          descriptor:
+            name: Plan Options
+            code: PLAN_OPTIONS
+          list:
+            - descriptor:
+                name: Plan
+                code: PLAN
+              value: REGULAR
+            - descriptor:
+                name: Option
+                code: OPTION
+              value: IDCW
+            - descriptor:
+                name: IDCW Option
+                code: IDCW_OPTION
+              value: PAYOUT
+        - display: true
+          descriptor:
+            name: Checklists
+            code: CHECKLISTS
+          list:
+            - descriptor:
+                name: Application Form
+                code: APPLICATION_FORM_WITH_KYC
+              value: 4e6d19d3-f8b5-43d5-9d89-ab5b95af3d92
+            - descriptor:
+                name: KYC
+                code: KYC
+              value: 20d1fd2a-827d-460e-bd72-b21064d23002
+            - descriptor:
+                name: ESIGN
+                code: ESIGN
+              value: PENDING
+  xinput:
+    form:
+      id: form_2
+    form_response:
+      status: SUBMITTED
+      submission_id: 20d1fd2a-827d-460e-bd72-b21064d23002
+  fulfillments:
+    - id: ff_123
+      type: LUMPSUM
+      customer:
+        person:
+          id: 'pan:arrpp7771n'
+      agent:
+        person:
+          id: 'euin:E52432'
+        organization:
+          creds:
+            - id: ARN-124567
+              type: ARN
+            - id: ARN-123456
+              type: SUB_BROKER_ARN
+      tags:
+        - display: true
+          descriptor:
+            name: Thresholds
+            code: THRESHOLDS
+          list:
+            - descriptor:
+                name: Amount Minimum
+                code: AMOUNT_MIN
+              value: '1000'
+            - descriptor:
+                name: Amount Maximum
+                code: AMOUNT_MAX
+              value: '10000'
+            - descriptor:
+                name: Amount Multiples
+                code: AMOUNT_MULTIPLES
+              value: '1'
+  tags:
+    - display: false
+      descriptor:
+        name: BPP Terms of Engagement
+        code: BPP_TERMS
+      list:
+        - descriptor:
+            name: Static Terms (Transaction Level)
+            code: STATIC_TERMS
+          value: 'https://sellerapp.com/legal/ondc:fis14/static_terms?v=0.1'
+        - descriptor:
+            name: Offline Contract
+            code: OFFLINE_CONTRACT
+          value: 'true'
