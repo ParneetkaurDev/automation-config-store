@@ -75,26 +75,17 @@ order:
             - descriptor:
                 name: KYC
                 code: KYC
-              value: PENDING
+              value: 20d1fd2a-827d-460e-bd72-b21064d23002
             - descriptor:
                 name: ESIGN
                 code: ESIGN
-              value: PENDING
+              value: 8745-1247-6587-8647
   xinput:
-    required: true
-    head:
-      index:
-        min: 0
-        cur: 1
-        max: 2
-      headings:
-        - APPLICATION_FORM_WITH_KYC
-        - KYC
-        - ESIGN
     form:
-      id: form_2
-      url: 'https://forms.sellerapp.com/account-opening-kyc/data?k=234sadf234'
-      mime_type: application/json
+      id: form_3
+    form_response:
+      status: SUCCESS
+      submission_id: 8745-1247-6587-8647
   fulfillments:
     - id: ff_123
       type: LUMPSUM
@@ -128,6 +119,45 @@ order:
                 name: Amount Multiples
                 code: AMOUNT_MULTIPLES
               value: '1'
+  payments:
+    - collected_by: BPP
+      type: PRE_FULFILLMENT
+    - collected_by: BPP
+      type: PRE_FULFILLMENT
+      tags:
+        - descriptor:
+            name: Payment Method
+            code: PAYMENT_METHOD
+          list:
+            - descriptor:
+                code: MODE
+              value: NETBANKING
+    - collected_by: BPP
+      type: PRE_FULFILLMENT
+      tags:
+        - descriptor:
+            name: Payment Method
+            code: PAYMENT_METHOD
+          list:
+            - descriptor:
+                code: MODE
+              value: UPI
+            - descriptor:
+                code: AUTH
+              value: COLLECT
+    - collected_by: BPP
+      type: PRE_FULFILLMENT
+      tags:
+        - descriptor:
+            name: Payment Method
+            code: PAYMENT_METHOD
+          list:
+            - descriptor:
+                code: MODE
+              value: UPI
+            - descriptor:
+                code: AUTH
+              value: URI
   tags:
     - display: false
       descriptor:
@@ -142,3 +172,25 @@ order:
             name: Offline Contract
             code: OFFLINE_CONTRACT
           value: 'true'
+  quote:
+    id: q1
+    price:
+      currency: INR
+      value: '3000'
+    breakup:
+      - item:
+          id: '12391'
+          fulfillment_ids:
+            - ff_123
+        title: INVESTMENT
+        price:
+          currency: INR
+          value: '2999.85'
+      - item:
+          id: '12391'
+          fulfillment_ids:
+            - ff_123
+        title: STAMP_DUTY
+        price:
+          currency: INR
+          value: '0.15'

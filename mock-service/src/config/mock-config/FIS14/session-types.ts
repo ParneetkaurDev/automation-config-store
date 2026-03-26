@@ -86,6 +86,8 @@ export interface SessionData {
 	form_submission_id?: string;
 	kyc_submission_id?: string;
 	esign_submission_id?: string;
+	verification_status?: string;
+	E_sign_verification_status?: string
 }
 
 export type BecknContext = {

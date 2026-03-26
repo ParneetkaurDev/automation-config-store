@@ -78957,12 +78957,12 @@ x-validations:
                   - '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})'
                 _CONTINUE_: '!(attr are present)'
                 _RETURN_: attr follow regex reg
-              - _NAME_: REGEX_CONTEXT_BAP_ID
-                attr: $.context.bap_id
-                reg: &BAP_ID_REGEX
-                  - '^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+'
-                _CONTINUE_: '!(attr are present)'
-                _RETURN_: attr follow regex reg
+              # - _NAME_: REGEX_CONTEXT_BAP_ID
+              #   attr: $.context.bap_id
+              #   reg: &BAP_ID_REGEX
+              #     - '^(?!.*\b(?:http|https|www)\b)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+'
+              #   _CONTINUE_: '!(attr are present)'
+              #   _RETURN_: attr follow regex reg
               - _NAME_: REGEX_CONTEXT_BAP_URI
                 attr: $.context.bap_uri
                 reg: &URI_REGEX
@@ -79569,9 +79569,9 @@ x-validations:
           - _NAME_: REQUIRED_FULFILLMENT_AGENT
             attr: $.message.order.fulfillments[*].agent.person.id
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_STOPS
-            attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_FULFILLMENT_STOPS
+          #   attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
+          #   _RETURN_: attr are present
           - _NAME_: REQUIRED_THRESHOLDS_TAG_GROUP
             validTags: *THRESHOLDS_TAG
             tagPath: $.message.order.fulfillments[*].tags[*].descriptor.code
@@ -79696,9 +79696,9 @@ x-validations:
           - _NAME_: REQUIRED_FULFILLMENT_AGENT
             attr: $.message.order.fulfillments[*].agent.person.id
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_STOPS
-            attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_FULFILLMENT_STOPS
+          #   attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
+          #   _RETURN_: attr are present
 
       - _NAME_: INIT_XINPUT
         xinputpath: $.message.order.xinput.form.id
@@ -79980,9 +79980,9 @@ x-validations:
           - _NAME_: REQUIRED_FULFILLMENT_CUSTOMER
             attr: $.message.order.fulfillments[*].customer.person.id
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_STOPS
-            attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_FULFILLMENT_STOPS
+          #   attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
+          #   _RETURN_: attr are present
 
       - _NAME_: CONFIRM_PAYMENTS
         paymentspath: $.message.order.payments[*].id

@@ -18,6 +18,12 @@ import { MockInvestorDetailsFormClass } from "./mutual-funds/2.1.0/investor_deta
 import type { MockAction } from "../FIS14/classes/mock-action";
 import { MockOnSearchIncrementClass } from "./mutual-funds/2.1.0/on_search_incremental_pull/class";
 import { MockSearchIncrementClass } from "./mutual-funds/2.1.0/search_incremental_pull/class";
+import { MockSelectFinalClass } from "./mutual-funds/2.1.0/select_final/class";
+import { MockOnSelectEsignClass } from "./mutual-funds/2.1.0/on_select_esign/class";
+import { MockSelectEsignClass } from "./mutual-funds/2.1.0/select_esign/class";
+import { MockOnSelectFinalClass } from "./mutual-funds/2.1.0/on_select_final/class";
+import { MockVerificationStatusFormClass } from "./mutual-funds/2.1.0/verification_status/verification_status";
+import { MockESignVerificationStatusFormClass } from "./mutual-funds/2.1.0/E_sign_verification_status/E_sign_verification_status";
 
 type Ctor<T> = new () => T;
 
@@ -36,7 +42,12 @@ const registry = {
     on_select_existing_folio: MockOnSelectExistingFolioClass,
     select_2: MockSelect_2Class,
     on_select_2: MockOnSelect_2Class,
-
+    select_esign: MockOnSelectEsignClass,
+    select_final: MockSelectFinalClass,
+    on_select_esign: MockSelectEsignClass,
+    on_select_final: MockOnSelectFinalClass,
+    verification_status: MockVerificationStatusFormClass,
+    E_sign_verification_status: MockESignVerificationStatusFormClass,
     // init / on_init
     init: MockInitClass,
     on_init: MockOnInitClass,
@@ -51,6 +62,7 @@ const registry = {
 
     // unsolicited callbacks
     on_status_unsolicited: MockOnStatusUnsolicitedClass,
+    on_status_esign_unsolicited: MockOnStatusUnsolicitedClass,
     on_update_unsolicited: MockOnUpdateUnsolicitedClass,
 
     // forms

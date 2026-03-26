@@ -12,6 +12,14 @@ export async function select_2DefaultGenerator(
         existingPayload.context.timestamp = new Date().toISOString();
     }
 
+    // Update transaction_id and message_id from session
+    if (sessionData.transaction_id && existingPayload.context) {
+        existingPayload.context.transaction_id = sessionData.transaction_id;
+    }
+    if (sessionData.message_id && existingPayload.context) {
+        existingPayload.context.message_id = randomUUID();
+    }
+
     // Map provider and item IDs from session
     const selectedProvider = sessionData.selected_provider || sessionData.provider_id;
     if (selectedProvider && existingPayload.message?.order?.provider) {
@@ -34,9 +42,9 @@ export async function select_2DefaultGenerator(
     // Update form response with submission ID from investor_details_form
     const submission_id = sessionData?.form_data?.investor_details_form?.form_submission_id;
 
-    if (existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
+    if (existingPayload.message?.order?.xinput?.form_response) {
         if (submission_id) {
-            existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
+            existingPayload.message.order.xinput.form_response.submission_id = submission_id;
             console.log("Updated form_response with submission_id:", submission_id);
         } else {
             console.warn("⚠️ No submission_id found for investor_details_form");
@@ -44,9 +52,9 @@ export async function select_2DefaultGenerator(
     }
 
     // Ensure form ID matches from on_select
-    const formId = sessionData.form_id;
-    if (formId && existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-        existingPayload.message.order.items[0].xinput.form.id = formId;
+    const formId = "investor_details_form";
+    if (formId && existingPayload.message?.order?.xinput?.form) {
+        existingPayload.message.order.xinput.form.id = formId;
     }
 
     console.log("=== select_2 Generator End ===");
