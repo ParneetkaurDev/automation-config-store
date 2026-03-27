@@ -13,7 +13,7 @@ order:
         descriptor:
           name: ABC Mutual Fund
       fulfillment_ids:
-        - ff_123
+        - ff_122
       quantity:
         selected:
           measure:
@@ -96,7 +96,7 @@ order:
       url: 'https://forms.sellerapp.com/account-opening-kyc/data?k=234sadf234'
       mime_type: application/html
   fulfillments:
-    - id: ff_123
+    - id: ff_122
       type: LUMPSUM
       customer:
         person:

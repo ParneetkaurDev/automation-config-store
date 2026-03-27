@@ -20,7 +20,7 @@ order:
             value: '3000'
             unit: INR
       fulfillment_ids:
-        - ff_789
+        - ff_122
       payment_ids:
         - pmt_123
       tags:
@@ -68,7 +68,7 @@ order:
                 code: IDCW_OPTION
               value: PAYOUT
   fulfillments:
-    - id: ff_789
+    - id: ff_122
       type: LUMPSUM
       customer:
         person:
@@ -188,7 +188,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_789
+            - ff_122
         title: INVESTMENT
         price:
           currency: INR
@@ -196,7 +196,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_789
+            - ff_122
         title: STAMP_DUTY
         price:
           currency: INR

@@ -13,7 +13,7 @@ order:
         descriptor:
           name: "ABC Mutual Fund"
       fulfillment_ids:
-        - "ff_123"
+        - "ff_122"
       quantity:
         selected:
           measure:
@@ -81,7 +81,7 @@ order:
                 code: "ESIGN"
               value: "PENDING"
   fulfillments:
-    - id: "ff_123"
+    - id: "ff_122"
       type: "SIP"
       customer:
         person:

@@ -1,6 +1,6 @@
 order:
-  id: mfp_3454dfadssf435345
-  status: COMPLETED
+  id: mfp_213adf123af
+  status: ACCEPTED
   provider:
     id: sellerapp_id
     descriptor:
@@ -19,14 +19,11 @@ order:
           measure:
             value: '3000'
             unit: INR
-        allocated:
-          measure:
-            value: '149.9925'
-            unit: MF_UNITS
       fulfillment_ids:
-        - ff_008
+        - ff_122
       payment_ids:
         - pmt_123
+        - pmt_587
       tags:
         - display: true
           descriptor:
@@ -71,15 +68,8 @@ order:
                 name: IDCW Option
                 code: IDCW_OPTION
               value: PAYOUT
-      price:
-        currency: INR
-        value: '20.0000'
-        listed_value: '20.0000'
-      time:
-        label: NAV Date
-        timestamp: '2024-07-23T00:00:00+05:30'
   fulfillments:
-    - id: ff_789
+    - id: ff_122
       type: LUMPSUM
       customer:
         person:
@@ -91,6 +81,10 @@ order:
               type: IP_ADDRESS
         contact:
           phone: '9916599123'
+      state:
+        descriptor:
+          name: Pending
+          code: PENDING
       agent:
         person:
           id: 'euin:E52432'
@@ -100,10 +94,6 @@ order:
               type: ARN
             - id: ARN-123456
               type: SUB_BROKER_ARN
-      state:
-        descriptor:
-          name: Successful
-          code: SUCCESSFUL
       tags:
         - display: true
           descriptor:
@@ -151,26 +141,16 @@ order:
                 name: Amount Multiples
                 code: AMOUNT_MULTIPLES
               value: '1'
-        - display: true
-          descriptor:
-            name: External Refs
-            code: EXTERNAL_REFS
-          list:
-            - descriptor:
-                name: RTA Source Ref
-                code: RTA_SOURCE_REF
-              value: '21432432'
   payments:
     - id: pmt_123
       collected_by: BPP
-      status: PAID
+      status: FAILED
       params:
         amount: '3000'
         currency: INR
         source_bank_code: icic0000047
         source_bank_account_number: '004701563111'
         source_bank_account_name: harish gupta
-        transaction_id: '243423324'
       type: PRE_FULFILLMENT
       tags:
         - descriptor:
@@ -188,28 +168,49 @@ order:
             - descriptor:
                 code: MODE
               value: NETBANKING
-  quote:
-    id: q1
-    price:
-      currency: INR
-      value: '3000'
-    breakup:
-      - item:
-          id: '12391'
-          fulfillment_ids:
-            - ff_008
-        title: INVESTMENT
-        price:
-          currency: INR
-          value: '2999.85'
-      - item:
-          id: '12391'
-          fulfillment_ids:
-            - ff_008
-        title: STAMP_DUTY
-        price:
-          currency: INR
-          value: '0.15'
+        - descriptor:
+            name: Information
+            code: ERROR_INFORMATION
+          list:
+            - descriptor:
+                name: Reason Code
+                code: REASON_CODE
+              value: daily_limit_crossed
+            - descriptor:
+                name: Reason Message
+                code: REASON_MESSAGE
+              value: Daily debit limit threshold for the bank account is crossed.
+    - id: pmt_587
+      collected_by: BPP
+      url: >-
+        upi://pay?pa=UPIID@oksbi&amp;pn=NAME&amp;&tr=123456789&amp;cu=INR&amp;am=3000
+      status: NOT-PAID
+      params:
+        amount: '3000'
+        currency: INR
+        source_bank_code: icic0000047
+        source_bank_account_number: '004701563111'
+        source_bank_account_name: harish gupta
+      type: PRE_FULFILLMENT
+      tags:
+        - descriptor:
+            name: Source bank account
+            code: SOURCE_BANK_ACCOUNT
+          list:
+            - descriptor:
+                name: Account Type
+                code: ACCOUNT_TYPE
+              value: SAVINGS
+        - descriptor:
+            name: Payment Method
+            code: PAYMENT_METHOD
+          list:
+            - descriptor:
+                code: MODE
+              value: UPI
+            - descriptor:
+                code: AUTH
+              value: URI
   tags:
     - display: false
       descriptor:
@@ -237,6 +238,28 @@ order:
             name: Offline Contract
             code: OFFLINE_CONTRACT
           value: 'true'
+  quote:
+    id: q1
+    price:
+      currency: INR
+      value: '3000'
+    breakup:
+      - item:
+          id: '12391'
+          fulfillment_ids:
+            - ff_122
+        title: INVESTMENT
+        price:
+          currency: INR
+          value: '2999.85'
+      - item:
+          id: '12391'
+          fulfillment_ids:
+            - ff_122
+        title: STAMP_DUTY
+        price:
+          currency: INR
+          value: '0.15'
   cancellation_terms:
     - reason_required: true
       external_ref:

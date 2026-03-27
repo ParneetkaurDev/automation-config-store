@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { SessionData } from "../../../session-types";
+import { updateChecklist } from '../utils/updateChecklist';
 
 export async function on_update_unsolicitedDefaultGenerator(
     existingPayload: any,
@@ -27,37 +28,6 @@ export async function on_update_unsolicitedDefaultGenerator(
         existingPayload.message.order.id = sessionData.order_id;
     }
 
-    // Update folio number from session
-    if (sessionData.folio_number && existingPayload.message?.order?.items?.[0]?.tags) {
-        const folioTag = existingPayload.message.order.items[0].tags.find(
-            (tag: any) => tag.descriptor?.code === 'FOLIO_INFO'
-        );
-        if (folioTag && folioTag.list) {
-            const folioItem = folioTag.list.find(
-                (item: any) => item.descriptor?.code === 'FOLIO_NUMBER'
-            );
-            if (folioItem) {
-                folioItem.value = sessionData.folio_number;
-            }
-        }
-    }
-
-    // Update SIP status to ACTIVE
-    if (existingPayload.message?.order) {
-        existingPayload.message.order.status = "ACTIVE";
-        console.log("Updated order status to ACTIVE (SIP activated)");
-    }
-
-    // Update fulfillment status
-    if (existingPayload.message?.order?.fulfillments?.[0]) {
-        existingPayload.message.order.fulfillments[0].state = {
-            descriptor: {
-                code: "ACTIVE",
-                name: "SIP Active"
-            }
-        };
-    }
-
     if (existingPayload.message?.order) {
         const now = new Date().toISOString();
         existingPayload.message.order.created_at = sessionData?.order.created_at;
@@ -83,5 +53,21 @@ export async function on_update_unsolicitedDefaultGenerator(
     if (existingPayload.message?.order?.xinput?.form) {
         existingPayload.message.order.xinput.form.id = formId
     }
+
+    // Update payment collected_by from session
+    if (sessionData.payment_collected_by && existingPayload.message?.order?.payments?.[1]) {
+        const paymentUrl = `${process.env.FORM_SERVICE}/forms/${sessionData.domain}/retry_payment_url_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+        existingPayload.message.order.payments[1].url = paymentUrl;
+
+    }
+
+    const updates = {
+        APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",
+        KYC: sessionData.verification_status || "",
+        ESIGN: sessionData.E_sign_verification_status || ""
+    };
+
+    const updatedOrder = updateChecklist(existingPayload.message.order, updates);
+    existingPayload.message.order = updatedOrder
     return existingPayload;
 }

@@ -34,6 +34,8 @@ import { MockInitRedemptionClass } from "./mutual-funds/2.1.0/init_redemption/cl
 import { MockOnInitRedemptionClass } from "./mutual-funds/2.1.0/on_init_redemption/class";
 import { MockOnConfirmRedemptionClass } from "./mutual-funds/2.1.0/on_confirm_redemption/class";
 import { MockOnUpdateRedemptionClass } from "./mutual-funds/2.1.0/on_update_redemption/class";
+import { MockRetryPaymentFormClass } from "./mutual-funds/2.1.0/retry_payment_url_form/retry_payment_url_form";
+import { MockOnStatusUnsolicitedPaymentSuccessClass } from "./mutual-funds/2.1.0/on_status_unsolicited_payment_success/class";
 
 type Ctor<T> = new () => T;
 
@@ -66,13 +68,15 @@ const registry = {
     confirm: MockConfirmClass,
     on_confirm: MockOnConfirmClass,
     payment_url_form: MockPaymentFormClass,
+    retry_payment_url_form: MockRetryPaymentFormClass,
 
     // solicited status/update
     on_status: MockOnStatusClass,
     update_payment_retry: MockUpdatePaymentClass,
     on_update_payment_retry: MockOnUpdatePaymentUnsolicitedClass,
     on_update: MockUpdatePaymentClass,
-
+    on_status_unsolicited_payment_success: MockOnStatusUnsolicitedPaymentSuccessClass,
+    on_update_unsolicited_success: MockOnUpdatePaymentUnsolicitedClass,
     // unsolicited callbacks
     on_status_unsolicited_payment: MockOnStatusUnsolicitedPaymentClass,
     on_status_unsolicited_esign: MockOnStatusUnsolicitedEsignClass,
@@ -83,7 +87,7 @@ const registry = {
     // forms
     investor_details_form: MockInvestorDetailsFormClass,
 
-        // Redemption flows
+    // Redemption flows
     on_select_redemption: MockOnSelectRedemptionClass,
     init_redemption: MockInitRedemptionClass,
     on_init_redemption: MockOnInitRedemptionClass,

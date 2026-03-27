@@ -90,6 +90,7 @@ export interface SessionData {
 	E_sign_verification_status?: string
 	payment_url_form?: string
 	order?: any
+	retry_payment_url_form?: any
 }
 
 export type BecknContext = {
@@ -127,7 +128,7 @@ export interface Input {
 	retailCategory?: string;
 	returnToOrigin?: string;
 	default_feature?: string[];
-	redemption_status?:string;
+	redemption_status?: string;
 	// Gold Loan specific fields
 	loan_amount?: number;
 	foreclosure_amount?: number;

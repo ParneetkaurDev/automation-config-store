@@ -13,7 +13,7 @@ order:
         descriptor:
           name: ABC Mutual Fund
       fulfillment_ids:
-        - ff_123
+        - ff_122
       quantity:
         selected:
           measure:
@@ -87,7 +87,7 @@ order:
       status: SUBMITTED
       submission_id: 20d1fd2a-827d-460e-bd72-b21064d23002
   fulfillments:
-    - id: ff_123
+    - id: ff_122
       type: LUMPSUM
       customer:
         person:
