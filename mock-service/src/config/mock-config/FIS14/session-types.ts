@@ -127,6 +127,7 @@ export interface Input {
 	retailCategory?: string;
 	returnToOrigin?: string;
 	default_feature?: string[];
+	redemption_status?:string;
 	// Gold Loan specific fields
 	loan_amount?: number;
 	foreclosure_amount?: number;
