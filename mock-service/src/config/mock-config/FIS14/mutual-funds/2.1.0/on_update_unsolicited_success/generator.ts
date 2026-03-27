@@ -61,9 +61,10 @@ export async function on_update_unsolicitedDefaultGenerator(
 
     if (existingPayload.message?.order) {
         const now = new Date().toISOString();
-        existingPayload.message.order.created_at = sessionData.order.created_at;
+        existingPayload.message.order.created_at = sessionData?.order.created_at;
         existingPayload.message.order.updated_at = now;
     }
+    console.log("=== on_update_unsolicited Generator End ===");
 
     const submission_id = sessionData?.form_data?.E_sign_verification_status?.form_submission_id || sessionData?.E_sign_verification_status
 
@@ -83,7 +84,6 @@ export async function on_update_unsolicitedDefaultGenerator(
     if (existingPayload.message?.order?.xinput?.form) {
         existingPayload.message.order.xinput.form.id = formId
     }
-    console.log("=== on_update_unsolicited Generator End ===");
 
     const updates = {
         APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",

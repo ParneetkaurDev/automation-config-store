@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { SessionData } from "../../../session-types";
+import { updateChecklist } from '../utils/updateChecklist';
 
 export async function on_update_unsolicitedDefaultGenerator(
     existingPayload: any,
@@ -82,6 +83,15 @@ export async function on_update_unsolicitedDefaultGenerator(
     if (existingPayload.message?.order?.xinput?.form) {
         existingPayload.message.order.xinput.form.id = formId
     }
+
+    const updates = {
+        APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",
+        KYC: sessionData.verification_status || "",
+        ESIGN: sessionData.E_sign_verification_status || ""
+    };
+
+    const updatedOrder = updateChecklist(existingPayload.message.order, updates);
+    existingPayload.message.order = updatedOrder
     console.log("=== on_update_unsolicited Generator End ===");
     return existingPayload;
 }

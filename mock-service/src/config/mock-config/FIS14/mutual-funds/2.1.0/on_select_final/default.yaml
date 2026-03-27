@@ -13,7 +13,7 @@ order:
         descriptor:
           name: ABC Mutual Fund
       fulfillment_ids:
-        - ff_123
+        - ff_122
       quantity:
         selected:
           measure:
@@ -87,7 +87,7 @@ order:
       status: SUCCESS
       submission_id: 8745-1247-6587-8647
   fulfillments:
-    - id: ff_123
+    - id: ff_122
       type: LUMPSUM
       customer:
         person:
@@ -181,7 +181,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_123
+            - ff_122
         title: INVESTMENT
         price:
           currency: INR
@@ -189,7 +189,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_123
+            - ff_122
         title: STAMP_DUTY
         price:
           currency: INR

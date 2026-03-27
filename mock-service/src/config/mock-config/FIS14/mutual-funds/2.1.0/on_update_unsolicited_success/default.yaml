@@ -67,30 +67,9 @@ order:
                 name: IDCW Option
                 code: IDCW_OPTION
               value: PAYOUT
-        - display: true
-          descriptor:
-            name: Checklists
-            code: CHECKLISTS
-          list:
-            - descriptor:
-                name: Application Form
-                code: APPLICATION_FORM
-              value: 6547-7456-7235-4386
-            - descriptor:
-                name: KYC
-                code: KYC
-              value: 1978-5697-3478-6547
-            - descriptor:
-                name: ESIGN
-                code: ESIGN
-              value: 8745-1247-6587-8647
   fulfillments:
     - id: ff_122
       type: LUMPSUM
-      state:
-        descriptor:
-          name: Initiated
-          code: INITIATED
       customer:
         person:
           id: 'pan:arrpp7771n'
@@ -101,6 +80,10 @@ order:
               type: IP_ADDRESS
         contact:
           phone: '9916599123'
+      state:
+        descriptor:
+          name: Pending
+          code: PENDING
       agent:
         person:
           id: 'euin:E52432'
@@ -157,32 +140,16 @@ order:
                 name: Amount Multiples
                 code: AMOUNT_MULTIPLES
               value: '1'
-        - display: true
-          descriptor:
-            name: External Refs
-            code: EXTERNAL_REFS
-          list:
-            - descriptor:
-                name: RTA Source Ref
-                code: RTA_SOURCE_REF
-              value: '21432432'
-  xinput:
-    form:
-      id: form_3
-    form_response:
-      status: SUCCESS
-      submission_id: 8745-1247-6587-8647
   payments:
     - id: pmt_123
       collected_by: BPP
-      status: PAID
+      status: FAILED
       params:
         amount: '3000'
         currency: INR
         source_bank_code: icic0000047
         source_bank_account_number: '004701563111'
         source_bank_account_name: harish gupta
-        transaction_id: 'abcdj49887866566889'
       type: PRE_FULFILLMENT
       tags:
         - descriptor:
@@ -200,6 +167,48 @@ order:
             - descriptor:
                 code: MODE
               value: NETBANKING
+        - descriptor:
+            name: Information
+            code: ERROR_INFORMATION
+          list:
+            - descriptor:
+                name: Reason Code
+                code: REASON_CODE
+              value: daily_limit_crossed
+            - descriptor:
+                name: Reason Message
+                code: REASON_MESSAGE
+              value: Daily debit limit threshold for the bank account is crossed.
+    - id: pmt_587
+      collected_by: BPP
+      status: PAID
+      params:
+        amount: '3000'
+        currency: INR
+        source_bank_code: icic0000047
+        source_bank_account_number: '004701563111'
+        source_bank_account_name: harish gupta
+        transaction_id: '9000049887866566889'
+      type: PRE_FULFILLMENT
+      tags:
+        - descriptor:
+            name: Source bank account
+            code: SOURCE_BANK_ACCOUNT
+          list:
+            - descriptor:
+                name: Account Type
+                code: ACCOUNT_TYPE
+              value: SAVINGS
+        - descriptor:
+            name: Payment Method
+            code: PAYMENT_METHOD
+          list:
+            - descriptor:
+                code: MODE
+              value: UPI
+            - descriptor:
+                code: AUTH
+              value: URI
   quote:
     id: q1
     price:

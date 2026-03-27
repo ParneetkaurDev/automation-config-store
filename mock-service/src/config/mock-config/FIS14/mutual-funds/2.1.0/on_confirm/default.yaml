@@ -20,7 +20,7 @@ order:
             value: '3000'
             unit: INR
       fulfillment_ids:
-        - ff_123
+        - ff_122
       payment_ids:
         - pmt_123
       tags:
@@ -85,7 +85,7 @@ order:
                 code: ESIGN
               value: 8745-1247-6587-8647
   fulfillments:
-    - id: ff_123
+    - id: ff_122
       type: LUMPSUM
       state:
         descriptor:
@@ -210,7 +210,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_789
+            - ff_122
         title: INVESTMENT
         price:
           currency: INR
@@ -218,7 +218,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_789
+            - ff_122
         title: STAMP_DUTY
         price:
           currency: INR

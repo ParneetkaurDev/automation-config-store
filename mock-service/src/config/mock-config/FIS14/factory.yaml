@@ -116,7 +116,7 @@ codes:
     default: FIS14/mutual-funds/2.1.0/on_status_unsolicited_payment/default.yaml
     message_id: true
 
-  - code: 511
+  - code: 517
     action_id: on_update_unsolicited_failed
     action: on_update
     default: FIS14/mutual-funds/2.1.0/on_update_unsolicited_failed/default.yaml
@@ -140,3 +140,15 @@ codes:
     default: FIS14/mutual-funds/2.1.0/on_status_unsolicited_esign/default.yaml
     message_id: true
 
+
+  - code: 518
+    action_id: on_status_unsolicited_payment_success
+    action: on_status
+    default: FIS14/mutual-funds/2.1.0/on_status_unsolicited_payment_success/default.yaml
+    message_id: true
+
+  - code: 519
+    action_id: on_update_unsolicited_success
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_unsolicited_success/default.yaml
+    message_id: true

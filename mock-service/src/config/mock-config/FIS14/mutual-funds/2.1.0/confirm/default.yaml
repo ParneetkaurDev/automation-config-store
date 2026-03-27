@@ -10,11 +10,11 @@ order:
             value: '3000'
             unit: INR
       fulfillment_ids:
-        - ff_123
+        - ff_122
       payment_ids:
         - pmt_123
   fulfillments:
-    - id: ff_123
+    - id: ff_122
       type: LUMPSUM
       customer:
         person:

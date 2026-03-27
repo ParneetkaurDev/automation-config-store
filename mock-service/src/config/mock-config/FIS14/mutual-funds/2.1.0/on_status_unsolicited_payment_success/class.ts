@@ -2,9 +2,9 @@ import { readFileSync } from "fs";
 import yaml from "js-yaml";
 import path from "path";
 import { MockAction, saveType } from "../../../../FIS14/classes/mock-action";
-import { updateDefaultGenerator } from "./generator";
+import { on_status_unsolicitedDefaultGenerator } from "./generator";
 
-export class MockUpdatePaymentClass extends MockAction {
+export class MockOnStatusUnsolicitedPaymentSuccessClass extends MockAction {
   get saveData(): saveType {
     return yaml.load(
       readFileSync(path.resolve(__dirname, "./save-data.yaml"), "utf8")
@@ -22,15 +22,15 @@ export class MockUpdatePaymentClass extends MockAction {
   }
 
   name(): string {
-    return "init";
+    return "on_status_unsolicited";
   }
 
   get description(): string {
-    return "Mock for mutual funds init";
+    return "Mock for mutual funds on_status_unsolicited";
   }
 
   async generator(existingPayload: any, sessionData: any): Promise<any> {
-    return updateDefaultGenerator(existingPayload, sessionData);
+    return on_status_unsolicitedDefaultGenerator(existingPayload, sessionData);
   }
 
   async validate(targetPayload: any): Promise<any> {

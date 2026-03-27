@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { SessionData } from "../../../session-types";
+import { updateChecklist } from '../utils/updateChecklist';
 
 export async function on_select_2DefaultGenerator(
     existingPayload: any,
@@ -80,5 +81,13 @@ export async function on_select_2DefaultGenerator(
 
 
     console.log("=== on_select_2 Generator End ===");
+    const updates = {
+        APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",
+        KYC: sessionData.verification_status || "",
+        ESIGN: sessionData.E_sign_verification_status || ""
+    };
+
+    const updatedOrder = updateChecklist(existingPayload.message.order, updates);
+    existingPayload.message.order = updatedOrder
     return existingPayload;
 }
