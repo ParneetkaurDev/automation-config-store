@@ -1,0 +1,19 @@
+save-data:
+  transaction_id: "$.context.transaction_id"
+  message_id: "$.context.message_id"
+  # Items trail
+  selected_items: "$.message.order.items[*]"
+  item: "$.message.order.items[0]"
+  # Fulfillment trail
+  selected_fulfillments: "$.message.order.fulfillments[*]"
+  fulfillment: "$.message.order.fulfillments[0]"
+  # Payment trail (BPP responds with settlement terms)
+  payments: "$.message.order.payments"
+  # Form trail (BPP may return xinput form for additional steps)
+  form_id: "$.message.order.xinput.form.id"
+  checklist_form: "$..xinput.form.url"
+  # Quote trail
+  quote: "$.message.order.quote"
+  quote_price: "$.message.order.quote.price.value"
+  # Order snapshot
+  order: "$.message.order"

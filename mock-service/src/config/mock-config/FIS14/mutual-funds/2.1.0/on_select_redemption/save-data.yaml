@@ -1,0 +1,20 @@
+save-data:
+  transaction_id: "$.context.transaction_id"
+  message_id: "$.context.message_id"
+  # Items trail
+  selected_items: "$.message.order.items[*]"
+  item: "$.message.order.items[0]"
+  # Fulfillment trail
+  selected_fulfillments: "$.message.order.fulfillments[*]"
+  fulfillment: "$.message.order.fulfillments[0]"
+  # Payment trail
+  payments: "$.message.order.payments"
+  # Form trail (xinput KYC/verification form if present)
+  form_id: "$.message.order.xinput.form.id"
+  investor_details_form: "$..xinput.form.url"
+  # Quote trail
+  quote: "$.message.order.quote"
+  quote_price: "$.message.order.quote.price.value"
+  # Order snapshot
+  order: "$.message.order"
+  selected_provider: "$.message.order.provider"

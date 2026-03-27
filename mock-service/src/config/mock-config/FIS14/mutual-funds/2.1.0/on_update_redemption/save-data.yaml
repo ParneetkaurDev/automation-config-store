@@ -1,0 +1,14 @@
+save-data:
+  transaction_id: "$.context.transaction_id"
+  message_id: "$.context.message_id"
+  # Fulfillment trail (unsolicited update — final state CANCELLED or COMPLETED)
+  selected_fulfillments: "$.message.order.fulfillments[*]"
+  fulfillment: "$.message.order.fulfillments[0]"
+  fulfillment_state: "$.message.order.fulfillments[0].state.descriptor.code"
+  # Payment trail (settlement confirmed)
+  payments: "$.message.order.payments"
+  payment_status: "$.message.order.payments[0].status"
+  payment_transaction_id: "$.message.order.payments[0].params.transaction_id"
+  # Order metadata
+  order_id: "$.message.order.id"
+  order_status: "$.message.order.status"

@@ -29,6 +29,11 @@ import { MockOnStatusUnsolicitedPaymentClass } from "./mutual-funds/2.1.0/on_sta
 import { MockUpdatePaymentClass } from "./mutual-funds/2.1.0/update_payment_retry/class";
 import { MockOnUpdatePaymentUnsolicitedClass } from "./mutual-funds/2.1.0/on_update_payment_retry/class";
 import { MockOnStatusUnsolicitedEsignClass } from "./mutual-funds/2.1.0/on_status_unsolicited_esign/class";
+import { MockOnSelectRedemptionClass } from "./mutual-funds/2.1.0/on_select_redemption/class";
+import { MockInitRedemptionClass } from "./mutual-funds/2.1.0/init_redemption/class";
+import { MockOnInitRedemptionClass } from "./mutual-funds/2.1.0/on_init_redemption/class";
+import { MockOnConfirmRedemptionClass } from "./mutual-funds/2.1.0/on_confirm_redemption/class";
+import { MockOnUpdateRedemptionClass } from "./mutual-funds/2.1.0/on_update_redemption/class";
 
 type Ctor<T> = new () => T;
 
@@ -77,6 +82,14 @@ const registry = {
     on_update_unsolicited_failed: MockOnUpdateUnsolicitedClass,
     // forms
     investor_details_form: MockInvestorDetailsFormClass,
+
+        // Redemption flows
+    on_select_redemption: MockOnSelectRedemptionClass,
+    init_redemption: MockInitRedemptionClass,
+    on_init_redemption: MockOnInitRedemptionClass,
+    confirm_redemption: MockInitRedemptionClass,
+    on_confirm_redemption: MockOnConfirmRedemptionClass,
+    on_update_redemption: MockOnUpdateRedemptionClass,
 
 } as const satisfies Record<string, Ctor<MockAction>>;
 
