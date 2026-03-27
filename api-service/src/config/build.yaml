@@ -79591,11 +79591,9 @@ x-validations:
           - _NAME_: REQUIRED_FULFILLMENT_AGENT
             attr: $.message.order.fulfillments[*].agent.person.id
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_FULFILLMENT_STOPS_SIP_TYPES
-            attr: $.message.order.fulfillments[?(@.type=='SIP' || @.type=='STP' || @.type=='SWP')].stops[*].time.schedule.frequency
-            existspath: $.message.order.fulfillments[?(@.type=='SIP' || @.type=='STP' || @.type=='SWP')].id
-            _CONTINUE_: '!(existspath are present)'
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_FULFILLMENT_STOPS
+          #   attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
+          #   _RETURN_: attr are present
           - _NAME_: REQUIRED_THRESHOLDS_TAG_GROUP
             validTags: *THRESHOLDS_TAG
             tagPath: $.message.order.fulfillments[*].tags[*].descriptor.code
@@ -79745,8 +79743,6 @@ x-validations:
             _RETURN_: attr are present
 
       - _NAME_: INIT_PAYMENTS
-        existspath: $.message.order.payments[*].id
-        _CONTINUE_: '!(existspath are present)'
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
             attr: $.message.order.payments[*].collected_by
@@ -79787,10 +79783,6 @@ x-validations:
                 _RETURN_: attr are present
 
       - _NAME_: INIT_PAYMENTS_TAGS
-        # SOURCE_BANK_ACCOUNT and PAYMENT_METHOD tags only present in SIP/STP/SWP flows
-        paymentspath: $.message.order.payments[*].id
-        existspath: $.message.order.fulfillments[?(@.type=='SIP' || @.type=='STP' || @.type=='SWP')].id
-        _CONTINUE_: '!(paymentspath are present) || !(existspath are present)'
         _RETURN_:
           - _NAME_: REQUIRED_SOURCE_BANK_ACCOUNT_TAG_GROUP
             validTags: &SOURCE_BANK_ACCOUNT_TAG
@@ -79932,8 +79924,6 @@ x-validations:
           #   _RETURN_: attr all in enumList
 
       - _NAME_: ON_INIT_PAYMENTS
-        existspath: $.message.order.payments[*].id
-        _CONTINUE_: '!(existspath are present)'
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_ID
             attr: $.message.order.payments[*].id
