@@ -79280,6 +79280,7 @@ x-validations:
               - LUMPSUM
               - SIP
               - REDEMPTION
+              - INSTANT_REDEMPTION
               - SWP
               - STP
             _RETURN_: attr all in enumList
@@ -79289,6 +79290,7 @@ x-validations:
               - SIP_DETAILS
               - LUMPSUM_DETAILS
               - REDEMPTION_DETAILS
+              - INSTANT_REDEMPTION_DETAILS
               - SWP_DETAILS
               - STP_DETAILS
             tagPath: $.message.catalog.providers[*].fulfillments[*].tags[*].descriptor.code
@@ -79349,6 +79351,26 @@ x-validations:
               - MIN_REDEMPTION_AMOUNT
               - MIN_REDEMPTION_QUANTITY
               - REDEMPTION_QUANTITY_MULTIPLE
+              - UNITS_MIN
+              - UNITS_MAX
+              - UNITS_MULTIPLES
+            _CONTINUE_: '!(subTags are present)'
+            _RETURN_: subTags any in validValues
+
+      - _NAME_: ON_SEARCH_FULFILLMENTS_INSTANT_REDEMPTION
+        _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='INSTANT_REDEMPTION')]
+        _RETURN_:
+          - _NAME_: OPTIONAL_INSTANT_REDEMPTION_THRESHOLDS_LIST
+            _SCOPE_: $.message.catalog.providers[*].fulfillments[?(@.type=='INSTANT_REDEMPTION')].tags[?(@.descriptor.code=='THRESHOLDS' || @.descriptor.code=='INSTANT_REDEMPTION_DETAILS')]
+            subTags: $.list[*].descriptor.code
+            validValues: &INSTANT_REDEMPTION_THRESHOLDS_VALUES
+              - AMOUNT_MIN
+              - AMOUNT_MAX
+              - QUANTITY_MIN
+              - QUANTITY_MAX
+              - UNITS_MIN
+              - UNITS_MAX
+              - UNITS_MULTIPLES
             _CONTINUE_: '!(subTags are present)'
             _RETURN_: subTags any in validValues
 
@@ -79569,58 +79591,66 @@ x-validations:
           - _NAME_: REQUIRED_FULFILLMENT_AGENT
             attr: $.message.order.fulfillments[*].agent.person.id
             _RETURN_: attr are present
-          # - _NAME_: REQUIRED_FULFILLMENT_STOPS
-          #   attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
-          #   _RETURN_: attr are present
+          - _NAME_: REQUIRED_FULFILLMENT_STOPS
+            attr: $.message.order.fulfillments[*].stops[*].time.schedule.frequency
+            _RETURN_: attr are present
           - _NAME_: REQUIRED_THRESHOLDS_TAG_GROUP
             validTags: *THRESHOLDS_TAG
             tagPath: $.message.order.fulfillments[*].tags[*].descriptor.code
             _CONTINUE_: '!(tagPath are present)'
             _RETURN_: tagPath any in validTags
 
-      # - _NAME_: ON_SELECT_XINPUT
-      #   xinputpath: $.message.order.xinput.form.id
-      #   _CONTINUE_: '!(xinputpath are present)'
-      #   _RETURN_:
-      #     - _NAME_: REQUIRED_XINPUT_REQUIRED
-      #       attr: $.message.order.xinput.required
-      #       _RETURN_: attr are present
-      #     - _NAME_: REQUIRED_XINPUT_HEAD_INDEX
-      #       _RETURN_:
-      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
-      #           attr: $.message.order.xinput.head.index.min
-      #           _RETURN_: attr are present
-      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
-      #           attr: $.message.order.xinput.head.index.cur
-      #           _RETURN_: attr are present
-      #         - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
-      #           attr: $.message.order.xinput.head.index.max
-      #           _RETURN_: attr are present
-      #     - _NAME_: REQUIRED_XINPUT_HEAD_HEADINGS
-      #       attr: $.message.order.xinput.head.headings[*]
-      #       _RETURN_: attr are present
-      #     - _NAME_: VALID_XINPUT_HEADINGS_ENUM
-      #       attr: $.message.order.xinput.head.headings[*]
-      #       enumList: &XINPUT_HEADINGS
-      #         - APPLICATION_FORM
-      #         - KYC
-      #         - ADDITIONAL_DOCUMENTS
-      #       _RETURN_: attr any in enumList
-      #     - _NAME_: REQUIRED_XINPUT_FORM_ID
-      #       attr: $.message.order.xinput.form.id
-      #       _RETURN_: attr are present
-      #     - _NAME_: REQUIRED_XINPUT_FORM_URL
-      #       attr: $.message.order.xinput.form.url
-      #       _RETURN_: attr are present
-      #     - _NAME_: REQUIRED_XINPUT_FORM_MIME_TYPE
-      #       attr: $.message.order.xinput.form.mime_type
-      #       _RETURN_: attr are present
-      #     - _NAME_: VALID_XINPUT_FORM_MIME_TYPE_ENUM
-      #       attr: $.message.order.xinput.form.mime_type
-      #       enumList: &MIME_TYPES
-      #         - text/html
-      #         - application/json
-      #       _RETURN_: attr all in enumList
+      - _NAME_: ON_SELECT_XINPUT
+        xinputpath: $.message.order.xinput.form.id
+        _CONTINUE_: '!(xinputpath are present)'
+        _RETURN_:
+          - _NAME_: OPTIONAL_XINPUT_REQUIRED
+            attr: $.message.order.xinput.required
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr are present
+          - _NAME_: OPTIONAL_XINPUT_HEAD_INDEX
+            headpath: $.message.order.xinput.head.index.min
+            _CONTINUE_: '!(headpath are present)'
+            _RETURN_:
+              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MIN
+                attr: $.message.order.xinput.head.index.min
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_CUR
+                attr: $.message.order.xinput.head.index.cur
+                _RETURN_: attr are present
+              - _NAME_: REQUIRED_XINPUT_HEAD_INDEX_MAX
+                attr: $.message.order.xinput.head.index.max
+                _RETURN_: attr are present
+          - _NAME_: OPTIONAL_XINPUT_HEAD_HEADINGS
+            attr: $.message.order.xinput.head.headings[*]
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr are present
+          - _NAME_: VALID_XINPUT_HEADINGS_ENUM
+            attr: $.message.order.xinput.head.headings[*]
+            enumList: &XINPUT_HEADINGS
+              - APPLICATION_FORM
+              - KYC
+              - ADDITIONAL_DOCUMENTS
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr any in enumList
+          - _NAME_: REQUIRED_XINPUT_FORM_ID
+            attr: $.message.order.xinput.form.id
+            _RETURN_: attr are present
+          - _NAME_: OPTIONAL_XINPUT_FORM_URL
+            attr: $.message.order.xinput.form.url
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr are present
+          - _NAME_: OPTIONAL_XINPUT_FORM_MIME_TYPE
+            attr: $.message.order.xinput.form.mime_type
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr are present
+          - _NAME_: VALID_XINPUT_FORM_MIME_TYPE_ENUM
+            attr: $.message.order.xinput.form.mime_type
+            enumList: &MIME_TYPES
+              - text/html
+              - application/json
+            _CONTINUE_: '!(attr are present)'
+            _RETURN_: attr all in enumList
 
       - _NAME_: ON_SELECT_BPP_TERMS
         _RETURN_:
