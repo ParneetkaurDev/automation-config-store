@@ -1,0 +1,51 @@
+update_target: order.payments
+order:
+  id: mfpp_213adf123af
+  payments:
+    - collected_by: BAP
+      status: PAID
+      params:
+        amount: '3000'
+        currency: INR
+        source_bank_code: icic0000047
+        source_bank_account_number: '004701563111'
+        source_bank_account_name: harish gupta
+        transaction_id: '24234324324'
+      type: PRE_FULFILLMENT
+      tags:
+        - descriptor:
+            name: Source bank account
+            code: SOURCE_BANK_ACCOUNT
+          list:
+            - descriptor:
+                name: Account Type
+                code: ACCOUNT_TYPE
+              value: SAVINGS
+        - descriptor:
+            name: Payment Settlement Details
+            code: SETTLEMENT_DETAILS
+          list:
+            - descriptor:
+                code: AMOUNT
+              value: '3000'
+            - descriptor:
+                code: CURRENCY
+              value: INR
+            - descriptor:
+                code: MODE
+              value: NEFT
+            - descriptor:
+                code: BANK_ACCOUNT_NUMBER
+              value: '1235890234325'
+            - descriptor:
+                code: BANK_ACCOUNT_NAME
+              value: ABC MF Collection Account
+            - descriptor:
+                code: BANK_CODE
+              value: hdfc0000012
+            - descriptor:
+                code: TRANSACTION_ID
+              value: UTR1234ADF342345324
+            - descriptor:
+                code: SETTLED_AT
+              value: '2023-05-25T05:23:03.443Z'

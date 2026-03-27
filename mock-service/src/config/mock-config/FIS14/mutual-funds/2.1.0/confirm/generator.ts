@@ -86,5 +86,32 @@ export async function confirmDefaultGenerator(
 
         delete existingPayload.message?.order?.xinput;
     }
+
+    if (sessionData?.flow_id === "Lumpsum_Payment_By_Buyer_App") {
+        existingPayload.message.order.fulfillments[0].customer.person.creds = [
+            {
+                "id": "1562162434/45",
+                "type": "FOLIO"
+            },
+            {
+                "id": "115.245.207.90",
+                "type": "IP_ADDRESS"
+            }
+        ]
+
+        delete existingPayload.message?.order?.xinput;
+        existingPayload.message.order.payments = [
+            {
+                "id": "pmt_123",
+                "collected_by": "BAP",
+                "status": "NOT-PAID",
+                "params": {
+                    "amount": "3000",
+                    "currency": "INR"
+                },
+                "type": "PRE_FULFILLMENT"
+            }
+        ]
+    }
     return existingPayload;
 }

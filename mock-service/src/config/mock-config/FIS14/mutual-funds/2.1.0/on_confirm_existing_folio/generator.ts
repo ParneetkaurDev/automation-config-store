@@ -130,5 +130,20 @@ export async function on_confirmDefaultGenerator(
 
     const updatedOrder = updateChecklist(existingPayload.message.order, updates);
     existingPayload.message.order = updatedOrder
+
+    if (sessionData?.flow_id === "Lumpsum_Payment_By_Buyer_App") {
+        existingPayload.message.order.payments = [
+            {
+                "id": "pmt_123",
+                "collected_by": "BAP",
+                "status": "NOT-PAID",
+                "params": {
+                    "amount": "3000",
+                    "currency": "INR"
+                },
+                "type": "PRE_FULFILLMENT"
+            }
+        ]
+    }
     return existingPayload;
 }

@@ -215,3 +215,16 @@ codes:
     action: on_update
     default: FIS14/mutual-funds/2.1.0/on_update_unsolicited_new_folio/default.yaml
     message_id: true
+
+
+  - code: 530
+    action_id: update_buyer_payment
+    action: update
+    default: FIS14/mutual-funds/2.1.0/update_buyer_payment/default.yaml
+    message_id: true
+
+  - code: 531
+    action_id: on_update_buyer_payment
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_buyer_payment/default.yaml
+    message_id: false

@@ -47,6 +47,18 @@ export async function selectDefaultGenerator(
   existingPayload.message.order.fulfillments =
     userInput?.message?.order?.fulfillments ?? [];
 
+  //Ading payment array for buyer flow
+
+  if (sessionData?.flow_id === "Lumpsum_Payment_By_Buyer_App") {
+    existingPayload.message.order.payments = [
+      {
+        "collected_by": "BAP",
+        "status": "NOT-PAID",
+        "type": "PRE_FULFILLMENT"
+      }
+    ]
+  }
+
   // Update timestamp
   // if (existingPayload.context) {
   //   existingPayload.context.timestamp = new Date().toISOString();
