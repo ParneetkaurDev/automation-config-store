@@ -1238,6 +1238,7 @@ components:
                 - text/plain
                 - text/html
                 - application/json
+                - application/html
         media:
           type: array
           items:
@@ -79649,6 +79650,7 @@ x-validations:
             enumList: &MIME_TYPES
               - text/html
               - application/json
+              - application/html
             _CONTINUE_: '!(attr are present)'
             _RETURN_: attr all in enumList
 
