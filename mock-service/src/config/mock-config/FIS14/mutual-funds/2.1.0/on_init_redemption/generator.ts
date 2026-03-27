@@ -1,0 +1,54 @@
+import { randomUUID } from 'crypto';
+import { SessionData } from "../../../session-types";
+
+export async function on_init_redemptionDefaultGenerator(
+    existingPayload: any,
+    sessionData: SessionData
+) {
+    console.log("=== on_init_redemption Generator Start ===");
+
+    // Update context IDs
+    if (existingPayload.context) {
+        existingPayload.context.timestamp = new Date().toISOString();
+        if (sessionData.transaction_id) existingPayload.context.transaction_id = sessionData.transaction_id;
+        if (sessionData.message_id) existingPayload.context.message_id = sessionData.message_id;
+    }
+
+    // Update provider from session
+    const selectedProvider = sessionData.selected_provider || sessionData.provider_id;
+    if (selectedProvider && existingPayload.message?.order?.provider) {
+        existingPayload.message.order.provider.id =
+            typeof selectedProvider === 'string' ? selectedProvider : selectedProvider.id;
+    }
+
+    // Update item from session
+    const selectedItem = sessionData.item || sessionData.selected_items?.[0];
+    if (selectedItem && existingPayload.message?.order?.items?.[0]) {
+        existingPayload.message.order.items[0].id =
+            typeof selectedItem === 'string' ? selectedItem : selectedItem.id;
+    }
+
+    // Update fulfillment from session
+    // if (sessionData.fulfillment && existingPayload.message?.order?.fulfillments?.[0]) {
+    //     existingPayload.message.order.fulfillments[0].id =
+    //         typeof sessionData.fulfillment === 'string'
+    //             ? sessionData.fulfillment
+    //             : sessionData.fulfillment.id;
+    // }
+
+    // Inject payments (BPP settlement terms) from session
+    if (sessionData.payments && existingPayload.message?.order?.payments) {
+        existingPayload.message.order.payments = sessionData.payments;
+    }
+
+    // Inject quote from session
+    if (sessionData.quote && existingPayload.message?.order?.quote) {
+        existingPayload.message.order.quote = {
+            ...existingPayload.message.order.quote,
+            ...sessionData.quote,
+        };
+    }
+
+    console.log("=== on_init_redemption Generator End ===");
+    return existingPayload;
+}

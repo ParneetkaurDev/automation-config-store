@@ -1,0 +1,15 @@
+save-data:
+  transaction_id: "$.context.transaction_id"
+  message_id: "$.context.message_id"
+  # Items trail (carry forward from select)
+  selected_items: "$.message.order.items[*]"
+  item: "$.message.order.items[0]"
+  # Fulfillment trail
+  selected_fulfillments: "$.message.order.fulfillments[*]"
+  fulfillment: "$.message.order.fulfillments[0]"
+  # Payment trail (BAP terms sent in init)
+  payments: "$.message.order.payments"
+  # Form trail
+  form_id: "$.message.order.xinput.form.id"
+  # Order snapshot
+  order: "$.message.order"
