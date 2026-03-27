@@ -79,25 +79,41 @@ export async function on_initDefaultGenerator(
     }
 
     // Handle form response
-    const submissionId = sessionData.form_submission_id || sessionData?.form_data?.investor_details_form?.form_submission_id;
 
-    if (submissionId && existingPayload.message?.order?.items?.[0]) {
-        // If xinput doesn't exist, create it (or ensures it exists)
-        if (!existingPayload.message.order.items[0].xinput) {
-            existingPayload.message.order.items[0].xinput = {};
-        }
-
-        // We should response with the status of the form
-        existingPayload.message.order.items[0].xinput = {
-            ...existingPayload.message.order.items[0].xinput,
-            form_response: {
-                status: "SUCCESS",
-                submission_id: submissionId
-            }
-        };
-        console.log("Added form_response with status SUCCESS to on_init payload");
+    if (existingPayload.message?.order) {
+        const now = new Date().toISOString();
+        existingPayload.message.order.created_at = now;
+        existingPayload.message.order.updated_at = now;
     }
 
-    console.log("=== on_init Generator End ===");
+    const submission_id = sessionData?.form_data?.E_sign_verification_status?.form_submission_id || sessionData?.E_sign_verification_status
+
+    if (existingPayload.message?.order?.xinput?.form_response) {
+        if (submission_id) {
+            existingPayload.message.order.xinput.form_response.status = "SUCCESS"
+
+            existingPayload.message.order.xinput.form_response.submission_id = submission_id;
+            console.log("Updated form_response with submission_id:", submission_id);
+        } else {
+            console.warn("⚠️ No submission_id found for E_sign_verification_status");
+        }
+    }
+
+    // Ensure form ID matches from on_select
+    const formId = sessionData?.form_id || "E_sign_verification_status";
+    if (existingPayload.message?.order?.xinput?.form) {
+        existingPayload.message.order.xinput.form.id = formId
+    }
+
+    existingPayload.message.order.xinput = {
+        form: {
+            id: formId
+        },
+        form_response: {
+            status: "SUCCESS",
+            submission_id: submission_id
+        }
+    }
+
     return existingPayload;
 }

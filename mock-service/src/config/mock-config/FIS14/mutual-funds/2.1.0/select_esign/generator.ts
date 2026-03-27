@@ -39,7 +39,7 @@ export async function select_2DefaultGenerator(
     }
 
     // Update form response with submission ID from verification_status
-    const submission_id = sessionData?.form_data?.verification_status?.form_submission_id;
+    const submission_id = sessionData?.form_data?.verification_status?.form_submission_id || sessionData?.verification_status;
 
     if (existingPayload.message?.order?.xinput?.form_response) {
         if (submission_id) {
@@ -51,9 +51,9 @@ export async function select_2DefaultGenerator(
     }
 
     // Ensure form ID matches from on_select
-    const formId = sessionData.form_id;
-    if (formId && existingPayload.message?.order?.items?.[0]?.xinput?.form) {
-        existingPayload.message.order.items[0].xinput.form.id = formId;
+    const formId = "verification_status";
+    if (formId && existingPayload.message?.order?.xinput?.form) {
+        existingPayload.message.order.xinput.form.id = formId;
     }
 
     console.log("=== select_2 Generator End ===");

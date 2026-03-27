@@ -64,7 +64,7 @@ export async function on_selectDefaultGenerator(
                 xinput.head.index.cur = nextStage;
 
                 // Update form based on current stage
-                const formId = `form_${nextStage + 1}`;
+                const formId = `investor_details_form`;
                 xinput.form.id = formId;
 
                 // Map stage to form URL
@@ -89,7 +89,7 @@ export async function on_selectDefaultGenerator(
                 console.log("Single Form submitted, xinput.required = false");
             } else {
                 const formId = sessionData.form_id || `form_${randomUUID()}`;
-                xinput.form.id = formId;
+                xinput.form.id = "investor_details_form";
 
                 const baseUrl = process.env.FORM_SERVICE || 'http://localhost:3001';
                 xinput.form.url = `${baseUrl}/forms/${sessionData.domain}/investor_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;

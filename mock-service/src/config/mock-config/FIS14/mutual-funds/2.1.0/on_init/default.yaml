@@ -1,5 +1,5 @@
 order:
-  id: mfpp_213adf123af
+  id: mfp_213adf123af
   status: CREATED
   provider:
     id: sellerapp_id
@@ -67,6 +67,23 @@ order:
                 name: IDCW Option
                 code: IDCW_OPTION
               value: PAYOUT
+        - display: true
+          descriptor:
+            name: Checklists
+            code: CHECKLISTS
+          list:
+            - descriptor:
+                name: Application Form
+                code: APPLICATION_FORM
+              value: 6547-7456-7235-4386
+            - descriptor:
+                name: KYC
+                code: KYC
+              value: 1978-5697-3478-6547
+            - descriptor:
+                name: ESIGN
+                code: ESIGN
+              value: 8745-1247-6587-8647
   fulfillments:
     - id: ff_789
       type: LUMPSUM
@@ -74,8 +91,6 @@ order:
         person:
           id: 'pan:arrpp7771n'
           creds:
-            - id: 78953432/32
-              type: FOLIO
             - id: 115.245.207.90
               type: IP_ADDRESS
         contact:
@@ -92,50 +107,27 @@ order:
       tags:
         - display: true
           descriptor:
-            name: Folio
-            code: FOLIO_INFORMATION
-          list:
-            - descriptor:
-                name: Folio Number
-                code: FOLIO_NUMBER
-              value: 123213432/32
-            - descriptor:
-                name: Holding Pattern
-                code: HOLDING_PATTERN
-              value: SINGLE
-            - descriptor:
-                name: Holder Name
-                code: HOLDER_NAME
-              value: Satish K Perala
-            - descriptor:
-                name: Created On
-                code: CREATED_ON
-              value: 25/11/2019
-            - descriptor:
-                name: Email Address for 2FA
-                code: 2FA_EMAIL_ADDRESS_MASKED
-              value: '****sha@gmail.com'
-            - descriptor:
-                name: Mobile Number for 2FA
-                code: 2FA_MOBILE_NUMBER_MASKED
-              value: '***9345'
-        - display: true
-          descriptor:
             name: Thresholds
             code: THRESHOLDS
           list:
             - descriptor:
                 name: Amount Minimum
                 code: AMOUNT_MIN
-              value: '1000'
+              value: '5000'
             - descriptor:
                 name: Amount Maximum
                 code: AMOUNT_MAX
-              value: '10000'
+              value: '50000'
             - descriptor:
                 name: Amount Multiples
                 code: AMOUNT_MULTIPLES
               value: '1'
+  xinput:
+    form:
+      id: form_3
+    form_response:
+      status: SUCCESS
+      submission_id: 8745-1247-6587-8647
   payments:
     - id: pmt_123
       collected_by: BPP

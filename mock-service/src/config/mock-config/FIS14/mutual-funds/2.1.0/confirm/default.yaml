@@ -1,5 +1,5 @@
 order:
-  id: mfpp_213adf123af
+  id: mfp_213adf123af
   provider:
     id: sellerapp_id
   items:
@@ -10,18 +10,16 @@ order:
             value: '3000'
             unit: INR
       fulfillment_ids:
-        - ff_789
+        - ff_123
       payment_ids:
         - pmt_123
   fulfillments:
-    - id: ff_789
+    - id: ff_123
       type: LUMPSUM
       customer:
         person:
           id: 'pan:arrpp7771n'
           creds:
-            - id: 78953432/32
-              type: FOLIO
             - id: 115.245.207.90
               type: IP_ADDRESS
         contact:
@@ -35,6 +33,11 @@ order:
               type: ARN
             - id: ARN-123456
               type: SUB_BROKER_ARN
+  xinput:
+    form:
+      id: form_3
+    form_response:
+      submission_id: 6547-7456-7235-4386
   payments:
     - id: pmt_123
       collected_by: BPP

@@ -6,10 +6,10 @@ import { resolveFormActions } from "./resolve-action";
 
 export class MockESignVerificationStatusFormClass extends MockAction {
 	name(): string {
-		return "Ekyc_details_form";
+		return "E_sign_verification_status";
 	}
 	get description(): string {
-		return "Mock for Ekyc_details_form";
+		return "Mock for E_sign_verification_status";
 	}
 	generator(existingPayload: any, sessionData: SessionData): Promise<any> {
 		throw new Error("Method not implemented.");
@@ -24,7 +24,7 @@ export class MockESignVerificationStatusFormClass extends MockAction {
 				message: "Session data is required for validation",
 			};
 		}
-		const formLink = sessionData["Ekyc_details_form"];
+		const formLink = sessionData["E_sign_verification_status"];
 		if (!formLink) {
 			return { valid: false, message: "Form link not found in session data" };
 		}
@@ -41,7 +41,7 @@ export class MockESignVerificationStatusFormClass extends MockAction {
 		sessionData: SessionData
 	): Promise<Record<string, any>> {
 
-		const formLink = sessionData["Ekyc_details_form"];
+		const formLink = sessionData["E_sign_verification_status"];
 		if (!formLink) {
 			throw new Error("Form link not found in session data");
 		}
@@ -49,7 +49,7 @@ export class MockESignVerificationStatusFormClass extends MockAction {
 		const formData = formRaw.data;
 		return {
 			...sessionData,
-			Ekyc_details_form: resolveFormActions(formLink, formData),
+			E_sign_verification_status: resolveFormActions(formLink, formData),
 		};
 	}
 
@@ -57,7 +57,7 @@ export class MockESignVerificationStatusFormClass extends MockAction {
 		return Promise.resolve({ valid: true });
 	}
 	get saveData(): saveType {
-		return { "save-data": { Ekyc_details_form: "Ekyc_details_form" } };
+		return { "save-data": { E_sign_verification_status: "E_sign_verification_status" } };
 	}
 	get defaultData(): any {
 		return {};
