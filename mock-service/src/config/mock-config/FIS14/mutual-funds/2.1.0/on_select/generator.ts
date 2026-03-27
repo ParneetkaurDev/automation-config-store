@@ -46,7 +46,7 @@ export async function on_selectDefaultGenerator(
     if (xinput?.form) {
         const flowId = sessionData.flow_id || '';
         const isKYCFlow = flowId.includes('KYC');
-        const submissionId = sessionData?.form_data?.investor_details_form?.form_submission_id;
+        const submissionId = sessionData?.form_data?.kyc_details_form?.form_submission_id;
         const kycStage = sessionData.kyc_stage || 0;
 
         // Multi-stage KYC flow (New Folio w/ KYC)
@@ -64,7 +64,7 @@ export async function on_selectDefaultGenerator(
                 xinput.head.index.cur = nextStage;
 
                 // Update form based on current stage
-                const formId = `investor_details_form`;
+                const formId = `kyc_details_form`;
                 xinput.form.id = formId;
 
                 // Map stage to form URL
@@ -75,8 +75,8 @@ export async function on_selectDefaultGenerator(
                 };
 
                 const baseUrl = process.env.FORM_SERVICE || 'http://localhost:3001';
-                const formUrlKey = formUrlMap[nextStage] || 'investor_details_form';
-                xinput.form.url = `${baseUrl}/forms/${sessionData.domain}/investor_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+                const formUrlKey = formUrlMap[nextStage] || 'kyc_details_form';
+                xinput.form.url = `${baseUrl}/forms/${sessionData.domain}/kyc_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
 
                 console.log(`KYC Stage ${nextStage}: ${xinput.head.headings?.[nextStage] || 'Stage ' + nextStage} - Form URL generated`);
             }
@@ -89,10 +89,10 @@ export async function on_selectDefaultGenerator(
                 console.log("Single Form submitted, xinput.required = false");
             } else {
                 const formId = sessionData.form_id || `form_${randomUUID()}`;
-                xinput.form.id = "investor_details_form";
+                xinput.form.id = "kyc_details_form";
 
                 const baseUrl = process.env.FORM_SERVICE || 'http://localhost:3001';
-                xinput.form.url = `${baseUrl}/forms/${sessionData.domain}/investor_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
+                xinput.form.url = `${baseUrl}/forms/${sessionData.domain}/kyc_details_form?session_id=${sessionData.session_id}&flow_id=${sessionData.flow_id}&transaction_id=${existingPayload.context.transaction_id}`;
 
                 console.log("Generated form URL:", xinput.form.url);
                 console.log("Using form ID:", formId);

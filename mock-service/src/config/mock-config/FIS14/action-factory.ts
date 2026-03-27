@@ -46,6 +46,7 @@ import { MockOnInitNewFolioClass } from "./mutual-funds/2.1.0/on_init_new_folio/
 import { MockOnConfirmNewFolioClass } from "./mutual-funds/2.1.0/on_confirm_new_folio/class";
 import { MockOnStatusUnsolicitedPaymentNewFolioClass } from "./mutual-funds/2.1.0/on_status_unsolicited_new_folio_payment/class";
 import { MockOnUpdateUnsolicitedNewFolioClass } from "./mutual-funds/2.1.0/on_update_unsolicited_new_folio/class";
+import { MockKycDetailFormClass } from "./mutual-funds/2.1.0/kyc_details_form/kyc_details_form";
 
 type Ctor<T> = new () => T;
 
@@ -96,6 +97,7 @@ const registry = {
     on_update_unsolicited_failed: MockOnUpdateUnsolicitedClass,
     // forms
     investor_details_form: MockInvestorDetailsFormClass,
+    kyc_details_form: MockKycDetailFormClass,
 
     /***LUMPSUM EXISTING FOLIO CALLS START*/
     on_confirm_existing_folio: MockOnConfirmExistingFolioClass,

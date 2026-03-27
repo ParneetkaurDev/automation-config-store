@@ -1,5 +1,5 @@
 save-data:
-  investor_details_form: "$..form.url"
+  kyc_details_form: "$..form.url"
   form_id: $.message.order.xinput.form.id
   transaction_id: "$.context.transaction_id"
   message_id: "$.context.message_id"

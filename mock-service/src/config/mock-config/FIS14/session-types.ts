@@ -91,6 +91,7 @@ export interface SessionData {
 	payment_url_form?: string
 	order?: any
 	retry_payment_url_form?: any
+	kyc_details_form?: any
 }
 
 export type BecknContext = {

@@ -49,8 +49,8 @@ export async function on_select_2DefaultGenerator(
         }
     }
 
-    // Update submission_id from investor_details_form
-    // const submission_id = sessionData?.form_data?.investor_details_form?.form_submission_id;
+    // Update submission_id from kyc_details_form
+    // const submission_id = sessionData?.form_data?.kyc_details_form?.form_submission_id;
     // if (submission_id && existingPayload.message?.order?.items?.[0]?.xinput?.form_response) {
     //     existingPayload.message.order.items[0].xinput.form_response.submission_id = submission_id;
     // }
@@ -82,7 +82,7 @@ export async function on_select_2DefaultGenerator(
 
     console.log("=== on_select_2 Generator End ===");
     const updates = {
-        APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",
+        APPLICATION_FORM_WITH_KYC: sessionData?.kyc_details_form || "",
         KYC: sessionData.verification_status || "",
         ESIGN: sessionData.E_sign_verification_status || ""
     };

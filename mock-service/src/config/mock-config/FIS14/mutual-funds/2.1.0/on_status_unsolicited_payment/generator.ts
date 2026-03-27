@@ -87,7 +87,7 @@ export async function on_status_unsolicitedDefaultGenerator(
         existingPayload.message.order.xinput.form.id = formId
     }
     const updates = {
-        APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",
+        APPLICATION_FORM_WITH_KYC: sessionData?.kyc_details_form || "",
         KYC: sessionData.verification_status || "",
         ESIGN: sessionData.E_sign_verification_status || ""
     };

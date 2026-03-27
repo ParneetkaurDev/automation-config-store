@@ -59,7 +59,7 @@ export async function on_select_2DefaultGenerator(
     console.log("=== on_select_2 Generator End ===");
 
     const updates = {
-        APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",
+        APPLICATION_FORM_WITH_KYC: sessionData?.kyc_details_form || "",
     };
 
     const updatedOrder = updateChecklist(existingPayload.message.order, updates);

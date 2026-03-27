@@ -40,9 +40,9 @@ export async function select_2DefaultGenerator(
     }
 
     // Update form response with submission ID from investor_details_form
-    const submission_id = sessionData.flow_id === "Lumpsum_New_Folio" ? sessionData?.form_data?.investor_details_form?.form_submission_id : sessionData?.investor_details_form
+    const submission_id = sessionData.flow_id === "Lumpsum_New_Folio" ? sessionData?.form_data?.investor_details_form?.form_submission_id : sessionData?.kyc_details_form
     // Ensure form ID matches from on_select
-    const formId = sessionData.flow_id === "Lumpsum_New_Folio" ? "investor_details_form" : "investor_details_form"
+    const formId = sessionData.flow_id === "Lumpsum_New_Folio" ? "investor_details_form" : "kyc_details_form"
     if (formId && existingPayload.message?.order?.xinput?.form) {
         existingPayload.message.order.xinput.form.id = formId;
     }

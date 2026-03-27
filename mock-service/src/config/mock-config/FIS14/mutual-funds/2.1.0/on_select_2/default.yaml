@@ -94,7 +94,7 @@ order:
     form:
       id: form_2
       url: 'https://forms.sellerapp.com/account-opening-kyc/data?k=234sadf234'
-      mime_type: application/html
+      mime_type: application/json
   fulfillments:
     - id: ff_122
       type: LUMPSUM
