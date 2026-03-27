@@ -27,9 +27,8 @@ order:
               type: SUB_BROKER_ARN
   xinput:
     form:
-      id: form_2
+      id: verification_status
     form_response:
-      status: "SUBMITTED"
       submission_id: 20d1fd2a-827d-460e-bd72-b21064d23002
   tags:
     - display: false

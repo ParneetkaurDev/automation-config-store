@@ -88,8 +88,8 @@ export interface SessionData {
 	esign_submission_id?: string;
 	verification_status?: string;
 	E_sign_verification_status?: string
-	Ekyc_details_form?: string
 	payment_url_form?: string
+	order?: any
 }
 
 export type BecknContext = {
