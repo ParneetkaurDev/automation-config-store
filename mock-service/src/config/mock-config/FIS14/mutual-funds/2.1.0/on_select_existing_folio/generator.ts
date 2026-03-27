@@ -46,5 +46,15 @@ export async function on_select_existing_folio(
     }
 
     console.log("=== on_select_2 Generator End ===");
+
+    if (sessionData?.flow_id === "Lumpsum_Payment_By_Buyer_App") {
+        existingPayload.message.order.payments = [
+            {
+                "collected_by": "BAP",
+                "status": "NOT-PAID",
+                "type": "PRE_FULFILLMENT"
+            }
+        ]
+    }
     return existingPayload;
 }
