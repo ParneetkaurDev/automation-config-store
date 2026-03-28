@@ -79444,6 +79444,7 @@ x-validations:
                 attr: $.message.order.items[*].quantity.selected.measure.unit
                 enumList: &CURRENCY_INR
                   - INR
+                  - MF_UNITS
                 _RETURN_: attr all in enumList
 
       - _NAME_: SELECT_FULFILLMENTS
