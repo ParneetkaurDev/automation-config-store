@@ -79205,9 +79205,9 @@ x-validations:
           - _NAME_: REQUIRED_ITEM_CATEGORY_IDS
             attr: $.message.catalog.providers[*].items[?(@.descriptor.code=='SCHEME_PLAN')].category_ids[*]
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_FULFILLMENT_IDS
-            attr: $.message.catalog.providers[*].items[?(@.descriptor.code=='SCHEME_PLAN')].fulfillment_ids[*]
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_ITEM_FULFILLMENT_IDS
+          #   attr: $.message.catalog.providers[*].items[?(@.descriptor.code=='SCHEME_PLAN')].fulfillment_ids[*]
+          #   _RETURN_: attr are present
           - _NAME_: REQUIRED_ITEM_CREATOR
             attr: $.message.catalog.providers[*].items[?(@.descriptor.code=='SCHEME_PLAN')].creator.descriptor.name
             _RETURN_: attr are present
@@ -79892,9 +79892,9 @@ x-validations:
           # - _NAME_: REQUIRED_ITEM_FULFILLMENT_IDS
           #   attr: $.message.order.items[*].fulfillment_ids[*]
           #   _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_PAYMENT_IDS
-            attr: $.message.order.items[*].payment_ids[*]
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_ITEM_PAYMENT_IDS
+          #   attr: $.message.order.items[*].payment_ids[*]
+          #   _RETURN_: attr are present
 
       - _NAME_: ON_INIT_FULFILLMENTS
         _RETURN_:
@@ -80080,9 +80080,9 @@ x-validations:
           - _NAME_: REQUIRED_ITEM_FULFILLMENT_IDS
             attr: $.message.order.items[*].fulfillment_ids[*]
             _RETURN_: attr are present
-          - _NAME_: REQUIRED_ITEM_PAYMENT_IDS
-            attr: $.message.order.items[*].payment_ids[*]
-            _RETURN_: attr are present
+          # - _NAME_: REQUIRED_ITEM_PAYMENT_IDS
+          #   attr: $.message.order.items[*].payment_ids[*]
+          #   _RETURN_: attr are present
 
       - _NAME_: ON_CONFIRM_FULFILLMENTS
         _RETURN_:
