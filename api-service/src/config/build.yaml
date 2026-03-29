@@ -79744,6 +79744,8 @@ x-validations:
             _RETURN_: attr are present
 
       - _NAME_: INIT_PAYMENTS
+        existspath: $.message.order.payments[*].id
+        _CONTINUE_: '!(existspath are present)'      
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
             attr: $.message.order.payments[*].collected_by
@@ -79925,6 +79927,8 @@ x-validations:
           #   _RETURN_: attr all in enumList
 
       - _NAME_: ON_INIT_PAYMENTS
+        existspath: $.message.order.payments[*].id
+        _CONTINUE_: '!(existspath are present)'
         _RETURN_:
           - _NAME_: REQUIRED_PAYMENT_ID
             attr: $.message.order.payments[*].id
@@ -79933,10 +79937,10 @@ x-validations:
             attr: $.message.order.payments[*].type
             enumList: *PAYMENT_TYPE
             _RETURN_: attr all in enumList
-          - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
-            attr: $.message.order.payments[*].collected_by
-            enumList: *PAYMENT_COLLECTED_BY
-            _RETURN_: attr all in enumList
+          # - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
+          #   attr: $.message.order.payments[*].collected_by
+          #   enumList: *PAYMENT_COLLECTED_BY
+          #   _RETURN_: attr all in enumList
           # - _NAME_: REQUIRED_PAYMENT_URL
           #   attr: $.message.order.payments[*].url
           #   _RETURN_: attr are present
@@ -80113,14 +80117,16 @@ x-validations:
             _RETURN_: attr are present
 
       - _NAME_: ON_CONFIRM_PAYMENTS
+        existspath: $.message.order.payments[*].id
+        _CONTINUE_: '!(existspath are present)'   
         _RETURN_:
-          - _NAME_: REQUIRED_PAYMENT_ID
-            attr: $.message.order.payments[*].id
-            _RETURN_: attr are present
-          - _NAME_: REQUIRED_PAYMENT_TYPE
-            attr: $.message.order.payments[*].type
-            enumList: *PAYMENT_TYPE
-            _RETURN_: attr all in enumList
+          # - _NAME_: REQUIRED_PAYMENT_ID
+          #   attr: $.message.order.payments[*].id
+          #   _RETURN_: attr are present
+          # - _NAME_: REQUIRED_PAYMENT_TYPE
+          #   attr: $.message.order.payments[*].type
+          #   enumList: *PAYMENT_TYPE
+          #   _RETURN_: attr all in enumList
           - _NAME_: REQUIRED_PAYMENT_COLLECTED_BY
             attr: $.message.order.payments[*].collected_by
             enumList: *PAYMENT_COLLECTED_BY
