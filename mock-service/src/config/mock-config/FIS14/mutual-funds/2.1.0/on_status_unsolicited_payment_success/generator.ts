@@ -95,5 +95,9 @@ export async function on_status_unsolicitedDefaultGenerator(
 
     const updatedOrder = updateChecklist(existingPayload.message.order, updates);
     existingPayload.message.order = updatedOrder
+
+    if (existingPayload?.message?.order?.payments) {
+        existingPayload.message.order.payments[1].status = sessionData?.form_data?.retry_payment_url_form?.idType ? sessionData?.form_data?.retry_payment_url_form?.idType : 'PAID'
+    }
     return existingPayload;
 }
