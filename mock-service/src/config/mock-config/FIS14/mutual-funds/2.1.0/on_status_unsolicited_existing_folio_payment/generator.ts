@@ -24,41 +24,6 @@ export async function on_status_unsolicitedDefaultGenerator(
     if (sessionData?.order) {
         sessionData.order.payments = existingPayload.message.order.payments
         existingPayload.message.order = sessionData?.order || {};
-        if (existingPayload.message?.order) {
-            const order = existingPayload.message.order;
-            order.xinput = {
-                "form": {
-                    "id": "F04"
-                },
-                "form_response": {
-                    "status": "SUBMITTED",
-                    "submission_id": "F04_SUBMISSION_ID"
-                }
-            }
-            if (order.xinput?.form) {
-                // Use form ID from session data or default to FO3 (from on_select_2/on_status_unsolicited)
-                const formId = sessionData.form_id || "E_sign_verification_status";
-                order.xinput.form.id = formId;
-                console.log("Updated form ID:", formId);
-
-                const submission_id =
-                    formId === "E_sign_verification_status"
-                        ? sessionData.E_sign_verification_status : sessionData.verification_status;
-
-                // const form_status =
-                //     formId === "E_sign_verification_status"
-                //         ? sessionData?.form_data?.E_sign_verification_status?.idType
-                //         : formId === "Emanadate_verification_status" ? sessionData?.form_data?.Emanadate_verification_status?.idType
-                //             : sessionData?.form_data?.Ekyc_details_verification_status?.idType;
-                // Set form status to OFFLINE_PENDING
-                if (order.xinput?.form_response) {
-                    if (submission_id) {
-                        order.xinput.form_response.submission_id = submission_id;
-                    }
-                }
-
-            }
-        }
     }
 
     // Set created_at and updated_at to current timestamp
@@ -68,31 +33,5 @@ export async function on_status_unsolicitedDefaultGenerator(
         existingPayload.message.order.updated_at = now;
     }
 
-    const submission_id = sessionData?.form_data?.E_sign_verification_status?.form_submission_id || sessionData?.E_sign_verification_status
-
-    if (existingPayload.message?.order?.xinput?.form_response) {
-        if (submission_id) {
-            existingPayload.message.order.xinput.form_response.status = "SUCCESS"
-
-            existingPayload.message.order.xinput.form_response.submission_id = submission_id;
-            console.log("Updated form_response with submission_id:", submission_id);
-        } else {
-            console.warn("⚠️ No submission_id found for E_sign_verification_status");
-        }
-    }
-
-    // Ensure form ID matches from on_select
-    const formId = sessionData?.form_id || "E_sign_verification_status";
-    if (existingPayload.message?.order?.xinput?.form) {
-        existingPayload.message.order.xinput.form.id = formId
-    }
-    const updates = {
-        APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",
-        KYC: sessionData.verification_status || "",
-        ESIGN: sessionData.E_sign_verification_status || ""
-    };
-
-    const updatedOrder = updateChecklist(existingPayload.message.order, updates);
-    existingPayload.message.order = updatedOrder
     return existingPayload;
 }
