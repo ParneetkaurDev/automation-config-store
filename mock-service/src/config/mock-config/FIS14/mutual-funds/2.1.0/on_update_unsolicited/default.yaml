@@ -78,7 +78,7 @@ order:
           list:
             - descriptor:
                 name: Application Form
-                code: APPLICATION_FORM
+                code: APPLICATION_FORM_WITH_KYC
               value: 6547-7456-7235-4386
             - descriptor:
                 name: KYC

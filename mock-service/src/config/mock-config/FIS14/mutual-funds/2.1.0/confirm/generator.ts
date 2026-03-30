@@ -83,7 +83,6 @@ export async function confirmDefaultGenerator(
                 "type": "IP_ADDRESS"
             }
         ]
-
         delete existingPayload.message?.order?.xinput;
     }
 

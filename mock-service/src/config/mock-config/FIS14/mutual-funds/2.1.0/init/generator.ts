@@ -69,6 +69,16 @@ export async function initDefaultGenerator(
     console.log("=== init Generator End ===");
 
     if (sessionData.flow_id === "Lumpsum_Existing_Folio") {
+        existingPayload.message.order.fulfillments[0].customer.person.creds = [
+            {
+                "id": "1562162434/45",
+                "type": "FOLIO"
+            },
+            {
+                "id": "115.245.207.90",
+                "type": "IP_ADDRESS"
+            }
+        ]
         delete existingPayload.message?.order?.xinput;
     }
 
