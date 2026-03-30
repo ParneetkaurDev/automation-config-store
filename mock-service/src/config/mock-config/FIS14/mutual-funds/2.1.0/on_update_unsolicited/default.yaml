@@ -24,7 +24,7 @@ order:
             value: '149.9925'
             unit: MF_UNITS
       fulfillment_ids:
-        - ff_008
+        - ff_122
       payment_ids:
         - pmt_123
       tags:
@@ -191,7 +191,7 @@ order:
         source_bank_code: icic0000047
         source_bank_account_number: '004701563111'
         source_bank_account_name: harish gupta
-        transaction_id: 'abcdj49887866566889'
+        transaction_id: 'agkldg98044ftrf4'
       type: PRE_FULFILLMENT
       tags:
         - descriptor:
@@ -218,7 +218,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_008
+            - ff_122
         title: INVESTMENT
         price:
           currency: INR
@@ -226,7 +226,7 @@ order:
       - item:
           id: '12391'
           fulfillment_ids:
-            - ff_008
+            - ff_122
         title: STAMP_DUTY
         price:
           currency: INR

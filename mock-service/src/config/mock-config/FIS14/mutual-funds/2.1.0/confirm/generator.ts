@@ -75,7 +75,7 @@ export async function confirmDefaultGenerator(
     if (sessionData.flow_id === "Lumpsum_Existing_Folio") {
         existingPayload.message.order.fulfillments[0].customer.person.creds = [
             {
-                "id": "1562162434/45",
+                "id": sessionData?.folio_number || "1562162434/45",
                 "type": "FOLIO"
             },
             {
@@ -89,7 +89,7 @@ export async function confirmDefaultGenerator(
     if (sessionData?.flow_id === "Lumpsum_Payment_By_Buyer_App") {
         existingPayload.message.order.fulfillments[0].customer.person.creds = [
             {
-                "id": "1562162434/45",
+                "id": sessionData?.folio_number || "1562162434/45",
                 "type": "FOLIO"
             },
             {
@@ -111,6 +111,21 @@ export async function confirmDefaultGenerator(
                 "type": "PRE_FULFILLMENT"
             }
         ]
+    }
+
+    if (sessionData?.flow_id === "Lumpsum_Payment_Retry") {
+        existingPayload.message.order.fulfillments[0].customer.person.creds = [
+            {
+                "id": sessionData?.folio_number || "1562162434/45",
+                "type": "FOLIO"
+            },
+            {
+                "id": "115.245.207.90",
+                "type": "IP_ADDRESS"
+            }
+        ]
+
+        delete existingPayload.message?.order?.xinput;
     }
     return existingPayload;
 }
