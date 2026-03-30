@@ -57,6 +57,7 @@ export async function on_update_redemptionDefaultGenerator(
 
     // Update updated_at timestamp
     if (existingPayload.message?.order) {
+        existingPayload.message.order.created_at = sessionData.order.created_at;
         existingPayload.message.order.updated_at = new Date().toISOString();
     }
 

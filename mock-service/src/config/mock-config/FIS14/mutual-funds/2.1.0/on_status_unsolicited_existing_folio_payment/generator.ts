@@ -33,5 +33,9 @@ export async function on_status_unsolicitedDefaultGenerator(
         existingPayload.message.order.updated_at = now;
     }
 
+    if (existingPayload?.message?.order?.payments) {
+        existingPayload.message.order.payments[0].status = sessionData?.form_data?.payment_url_form?.idType ? sessionData?.form_data?.payment_url_form?.idType : 'PAID'
+    }
+
     return existingPayload;
 }

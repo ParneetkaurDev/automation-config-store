@@ -88,7 +88,7 @@ export interface SessionData {
 	esign_submission_id?: string;
 	verification_status?: string;
 	E_sign_verification_status?: string
-	payment_url_form?: string
+	payment_url_form?: any
 	order?: any
 	retry_payment_url_form?: any
 	kyc_details_form?: any

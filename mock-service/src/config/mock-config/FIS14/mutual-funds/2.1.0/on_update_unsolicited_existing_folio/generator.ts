@@ -97,5 +97,9 @@ export async function on_update_unsolicitedDefaultGenerator(
     const updatedOrder = updateChecklist(existingPayload.message.order, updates);
     existingPayload.message.order = updatedOrder
     console.log("=== on_update_unsolicited Generator End ===");
+
+    if (existingPayload?.message?.order?.payments) {
+        existingPayload.message.order.payments[0].status = sessionData?.form_data?.payment_url_form?.idType ? sessionData?.form_data?.payment_url_form?.idType : 'PAID'
+    }
     return existingPayload;
 }
