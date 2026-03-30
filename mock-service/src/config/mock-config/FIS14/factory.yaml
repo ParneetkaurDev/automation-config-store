@@ -234,7 +234,7 @@ codes:
     action_id: select_redemption
     action: select
     default: FIS14/mutual-funds/2.1.0/select_redemption/default.yaml
-    message_id: false  
+    message_id: true 
   - code: 536
     action_id: on_select_redemption
     action: on_select
