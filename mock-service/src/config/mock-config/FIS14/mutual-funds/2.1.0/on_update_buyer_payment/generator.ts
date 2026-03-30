@@ -20,7 +20,7 @@ export async function on_update_unsolicitedDefaultGenerator(
 
     // Generate new message_id for unsolicited callback
     if (existingPayload.context) {
-        existingPayload.context.message_id = randomUUID();
+        existingPayload.context.message_id = sessionData.message_id
     }
 
     // Update order ID
