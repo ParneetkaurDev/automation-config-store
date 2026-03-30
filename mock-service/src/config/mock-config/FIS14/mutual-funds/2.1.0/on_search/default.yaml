@@ -79,7 +79,7 @@ catalog:
               name: ABC Mutual Fund
           category_ids: ["1101"]
           parent_item_id: "138"
-          fulfillment_ids: ["ff_122", "ff_123", "ff_124", "ff_125"]
+          fulfillment_ids: ["ff_122", "ff_123", "ff_124", "ff_125", "ff_789", "ff_023"]
           matched: true
           tags:
             - display: true
