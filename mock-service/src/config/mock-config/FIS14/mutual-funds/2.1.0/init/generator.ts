@@ -82,8 +82,33 @@ export async function initDefaultGenerator(
         delete existingPayload.message?.order?.xinput;
     }
 
+    if (sessionData?.flow_id === "Lumpsum_Payment_Retry") {
+        existingPayload.message.order.fulfillments[0].customer.person.creds = [
+            {
+                "id": sessionData?.folio_number || "1562162434/45",
+                "type": "FOLIO"
+            },
+            {
+                "id": "115.245.207.90",
+                "type": "IP_ADDRESS"
+            }
+        ]
+
+        delete existingPayload.message?.order?.xinput;
+    }
+
     if (sessionData?.flow_id === "Lumpsum_Payment_By_Buyer_App") {
         delete existingPayload.message?.order?.xinput;
+        existingPayload.message.order.fulfillments[0].customer.person.creds = [
+            {
+                "id": sessionData?.folio_number || "1562162434/45",
+                "type": "FOLIO"
+            },
+            {
+                "id": "115.245.207.90",
+                "type": "IP_ADDRESS"
+            }
+        ]
         existingPayload.message.order.payments = [
             {
                 "collected_by": "BAP",

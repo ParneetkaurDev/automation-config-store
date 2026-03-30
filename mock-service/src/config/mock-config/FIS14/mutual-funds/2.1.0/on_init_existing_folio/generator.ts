@@ -118,5 +118,9 @@ export async function on_initDefaultGenerator(
         ]
     }
 
+    if (existingPayload?.message?.order?.fulfillments[0]?.customer?.person?.creds) {
+        existingPayload.message.order.fulfillments[0].customer.person.creds.id = sessionData.folio_number
+    }
+
     return existingPayload;
 }

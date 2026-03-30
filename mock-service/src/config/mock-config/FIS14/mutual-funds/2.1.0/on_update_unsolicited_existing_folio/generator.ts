@@ -84,6 +84,10 @@ export async function on_update_unsolicitedDefaultGenerator(
         existingPayload.message.order.xinput.form.id = formId
     }
 
+    if (sessionData.flow_id === "Lumpsum_Payment_By_Buyer_App") {
+        existingPayload.message.order.payments[0].collected_by = "BAP"
+    }
+
     const updates = {
         APPLICATION_FORM_WITH_KYC: sessionData?.investor_details_form || "",
         KYC: sessionData.verification_status || "",
