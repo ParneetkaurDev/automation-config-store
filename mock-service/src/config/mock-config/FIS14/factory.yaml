@@ -228,3 +228,55 @@ codes:
     action: on_update
     default: FIS14/mutual-funds/2.1.0/on_update_buyer_payment/default.yaml
     message_id: false
+
+  # Redemption flows (536-543)
+  - code: 545
+    action_id: select_redemption
+    action: select
+    default: FIS14/mutual-funds/2.1.0/select_redemption/default.yaml
+    message_id: false  
+  - code: 536
+    action_id: on_select_redemption
+    action: on_select
+    default: FIS14/mutual-funds/2.1.0/on_select_redemption/default.yaml
+    message_id: false
+  - code: 537
+    action_id: init_redemption
+    action: init
+    default: FIS14/mutual-funds/2.1.0/init_redemption/default.yaml
+    message_id: true
+  - code: 538
+    action_id: on_init_redemption
+    action: on_init
+    default: FIS14/mutual-funds/2.1.0/on_init_redemption/default.yaml
+    message_id: false
+  - code: 539
+    action_id: confirm_redemption
+    action: confirm
+    default: FIS14/mutual-funds/2.1.0/confirm_redemption/default.yaml
+    message_id: true
+  - code: 540
+    action_id: on_confirm_redemption
+    action: on_confirm
+    default: FIS14/mutual-funds/2.1.0/on_confirm_redemption/default.yaml
+    message_id: false
+  - code: 541
+    action_id: on_update_redemption
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_redemption/default.yaml
+    message_id: true
+  - code: 542
+    action_id: on_update_1_redemption
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_1_redemption/default.yaml
+    message_id: true
+  - code: 543
+    action_id: on_update_2_redemption
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_2_redemption/default.yaml
+    message_id: true
+  - code: 544
+    action_id: on_update_Cancelled
+    action: on_update
+    default: FIS14/mutual-funds/2.1.0/on_update_Cancelled/default.yaml
+    message_id: true

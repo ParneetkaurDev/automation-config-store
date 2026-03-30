@@ -49,6 +49,8 @@ import { MockOnUpdateUnsolicitedNewFolioClass } from "./mutual-funds/2.1.0/on_up
 import { MockKycDetailFormClass } from "./mutual-funds/2.1.0/kyc_details_form/kyc_details_form";
 import { MockUpdateBuyerPaymentClass } from "./mutual-funds/2.1.0/update_buyer_payment/class";
 import { MockOnUpdateBuyerPaymentClass } from "./mutual-funds/2.1.0/on_update_buyer_payment/class";
+import { MockSelectRedemptionClass } from "./mutual-funds/2.1.0/select_redemption/class";
+import { MockConfirmRedemptionClass } from "./mutual-funds/2.1.0/confirm_redemption/class";
 
 type Ctor<T> = new () => T;
 
@@ -123,10 +125,11 @@ const registry = {
     /**LUMPSUM NEW FOLIO END */
 
     // Redemption flows
+    select_redemption: MockSelectRedemptionClass,
     on_select_redemption: MockOnSelectRedemptionClass,
     init_redemption: MockInitRedemptionClass,
     on_init_redemption: MockOnInitRedemptionClass,
-    confirm_redemption: MockInitRedemptionClass,
+    confirm_redemption: MockConfirmRedemptionClass,
     on_confirm_redemption: MockOnConfirmRedemptionClass,
     on_update_redemption: MockOnUpdateRedemptionClass,
 
