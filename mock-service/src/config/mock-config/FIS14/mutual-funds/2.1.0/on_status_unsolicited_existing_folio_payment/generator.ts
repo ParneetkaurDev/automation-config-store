@@ -23,6 +23,8 @@ export async function on_status_unsolicitedDefaultGenerator(
     // Update provider information from session data (carry-forward from previous flows)
     if (sessionData?.order) {
         sessionData.order.payments = existingPayload.message.order.payments
+        sessionData.order.fulfillments = existingPayload.message.order.fulfillments
+
         existingPayload.message.order = sessionData?.order || {};
     }
 

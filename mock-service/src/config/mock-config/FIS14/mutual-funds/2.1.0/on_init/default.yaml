@@ -1,5 +1,5 @@
 order:
-  id: mfp_213adf123af
+  id: mfpp_213adf123af
   status: CREATED
   provider:
     id: sellerapp_id
@@ -113,11 +113,11 @@ order:
             - descriptor:
                 name: Amount Minimum
                 code: AMOUNT_MIN
-              value: '5000'
+              value: '1000'
             - descriptor:
                 name: Amount Maximum
                 code: AMOUNT_MAX
-              value: '50000'
+              value: '10000'
             - descriptor:
                 name: Amount Multiples
                 code: AMOUNT_MULTIPLES

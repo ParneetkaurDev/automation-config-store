@@ -45,16 +45,15 @@ export async function on_update_unsolicitedDefaultGenerator(
 
     // Update SIP status to ACTIVE
     if (existingPayload.message?.order) {
-        existingPayload.message.order.status = "ACTIVE";
-        console.log("Updated order status to ACTIVE (SIP activated)");
+        existingPayload.message.order.status = "COMPLETED";
     }
 
     // Update fulfillment status
     if (existingPayload.message?.order?.fulfillments?.[0]) {
         existingPayload.message.order.fulfillments[0].state = {
             descriptor: {
-                code: "ACTIVE",
-                name: "SIP Active"
+                code: "SUCCESSFUL",
+                name: "Successful"
             }
         };
     }
@@ -99,6 +98,9 @@ export async function on_update_unsolicitedDefaultGenerator(
         existingPayload.message.order.updated_at = now;
     }
 
+    if (existingPayload?.message?.order?.payments) {
+        existingPayload.message.order.payments[0].status = sessionData?.form_data?.payment_url_form?.idType ? sessionData?.form_data?.payment_url_form?.idType : 'PAID'
+    }
     console.log("=== on_update_unsolicited Generator End ===");
     return existingPayload;
 }
