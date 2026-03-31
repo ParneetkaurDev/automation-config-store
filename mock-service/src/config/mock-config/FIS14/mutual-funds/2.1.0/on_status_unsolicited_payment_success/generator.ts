@@ -99,5 +99,12 @@ export async function on_status_unsolicitedDefaultGenerator(
     if (existingPayload?.message?.order?.payments) {
         existingPayload.message.order.payments[1].status = sessionData?.form_data?.retry_payment_url_form?.idType ? sessionData?.form_data?.retry_payment_url_form?.idType : 'PAID'
     }
+    // Override hardcoded timestamps from default.yaml with dynamic values
+    const now = new Date().toISOString();
+    if (existingPayload.message?.order) {
+        existingPayload.message.order.created_at = now;
+        existingPayload.message.order.updated_at = now;
+    }
+
     return existingPayload;
 }
