@@ -92,6 +92,13 @@ export async function on_update_unsolicitedDefaultGenerator(
 
     const updatedOrder = updateChecklist(existingPayload.message.order, updates);
     existingPayload.message.order = updatedOrder
+    // Override hardcoded timestamps from default.yaml with dynamic values
+    const now = new Date().toISOString();
+    if (existingPayload.message?.order) {
+        existingPayload.message.order.created_at = now;
+        existingPayload.message.order.updated_at = now;
+    }
+
     console.log("=== on_update_unsolicited Generator End ===");
     return existingPayload;
 }

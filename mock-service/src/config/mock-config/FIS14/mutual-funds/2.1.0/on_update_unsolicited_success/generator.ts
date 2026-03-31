@@ -64,6 +64,13 @@ export async function on_update_unsolicitedDefaultGenerator(
         existingPayload.message.order.created_at = sessionData?.order.created_at;
         existingPayload.message.order.updated_at = now;
     }
+    // Override hardcoded timestamps from default.yaml with dynamic values
+    const now = new Date().toISOString();
+    if (existingPayload.message?.order) {
+        existingPayload.message.order.created_at = now;
+        existingPayload.message.order.updated_at = now;
+    }
+
     console.log("=== on_update_unsolicited Generator End ===");
 
     const submission_id = sessionData?.form_data?.E_sign_verification_status?.form_submission_id || sessionData?.E_sign_verification_status

@@ -49,6 +49,13 @@ export async function on_init_redemptionDefaultGenerator(
         };
     }
 
+    // Override hardcoded timestamps from default.yaml with dynamic values
+    const now = new Date().toISOString();
+    if (existingPayload.message?.order) {
+        existingPayload.message.order.created_at = now;
+        existingPayload.message.order.updated_at = now;
+    }
+
     console.log("=== on_init_redemption Generator End ===");
     return existingPayload;
 }
