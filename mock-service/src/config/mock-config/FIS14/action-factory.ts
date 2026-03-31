@@ -55,6 +55,7 @@ import { MockOnUpdatePaymentSuccessUnsolicitedClass } from "./mutual-funds/2.1.0
 
 type Ctor<T> = new () => T;
 
+
 const registry = {
     // Mutual Funds 2.1.0 actions
     search: MockSearchClass,
