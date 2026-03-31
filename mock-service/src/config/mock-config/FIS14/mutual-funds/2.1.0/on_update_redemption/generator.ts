@@ -44,6 +44,24 @@ export async function on_update_redemptionDefaultGenerator(
             typeof selectedItem === 'string' ? selectedItem : selectedItem.id;
     }
 
+    // Inject quantity.selected.measure from session (saved at select_redemption step)
+    const measure = (sessionData as any).redemption_measure;
+    if (measure && existingPayload.message?.order?.items?.[0]) {
+        if (!existingPayload.message.order.items[0].quantity) {
+            existingPayload.message.order.items[0].quantity = {};
+        }
+        existingPayload.message.order.items[0].quantity.selected = { measure };
+    }
+
+    // Inject fulfillment (with agent/customer creds) from session
+    const redemptionFulfillment = (sessionData as any).redemption_fulfillment;
+    if (redemptionFulfillment && existingPayload.message?.order?.fulfillments?.[0]) {
+        existingPayload.message.order.fulfillments[0] = {
+            ...existingPayload.message.order.fulfillments[0],
+            ...redemptionFulfillment,
+        };
+    }
+
     // Update updated_at timestamp
     if (existingPayload.message?.order) {
         existingPayload.message.order.created_at = sessionData.order.created_at;

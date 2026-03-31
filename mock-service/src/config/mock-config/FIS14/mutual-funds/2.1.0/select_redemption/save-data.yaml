@@ -5,3 +5,4 @@ save-data:
   form_submission_id: $.message.order.xinput.form.submission_id
   form_id: $.message.order.xinput.form.id
   redemption_measure: $.message.order.items[0].quantity.selected.measure
+  redemption_fulfillment: $.message.order.fulfillments[0]
