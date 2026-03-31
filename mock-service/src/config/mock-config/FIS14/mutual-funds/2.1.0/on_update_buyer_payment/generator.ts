@@ -53,8 +53,8 @@ export async function on_update_unsolicitedDefaultGenerator(
     if (existingPayload.message?.order?.fulfillments?.[0]) {
         existingPayload.message.order.fulfillments[0].state = {
             descriptor: {
-                code: "ACTIVE",
-                name: "SIP Active"
+                code: "PENDING",
+                name: "pending"
             }
         };
     }
