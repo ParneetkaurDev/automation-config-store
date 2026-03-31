@@ -28,17 +28,6 @@ export async function on_update_redemptionDefaultGenerator(
         existingPayload.message.order.status = finalStatus;
     }
 
-    // Update fulfillment state
-    if (existingPayload.message?.order?.fulfillments?.[0]) {
-        existingPayload.message.order.fulfillments[0].state = {
-            descriptor: {
-                code: finalStatus,
-                name: finalStatus === "CANCELLED" ? "Redemption Cancelled" : "Redemption Completed"
-            }
-        };
-        console.log("Updated fulfillment state to:", finalStatus);
-    }
-
     // Update payment status from session
     if (sessionData.payments && existingPayload.message?.order?.payments) {
         existingPayload.message.order.payments = sessionData.payments;
