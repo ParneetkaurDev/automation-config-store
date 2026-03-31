@@ -1,6 +1,6 @@
 update_target: order.payments
 order:
-  id: mfp_213adf123af
+  id: mfpp_213adf123af
   payments:
     - collected_by: BPP
       params:

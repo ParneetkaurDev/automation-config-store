@@ -23,6 +23,7 @@ export async function on_status_unsolicitedDefaultGenerator(
     // Update provider information from session data (carry-forward from previous flows)
     if (sessionData?.order) {
         sessionData.order.payments = existingPayload.message.order.payments
+        sessionData.order.fulfillments = existingPayload.message.order.fulfillments
         existingPayload.message.order = sessionData?.order || {};
         if (existingPayload.message?.order) {
             const order = existingPayload.message.order;
@@ -31,7 +32,7 @@ export async function on_status_unsolicitedDefaultGenerator(
                     "id": "F04"
                 },
                 "form_response": {
-                    "status": "SUBMITTED",
+                    "status": "SUCCESS",
                     "submission_id": "F04_SUBMISSION_ID"
                 }
             }
@@ -99,6 +100,9 @@ export async function on_status_unsolicitedDefaultGenerator(
     if (existingPayload.message?.order) {
         existingPayload.message.order.created_at = now;
         existingPayload.message.order.updated_at = now;
+    }
+    if (existingPayload?.message?.order?.payments) {
+        existingPayload.message.order.payments[0].status = sessionData?.form_data?.payment_url_form?.idType ? sessionData?.form_data?.payment_url_form?.idType : 'PAID'
     }
 
     return existingPayload;

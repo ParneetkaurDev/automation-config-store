@@ -43,21 +43,21 @@ export async function on_update_unsolicitedDefaultGenerator(
         }
     }
 
-    // Update SIP status to ACTIVE
-    if (existingPayload.message?.order) {
-        existingPayload.message.order.status = "ACTIVE";
-        console.log("Updated order status to ACTIVE (SIP activated)");
-    }
+    // // Update SIP status to ACTIVE
+    // if (existingPayload.message?.order) {
+    //     existingPayload.message.order.status = "ACTIVE";
+    //     console.log("Updated order status to ACTIVE (SIP activated)");
+    // }
 
-    // Update fulfillment status
-    if (existingPayload.message?.order?.fulfillments?.[0]) {
-        existingPayload.message.order.fulfillments[0].state = {
-            descriptor: {
-                code: "ACTIVE",
-                name: "SIP Active"
-            }
-        };
-    }
+    // // Update fulfillment status
+    // if (existingPayload.message?.order?.fulfillments?.[0]) {
+    //     existingPayload.message.order.fulfillments[0].state = {
+    //         descriptor: {
+    //             code: "ACTIVE",
+    //             name: "SIP Active"
+    //         }
+    //     };
+    // }
 
     if (existingPayload.message?.order) {
         const now = new Date().toISOString();
@@ -79,5 +79,9 @@ export async function on_update_unsolicitedDefaultGenerator(
     const updatedOrder = updateChecklist(existingPayload.message.order, updates);
     existingPayload.message.order = updatedOrder
     console.log("=== on_update_unsolicited Generator End ===");
+
+    if (existingPayload?.message?.order?.payments) {
+        existingPayload.message.order.payments[0].status = sessionData?.form_data?.payment_url_form?.idType ? sessionData?.form_data?.payment_url_form?.idType : 'PAID'
+    }
     return existingPayload;
 }
