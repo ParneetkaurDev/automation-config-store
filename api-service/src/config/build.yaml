@@ -30532,7 +30532,9 @@ x-validations:
                   - &CONTEXT_CITY_CODE
                     _NAME_: REQUIRED_CONTEXT_LOCATION_CITY_CODE
                     attr: $.context.location.city.code
-                    _RETURN_: attr are present
+                    subTags: "$.code"
+                    match1: ["^std:0\\d+$"]
+                    _RETURN_: subTags follow regex match1
                   - &CONTEXT_DOMAIN
                     _NAME_: REQUIRED_CONTEXT_DOMAIN
                     attr: $.context.domain
@@ -30595,7 +30597,6 @@ x-validations:
                     _SCOPE_: "$.context.location.city"
                     subTags: "$.code"
                     match1: ["^std:0\\d+$"]
-                    _CONTINUE_: "!(subTags are present)"
                     _RETURN_: subTags follow regex match1
                   - &REGEX_CONTEXT_TIMESTAMP
                     _NAME_: REGEX_CONTEXT_TIMESTAMP_1
