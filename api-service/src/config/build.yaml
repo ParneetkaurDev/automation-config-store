@@ -30383,7 +30383,9 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: REQUIRED_CONTEXT_LOCATION_CITY_CODE
                 attr: $.context.location.city.code
-                _RETURN_: attr are present
+                reg:
+                      - "^std:0\\d+$"
+                _RETURN_: attr follow regex reg
               - _NAME_: REQUIRED_CONTEXT_DOMAIN
                 attr: $.context.domain
                 _RETURN_: attr are present
@@ -30532,9 +30534,7 @@ x-validations:
                   - &CONTEXT_CITY_CODE
                     _NAME_: REQUIRED_CONTEXT_LOCATION_CITY_CODE
                     attr: $.context.location.city.code
-                    subTags: "$.code"
-                    match1: ["^std:0\\d+$"]
-                    _RETURN_: subTags follow regex match1
+                    _RETURN_: attr are present
                   - &CONTEXT_DOMAIN
                     _NAME_: REQUIRED_CONTEXT_DOMAIN
                     attr: $.context.domain
@@ -30594,10 +30594,10 @@ x-validations:
                 _RETURN_: &CONTEXT_REGEX
                   - &REGEX_CONTEXT_CITY_CODE
                     _NAME_: REGEX_CONTEXT_LOCATION_CITY_CODE
-                    _SCOPE_: "$.context.location.city"
-                    subTags: "$.code"
-                    match1: ["^std:0\\d+$"]
-                    _RETURN_: subTags follow regex match1
+                    attr: "$.context.location.city.code"
+                    reg:
+                      - "^std:0\\d+$"
+                    _RETURN_: attr follow regex reg
                   - &REGEX_CONTEXT_TIMESTAMP
                     _NAME_: REGEX_CONTEXT_TIMESTAMP_1
                     attr: $.context.timestamp
@@ -30783,7 +30783,9 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: REQUIRED_CONTEXT_LOCATION_CITY_CODE
                 attr: $.context.location.city.code
-                _RETURN_: attr are present
+                reg:
+                  - "^std:0\\d+$"
+                _RETURN_: attr follow regex reg
               - _NAME_: REQUIRED_CONTEXT_DOMAIN
                 attr: $.context.domain
                 _RETURN_: attr are present
@@ -31266,7 +31268,9 @@ x-validations:
                 _RETURN_: attr are present
               - _NAME_: REQUIRED_CONTEXT_CITY
                 attr: $.context.location.city.code
-                _RETURN_: attr are present
+                reg:
+                  - '^std:\d{3,5}$'
+                _RETURN_: attr follow regex reg
               - _NAME_: REQUIRED_CONTEXT_TRANSACTION_ID
                 attr: $.context.transaction_id
                 _RETURN_: attr are present
