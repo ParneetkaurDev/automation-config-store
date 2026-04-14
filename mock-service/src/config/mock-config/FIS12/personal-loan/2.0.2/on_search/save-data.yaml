@@ -8,3 +8,4 @@ save-data:
   selected_provider: "$.message.catalog.providers[0]"
   personal_loan_information_form: "$..form.url"
   form_id: "$.message.catalog.providers[0].items[0].xinput.form.id"
+  bpp_id: "$.context.bpp_id"
